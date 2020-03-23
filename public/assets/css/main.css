@@ -1,0 +1,230 @@
+:root {
+    --layoutColor: #b71c1c;
+}
+
+.navbar {
+    background: var(--layoutColor);
+    padding-top: 30px!important;
+    padding-bottom: 30px!important;
+    color: white!important;
+}
+
+.f1-car-picture {
+    max-width: 90px;
+}
+
+input {
+    max-width: 100%;
+}
+
+.f1-track {
+    width: 100%;
+    max-width: 100%;
+}
+
+.highlight-driver {
+    color: blue;
+}
+.card-header {
+    background: rgba(182,33,7,1);
+    background: -moz-linear-gradient(left, rgba(182,33,7,1) 0%, rgba(157,23,6,1) 36%, rgba(192,40,17,1) 71%, rgba(188,39,17,1) 74%, rgba(151,28,17,1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(182,33,7,1)), color-stop(36%, rgba(157,23,6,1)), color-stop(71%, rgba(192,40,17,1)), color-stop(74%, rgba(188,39,17,1)), color-stop(100%, rgba(151,28,17,1)));
+    background: -webkit-linear-gradient(left, rgba(182,33,7,1) 0%, rgba(157,23,6,1) 36%, rgba(192,40,17,1) 71%, rgba(188,39,17,1) 74%, rgba(151,28,17,1) 100%);
+    background: -o-linear-gradient(left, rgba(182,33,7,1) 0%, rgba(157,23,6,1) 36%, rgba(192,40,17,1) 71%, rgba(188,39,17,1) 74%, rgba(151,28,17,1) 100%);
+    background: -ms-linear-gradient(left, rgba(182,33,7,1) 0%, rgba(157,23,6,1) 36%, rgba(192,40,17,1) 71%, rgba(188,39,17,1) 74%, rgba(151,28,17,1) 100%);
+    background: linear-gradient(to right, rgba(182,33,7,1) 0%, rgba(157,23,6,1) 36%, rgba(192,40,17,1) 71%, rgba(188,39,17,1) 74%, rgba(151,28,17,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b62107', endColorstr='#971c11', GradientType=1 );
+    color: white;
+}
+
+.card-header > h4 {
+    margin-bottom: 6px;
+    margin-top: 6px;
+}
+
+.gold-medal {
+    color: gold;
+    text-align: center;
+}
+
+.silver-medal {
+    color: silver;
+    text-align: center;
+}
+
+.bronze-medal {
+    color: bronze;
+    text-align: center;
+}
+
+.middle-section-menu {
+    display: flex;
+    justify-content: space-around;
+}
+
+.middle-section-menu > div {
+    text-align: center;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: 1.2rem;
+    width: 100%;
+    background: rgba(182,33,7,1);
+    background: -moz-linear-gradient(left, rgba(182,33,7,1) 0%, rgba(157,23,6,1) 36%, rgba(192,40,17,1) 71%, rgba(188,39,17,1) 74%, rgba(151,28,17,1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(182,33,7,1)), color-stop(36%, rgba(157,23,6,1)), color-stop(71%, rgba(192,40,17,1)), color-stop(74%, rgba(188,39,17,1)), color-stop(100%, rgba(151,28,17,1)));
+    background: -webkit-linear-gradient(left, rgba(182,33,7,1) 0%, rgba(157,23,6,1) 36%, rgba(192,40,17,1) 71%, rgba(188,39,17,1) 74%, rgba(151,28,17,1) 100%);
+    background: -o-linear-gradient(left, rgba(182,33,7,1) 0%, rgba(157,23,6,1) 36%, rgba(192,40,17,1) 71%, rgba(188,39,17,1) 74%, rgba(151,28,17,1) 100%);
+    background: -ms-linear-gradient(left, rgba(182,33,7,1) 0%, rgba(157,23,6,1) 36%, rgba(192,40,17,1) 71%, rgba(188,39,17,1) 74%, rgba(151,28,17,1) 100%);
+    background: linear-gradient(to right, rgba(182,33,7,1) 0%, rgba(157,23,6,1) 36%, rgba(192,40,17,1) 71%, rgba(188,39,17,1) 74%, rgba(151,28,17,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b62107', endColorstr='#971c11', GradientType=1 );
+    display: flex;
+    justify-content: center; /* align horizontal */
+    align-items: center; /* align vertical */
+}
+
+.middle-section-menu > div > a {
+    color: white;
+ 
+}
+
+@media only screen and (min-width: 960px)
+{
+    .flow-text {
+        font-size: 1.68rem;
+    }
+}
+
+@media only screen and (min-width: 930px) {
+    .flow-text {
+        font-size: 1.656rem;
+    }
+}
+@media only screen and (min-width: 900px)
+{
+    .flow-text {
+        font-size: 1.632rem;
+    }
+}
+@media only screen and (min-width: 870px)
+{
+    .flow-text {
+        font-size: 1.608rem;
+    }
+}
+@media only screen and (min-width: 840px)
+{
+    .flow-text {
+        font-size: 1.584rem;
+    }
+}
+
+@media only screen and (min-width: 810px)
+{
+    .flow-text {
+        font-size: 1.56rem;
+    }
+}
+
+@media only screen and (min-width: 780px)
+{
+    .flow-text {
+        font-size: 1.536rem;
+    }
+}
+
+@media only screen and (min-width: 750px)
+{
+    .flow-text {
+        font-size: 1.512rem;
+    }
+}
+
+@media only screen and (min-width: 720px)
+{
+    .flow-text {
+        font-size: 1.488rem;
+    }
+}
+
+@media only screen and (min-width: 690px)
+{
+    .flow-text {
+        font-size: 1.464rem;
+    }
+}
+
+@media only screen and (min-width: 660px)
+{
+    .flow-text {
+        font-size: 1.44rem;
+    }
+}
+  
+@media only screen and (min-width: 630px)
+{
+    .flow-text {
+        font-size: 1.416rem;
+    }
+}
+
+@media only screen and (min-width: 600px)
+{
+    .flow-text {
+        font-size: 1.392rem;
+    }
+}
+
+@media only screen and (min-width: 570px)
+{
+    .flow-text {
+        font-size: 1.368rem;
+    }
+}
+
+@media only screen and (min-width: 540px)
+{
+    .flow-text {
+        font-size: 1.344rem;
+    }
+}
+
+@media only screen and (min-width: 510px)
+{
+    .flow-text {
+        font-size: 1.32rem;
+    }    
+}
+
+@media only screen and (min-width: 480px)
+{
+    .flow-text {
+        font-size: 1.296rem;
+    }
+}
+
+@media only screen and (min-width: 450px)
+{
+    .flow-text {
+        font-size: 1.272rem;
+    }
+}
+
+@media only screen and (min-width: 420px)
+{
+    .flow-text {
+        font-size: 1.248rem;
+    }
+}
+
+@media only screen and (min-width: 390px)
+{
+    .flow-text {
+        font-size: 1.224rem;
+    }
+}
+
+@media only screen and (min-width: 360px)
+{
+    .flow-text {
+        font-size: 1.2rem;
+    }
+}

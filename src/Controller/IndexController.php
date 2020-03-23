@@ -14,9 +14,9 @@ use App\Model\DriverPoints;
 class IndexController extends AbstractController
 {
     /**
-     * @Route("/{classificationType}", name="index")
+     * @Route("/home/{classificationType}", name="app_index")
      */
-    public function index()
+    public function index($classificationType = 'race')
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 

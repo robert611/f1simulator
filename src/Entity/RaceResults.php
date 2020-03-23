@@ -22,13 +22,13 @@ class RaceResults
     private $position;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\race", inversedBy="raceResults")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Race", inversedBy="raceResults")
      * @ORM\JoinColumn(nullable=false)
      */
     private $race;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\driver", inversedBy="raceResults")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Driver", inversedBy="raceResults")
      * @ORM\JoinColumn(nullable=false)
      */
     private $driver;

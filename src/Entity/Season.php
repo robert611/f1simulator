@@ -20,7 +20,7 @@ class Season
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\team", inversedBy="seasons")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="seasons")
      * @ORM\JoinColumn(nullable=false)
      */
     private $team;
@@ -31,7 +31,7 @@ class Season
     private $car_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\user", inversedBy="seasons")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="seasons")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;

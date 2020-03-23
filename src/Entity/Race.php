@@ -19,13 +19,13 @@ class Race
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\track", inversedBy="races")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Track", inversedBy="races")
      * @ORM\JoinColumn(nullable=false)
      */
     private $track;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\season", inversedBy="races_t")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Season", inversedBy="races")
      * @ORM\JoinColumn(nullable=false)
      */
     private $season;

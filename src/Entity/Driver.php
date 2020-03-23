@@ -29,7 +29,7 @@ class Driver
     private $surname;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\team", inversedBy="car_id")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="car_id")
      * @ORM\JoinColumn(nullable=false)
      */
     private $team;

@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class RegistrationController extends AbstractController
 {
@@ -35,8 +36,10 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // do anything else you need here, like send an email
+            $session = new Session();
+            $session->getFlashBag()->add('success', 'Rejestracja przebiegła pomyślnie');
 
-            return $this->redirectToRoute('');
+            return $this->redirectToRoute('app_index');
         }
 
         return $this->render('registration/register.html.twig', [
