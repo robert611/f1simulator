@@ -4,7 +4,7 @@ class Teams extends React.Component {
     }
 
     componentDidMount() {
-        fetch('/teams/get')
+        fetch('/teams')
             .then((response) => {
                 return response.json();
             }).then((data) => {

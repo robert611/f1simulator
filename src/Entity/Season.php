@@ -18,17 +18,15 @@ class Season
      */
     private $id;
 
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="seasons")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $team;
-
     /**
      * @ORM\Column(type="integer")
      */
     private $car_id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="seasons")
+     */
+    private $team;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="seasons")
@@ -41,8 +39,10 @@ class Season
      */
     private $completed;
 
+    private $userPoints;
+
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Race", mappedBy="season", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Race", mappedBy="season")
      */
     private $races;
 
@@ -78,6 +78,18 @@ class Season
         $this->car_id = $car_id;
 
         return $this;
+    }
+
+    public function setUserPoints(int $points): self
+    {
+        $this->userPoints = $points;
+
+        return $this;
+    }
+
+    public function getUserPoints()
+    {
+        return $this->userPoints;
     }
 
     public function getUser(): ?user
@@ -129,6 +141,29 @@ class Season
             // set the owning side to null (unless already changed)
             if ($races->getSeason() === $this) {
                 $races->setSeason(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addRace(race $race): self
+    {
+        if (!$this->races->contains($race)) {
+            $this->races[] = $race;
+            $race->setSeason($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRace(race $race): self
+    {
+        if ($this->races->contains($race)) {
+            $this->races->removeElement($race);
+            // set the owning side to null (unless already changed)
+            if ($race->getSeason() === $this) {
+                $race->setSeason(null);
             }
         }
 

@@ -28,10 +28,9 @@ class RaceResults
     private $race;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Driver", inversedBy="raceResults")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="smallint")
      */
-    private $driver;
+    private $driver_id;
 
     public function getId(): ?int
     {
@@ -62,14 +61,14 @@ class RaceResults
         return $this;
     }
 
-    public function getDriver(): ?driver
+    public function getDriverId()
     {
-        return $this->driver;
+        return $this->driver_id;
     }
 
-    public function setDriver(?driver $driver): self
+    public function setDriverId( $driver): self
     {
-        $this->driver = $driver;
+        $this->driver_id = $driver;
 
         return $this;
     }

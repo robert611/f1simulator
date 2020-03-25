@@ -16,27 +16,31 @@ class Team
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    public $id;
 
     /**
      * @ORM\Column(type="string", length=64)
      */
-    private $name;
+    public $name;
 
     /**
      * @ORM\Column(type="string", length=64)
      */
-    private $picture;
+    public $picture;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Driver", mappedBy="team", orphanRemoval=true)
      */
-    private $driver;
+    public $drivers;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Season", mappedBy="team_id")
+     * @ORM\OneToMany(targetEntity="App\Entity\Season", mappedBy="team")
      */
-    private $seasons;
+    public $seasons;
+
+    public $points;
+
+    public $position;
 
     public function __construct()
     {
@@ -76,15 +80,15 @@ class Team
     /**
      * @return Collection|Driver[]
      */
-    public function getDriver(): Collection
+    public function getDrivers(): Collection
     {
-        return $this->driver;
+        return $this->drivers;
     }
 
     public function addDriver(Driver $driver): self
     {
-        if (!$this->driver->contains($driver)) {
-            $this->driver[] = $driver;
+        if (!$this->drivers->contains($driver)) {
+            $this->drivers[] = $driver;
             $driver->setTeam($this);
         }
 
@@ -131,6 +135,30 @@ class Team
                 $season->setTeamId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPoints(): int
+    {
+        return $this->points ? $this->points : 0;
+    }
+
+    public function setPoints(string $points)
+    {
+        $this->points = $points;
+
+        return $this;
+    }
+
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    public function setPosition(string $position)
+    {
+        $this->position = $position;
 
         return $this;
     }

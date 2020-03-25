@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Model\DriverPoints;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\DriverRepository")
@@ -16,33 +17,34 @@ class Driver
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    public $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    public $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $surname;
+    public $surname;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="car_id")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $team;
+    public $team;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $car_id;
+    public $car_id;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\RaceResults", mappedBy="driver")
-     */
-    private $raceResults;
+    public $points;
+
+    public $position;
+
+    public $isUser;
 
     public function __construct()
     {
@@ -102,33 +104,26 @@ class Driver
         return $this;
     }
 
-    /**
-     * @return Collection|RaceResults[]
-     */
-    public function getRaceResults(): Collection
+    public function getPoints(): int
     {
-        return $this->raceResults;
+        return $this->points ? $this->points : 0;
     }
 
-    public function addRaceResult(RaceResults $raceResult): self
+    public function setPoints(string $points)
     {
-        if (!$this->raceResults->contains($raceResult)) {
-            $this->raceResults[] = $raceResult;
-            $raceResult->setDriver($this);
-        }
+        $this->points = $points;
 
         return $this;
     }
 
-    public function removeRaceResult(RaceResults $raceResult): self
+    public function getPosition(): int
     {
-        if ($this->raceResults->contains($raceResult)) {
-            $this->raceResults->removeElement($raceResult);
-            // set the owning side to null (unless already changed)
-            if ($raceResult->getDriver() === $this) {
-                $raceResult->setDriver(null);
-            }
-        }
+        return $this->position;
+    }
+
+    public function setPosition(string $position)
+    {
+        $this->position = $position;
 
         return $this;
     }

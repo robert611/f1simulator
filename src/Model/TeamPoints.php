@@ -2,19 +2,26 @@
 
 namespace App\Model;
 
-use App\Repositories\DriversRepository;
-use App\Models\DriverPoints;
+use App\Entity\Driver;
+use App\Model\DriverPoints;
 
 class TeamPoints 
 {
-    public function getTeamPoints($teamId, $seasonId)
+    public object $doctrine;
+
+    public function __construct($doctrine)
     {
-        $teamDrivers = (new DriversRepository)->findBy(['team_id' => $teamId]);
+        $this->doctrine = $doctrine;
+    }
+
+    public function getTeamPoints($teamId, $season)
+    {
+        $teamDrivers = $this->doctrine->getRepository(Driver::class)->findBy(['team' => $teamId]);
         $points = 0;
 
         foreach ($teamDrivers as $driver)
         {
-            $points += (new DriverPoints)->getDriverPoints($driver['id'], $seasonId);
+            $points += (new DriverPoints($this->doctrine))->getDriverPoints($driver->getId(), $season);
         }
 
         return $points;

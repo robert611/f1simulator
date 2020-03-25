@@ -1,10 +1,10 @@
-class Drivers extends React.Component {
+class LastRaceResults extends React.Component {
     state = {
         drivers: null
     }
 
     componentDidMount() {
-        fetch('/drivers')
+        fetch('/drivers/last/race/results')
             .then((response) => {
                 return response.json();
             }).then((data) => {
@@ -54,4 +54,4 @@ class Drivers extends React.Component {
     }
 }
 
-document.getElementById('drivers-classification') ? ReactDOM.render(<Drivers />, document.getElementById('drivers-classification')) : null;
+document.getElementById('last-race-results') ? ReactDOM.render(<LastRaceResults />, document.getElementById('last-race-results')) : null;

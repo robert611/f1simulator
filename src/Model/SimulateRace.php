@@ -2,19 +2,14 @@
 
 namespace App\Model;
 
-use App\Repositories\RaceResultsRepository;
-use App\Repositories\RacesRepository;
-use App\Repositories\DriversRepository;
-use App\Repositories\TeamsRepository;
-
 class SimulateRace
 {
     /* Every team has it's strength which says how competetive team is, multiplier multiplies strength of the teams by some value to make diffrences beetwen them grater */
     public int $multiplier = 3;
 
-    public function getRaceResults()
+    public function getRaceResults($driverRepository)
     {
-        $drivers = (new DriversRepository)->findAllWithTeams();
+        $drivers = $driverRepository->findAll();
         $results = array();
 
         $coupons = $this->getCoupons();
@@ -60,11 +55,13 @@ class SimulateRace
     {
         $teamDrivers = array();
 
+        shuffle($drivers);
+
         /* Get drivers from given team */
         foreach ($drivers as $key => $driver) {
-            if($driver['team_name'] == $teamName) $teamDrivers[] = $driver;
+            if($driver->getTeam()->getName() == $teamName) $teamDrivers[] = $driver;
         }
-
+       
         /* If one of the drivers already finished race then return the second one */
         if (in_array($teamDrivers[0], $results)) {
             return $teamDrivers[1];
@@ -81,7 +78,7 @@ class SimulateRace
         $driversWhoFinished = 0;
 
         foreach ($results as $driver) {
-            if($driver['team_name'] == $teamName) $driversWhoFinished++;
+            if($driver->getTeam()->getName() == $teamName) $driversWhoFinished++;
         }
 
         if ($driversWhoFinished == 2) return true;
@@ -96,7 +93,7 @@ class SimulateRace
             'Ferrari' => 13.7,
             'Red Bull' => 13.6,
             'Mclaren' => 4.4,
-            'Renualt' => 4.2,
+            'Renault' => 4.2,
             'Racing Point' => 4.1,
             'Toro Rosso' => 3.9,
             'Haas' => 3.7,

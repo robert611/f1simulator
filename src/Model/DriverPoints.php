@@ -2,18 +2,27 @@
 
 namespace App\Model;
 
-use App\Repositories\RaceResultsRepository;
-use App\Repositories\RacesRepository;
+use App\Entity\Race;
+use App\Entity\RaceResults;
 
 class DriverPoints 
 {
-    public function getDriverPoints(int $driverId, int $seasonId): int
+    public object $doctrine;
+    public object $raceResultsRepository;
+
+    public function __construct($doctrine)
     {
-        $races = (new RacesRepository)->findBy(['season_id' => $seasonId]);
+        $this->doctrine = $doctrine;
+        $this->raceResultsRepository = $this->doctrine->getRepository(RaceResults::class);
+    }
+
+    public function getDriverPoints(int $driverId, object $season): int
+    {
+        $races = $season->getRaces();
         $driverResults = array();
 
         foreach($races as $race) {
-            $driverResults = array_merge($driverResults, (new RaceResultsRepository)->findBy(['driver_id' => $driverId, 'race_id' => $race['id']]));
+            $driverResults[] = $this->raceResultsRepository->findOneBy(['driver_id' => $driverId, 'race' => $race->getId()]);
         }
         
         $points = 0;
@@ -21,10 +30,17 @@ class DriverPoints
         $punctation = $this->getPunctation();
 
         foreach ($driverResults as $result) {
-            $points += $punctation[$result['position']];
+            $points += $punctation[$result->getPosition()];
         }
 
         return $points;
+    }
+
+    public function getDriverPointsByRace(int $driverId, object $race): int
+    {
+        $position = $this->raceResultsRepository->findOneBy(['race' => $race->getId(), 'driver_id' => $driverId])->getPosition();
+
+        return $this->getPunctation()[$position];
     }
 
     public function getPunctation()
