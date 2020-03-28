@@ -35,9 +35,15 @@ class Race
      */
     private $raceResults;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Qualification", mappedBy="race", orphanRemoval=true)
+     */
+    private $qualifications;
+
     public function __construct()
     {
         $this->raceResults = new ArrayCollection();
+        $this->qualifications = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -94,6 +100,37 @@ class Race
             // set the owning side to null (unless already changed)
             if ($raceResult->getRace() === $this) {
                 $raceResult->setRace(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Qualification[]
+     */
+    public function getQualifications(): Collection
+    {
+        return $this->qualifications;
+    }
+
+    public function addQualification(Qualification $qualification): self
+    {
+        if (!$this->qualifications->contains($qualification)) {
+            $this->qualifications[] = $qualification;
+            $qualification->setRace($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQualification(Qualification $qualification): self
+    {
+        if ($this->qualifications->contains($qualification)) {
+            $this->qualifications->removeElement($qualification);
+            // set the owning side to null (unless already changed)
+            if ($qualification->getRace() === $this) {
+                $qualification->setRace(null);
             }
         }
 

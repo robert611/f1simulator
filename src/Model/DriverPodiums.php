@@ -23,7 +23,11 @@ class DriverPodiums
         $podiumsTable = $this->getPodiumsTable();
 
         foreach ($races as $race) {
-            $position = $this->raceResultsRepository->findOneBy(['race' => $race->getId(), 'driver_id' => $driver->getId()])->getPosition();
+            if($raceResult = $this->raceResultsRepository->findOneBy(['race' => $race->getId(), 'driver_id' => $driver->getId()])) {
+                $position = $raceResult->getPosition();
+            } else {
+                continue;
+            }
 
             if ($position >= 1 && $position <= 3)  $podiumsTable[$position] += 1;
         }

@@ -7,6 +7,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Team;
 use App\Entity\Season;
+use App\Entity\Driver;
+use App\Entity\RaceResults;
 use App\Model\TeamPoints;
 
 class TeamsController extends AbstractController
@@ -29,9 +31,12 @@ class TeamsController extends AbstractController
         $teams = $this->getDoctrine()->getRepository(Team::class)->findAll();
         $season = $this->getDoctrine()->getRepository(Season::class)->findOneBy(['user' => $this->getUser()->getId(), 'completed' => 0]);
 
+        $raceResultsRepository = $this->getDoctrine()->getRepository(RaceResults::class);
+        $driversRepository = $this->getDoctrine()->getRepository(Driver::class);
+
         /* In default teams have no assign points got in current season in database, so it has to be done here */
         foreach($teams as &$team) {
-            $points = $season ? (new TeamPoints($this->getDoctrine()))->getTeamPoints($team->getId(), $season) : 0;
+            $points = $season ? (new TeamPoints($driversRepository, $raceResultsRepository))->getTeamPoints($team->getId(), $season) : 0;
             $team->setPoints($points);
         }
 

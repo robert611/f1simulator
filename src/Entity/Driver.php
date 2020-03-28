@@ -46,9 +46,15 @@ class Driver
 
     public $isUser;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Qualification", mappedBy="driver", orphanRemoval=true)
+     */
+    private $qualifications;
+
     public function __construct()
     {
         $this->raceResults = new ArrayCollection();
+        $this->qualifications = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -118,12 +124,43 @@ class Driver
 
     public function getPosition(): int
     {
-        return $this->position;
+        return $this->position ? $this->position : 0;
     }
 
     public function setPosition(string $position)
     {
         $this->position = $position;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Qualification[]
+     */
+    public function getQualifications(): Collection
+    {
+        return $this->qualifications;
+    }
+
+    public function addQualification(Qualification $qualification): self
+    {
+        if (!$this->qualifications->contains($qualification)) {
+            $this->qualifications[] = $qualification;
+            $qualification->setDriver($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQualification(Qualification $qualification): self
+    {
+        if ($this->qualifications->contains($qualification)) {
+            $this->qualifications->removeElement($qualification);
+            // set the owning side to null (unless already changed)
+            if ($qualification->getDriver() === $this) {
+                $qualification->setDriver(null);
+            }
+        }
 
         return $this;
     }

@@ -3,9 +3,7 @@
 {% block javascripts %}
     {{ parent() }} 
     <script src="{{ asset('assets/js/React/Teams.js') }}" type="text/babel"></script>
-    <script src="{{ asset('assets/js/React/Drivers.js') }}" type="text/babel"></script>
     <script src="{{ asset('assets/js/React/ConstructorClassification.js') }}" type="text/babel"></script>
-    <script src="{{ asset('assets/js/React/LastRaceResults.js') }}" type="text/babel"></script>
 {% endblock %}
 
 {% block body %}
@@ -97,29 +95,22 @@
                                     <h4 class="text-center">Klasyfikacja kierowców</h4>
                                 </div>
                                 <div class="card-body">
-                                    <div id="drivers-classification">
-
-                                    </div>
+                                    {% include 'results/drivers_classification.html.twig' %}
                                 </div>
                             {% elseif classificationType == 'race' %}
                                 <div class="card-header">
                                     <h4 class="text-center">Klasyfikacja {{ lastRace.getTrack().getName() }}</h4>
                                 </div>
                                 <div class="card-body">
-                                    <div id="last-race-results">
-
-                                    </div>
+                                    {% include 'results/last_race_results.html.twig' %}
                                 </div>
                             {% else %}
                                 <div class="card-header">
-                                    <h4 class="text-center">Wyniki kwalifikacji</h4>
+                                    <h4 class="text-center">Wyniki kwalifikacji - {{ lastRace.getTrack().getName() }}</h4>
                                 </div>
                                 <div class="card-body">
-                                    <div id="qualification-results">
-
-                                    </div>
+                                    {% include 'results/qualifications_results.html.twig' %}
                                 </div>
-                            </div>
                             {% endif %}
                         </div>
                     </div>

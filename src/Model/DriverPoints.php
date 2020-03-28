@@ -2,18 +2,13 @@
 
 namespace App\Model;
 
-use App\Entity\Race;
-use App\Entity\RaceResults;
-
 class DriverPoints 
 {
-    public object $doctrine;
     public object $raceResultsRepository;
 
-    public function __construct($doctrine)
+    public function __construct($raceResultsRepository)
     {
-        $this->doctrine = $doctrine;
-        $this->raceResultsRepository = $this->doctrine->getRepository(RaceResults::class);
+        $this->raceResultsRepository = $raceResultsRepository;
     }
 
     public function getDriverPoints(int $driverId, object $season): int
@@ -22,7 +17,10 @@ class DriverPoints
         $driverResults = array();
 
         foreach($races as $race) {
-            $driverResults[] = $this->raceResultsRepository->findOneBy(['driver_id' => $driverId, 'race' => $race->getId()]);
+            /* If for some reason(probably error, but in the future maybe dsn) driver does not have result in a race, then just skip it */
+            if ($raceResult = $this->raceResultsRepository->findOneBy(['driver_id' => $driverId, 'race' => $race->getId()])) {
+                $driverResults[] = $raceResult;
+            }
         }
         
         $points = 0;
@@ -38,7 +36,11 @@ class DriverPoints
 
     public function getDriverPointsByRace(int $driverId, object $race): int
     {
-        $position = $this->raceResultsRepository->findOneBy(['race' => $race->getId(), 'driver_id' => $driverId])->getPosition();
+        if ($raceResult = $this->raceResultsRepository->findOneBy(['driver_id' => $driverId, 'race' => $race->getId()])) {
+            $position = $raceResult->getPosition();
+        } else {
+            return 0;
+        }
 
         return $this->getPunctation()[$position];
     }

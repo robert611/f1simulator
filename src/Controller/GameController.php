@@ -12,7 +12,9 @@ use App\Entity\Track;
 use App\Entity\RaceResults;
 use Symfony\Component\HttpFoundation\Request;
 use App\Model\SimulateRace;
+use App\Model\SimulateQualifications;
 use Symfony\Component\HttpFoundation\Session\Session;
+USE App\Entity\Qualification;
 
 class GameController extends AbstractController
 {
@@ -103,16 +105,32 @@ class GameController extends AbstractController
 
         $entityManager->persist($race);
         $entityManager->flush();
+
+        $qualificationsResults = (new SimulateQualifications)->getQualificationsResults($driverRepository->findAll());
         
-        $results = (new SimulateRace)->getRaceResults($driverRepository);
+        $results = (new SimulateRace)->getRaceResults($driverRepository->findAll(), $qualificationsResults);
+
+
+        /* Save qualifications results in database */
+        foreach ($qualificationsResults as $position => $driver) {
+            $qualification = new Qualification();
+
+            $qualification->setRace($race);
+            $qualification->setDriver($driver);
+            $qualification->setPosition($position);
+
+            $entityManager->persist($qualification);
+
+            $entityManager->flush();
+        }
         
         /* Save race results in database */
-        foreach ($results as $position => $driver) {
+        foreach ($results as $position => $driverId) {
             $raceResult = new RaceResults();
 
             $raceResult->setRace($race);
-            $raceResult->setDriverId($driver->getId());
-            $raceResult->setPosition($position + 1);
+            $raceResult->setDriverId($driverId);
+            $raceResult->setPosition($position);
 
             $entityManager->persist($raceResult);
 
