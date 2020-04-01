@@ -6,23 +6,14 @@ use App\Model\DriverPoints;
 
 class TeamPoints 
 {
-    public object $driversRepository;
-    public object $raceResultsRepository;
-
-    public function __construct($driversRepository, $raceResultsRepository)
+    public function getTeamPoints($team, $season)
     {
-        $this->driversRepository = $driversRepository;
-        $this->raceResultsRepository = $raceResultsRepository;
-    }
-
-    public function getTeamPoints($teamId, $season)
-    {
-        $teamDrivers = $this->driversRepository->findBy(['team' => $teamId]);
+        $teamDrivers = $team->getDrivers();
         $points = 0;
 
         foreach ($teamDrivers as $driver)
         {
-            $points += (new DriverPoints($this->raceResultsRepository))->getDriverPoints($driver->getId(), $season);
+            $points += (new DriverPoints())->getDriverPoints($driver, $season);
         }
 
         return $points;

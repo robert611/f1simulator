@@ -30,7 +30,7 @@ class Driver
     public $surname;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="car_id")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="drivers")
      * @ORM\JoinColumn(nullable=false)
      */
     public $team;
@@ -50,6 +50,11 @@ class Driver
      * @ORM\OneToMany(targetEntity="App\Entity\Qualification", mappedBy="driver", orphanRemoval=true)
      */
     private $qualifications;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RaceResults", mappedBy="driver")
+     */
+    private $raceResults;
 
     public function __construct()
     {
@@ -159,6 +164,37 @@ class Driver
             // set the owning side to null (unless already changed)
             if ($qualification->getDriver() === $this) {
                 $qualification->setDriver(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RaceResults[]
+     */
+    public function getRaceResults(): Collection
+    {
+        return $this->raceResults;
+    }
+
+    public function addRaceResult(RaceResults $raceResult): self
+    {
+        if (!$this->raceResults->contains($raceResult)) {
+            $this->raceResults[] = $raceResult;
+            $raceResult->setDriver($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRaceResult(RaceResults $raceResult): self
+    {
+        if ($this->raceResults->contains($raceResult)) {
+            $this->raceResults->removeElement($raceResult);
+            // set the owning side to null (unless already changed)
+            if ($raceResult->getDriver() === $this) {
+                $raceResult->setDriver(null);
             }
         }
 

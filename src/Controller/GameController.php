@@ -49,6 +49,11 @@ class GameController extends AbstractController
         $seasonRepository = $this->getDoctrine()->getRepository(Season::class);
         $season = $seasonRepository->findOneBy(['user' => $this->getUser()->getId(), 'completed' => 0]);
         
+        if (!$season) {
+            $this->addFlash('error', 'Nie możesz zakończyć sezonu, bez jego rozpoczęcia.');
+            return $this->redirectToRoute('app_index');
+        }
+
         /* If number of finished races is equal to number of all tracks than season should be end */
         if (count($season->getRaces()) == count($this->getDoctrine()->getRepository(Track::class)->findAll())) {
 
@@ -69,7 +74,6 @@ class GameController extends AbstractController
     public function simulateRace(Session $session)
     {
         $seasonRepository = $this->getDoctrine()->getRepository(Season::class);
-        $raceRepository = $this->getDoctrine()->getRepository(Race::class);
         $trackRepository = $this->getDoctrine()->getRepository(Track::class);
         $driverRepository = $this->getDoctrine()->getRepository(Driver::class);
 
@@ -77,7 +81,7 @@ class GameController extends AbstractController
         $season = $seasonRepository->findOneBy(['user' => $this->getUser()->getId(), 'completed' => 0]);
 
         if (!$season) {
-            $session->getFlashBag()->add('error', 'Nie możesz symulować wyścigu, bez rozpoczęcia sezonu.');
+            $this->addFlash('error', 'Nie możesz symulować wyścigu, bez rozpoczęcia sezonu.');
             return $this->redirectToRoute('app_index');
         }
 
@@ -86,8 +90,8 @@ class GameController extends AbstractController
 
         $entityManager = $this->getDoctrine()->getManager();
 
-        $lastRace = $season->getRaces()[count($season->getRaces()) - 1];
-        $lastTrackId = $lastRace ? $lastRace->getTrack()->getId() : 0;
+        $lastRace = $season->getRaces()->last();
+        $track = $lastRace ? $trackRepository->find($lastRace->getTrack()->getId() + 1) : $trackRepository->findAll()[0];
 
         if (count($season->getRaces()) == count($trackRepository->findAll())) {
             $session->getFlashBag()->add('error', 'Wystąpił problem z rozegraniem wyścigu, ze względu bezpieczeństwa danych twój sezon został zakończony.');
@@ -100,7 +104,7 @@ class GameController extends AbstractController
             return $this->redirectToRoute('app_index');
         }
 
-        $race->setTrack($trackRepository->find($lastTrackId + 1));
+        $race->setTrack($track);
         $race->setSeason($season);
 
         $entityManager->persist($race);
@@ -129,7 +133,7 @@ class GameController extends AbstractController
             $raceResult = new RaceResults();
 
             $raceResult->setRace($race);
-            $raceResult->setDriverId($driverId);
+            $raceResult->setDriver($driverRepository->find($driverId));
             $raceResult->setPosition($position);
 
             $entityManager->persist($raceResult);

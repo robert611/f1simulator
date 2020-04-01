@@ -2,6 +2,8 @@
 
 namespace App\Model;
 
+use App\Model\TeamsStrength;
+
 class SimulateQualifications
 {
     /* Every team has it's strength which says how competetive team is, multiplier multiplies strength of the teams by some value to make diffrences beetwen them greater */
@@ -32,7 +34,7 @@ class SimulateQualifications
 
     public function getCoupons()
     {
-        $teams = $this->getTeamsStrength();
+        $teams = (new TeamsStrength)->getTeamsStrength();
         $coupons = array();
         
         for ($i = 1; $i <= $this->multiplier; $i++)

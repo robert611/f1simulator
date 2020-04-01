@@ -2,21 +2,19 @@
 
 namespace App\Model;
 
-use App\Drivers;
+use App\Model\DriverPoints;
 
 class SeasonClassifications 
 {
     public array $drivers;
+    public object $driverPoints;
     public $season;
-    public object $qualificationRepository;
-    public object $raceResultsRepository;
 
-    public function __construct(array $drivers, $season, object $qualificationRepository, object $raceResultsRepository)
+    public function __construct(array $drivers, $season)
     {
         $this->drivers = $drivers;
+        $this->driverPoints = new DriverPoints();
         $this->season = $season;
-        $this->qualificationRepository = $qualificationRepository;
-        $this->raceResultsRepository = $raceResultsRepository;
     }
 
     public function getClassificationBasedOnType(string $type)
@@ -37,6 +35,8 @@ class SeasonClassifications
             case 'qualifications':
                 $classification = $this->getLastQualificationsResults();
                 break;
+            default: 
+                $classification = $this->getLastQualificationsResults(); /* It matches the default option in html */
         }
 
         return $classification;
@@ -47,14 +47,10 @@ class SeasonClassifications
         /* In default drivers have no assign points got in current season in database, so it has to be done here */
         foreach ($this->drivers as &$driver) {
             if ($this->season) {
-                $points = (new DriverPoints($this->raceResultsRepository))->getDriverPoints($driver->getId(), $this->season);
+                $points = $this->driverPoints->getDriverPoints($driver, $this->season);
                 $driver->setPoints($points);
                 
-                if ($driver->getCarId() == $this->season->getCarId()) {
-                    $driver->isUser = true;
-                    $driver->setName($this->season->getUser()->getUsername());
-                    $driver->setSurname('');
-                }
+                $driver = $this->setUserToDriver($driver, $this->season);
             } else {
                 $driver->setPoints(0);
             }
@@ -65,27 +61,20 @@ class SeasonClassifications
 
     public function getLastRaceResults(): array
     {
-        $lastRace = $this->season->getRaces()[count($this->season->getRaces()) - 1];
-
-        $driverPoints = new DriverPoints($this->raceResultsRepository);
+        $lastRace = $this->season->getRaces()->last();
 
         /* In default drivers have no assign points got in current season in database, so it has to be done here */
         foreach ($this->drivers as &$driver) {
 
             if ($this->season) {
-                $points = $driverPoints->getDriverPointsByRace($driver->getId(), $lastRace);
+                $points = $this->driverPoints->getDriverPointsByRace($driver, $lastRace);
 
                 $driver->setPoints($points);
             } else {
                 $driver->setPoints(0);
             }
 
-            
-            if ($driver->getCarId() == $this->season->getCarId()) {
-                $driver->isUser = true;
-                $driver->setName($this->season->getUser()->getUsername());
-                $driver->setSurname('');
-            }
+            $driver = $this->setUserToDriver($driver, $this->season);
         }
 
         return $this->setDriversPositions($this->drivers);
@@ -93,20 +82,27 @@ class SeasonClassifications
 
     public function getLastQualificationsResults()
     {
-        $lastRace = $this->season->getRaces()[count($this->season->getRaces()) - 1];
+        $lastRace = $this->season->getRaces()->last();
 
-        $lastQualification = $this->qualificationRepository->findBy(['race' => $lastRace->getId()]);
+        $lastQualification = $lastRace->getQualifications();
 
         /* In default drivers have no assign points got in current season in database, so it has to be done here */
-        foreach ($lastQualification as &$result) {
-            if ($result->getDriver()->getCarId() == $this->season->getCarId()) {
-                $result->getDriver()->setName($this->season->getUser()->getUsername());
-                $result->getDriver()->setSurname('');
-                $result->getDriver()->isUser = true;
-            }
+        foreach ($lastQualification as $result) {
+            $result->setDriver($this->setUserToDriver($result->getDriver(), $this->season));
         }
 
         return $lastQualification;
+    }
+
+    public function setUserToDriver(object $driver, object $season)
+    {
+        if ($driver->getCarId() == $season->getCarId()) {
+            $driver->setName($season->getUser()->getUsername());
+            $driver->setSurname('');
+            $driver->isUser = true;
+        }
+
+        return $driver;
     }
 
     public function setDriversPositions($drivers)

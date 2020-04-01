@@ -2,20 +2,8 @@
 
 namespace App\Model;
 
-use App\Entity\RaceResults;
-
 class DriverPodiums
 {
-    public object $doctrine;
-    public object $raceResultsRepository;
-    public object $raceRepository;
-
-    public function __construct($doctrine)
-    {
-        $this->doctrine = $doctrine;
-        $this->raceResultsRepository = $this->doctrine->getRepository(RaceResults::class);
-    }
-
     public function getDriverPodiums($driver, $season)
     {
         $races = $season->getRaces();
@@ -23,8 +11,10 @@ class DriverPodiums
         $podiumsTable = $this->getPodiumsTable();
 
         foreach ($races as $race) {
-            if($raceResult = $this->raceResultsRepository->findOneBy(['race' => $race->getId(), 'driver_id' => $driver->getId()])) {
-                $position = $raceResult->getPosition();
+            if ($raceResult = $driver->getRaceResults()->filter(function($result) use ($race){ 
+                return $result->getRace()->getId() == $race->getId();
+            })) {
+                $position = $raceResult->first()->getPosition();
             } else {
                 continue;
             }

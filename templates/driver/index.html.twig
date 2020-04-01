@@ -1,20 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DriverController!{% endblock %}
+{% block title %}Driver index{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <h1>Driver index</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Car_id</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for driver in drivers %}
+            <tr>
+                <td>{{ driver.id }}</td>
+                <td>{{ driver.name }}</td>
+                <td>{{ driver.surname }}</td>
+                <td>{{ driver.carId }}</td>
+                <td>
+                    <a href="{{ path('driver_show', {'id': driver.id}) }}">show</a>
+                    <a href="{{ path('driver_edit', {'id': driver.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp1/htdocs/F1Simulator/src/Controller/DriverController.php'|file_link(0) }}">src/Controller/DriverController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp1/htdocs/F1Simulator/templates/driver/index.html.twig'|file_link(0) }}">templates/driver/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <a href="{{ path('driver_new') }}">Create new</a>
 {% endblock %}

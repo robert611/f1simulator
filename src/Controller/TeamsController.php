@@ -36,7 +36,7 @@ class TeamsController extends AbstractController
 
         /* In default teams have no assign points got in current season in database, so it has to be done here */
         foreach($teams as &$team) {
-            $points = $season ? (new TeamPoints($driversRepository, $raceResultsRepository))->getTeamPoints($team->getId(), $season) : 0;
+            $points = $season ? (new TeamPoints($raceResultsRepository))->getTeamPoints($team, $season) : 0;
             $team->setPoints($points);
         }
 

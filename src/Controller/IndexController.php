@@ -25,19 +25,18 @@ class IndexController extends AbstractController
         $season = $this->getDoctrine()->getRepository(Season::class)->findOneBy(['user' => $this->getUser(), 'completed' => 0]);
 
         $trackRepository = $this->getDoctrine()->getRepository(Track::class);
-        $raceResultsRepository = $this->getDoctrine()->getRepository(RaceResults::class);
-      
+       
         if ($season) {
             $driver = $this->getDoctrine()->getRepository(Driver::class)->findOneBy(['car_id' => $season->getCarId()]);
            
-            $season->setUserPoints((new DriverPoints($raceResultsRepository))->getDriverPoints($driver->getId(), $season));
-           
-            $track = $trackRepository->find(count($season->getRaces()) + 1);
-            $lastRace = $season->getRaces()[count($season->getRaces()) - 1];
+            $season->setUserPoints((new DriverPoints())->getDriverPoints($driver, $season));
+          
+            $track = $season->getRaces()->last() ? $trackRepository->find($season->getRaces()->last()->getTrack()->getId() + 1) : $trackRepository->findAll()[0];
+            $lastRace = $season->getRaces()->last();
 
             $lastRace ? $lastRace : $classificationType  = 'drivers';
 
-            $driverPodiums = (new DriverPodiums($this->getDoctrine()))->getDriverPodiums($driver, $season);
+            $driverPodiums = (new DriverPodiums())->getDriverPodiums($driver, $season);
         } else {
             $classificationType = 'drivers';
         }
@@ -48,7 +47,7 @@ class IndexController extends AbstractController
         $drivers = $this->getDoctrine()->getRepository(Driver::class)->findAll();
         $qualificationRepository = $this->getDoctrine()->getRepository(Qualification::class);
      
-        $classification = (new SeasonClassifications($drivers, $season, $qualificationRepository, $raceResultsRepository))->getClassificationBasedOnType($classificationType);
+        $classification = (new SeasonClassifications($drivers, $season, $qualificationRepository))->getClassificationBasedOnType($classificationType);
     
         return $this->render('index.html.twig', [
             'season' => $season,
