@@ -48,9 +48,21 @@ class User implements UserInterface
      */
     private $seasons;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserSeason", mappedBy="owner")
+     */
+    private $userSeasons;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserSeasonPlayers", mappedBy="user", orphanRemoval=true)
+     */
+    private $userSeasonPlayers;
+
     public function __construct()
     {
         $this->seasons = new ArrayCollection();
+        $this->usersSeasons = new ArrayCollection();
+        $this->userSeasonPlayers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -163,6 +175,68 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($season->getUser() === $this) {
                 $season->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UsersSeason[]
+     */
+    public function getUsersSeasons(): Collection
+    {
+        return $this->usersSeasons;
+    }
+
+    public function addUsersSeason(UsersSeason $usersSeason): self
+    {
+        if (!$this->usersSeasons->contains($usersSeason)) {
+            $this->usersSeasons[] = $usersSeason;
+            $usersSeason->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUsersSeason(UsersSeason $usersSeason): self
+    {
+        if ($this->usersSeasons->contains($usersSeason)) {
+            $this->usersSeasons->removeElement($usersSeason);
+            // set the owning side to null (unless already changed)
+            if ($usersSeason->getOwner() === $this) {
+                $usersSeason->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserSeasonPlayers[]
+     */
+    public function getUserSeasonPlayers(): Collection
+    {
+        return $this->userSeasonPlayers;
+    }
+
+    public function addUserSeasonPlayer(UserSeasonPlayers $userSeasonPlayer): self
+    {
+        if (!$this->userSeasonPlayers->contains($userSeasonPlayer)) {
+            $this->userSeasonPlayers[] = $userSeasonPlayer;
+            $userSeasonPlayer->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserSeasonPlayer(UserSeasonPlayers $userSeasonPlayer): self
+    {
+        if ($this->userSeasonPlayers->contains($userSeasonPlayer)) {
+            $this->userSeasonPlayers->removeElement($userSeasonPlayer);
+            // set the owning side to null (unless already changed)
+            if ($userSeasonPlayer->getUser() === $this) {
+                $userSeasonPlayer->setUser(null);
             }
         }
 

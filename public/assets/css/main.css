@@ -8,6 +8,9 @@
     padding-bottom: 30px!important;
     color: white!important;
 }
+.display-inline {
+    display: inline-block!important;
+}
 
 .f1-car-picture {
     max-width: 90px;

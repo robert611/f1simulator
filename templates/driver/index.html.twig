@@ -3,37 +3,45 @@
 {% block title %}Driver index{% endblock %}
 
 {% block body %}
-    <h1>Driver index</h1>
+    <div class="container-fluid mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-5">
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Surname</th>
+                                    <th>Car_id</th>
+                                    <th>actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for driver in drivers %}
+                                <tr>
+                                    <td>{{ driver.id }}</td>
+                                    <td>{{ driver.name }}</td>
+                                    <td>{{ driver.surname }}</td>
+                                    <td>{{ driver.carId }}</td>
+                                    <td>
+                                        <a class="btn btn-outline-success" href="{{ path('driver_show', {'id': driver.id}) }}">show</a>
+                                        <a class="btn btn-outline-info" href="{{ path('driver_edit', {'id': driver.id}) }}">edit</a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="5">no records found</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Surname</th>
-                <th>Car_id</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for driver in drivers %}
-            <tr>
-                <td>{{ driver.id }}</td>
-                <td>{{ driver.name }}</td>
-                <td>{{ driver.surname }}</td>
-                <td>{{ driver.carId }}</td>
-                <td>
-                    <a href="{{ path('driver_show', {'id': driver.id}) }}">show</a>
-                    <a href="{{ path('driver_edit', {'id': driver.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('driver_new') }}">Create new</a>
+                        <a class="btn btn-outline-primary" href="{{ path('driver_new') }}">Create new</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

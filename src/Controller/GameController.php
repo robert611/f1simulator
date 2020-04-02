@@ -67,7 +67,6 @@ class GameController extends AbstractController
 
         return $this->redirectToRoute('app_index');
     }
-
     /**
      * @Route("/game/simulate/race", name="game_simulate_race")
      */
@@ -76,6 +75,7 @@ class GameController extends AbstractController
         $seasonRepository = $this->getDoctrine()->getRepository(Season::class);
         $trackRepository = $this->getDoctrine()->getRepository(Track::class);
         $driverRepository = $this->getDoctrine()->getRepository(Driver::class);
+        $entityManager = $this->getDoctrine()->getManager();
 
         /* First find a season to which race belongs */
         $season = $seasonRepository->findOneBy(['user' => $this->getUser()->getId(), 'completed' => 0]);
@@ -84,11 +84,6 @@ class GameController extends AbstractController
             $this->addFlash('error', 'Nie możesz symulować wyścigu, bez rozpoczęcia sezonu.');
             return $this->redirectToRoute('app_index');
         }
-
-        /* Save race in database */
-        $race = new Race();
-
-        $entityManager = $this->getDoctrine()->getManager();
 
         $lastRace = $season->getRaces()->last();
         $track = $lastRace ? $trackRepository->find($lastRace->getTrack()->getId() + 1) : $trackRepository->findAll()[0];
@@ -104,6 +99,9 @@ class GameController extends AbstractController
             return $this->redirectToRoute('app_index');
         }
 
+        /* Save race in database */
+        $race = new Race();
+
         $race->setTrack($track);
         $race->setSeason($season);
 
@@ -113,7 +111,6 @@ class GameController extends AbstractController
         $qualificationsResults = (new SimulateQualifications)->getQualificationsResults($driverRepository->findAll());
         
         $results = (new SimulateRace)->getRaceResults($driverRepository->findAll(), $qualificationsResults);
-
 
         /* Save qualifications results in database */
         foreach ($qualificationsResults as $position => $driver) {

@@ -4,8 +4,10 @@ namespace App\Form;
 
 use App\Entity\Driver;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\Team;
 
 class DriverType extends AbstractType
 {
@@ -15,7 +17,7 @@ class DriverType extends AbstractType
             ->add('name')
             ->add('surname')
             ->add('car_id')
-            ->add('team')
+            ->add('team', EntityType::class, ['class' => Team::class, 'choice_label' => 'name'])
         ;
     }
 
