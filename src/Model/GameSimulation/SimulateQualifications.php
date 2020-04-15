@@ -1,8 +1,8 @@
 <?php 
 
-namespace App\Model;
+namespace App\Model\GameSimulation;
 
-use App\Model\TeamsStrength;
+use App\Model\Configuration\TeamsStrength;
 
 class SimulateQualifications
 {
@@ -15,7 +15,7 @@ class SimulateQualifications
 
         $coupons = $this->getCoupons();
 
-        for ($i = 1; $i <= count($drivers); $i++) {
+        for ($i = 1, $j = count($drivers); $i <= $j; $i++) {
             /* If boths driver from given team will be already drawn, check function will return true and draw will be repeat until $team with only one or zero drivers finished will be drawn */
             do
             {
@@ -26,7 +26,8 @@ class SimulateQualifications
             /* At this point team from which driver will be draw is drawn, not the driver per se so now draw one of the drivers from that team and put him in finished drivers */
             $driver = $this->drawDriverFromTeam($teamName, $drivers, $results);
 
-            $results[$i] = $driver;
+            /* If there is no drawn driver, then iterate once again */
+            $driver ? $results[$i] = $driver : $i--;
         }
 
         return $results;
@@ -61,6 +62,15 @@ class SimulateQualifications
         foreach ($drivers as $key => $driver) {
             if($driver->getTeam()->getName() == $teamName) $teamDrivers[] = $driver;
         }
+
+        /* In this case it's called by league qualifications, and there may not be two drivers in a team */
+        if (count($teamDrivers) < 2) {
+            if (isset($teamDrivers[0]) && !in_array($teamDrivers[0], $results)) {
+                return $teamDrivers[0];
+            }
+
+            return null;
+        }
        
         /* If one of the drivers already finished race then return the second one */
         if (in_array($teamDrivers[0], $results)) {
@@ -78,27 +88,15 @@ class SimulateQualifications
         $driversWhoFinished = 0;
 
         foreach ($results as $driver) {
-            if($driver->getTeam()->getName() == $teamName) $driversWhoFinished++;
+            if ($driver->getTeam()->getName() == $teamName) {
+                $driversWhoFinished++;
+            }
         }
 
-        if ($driversWhoFinished == 2) return true;
+        if ($driversWhoFinished == 2) {
+            return true;
+        }
 
         return false;
-    }
-
-    public function getTeamsStrength()
-    {
-        return [
-            'Mercedes' => 23,
-            'Ferrari' => 19.7,
-            'Red Bull' => 19.6,
-            'Mclaren' => 6.4,
-            'Renault' => 6.2,
-            'Racing Point' => 6.1,
-            'Toro Rosso' => 5.9,
-            'Haas' => 5.7,
-            'Alfa Romeo' => 5.7,
-            'Williams' => 0.6
-        ];
     }
 }

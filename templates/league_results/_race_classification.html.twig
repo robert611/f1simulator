@@ -1,0 +1,26 @@
+<div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Miejsce</th>
+                    <th>Kierowca</th>
+                    <th>Zespół</th>
+                    <th>Bolid</th>
+                    <th>Punkty</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i, result in classification %} 
+                    <tr>
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ result.player.user.username }}</td>
+                        <td>{{ result.player.driver.team.name }}</td>
+                        <td><img class="f1-car-picture" src="/assets/cars/{{ result.player.driver.team.picture }}" /></td>
+                        <td>{{ result.points }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -3,10 +3,10 @@
 namespace App\Tests\Model;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Model\SeasonClassifications;
+use App\Model\Classification\SeasonClassifications;
 use App\Entity\Driver;
 use App\Entity\Season;
-use App\Model\RacePunctation;
+use App\Model\Configuration\RacePunctation;
 
 class SeasonClassificationsTest extends KernelTestCase 
 {
@@ -40,6 +40,7 @@ class SeasonClassificationsTest extends KernelTestCase
         $this->assertTrue(is_array($classification));
         $this->assertTrue(is_object($classification[0]));
         $this->assertTrue($classification[0] instanceof Driver);
+        $this->assertTrue($classification[1]->isUser == true);
     }
     
     public function test_if_get_last_race_results_return_correct_results()
@@ -47,16 +48,10 @@ class SeasonClassificationsTest extends KernelTestCase
         $classification = $this->seasonClassifications->getLastRaceResults();
         $punctation = (new RacePunctation)->getPunctation();
 
-        $isThereAUser = false;
-
         foreach ($classification as $result) {
             $this->assertTrue(in_array($result->getPosition(), range(1, 20)));
             $this->assertEquals($result->getPoints(), $punctation[$result->getPosition()]);
-            
-            if ($result->isUser == true) $isThereAUser = true;
         }
-
-        $this->assertTrue($isThereAUser);
     }
 
     public function test_if_get_last_qualifications_results_return_correct_results()
@@ -73,16 +68,10 @@ class SeasonClassificationsTest extends KernelTestCase
         $classification = $this->seasonClassifications->getDriversClassification();
         $punctation = (new RacePunctation)->getPunctation();
 
-        $isThereAUser = false;
-
         foreach ($classification as $result) {
             $this->assertTrue(in_array($result->position, range(1, 20)));
             $this->assertEquals($result->getPoints(), 6 * $punctation[$result->getPosition()]);
-
-            if ($result->isUser == true) $isThereAUser = true;
         }
-
-        $this->assertTrue($isThereAUser);
     }
 
     public function provideClassificationTypes()

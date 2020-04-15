@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Model;
+namespace App\Model\DriverStatistics;
 
 class DriverPodiums
 {
@@ -11,7 +11,7 @@ class DriverPodiums
         $podiumsTable = $this->getPodiumsTable();
 
         foreach ($races as $race) {
-            if ($raceResult = $driver->getRaceResults()->filter(function($result) use ($race){ 
+            if ($raceResult = $driver->getRaceResults()->filter(function($result) use ($race) { 
                 return $result->getRace()->getId() == $race->getId();
             })) {
                 $position = $raceResult->first()->getPosition();

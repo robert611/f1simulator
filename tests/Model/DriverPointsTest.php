@@ -3,10 +3,10 @@
 namespace App\Tests\Model;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Model\DriverPoints;
+use App\Model\DriverStatistics\DriverPoints;
 use App\Entity\Driver;
 use App\Entity\Season;
-use App\Model\RacePunctation;
+use App\Model\Configuration\RacePunctation;
 
 class DriverPointsTest extends KernelTestCase 
 {

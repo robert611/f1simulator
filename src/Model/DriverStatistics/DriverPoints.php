@@ -1,8 +1,8 @@
 <?php 
 
-namespace App\Model;
+namespace App\Model\DriverStatistics;
 
-use App\Model\RacePunctation;
+use App\Model\Configuration\RacePunctation;
 
 class DriverPoints 
 {
@@ -13,9 +13,11 @@ class DriverPoints
         $this->punctation = (new RacePunctation)->getPunctation();
     }
 
-    public function getDriverPoints(object $driver, object $season): int
+    public function getDriverPoints(object $driver, ?object $season): int
     {
-        $races = $season->getRaces();
+        if ($season == null) {
+            return 0;
+        }
         
         $points = 0;
 

@@ -6,12 +6,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Season;
 use App\Entity\Track;
+use App\Entity\Team;
 use App\Entity\Qualification;
 use App\Entity\Driver;
 use App\Entity\RaceResults;
-use App\Model\DriverPoints;
-use App\Model\DriverPodiums;
-use App\Model\SeasonClassifications;
+use App\Model\DriverStatistics\DriverPoints;
+use App\Model\DriverStatistics\DriverPodiums;
+use App\Model\Classification\SeasonClassifications;
+use App\Model\Classification\SeasonTeamsClassification;
 
 class IndexController extends AbstractController
 {
@@ -43,12 +45,16 @@ class IndexController extends AbstractController
 
         $numberOfRacesInSeason = count($trackRepository->findAll());
 
-        /* Get classification */
+        /* Get classification ['Last Race', 'Qualifications' , 'General Drivers Classification'] */
         $drivers = $this->getDoctrine()->getRepository(Driver::class)->findAll();
         $qualificationRepository = $this->getDoctrine()->getRepository(Qualification::class);
      
         $classification = (new SeasonClassifications($drivers, $season, $qualificationRepository))->getClassificationBasedOnType($classificationType);
-    
+        
+        /* Teams Classification/Ranking */
+        $teams = $this->getDoctrine()->getRepository(Team::class)->findAll();
+        $teamsClassification = (new SeasonTeamsClassification)->getClassification($teams, $season);
+
         return $this->render('index.html.twig', [
             'season' => $season,
             'track' => isset($track) ? $track : null,
@@ -56,7 +62,8 @@ class IndexController extends AbstractController
             'classification' => $classification,
             'driverPodiums' => isset($driverPodiums) ? $driverPodiums : null,
             'classificationType' => $classificationType,
-            'numberOfRacesInSeason' => $numberOfRacesInSeason
+            'numberOfRacesInSeason' => $numberOfRacesInSeason,
+            'teamsClassification' => $teamsClassification
         ]);
     }
 

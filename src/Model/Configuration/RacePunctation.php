@@ -1,10 +1,10 @@
 <?php 
 
-namespace App\Model;
+namespace App\Model\Configuration;
 
 class RacePunctation 
 {
-    public function getPunctation()
+    public function getPunctation(): array
     {
         return [
             '1' => 25,

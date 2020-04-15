@@ -21,7 +21,7 @@ class Season
     /**
      * @ORM\Column(type="integer")
      */
-    private $car_id;
+    private $driver;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="seasons")
@@ -39,12 +39,12 @@ class Season
      */
     private $completed;
 
-    private $userPoints;
-
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Race", mappedBy="season")
      */
     private $races;
+
+    private $userPoints;
 
     public function __construct()
     {

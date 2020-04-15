@@ -1,10 +1,10 @@
 <?php 
 
-namespace App\Model;
+namespace App\Model\Configuration;
 
 class TeamsStrength
 {
-    public function getTeamsStrength()
+    public function getTeamsStrength(): array
     {
         return [
             'Mercedes' => 23,

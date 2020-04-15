@@ -19,7 +19,7 @@ class UserSeasonPlayers
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\UserSeason", inversedBy="userSeasonPlayers")
+     * @ORM\ManyToOne(targetEntity="App\Entity\UserSeason", inversedBy="players")
      * @ORM\JoinColumn(nullable=false)
      */
     private $season;
@@ -45,6 +45,10 @@ class UserSeasonPlayers
      * @ORM\OneToMany(targetEntity="App\Entity\UserSeasonQualifications", mappedBy="player", orphanRemoval=true)
      */
     private $qualificationsResults;
+
+    public $points;
+
+    public $position;
 
     public function __construct()
     {
@@ -151,6 +155,46 @@ class UserSeasonPlayers
                 $qualificationsResult->setPlayer(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * Get the value of points
+     */ 
+    public function getPoints()
+    {
+        return $this->points;
+    }
+
+    /**
+     * Set the value of points
+     *
+     * @return  self
+     */ 
+    public function setPoints($points)
+    {
+        $this->points = $points;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of position
+     */ 
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * Set the value of position
+     *
+     * @return  self
+     */ 
+    public function setPosition($position)
+    {
+        $this->position = $position;
 
         return $this;
     }

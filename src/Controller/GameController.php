@@ -4,17 +4,18 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use App\Model\GameSimulation\SimulateRace;
+use App\Model\GameSimulation\SimulateQualifications;
+use Symfony\Component\HttpFoundation\Session\Session;
+USE App\Entity\Qualification;
 use App\Entity\Season;
 use App\Entity\Driver;
 use App\Entity\Team;
 use App\Entity\Race;
 use App\Entity\Track;
 use App\Entity\RaceResults;
-use Symfony\Component\HttpFoundation\Request;
-use App\Model\SimulateRace;
-use App\Model\SimulateQualifications;
-use Symfony\Component\HttpFoundation\Session\Session;
-USE App\Entity\Qualification;
+use App\Model\DrawDriverToReplace;
 
 class GameController extends AbstractController
 {
@@ -31,7 +32,7 @@ class GameController extends AbstractController
 
         $season->setTeam($team);
         $season->setUser($this->getUser());
-        $season->setCarId($this->getDriverToReplace($team->getId())->getCarId());
+        $season->setCarId((new DrawDriverToReplace)->getDriverToReplace($team)->getCarId());
         $season->setCompleted(0);
 
         $entityManager->persist($season);
@@ -99,7 +100,7 @@ class GameController extends AbstractController
             return $this->redirectToRoute('app_index');
         }
 
-        /* Save race in database */
+        /* Save race in the database */
         $race = new Race();
 
         $race->setTrack($track);
@@ -110,7 +111,7 @@ class GameController extends AbstractController
 
         $qualificationsResults = (new SimulateQualifications)->getQualificationsResults($driverRepository->findAll());
         
-        $results = (new SimulateRace)->getRaceResults($driverRepository->findAll(), $qualificationsResults);
+        $raceResults = (new SimulateRace)->getRaceResults($driverRepository->findAll(), $qualificationsResults);
 
         /* Save qualifications results in database */
         foreach ($qualificationsResults as $position => $driver) {
@@ -121,12 +122,10 @@ class GameController extends AbstractController
             $qualification->setPosition($position);
 
             $entityManager->persist($qualification);
-
-            $entityManager->flush();
         }
         
         /* Save race results in database */
-        foreach ($results as $position => $driverId) {
+        foreach ($raceResults as $position => $driverId) {
             $raceResult = new RaceResults();
 
             $raceResult->setRace($race);
@@ -134,20 +133,10 @@ class GameController extends AbstractController
             $raceResult->setPosition($position);
 
             $entityManager->persist($raceResult);
-
-            $entityManager->flush();
         }
+        
+        $entityManager->flush();
 
         return $this->redirectToRoute('app_index');
-    }
-
-    /* This function takes id of the team which user choosed and draws one of the driver of that team to replace him with user */
-    public function getDriverToReplace($teamId): object
-    {
-        $drivers = $this->getDoctrine()->getRepository(Driver::class)->findBy(['team' => $teamId]);
-
-        $random = rand(0, (count($drivers) - 1));
-
-        return $drivers[$random];
     }
 }

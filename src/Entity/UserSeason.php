@@ -5,9 +5,12 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserSeasonRepository")
+ * @UniqueEntity(fields={"name"}, message="Istnieje już liga z taką nazwą")
  */
 class UserSeason
 {
@@ -19,12 +22,18 @@ class UserSeason
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $secret;
 
     /**
      * @ORM\Column(type="smallint")
+     * @Assert\Range(
+     *      min = 2,
+     *      max = 20,
+     *      minMessage = "Minimalna liczba graczy to 2",
+     *      maxMessage = "Maksymalna liczba graczy to 20"
+     * )
      */
     private $max_players;
 
@@ -37,12 +46,27 @@ class UserSeason
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\UserSeasonPlayers", mappedBy="season", orphanRemoval=true)
      */
-    private $userSeasonPlayers;
+    private $players;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\UserSeasonRaces", mappedBy="userSeason", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\UserSeasonRaces", mappedBy="season", orphanRemoval=true)
      */
-    private $userSeasonRaces;
+    private $races;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $completed;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $started;
 
     public function __construct()
     {
@@ -94,12 +118,12 @@ class UserSeason
     /**
      * @return Collection|UserSeasonPlayers[]
      */
-    public function getUserSeasonPlayers(): Collection
+    public function getPlayers(): ?Collection
     {
-        return $this->userSeasonPlayers;
+        return $this->players;
     }
 
-    public function addUserSeasonPlayer(UserSeasonPlayers $userSeasonPlayer): self
+    public function addPlayer(UserSeasonPlayers $userSeasonPlayer): self
     {
         if (!$this->userSeasonPlayers->contains($userSeasonPlayer)) {
             $this->userSeasonPlayers[] = $userSeasonPlayer;
@@ -109,7 +133,7 @@ class UserSeason
         return $this;
     }
 
-    public function removeUserSeasonPlayer(UserSeasonPlayers $userSeasonPlayer): self
+    public function removePlayer(UserSeasonPlayers $userSeasonPlayer): self
     {
         if ($this->userSeasonPlayers->contains($userSeasonPlayer)) {
             $this->userSeasonPlayers->removeElement($userSeasonPlayer);
@@ -125,15 +149,15 @@ class UserSeason
     /**
      * @return Collection|UserSeasonRaces[]
      */
-    public function getUserSeasonRaces(): Collection
+    public function getRaces(): Collection
     {
-        return $this->userSeasonRaces;
+        return $this->races;
     }
 
-    public function addUserSeasonRace(UserSeasonRaces $userSeasonRace): self
+    public function addRace(UserSeasonRaces $userSeasonRace): self
     {
-        if (!$this->userSeasonRaces->contains($userSeasonRace)) {
-            $this->userSeasonRaces[] = $userSeasonRace;
+        if (!$this->races->contains($userSeasonRace)) {
+            $this->races[] = $userSeasonRace;
             $userSeasonRace->setUserSeason($this);
         }
 
@@ -149,6 +173,42 @@ class UserSeason
                 $userSeasonRace->setUserSeason(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getCompleted(): ?bool
+    {
+        return $this->completed;
+    }
+
+    public function setCompleted(bool $completed): self
+    {
+        $this->completed = $completed;
+
+        return $this;
+    }
+
+    public function getStarted(): ?bool
+    {
+        return $this->started;
+    }
+
+    public function setStarted(?bool $started): self
+    {
+        $this->started = $started;
 
         return $this;
     }

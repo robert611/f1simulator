@@ -86,7 +86,45 @@ input {
 
 .middle-section-menu > div > a {
     color: white;
- 
+}
+
+.middle-section-menu > div > a:hover {
+    color: white;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.div-for-classification-results-anchors {
+    display: none;
+    position: absolute;
+    background: rgba(182,33,7,1);
+    background: -moz-linear-gradient(left, rgba(182,33,7,1) 0%, rgba(157,23,6,1) 36%, rgba(192,40,17,1) 71%, rgba(188,39,17,1) 74%, rgba(151,28,17,1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(182,33,7,1)), color-stop(36%, rgba(157,23,6,1)), color-stop(71%, rgba(192,40,17,1)), color-stop(74%, rgba(188,39,17,1)), color-stop(100%, rgba(151,28,17,1)));
+    background: -webkit-linear-gradient(left, rgba(182,33,7,1) 0%, rgba(157,23,6,1) 36%, rgba(192,40,17,1) 71%, rgba(188,39,17,1) 74%, rgba(151,28,17,1) 100%);
+    background: -o-linear-gradient(left, rgba(182,33,7,1) 0%, rgba(157,23,6,1) 36%, rgba(192,40,17,1) 71%, rgba(188,39,17,1) 74%, rgba(151,28,17,1) 100%);
+    background: -ms-linear-gradient(left, rgba(182,33,7,1) 0%, rgba(157,23,6,1) 36%, rgba(192,40,17,1) 71%, rgba(188,39,17,1) 74%, rgba(151,28,17,1) 100%);
+    background: linear-gradient(to right, rgba(182,33,7,1) 0%, rgba(157,23,6,1) 36%, rgba(192,40,17,1) 71%, rgba(188,39,17,1) 74%, rgba(151,28,17,1) 100%);
+    min-width: 33%;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    top: 50px;
+}
+
+/* Links inside the dropdown */
+.div-for-classification-results-anchors a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 1.1rem;
+    border-top: 0.02px solid white;
+}
+
+/* Change color of dropdown links on hover */
+.div-for-classification-results-anchors a:hover {
+    background: rgb(165, 44, 23);
+    color: white;
 }
 
 @media only screen and (min-width: 960px)

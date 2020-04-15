@@ -24,6 +24,7 @@ security:
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
+            access_denied_handler: App\Security\AccessDeniedHandler
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -37,3 +38,6 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/game, roles: ROLE_USER }
         - { path: ^/teams, roles: ROLE_USER }
+        - { path: ^/league, roles: ROLE_USER }
+        - { path: ^/multiplayer, roles: ROLE_USER }
+

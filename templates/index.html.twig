@@ -3,7 +3,6 @@
 {% block javascripts %}
     {{ parent() }} 
     <script src="{{ asset('assets/js/React/Teams.js') }}" type="text/babel"></script>
-    <script src="{{ asset('assets/js/React/ConstructorClassification.js') }}" type="text/babel"></script>
 {% endblock %}
 
 {% block body %}
@@ -41,11 +40,11 @@
                                 <div class="row">
                                     <div class="col gold-medal mb-1">
                                         <i class="fas fa-medal fa-3x"></i><br>
-                                         <span>{{ driverPodiums[1] }}</span>
+                                        <span>{{ driverPodiums[1] }}</span>
                                     </div>
                                     <div class="col silver-medal mb-1">
                                         <i class="fas fa-medal fa-3x"></i><br>
-                                         <span>{{ driverPodiums[2] }}</span>
+                                        <span>{{ driverPodiums[2] }}</span>
                                     </div>
                                     <div class="col bronze-medal mb-1">
                                         <i class="fas fa-medal fa-3x"></i><br>
@@ -95,21 +94,21 @@
                                     <h4 class="text-center">Klasyfikacja kierowców</h4>
                                 </div>
                                 <div class="card-body">
-                                    {% include 'results/drivers_classification.html.twig' %}
+                                    {% include 'season_results/_drivers_classification.html.twig' %}
                                 </div>
                             {% elseif classificationType == 'race' %}
                                 <div class="card-header">
                                     <h4 class="text-center">Klasyfikacja {{ lastRace.getTrack().getName() }}</h4>
                                 </div>
                                 <div class="card-body">
-                                    {% include 'results/last_race_results.html.twig' %}
+                                    {% include 'season_results/_last_race_results.html.twig' %}
                                 </div>
                             {% else %}
                                 <div class="card-header">
                                     <h4 class="text-center">Wyniki kwalifikacji - {{ lastRace.getTrack().getName() }}</h4>
                                 </div>
                                 <div class="card-body">
-                                    {% include 'results/qualifications_results.html.twig' %}
+                                    {% include 'season_results/_qualifications_results.html.twig' %}
                                 </div>
                             {% endif %}
                         </div>
@@ -120,8 +119,27 @@
                                 <h4 class="text-center">Klasyfikacja konstruktorów</h4>
                             </div>
                             <div class="card-body">
-                                 <div id="teams-classification">
-
+                               <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Miejsce</th>
+                                                <th>Zespół</th>
+                                                <th>Bolid</th>
+                                                <th>Punkty</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for team in teamsClassification %}
+                                                <tr>
+                                                    <td>{{ team.position }}</td>
+                                                    <td>{{ team.name }}</td>
+                                                    <td><img class="f1-car-picture" src="{{ asset('/assets/cars/'~team.picture) }}" /></td>
+                                                    <td>{{ team.points }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>

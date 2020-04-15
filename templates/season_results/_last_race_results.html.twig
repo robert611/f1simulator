@@ -12,7 +12,7 @@
             </thead>
             <tbody>
                 {% for driver in classification %} 
-                    <tr id="driver{{ driver.id }}" data-driverid="{{ driver.id }}" class={{ driver.isUser == true ? 'highlight-driver' : ''}}>
+                    <tr class={{ driver.isUser == true ? 'highlight-driver' : ''}}>
                         <td>{{ driver.position }}</td>
                         <td>{{ driver.name }} {{ driver.surname }}</td>
                         <td>{{ driver.team.name }}</td>

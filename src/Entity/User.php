@@ -189,23 +189,23 @@ class User implements UserInterface
         return $this->usersSeasons;
     }
 
-    public function addUsersSeason(UsersSeason $usersSeason): self
+    public function addUsersSeason(UserSeason $userSeason): self
     {
-        if (!$this->usersSeasons->contains($usersSeason)) {
-            $this->usersSeasons[] = $usersSeason;
-            $usersSeason->setOwner($this);
+        if (!$this->userSeason->contains($userSeason)) {
+            $this->userSeason[] = $userSeason;
+            $userSeason->setOwner($this);
         }
 
         return $this;
     }
 
-    public function removeUsersSeason(UsersSeason $usersSeason): self
+    public function removeUsersSeason(UserSeason $userSeason): self
     {
-        if ($this->usersSeasons->contains($usersSeason)) {
-            $this->usersSeasons->removeElement($usersSeason);
+        if ($this->userSeason->contains($userSeason)) {
+            $this->userSeason->removeElement($userSeason);
             // set the owning side to null (unless already changed)
-            if ($usersSeason->getOwner() === $this) {
-                $usersSeason->setOwner(null);
+            if ($userSeason->getOwner() === $this) {
+                $userSeason->setOwner(null);
             }
         }
 

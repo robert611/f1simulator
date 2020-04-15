@@ -1,0 +1,26 @@
+<div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Miejsce</th>
+                    <th>Kierowca</th>
+                    <th>Zespół</th>
+                    <th>Bolid</th>
+                    <th>Punkty</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player in classification %}
+                    <tr>
+                        <td>{{ player.position }}</td>
+                        <td>{{ player.getUser().getUsername() }}</td>
+                        <td>{{ player.getDriver().getTeam().getName() }}</td>
+                        <td><img class="f1-car-picture" src="/assets/cars/{{player.getDriver().getTeam().getPicture()}}"/></td>
+                        <td>{{ player.points }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

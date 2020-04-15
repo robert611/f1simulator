@@ -33,6 +33,8 @@ class UserSeasonRaceResults
      */
     private $player;
 
+    public $points;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,6 +72,26 @@ class UserSeasonRaceResults
     public function setPlayer(?UserSeasonPlayers $player): self
     {
         $this->player = $player;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of points
+     */ 
+    public function getPoints()
+    {
+        return $this->points;
+    }
+
+    /**
+     * Set the value of points
+     *
+     * @return  self
+     */ 
+    public function setPoints($points)
+    {
+        $this->points = $points;
 
         return $this;
     }

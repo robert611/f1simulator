@@ -42,10 +42,12 @@ class Team
 
     public $position;
 
+    public $players;
+
     public function __construct()
     {
-        $this->car_id = new ArrayCollection();
         $this->seasons = new ArrayCollection();
+        $this->players = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -90,6 +92,25 @@ class Team
         if (!$this->drivers->contains($driver)) {
             $this->drivers[] = $driver;
             $driver->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserSeasonPlayers[]
+     * There is no UserSeasonPlayers column in database
+     */
+    public function getPlayers(): Collection
+    {
+        return $this->players;
+    }
+
+    public function addPlayer(UserSeasonPlayers $player): self
+    {
+        $this->players ??= new ArrayCollection();
+        if (!$this->players->contains($player)) {
+            $this->players[] = $player;
         }
 
         return $this;

@@ -25,10 +25,10 @@ class UserSeasonRaces
     private $track;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\UserSeason", inversedBy="userSeasonRaces")
+     * @ORM\ManyToOne(targetEntity="App\Entity\UserSeason", inversedBy="races")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $userSeason;
+    private $season;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\UserSeasonRaceResults", mappedBy="race", orphanRemoval=true)
@@ -63,14 +63,14 @@ class UserSeasonRaces
         return $this;
     }
 
-    public function getUserSeason(): ?UserSeason
+    public function getSeason(): ?UserSeason
     {
-        return $this->userSeason;
+        return $this->season;
     }
 
-    public function setUserSeason(?UserSeason $userSeason): self
+    public function setSeason(?UserSeason $season): self
     {
-        $this->userSeason = $userSeason;
+        $this->season = $season;
 
         return $this;
     }

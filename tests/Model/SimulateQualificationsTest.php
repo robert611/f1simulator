@@ -3,8 +3,8 @@
 namespace App\Tests\Model;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Model\SimulateQualifications;
-use App\Model\TeamsStrength;
+use App\Model\GameSimulation\SimulateQualifications;
+use App\Model\Configuration\TeamsStrength;
 use App\Entity\Driver;
 use App\Entity\Team;
 

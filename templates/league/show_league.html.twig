@@ -1,0 +1,199 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }} 
+    <script src="{{ asset('assets/js/app/Dropdown.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid mt-5 mb-5">
+        <h3 class="text-justify text-center mb-5">{{ league.getName() }}</h3>
+        <div class="row">
+            <div class="col-xs-12 col-md-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Statystyki</h4>
+                    </div>
+                    <div class="card-body flow-text">
+                        <span>Kierowca: {{ player.getUser().username }} </span><br>
+                        <span>Zespół: {{ player.getDriver().getTeam().name }}</span><br>
+                        <span>Numer samochodu: {{ player.getDriver().getCarId() }}</span><br>
+                        <span>Rozegrane wyścigi: {{ league.getRaces()|length }} / {{ numberOfRacesInSeason }}</span><br>
+                        <span>Zdobyte punkty: {{ player.points }} </span><br>
+
+                        <hr>
+                        <div class="driver-medals mt-2">
+                            <div class="row">
+                                <div class="col gold-medal mb-1">
+                                    <i class="fas fa-medal fa-3x"></i><br>
+                                        <span>{{ player.podiums[1] }}</span>
+                                </div>
+                                <div class="col silver-medal mb-1">
+                                    <i class="fas fa-medal fa-3x"></i><br>
+                                        <span>{{ player.podiums[2] }}</span>
+                                </div>
+                                <div class="col bronze-medal mb-1">
+                                    <i class="fas fa-medal fa-3x"></i><br>
+                                    <span>{{ player.podiums[3] }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% if track.name is defined %}
+                    <div class="card mt-5 mb-2">
+                        <div class="card-header"> 
+                            <h4>Kolejny wyścig</h4> 
+                        </div>
+                        <div class="card-body flow-text text-center"> 
+                            <h4 class="display-inline">{{ track.name }}</h4>
+                            <img class="f1-track mt-3" src="{{ asset('assets/tracks/'~track.picture) }}"/> 
+                        </div> 
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-xs-12 col-md-9">
+                <div class="row">
+                    <div class="col-xs-12 col-md-8">
+                        <div class="middle-section-menu">
+                            <div>
+                                <a class="custom-dropdown" data-target="div-for-race-results-anchors">#Wyniki Wyścigów <i class="fas fa-arrow-down ml-1" data-destiny="races"></i></a>
+                                <div class="div-for-classification-results-anchors" id="div-for-race-results-anchors">
+                                    {% if league.getRaces()|length != 0 %}
+                                        {% for race in league.getRaces() %}
+                                            <a href="{{ path('multiplayer_show_season' , {'id' : league.getId(), 'classificationType' : 'race', 'race_id' : race.id}) }}">
+                                                {{ race.getTrack().getName() }}
+                                            </a>
+                                        {% endfor %}
+                                    {% else %}
+                                        <a>Żaden wyścig nie został jeszcze rozegrany</a>
+                                    {% endif %}
+                                </div>
+                            </div> 
+                            <div>
+                                <a class="custom-dropdown" data-target="div-for-qualifications-results-anchors">#Wyniki kwalifikacji <i class="fas fa-arrow-down ml-1" data-destiny="qualifications"></i></a>
+                                <div class="div-for-classification-results-anchors" id="div-for-qualifications-results-anchors">
+                                    {% if league.getRaces()|length != 0 %}
+                                        {% for race in league.getRaces() %}
+                                            <a href="{{ path('multiplayer_show_season' , {'id' : league.getId(), 'classificationType' : 'qualifications', 'race_id' : race.id}) }}">
+                                                {{ race.getTrack().getName() }}
+                                            </a>
+                                        {% endfor %}
+                                    {% else %}
+                                        <a>Żaden wyścig nie został jeszcze rozegrany</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div>
+                                <a href="{{ path('multiplayer_show_season' , {'id' : league.getId(), 'classificationType' : 'drivers'}) }}">#Klasyfikacja kierowców</a>
+                            </div>
+                        </div>
+                        <div class="midlle-section-dropdown-content">
+                           
+                            
+                        </div>
+                        <div class="card mt-3 mb-2">
+                            {% if classificationType == 'drivers' %}
+                                <div class="card-header">
+                                    <h4 class="text-center">Klasyfikacja kierowców</h4>
+                                </div>
+                                <div class="card-body">
+                                    {% include 'league_results/_drivers_classification.html.twig' %}
+                                </div>
+                            {% elseif classificationType == 'race' %}
+                                <div class="card-header">
+                                    <h4 class="text-center">Klasyfikacja {{ classification.getOwner().getTrack().getName() }}</h4>
+                                </div>
+                                <div class="card-body">
+                                    {% include 'league_results/_race_classification.html.twig' %}
+                                </div>
+                            {% else %}
+                                <div class="card-header">
+                                    <h4 class="text-center">Wyniki kwalifikacji - {{ classification.getOwner().getTrack().getName() }}</h4>
+                                </div>
+                                <div class="card-body">
+                                    {% include 'league_results/_qualifications_classification.html.twig' %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="row">
+                            {% if league.owner == player.getUser() %}
+                                <div class="col-xs-12 col-md-12 mb-5">
+                                    <div class="card flow-text">
+                                        <div class="card-header">
+                                            <h4 class="text-center">Zarządzanie {{ league.getName() }}</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Rozpocznij Sezon: </td>
+                                                            <td><a href="{{ path('league_start', {'id' : league.getId() }) }}"><button {{ league.started != false ? "class='btn btn-outline-secondary' disabled ": "class='btn btn-info'" }}>Rozpocznij</button></a></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Kolejny wyścig: </td>
+                                                            <td><span><a href="{{ path('league_simulate_race', {'id' : league.getId() }) }}"><button {{ league.started == false or track.name is not defined ? "class='btn btn-outline-secondary' disabled ": "class='btn btn-info'" }}>Symuluj</button></a></span></td>
+                                                        </tr>
+                                                        {% if track.name is not defined %}
+                                                            <tr>
+                                                                <td>Zakończ sezon: </td>
+                                                                <td>
+                                                                    {% if league.getCompleted == 0 %}
+                                                                        <span>
+                                                                            <a href="{{ path('league_end', {'id' : league.getId() }) }}"><button class="btn btn btn-warning">Zakończ</button>
+                                                                            </a>
+                                                                        </span>
+                                                                    {% else %}
+                                                                        <button class="btn btn-outline-secondary" disabled>Zakończony</button>
+                                                                    {% endif %}
+                                                                </td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                            {% endif %}
+                            <div class="col-xs-12 col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="text-center">Klasyfikacja konstruktorów</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Miejsce</th>
+                                                        <th>Zespół</th>
+                                                        <th>Bolid</th>
+                                                        <th>Punkty</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for team in teamsClassification %}
+                                                        <tr>
+                                                            <td>{{ team.position }}</td>
+                                                            <td>{{ team.name }}</td>
+                                                            <td><img class="f1-car-picture" src="{{ asset('/assets/cars/'~team.picture) }}" /></td>
+                                                            <td>{{ team.points }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

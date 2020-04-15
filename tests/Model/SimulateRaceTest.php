@@ -3,9 +3,10 @@
 namespace App\Tests\Model;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Model\SimulateQualifications;
-use App\Model\SimulateRace;
-use App\Model\TeamsStrength;
+use App\Model\GameSimulation\SimulateQualifications;
+use App\Model\GameSimulation\SimulateRace;
+use App\Model\Configuration\TeamsStrength;
+use App\Model\Configuration\QualificationAdvantage;
 use App\Entity\Driver;
 use App\Entity\Team;
 
@@ -56,7 +57,7 @@ class SimulateRaceTest extends KernelTestCase
         $expectedCoupons = 0;
 
         $teamsStrength = (new TeamsStrength)->getTeamsStrength();
-        $qualificationResultAdvantage = $this->simulateRace->getQualificationResultAdvantage();
+        $qualificationResultAdvantage = (new QualificationAdvantage)->getQualificationResultAdvantage();
 
         /* Calculate Strength Of Drivers */
         foreach ($this->qualificationsResults as $position => $driver) {
