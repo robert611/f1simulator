@@ -30,9 +30,8 @@ class GameController extends AbstractController
 
         $season = new Season();
 
-        $season->setTeam($team);
         $season->setUser($this->getUser());
-        $season->setCarId((new DrawDriverToReplace)->getDriverToReplace($team)->getCarId());
+        $season->setDriver((new DrawDriverToReplace)->getDriverToReplace($team));
         $season->setCompleted(0);
 
         $entityManager->persist($season);

@@ -25,8 +25,9 @@ class GameControllerTest extends WebTestCase
     {
         $this->logIn();
 
-        /* Team id is hard coded */
-        $this->client->request('POST', '/game/season/start', ['team' => 202]);
+        $teamId = self::$container->get('doctrine')->getRepository(Team::class)->findAll()[0]->getId();
+
+        $this->client->request('POST', '/game/season/start', ['team' => $teamId]);
 
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
     }

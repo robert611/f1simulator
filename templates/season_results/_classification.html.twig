@@ -1,0 +1,38 @@
+<div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Miejsce</th>
+                    <th>Kierowca</th>
+                    <th>Zespół</th>
+                    <th>Bolid</th>
+                    {% if classification[0].points != null %}
+                        <th>Punkty</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for driver in classification %}
+                    <tr class={{ season and season.driver == driver ? 'highlight-driver'}}>
+                        <td>{{ driver.position }}</td>
+
+                        {% if season and season.driver == driver %}
+                            <td>{{ season.user.username }}</td>
+                        {% else %}
+                            <td>{{ driver.name }} {{ driver.surname }}</td>
+                        {% endif %}
+
+                        <td>{{ driver.team.name }}</td>
+                        <td><img class="f1-car-picture" src="/assets/cars/{{driver.team.picture}}"/></td>
+                        
+                        {# If this is qualifications results #}
+                        {% if driver.points != null %}
+                            <td> {{ driver.points }} </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

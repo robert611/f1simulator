@@ -18,9 +18,8 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
         foreach ($seasons as $key => $seasonData) {
             $season = new Season();
 
-            $season->setTeam($this->getReference('team.' . $seasonData['team_id']));
             $season->setUser($this->getReference(UserFixtures::USER_REFERENCE));
-            $season->setCarId($seasonData['car_id']);
+            $season->setDriver($this->getReference('driver.' . $seasonData['driver_id']));
             $season->setCompleted($seasonData['completed']);
 
             $manager->persist($season);
@@ -42,8 +41,8 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
     public function getSeasons()
     {
         return [
-            ['team_id' => 1, 'user_id' => 1, 'car_id' => 2, 'completed' => 1],
-            ['team_id' => 4, 'user_id' => 2, 'car_id' => 8, 'completed' => 0],
+            ['user_id' => 1, 'driver_id' => 2, 'completed' => 1],
+            ['user_id' => 2, 'driver_id' => 8, 'completed' => 0],
         ];   
     }
 }

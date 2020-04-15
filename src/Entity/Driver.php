@@ -43,8 +43,6 @@ class Driver
 
     public $position;
 
-    public $isUser;
-
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Qualification", mappedBy="driver", orphanRemoval=true)
      */

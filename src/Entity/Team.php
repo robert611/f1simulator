@@ -33,11 +33,6 @@ class Team
      */
     public $drivers;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Season", mappedBy="team")
-     */
-    public $seasons;
-
     public $points;
 
     public $position;

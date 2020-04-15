@@ -29,7 +29,7 @@ class IndexController extends AbstractController
         $trackRepository = $this->getDoctrine()->getRepository(Track::class);
        
         if ($season) {
-            $driver = $this->getDoctrine()->getRepository(Driver::class)->findOneBy(['car_id' => $season->getCarId()]);
+            $driver = $season->getDriver();
            
             $season->setUserPoints((new DriverPoints())->getDriverPoints($driver, $season));
           

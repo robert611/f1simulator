@@ -30,8 +30,8 @@
                         </div>
                         <div class="card-body flow-text">
                             <span>Kierowca: {{ season.getUser().username }} </span><br>
-                            <span>Zespół: {{ season.getTeam().name }}</span><br>
-                            <span>Numer samochodu: {{ season.getCarId() }}</span><br>
+                            <span>Zespół: {{ season.getDriver().getTeam().name }}</span><br>
+                            <span>Numer samochodu: {{ season.getDriver().getCarId() }}</span><br>
                             <span>Rozegrane wyścigi: {{ season.getRaces()|length }} / {{ numberOfRacesInSeason }}</span><br>
                             <span>Zdobyte punkty: {{ season.getUserPoints() }} </span><br>
 
@@ -93,24 +93,18 @@
                                 <div class="card-header">
                                     <h4 class="text-center">Klasyfikacja kierowców</h4>
                                 </div>
-                                <div class="card-body">
-                                    {% include 'season_results/_drivers_classification.html.twig' %}
-                                </div>
                             {% elseif classificationType == 'race' %}
                                 <div class="card-header">
                                     <h4 class="text-center">Klasyfikacja {{ lastRace.getTrack().getName() }}</h4>
-                                </div>
-                                <div class="card-body">
-                                    {% include 'season_results/_last_race_results.html.twig' %}
                                 </div>
                             {% else %}
                                 <div class="card-header">
                                     <h4 class="text-center">Wyniki kwalifikacji - {{ lastRace.getTrack().getName() }}</h4>
                                 </div>
-                                <div class="card-body">
-                                    {% include 'season_results/_qualifications_results.html.twig' %}
-                                </div>
                             {% endif %}
+                            <div class="card-body">
+                                {% include 'season_results/_classification.html.twig' %}
+                            </div>
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-4">

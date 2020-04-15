@@ -38,9 +38,7 @@ class SeasonClassificationsTest extends KernelTestCase
         $classification = $this->seasonClassifications->getClassificationBasedOnType('race');
         
         $this->assertTrue(is_array($classification));
-        $this->assertTrue(is_object($classification[0]));
         $this->assertTrue($classification[0] instanceof Driver);
-        $this->assertTrue($classification[1]->isUser == true);
     }
     
     public function test_if_get_last_race_results_return_correct_results()

@@ -19,14 +19,10 @@ class Season
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Driver")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $driver;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="seasons")
-     */
-    private $team;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="seasons")
@@ -46,6 +42,7 @@ class Season
 
     private $userPoints;
 
+   
     public function __construct()
     {
         $this->races = new ArrayCollection();
@@ -54,30 +51,6 @@ class Season
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTeam(): ?team
-    {
-        return $this->team;
-    }
-
-    public function setTeam(?team $team): self
-    {
-        $this->team = $team;
-
-        return $this;
-    }
-
-    public function getCarId(): ?int
-    {
-        return $this->car_id;
-    }
-
-    public function setCarId(int $car_id): self
-    {
-        $this->car_id = $car_id;
-
-        return $this;
     }
 
     public function setUserPoints(int $points): self
@@ -166,6 +139,18 @@ class Season
                 $race->setSeason(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDriver(): ?Driver
+    {
+        return $this->driver;
+    }
+
+    public function setDriver(?Driver $driver): self
+    {
+        $this->driver = $driver;
 
         return $this;
     }

@@ -41,8 +41,6 @@ class SeasonClassifications
                 $classification = $this->getLastQualificationsResults(); /* It matches the default option in html */
         }
 
-        $classification = $this->setUserToDriver($classification);
-
         return $classification;
     }
 
@@ -86,19 +84,6 @@ class SeasonClassifications
         foreach ($lastQualification as $result) {
             $result->getDriver()->setPosition($result->getPosition());
             $results[] = $result->getDriver();
-        }
-
-        return $results;
-    }
-
-    public function setUserToDriver(array $results): array
-    {
-        foreach ($results as $driver) {
-            if ($driver->getCarId() == $this->season->getCarId()) {
-                $driver->setName($this->season->getUser()->getUsername());
-                $driver->setSurname('');
-                $driver->isUser = true;
-            }
         }
 
         return $results;
