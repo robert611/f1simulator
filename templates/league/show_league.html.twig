@@ -50,6 +50,16 @@
                             <img class="f1-track mt-3" src="{{ asset('assets/tracks/'~track.picture) }}"/> 
                         </div> 
                     </div>
+                {% else %}    
+                    <div class="card mt-5 mb-2">
+                        <div class="card-header"> 
+                            <h4>Poprzedni wyścig</h4> 
+                        </div>
+                        <div class="card-body flow-text text-center"> 
+                            <h4 class="display-inline">{{ league.getRaces().last().getTrack().name }}</h4>
+                            <img class="f1-track mt-3" src="{{ asset('assets/tracks/'~league.getRaces().last().getTrack().picture) }}"/> 
+                        </div> 
+                    </div>
                 {% endif %}
             </div>
             <div class="col-xs-12 col-md-9">

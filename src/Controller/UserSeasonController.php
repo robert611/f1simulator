@@ -98,6 +98,8 @@ class UserSeasonController extends AbstractController
 
         /* If there is no more races, false will be return */
         $track = $season->getRaces()->last() ? $trackRepository->find($season->getRaces()->last()->getTrack()->getId() + 1) : $trackRepository->findAll()[0];
+        
+        /* If there is no played races then drivers classification will be displayed */
         $season->getRaces()->last() ? null : $classificationType = 'drivers';
 
         $qualificationRepository = $this->getDoctrine()->getRepository(Qualification::class);

@@ -22,7 +22,7 @@ class UserFixtures extends Fixture
     {
         $users = $this->getUsers();
 
-        foreach ($users as $userData) {
+        foreach ($users as $key => $userData) {
             $user = new User();
 
             $user->setUsername($userData['username']);
@@ -33,7 +33,7 @@ class UserFixtures extends Fixture
             $manager->persist($user);
             $manager->flush();
 
-            $this->addReference(self::USER_REFERENCE, $user);
+            $this->addReference('user.' . ($key + 1), $user);
         }
     }
 
@@ -41,8 +41,8 @@ class UserFixtures extends Fixture
     {
         return [
             ['username' => 'Johny', 'roles' => ['ROLE_USER'], 'password' => 'password', 'email' => 'email@interia.pl'],
-            //['username' => 'Tomy', 'roles' => ['ROLE_USER'], 'password' => 'password', 'email' => 'email@wp.pl'],
-            //['username' => 'Vicky', 'roles' => ['ROLE_USER'], 'password' => 'password', 'email' => 'email@example.pl']
+            ['username' => 'Tomy', 'roles' => ['ROLE_USER'], 'password' => 'password', 'email' => 'email@wp.pl'],
+            ['username' => 'Vicky', 'roles' => ['ROLE_USER'], 'password' => 'password', 'email' => 'email@example.pl']
         ];
     }
 }

@@ -10,13 +10,15 @@ class SeasonClassifications
 {
     public $drivers;
     public object $driverPoints;
-    public $season;
+    public ?object $season;
+    public $raceId;
 
-    public function __construct($drivers, $season)
+    public function __construct($drivers, ?object $season, $raceId)
     {
         $this->drivers = $drivers;
         $this->driverPoints = new DriverPoints();
         $this->season = $season;
+        $this->raceId = $raceId;
     }
 
     public function getClassificationBasedOnType(string $type)
@@ -29,16 +31,16 @@ class SeasonClassifications
 
         switch ($type) {
             case 'race':
-                $classification = $this->getLastRaceResults();
+                $classification = $this->getRaceClassification();
                 break;  
             case 'drivers':
                 $classification = $this->getDriversClassification();
                 break;
             case 'qualifications':
-                $classification = $this->getLastQualificationsResults();
+                $classification = $this->getQualificationsClassification();
                 break;
             default: 
-                $classification = $this->getLastQualificationsResults(); /* It matches the default option in html */
+                $classification = $this->getQualificationsClassification(); /* It matches the default option in html */
         }
 
         return $classification;
@@ -55,38 +57,38 @@ class SeasonClassifications
         return $this->setDriversPositions($this->drivers);
     }
 
-    public function getLastRaceResults(): array
+    public function getRaceClassification(): array
     {
-        $lastRace = $this->season->getRaces()->last();
+        $race = $this->findRace($this->raceId);
 
-        /* In default drivers have no assign points got in current season in database, so it has to be done here */
+        /* In default drivers have no assign points in a database, so it has to be done here */
         foreach ($this->drivers as &$driver) {
-            if ($this->season) {
-                $points = $this->driverPoints->getDriverPointsByRace($driver, $lastRace);
-
-                $driver->setPoints($points);
-            } else {
-                $driver->setPoints(0);
-            }
+            $points = $this->driverPoints->getDriverPointsByRace($driver, $race);
+            $driver->setPoints($points);
         }
 
         return $this->setDriversPositions($this->drivers);
     }
 
-    public function getLastQualificationsResults(): array
+    public function getQualificationsClassification(): object
     {
-        $results = array();
+        $race = $this->findRace($this->raceId);
 
-        $lastRace = $this->season->getRaces()->last();
+        return $race->getQualifications();
+    }
 
-        $lastQualification = $lastRace->getQualifications();
+    private function findRace($id): object
+    {
+        $race = $this->season->getRaces()->filter(function($race) use ($id) {
+            return $race->getId() == $id;
+        })->first();
 
-        foreach ($lastQualification as $result) {
-            $result->getDriver()->setPosition($result->getPosition());
-            $results[] = $result->getDriver();
+        /* If user typed unproper race id, it matches the default name in twig */
+        if (!$race) {
+            $race = $this->season->getRaces()->first();
         }
 
-        return $results;
+        return $race;
     }
 
     public function setDriversPositions($drivers)

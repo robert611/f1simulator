@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use App\Model\Classification\SeasonClassifications;
 use App\Entity\Driver;
 use App\Entity\Season;
+use App\Entity\Qualification;
 use App\Model\Configuration\RacePunctation;
 
 class SeasonClassificationsTest extends KernelTestCase 
@@ -27,7 +28,7 @@ class SeasonClassificationsTest extends KernelTestCase
         $drivers = $this->entityManager->getRepository(Driver::class)->findAll();
         $season = $this->entityManager->getRepository(Season::class)->findOneBy(['completed' => 1]);
         
-        $this->seasonClassifications = new SeasonClassifications($drivers, $season);
+        $this->seasonClassifications = new SeasonClassifications($drivers, $season, $season->getRaces()->first()->getId());
     }
 
     /**
@@ -35,15 +36,15 @@ class SeasonClassificationsTest extends KernelTestCase
      */
     public function test_if_get_classification_based_on_type_returns_correct_classification($type)
     {
-        $classification = $this->seasonClassifications->getClassificationBasedOnType('race');
+        $classification = $this->seasonClassifications->getClassificationBasedOnType($type);
         
-        $this->assertTrue(is_array($classification));
-        $this->assertTrue($classification[0] instanceof Driver);
+        $this->assertTrue(is_array($classification) || is_object($classification));
+        $this->assertTrue($classification[0] instanceof Driver || $classification[0] instanceof Qualification);
     }
     
-    public function test_if_get_last_race_results_return_correct_results()
+    public function test_if_get_race_classification_returns_correct_results()
     {
-        $classification = $this->seasonClassifications->getLastRaceResults();
+        $classification = $this->seasonClassifications->getRaceClassification();
         $punctation = (new RacePunctation)->getPunctation();
 
         foreach ($classification as $result) {
@@ -52,12 +53,13 @@ class SeasonClassificationsTest extends KernelTestCase
         }
     }
 
-    public function test_if_get_last_qualifications_results_return_correct_results()
+    public function test_if_get_qualifications_classification_returns_correct_results()
     {
-        $classification = $this->seasonClassifications->getLastQualificationsResults();
+        $classification = $this->seasonClassifications->getQualificationsClassification();
       
         foreach ($classification as $result) {
             $this->assertTrue(in_array($result->getPosition(), range(1, 20)));
+            $this->assertTrue($result instanceof Qualification);
         }
     }
 

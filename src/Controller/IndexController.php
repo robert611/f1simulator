@@ -7,20 +7,20 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Season;
 use App\Entity\Track;
 use App\Entity\Team;
-use App\Entity\Qualification;
 use App\Entity\Driver;
-use App\Entity\RaceResults;
+use App\Entity\Race;
 use App\Model\DriverStatistics\DriverPoints;
 use App\Model\DriverStatistics\DriverPodiums;
 use App\Model\Classification\SeasonClassifications;
 use App\Model\Classification\SeasonTeamsClassification;
+use Symfony\Component\HttpFoundation\Request;
 
 class IndexController extends AbstractController
 {
     /**
      * @Route("/home/{classificationType}", name="app_index")
      */
-    public function index($classificationType = 'race')
+    public function index($classificationType = 'drivers', Request $request)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -34,9 +34,7 @@ class IndexController extends AbstractController
             $season->setUserPoints((new DriverPoints())->getDriverPoints($driver, $season));
           
             $track = $season->getRaces()->last() ? $trackRepository->find($season->getRaces()->last()->getTrack()->getId() + 1) : $trackRepository->findAll()[0];
-            $lastRace = $season->getRaces()->last();
-
-            $lastRace ? $lastRace : $classificationType  = 'drivers';
+            $season->getRaces()->last() ? null : $classificationType  = 'drivers';
 
             $driverPodiums = (new DriverPodiums())->getDriverPodiums($driver, $season);
         } else {
@@ -47,18 +45,19 @@ class IndexController extends AbstractController
 
         /* Get classification ['Last Race', 'Qualifications' , 'General Drivers Classification'] */
         $drivers = $this->getDoctrine()->getRepository(Driver::class)->findAll();
-        $qualificationRepository = $this->getDoctrine()->getRepository(Qualification::class);
      
-        $classification = (new SeasonClassifications($drivers, $season, $qualificationRepository))->getClassificationBasedOnType($classificationType);
+        $classification = (new SeasonClassifications($drivers, $season, $request->query->get('race_id')))->getClassificationBasedOnType($classificationType);
         
-        /* Teams Classification/Ranking */
+        $raceName = $request->query->has('race_id') ? $this->getDoctrine()->getRepository(Race::class)->find($request->query->get('race_id'))->getTrack()->getName() : null;
+
+        /* Teams Classification|Ranking */
         $teams = $this->getDoctrine()->getRepository(Team::class)->findAll();
         $teamsClassification = (new SeasonTeamsClassification)->getClassification($teams, $season);
 
         return $this->render('index.html.twig', [
             'season' => $season,
             'track' => isset($track) ? $track : null,
-            'lastRace' => isset($lastRace) ? $lastRace : null,
+            'raceName' => $raceName,
             'classification' => $classification,
             'driverPodiums' => isset($driverPodiums) ? $driverPodiums : null,
             'classificationType' => $classificationType,

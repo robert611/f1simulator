@@ -7,9 +7,7 @@
                     <th>Kierowca</th>
                     <th>Zespół</th>
                     <th>Bolid</th>
-                    {% if classification[0].points != null %}
-                        <th>Punkty</th>
-                    {% endif %}
+                    <th>Punkty</th>
                 </tr>
             </thead>
             <tbody>
@@ -22,14 +20,10 @@
                         {% else %}
                             <td>{{ driver.name }} {{ driver.surname }}</td>
                         {% endif %}
-
+                        
                         <td>{{ driver.team.name }}</td>
                         <td><img class="f1-car-picture" src="/assets/cars/{{driver.team.picture}}"/></td>
-                        
-                        {# If this is qualifications results #}
-                        {% if driver.points != null %}
-                            <td> {{ driver.points }} </td>
-                        {% endif %}
+                        <td> {{ driver.points }} </td>
                     </tr>
                 {% endfor %}
             </tbody>

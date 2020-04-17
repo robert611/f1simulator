@@ -18,7 +18,7 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
         foreach ($seasons as $key => $seasonData) {
             $season = new Season();
 
-            $season->setUser($this->getReference(UserFixtures::USER_REFERENCE));
+            $season->setUser($this->getReference('user.' .$seasonData['user_id']));
             $season->setDriver($this->getReference('driver.' . $seasonData['driver_id']));
             $season->setCompleted($seasonData['completed']);
 

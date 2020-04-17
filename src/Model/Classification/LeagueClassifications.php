@@ -37,18 +37,16 @@ class LeagueClassifications
                 $classification = $this->getQualificationsClassification(); /* It matches the default option in html */
         }
 
-        //$classification = $this->setUserToDriver($classification);
-
         return $classification;
     }
 
-    private function getRaceClassification()
+    private function getRaceClassification(): object
     {
         $leaguePlayerPoints = $this->leaguePlayerPoints;
 
         $race = $this->findRace($this->raceId);
 
-        /* Set points to raceRsresults */
+        /* Set points to raceResults */
         $race->getRaceResults()->map(function($result) use ($leaguePlayerPoints) {
             $points = $leaguePlayerPoints->getPlayerPointsByRace($result);
             $result->setPoints($points);
@@ -75,7 +73,7 @@ class LeagueClassifications
         return $race->getQualifications();
     }
 
-    private function findRace($id)
+    private function findRace(int $id): object
     {
         $raceId = $this->raceId;
 
@@ -84,28 +82,6 @@ class LeagueClassifications
         })->first();
 
         return $race;
-    }
-
-    private function getSeasonPlayersDrivers(object $players)
-    {   
-        $players = $this->setUserToDriverInLeague($players);
-
-        $drivers = array();
-
-        foreach ($players as $player) {
-            $drivers[] = $player->getDriver();
-        }
-        return $drivers;
-    }
-
-    private function setUserToDriver($players)
-    {
-        $players->map(function($player) {
-            $player->getDriver()->setName($player->getUser()->getUsername());
-            $player->getDriver()->setSurname('');
-        });
-
-        return $players;
     }
 
     private function setPlayersPositions($drivers): array

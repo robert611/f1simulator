@@ -3,6 +3,7 @@
 {% block javascripts %}
     {{ parent() }} 
     <script src="{{ asset('assets/js/React/Teams.js') }}" type="text/babel"></script>
+    <script src="{{ asset('assets/js/app/Dropdown.js') }}"></script>
 {% endblock %}
 
 {% block body %}
@@ -79,10 +80,32 @@
                     <div class="col-xs-12 col-md-8">
                         <div class="middle-section-menu mb-3">
                             <div class="">
-                                <a href="/home/race">#Wyniki Wyścigu</a>
+                                <a class="custom-dropdown" data-target="div-for-race-results-anchors">#Wyniki Wyścigów <i class="fas fa-arrow-down ml-1" data-destiny="races"></i></a>
+                                <div class="div-for-classification-results-anchors" id="div-for-race-results-anchors">
+                                    {% if season and season.getRaces()|length != 0 %}
+                                        {% for race in season.getRaces() %}
+                                            <a href="{{ path('app_index' , {'classificationType' : 'race', 'race_id' : race.id}) }}">
+                                                {{ race.getTrack().getName() }}
+                                            </a>
+                                        {% endfor %}
+                                    {% else %}
+                                        <a>Żaden wyścig nie został jeszcze rozegrany</a>
+                                    {% endif %}
+                                </div>
                             </div>
                             <div>
-                                <a href="/home/qualifications">#Wyniki kwalifikacji</a>
+                                <a class="custom-dropdown" data-target="div-for-qualifications-results-anchors">#Wyniki kwalifikacji <i class="fas fa-arrow-down ml-1" data-destiny="qualifications"></i></a>
+                                <div class="div-for-classification-results-anchors" id="div-for-qualifications-results-anchors">
+                                    {% if season and season.getRaces()|length != 0 %}
+                                        {% for race in season.getRaces() %}
+                                            <a href="{{ path('app_index' , {'classificationType' : 'qualifications', 'race_id' : race.id}) }}">
+                                                {{ race.getTrack().getName() }}
+                                            </a>
+                                        {% endfor %}
+                                    {% else %}
+                                        <a>Żaden wyścig nie został jeszcze rozegrany</a>
+                                    {% endif %}
+                                </div>
                             </div>
                             <div>
                                 <a href="/home/drivers">#Klasyfikacja kierowców</a>
@@ -93,18 +116,24 @@
                                 <div class="card-header">
                                     <h4 class="text-center">Klasyfikacja kierowców</h4>
                                 </div>
+                                <div class="card-body">
+                                    {% include 'season_results/_classification.html.twig' %}
+                                </div>
                             {% elseif classificationType == 'race' %}
                                 <div class="card-header">
-                                    <h4 class="text-center">Klasyfikacja {{ lastRace.getTrack().getName() }}</h4>
+                                    <h4 class="text-center">Klasyfikacja - {{ raceName ? raceName : season.races[0].track.name }}</h4>
+                                </div>
+                                <div class="card-body">
+                                    {% include 'season_results/_classification.html.twig' %}
                                 </div>
                             {% else %}
                                 <div class="card-header">
-                                    <h4 class="text-center">Wyniki kwalifikacji - {{ lastRace.getTrack().getName() }}</h4>
+                                    <h4 class="text-center">Wyniki kwalifikacji - {{ raceName ? raceName : season.races[0].track.name }} </h4>
+                                </div>
+                                <div class="card-body">
+                                    {% include 'season_results/_qualifications_classification.html.twig' %}
                                 </div>
                             {% endif %}
-                            <div class="card-body">
-                                {% include 'season_results/_classification.html.twig' %}
-                            </div>
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-4">

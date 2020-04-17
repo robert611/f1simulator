@@ -1,0 +1,30 @@
+<div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Miejsce</th>
+                    <th>Kierowca</th>
+                    <th>Zespół</th>
+                    <th>Bolid</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in classification %}
+                    <tr class={{ result.driver == season.driver ? 'highlight-driver'}}>
+                        <td>{{ result.position }}</td>
+                        {% if result.driver == season.driver %}
+                            <td>{{ season.user.username }}</td>
+                        {% else %}
+                            <td>{{ result.driver.name }} {{ result.driver.surname }}</td>
+                        {% endif %}
+                        <td>{{ result.driver.team.name }}</td>
+                        <td>
+                            <img class="f1-car-picture" src="/assets/cars/{{result.driver.team.picture}}"/>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
