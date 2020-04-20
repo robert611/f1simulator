@@ -1,2 +1,6 @@
+http://{default}/:
+    type: redirect
+    to: http://www.{default}/home
+
 "https://{all}/": { type: upstream, upstream: "app:http" }
 "http://{all}/": { type: redirect, to: "https://{all}/" }
