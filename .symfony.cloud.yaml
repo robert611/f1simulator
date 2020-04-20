@@ -1,6 +1,6 @@
 name: app
 
-type: php:7.4
+type: php:7.4.2
 
 runtime:
     extensions:
@@ -36,6 +36,6 @@ hooks:
         set -x -e
 
         (>&2 symfony-deploy)
-        
+
 relationships:
     database: "mydatabase:mysql"
