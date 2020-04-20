@@ -86,7 +86,7 @@ class UserSeasonController extends AbstractController
     /**
      * @Route("/{id}/show/{classificationType}", name="multiplayer_show_season")
      */
-    public function showSeason(UserSeason $season, $classificationType = 'drivers', Request $request)
+    public function showSeason(UserSeason $season, $classificationType = 'players', Request $request)
     {
         $this->denyAccessUnlessGranted('league_show_season', $season);
 
@@ -103,7 +103,7 @@ class UserSeasonController extends AbstractController
         $season->getRaces()->last() ? null : $classificationType = 'drivers';
 
         $qualificationRepository = $this->getDoctrine()->getRepository(Qualification::class);
-        $classification = (new LeagueClassifications($season->getPlayers(), $season, $request->query->get('race_id')))->getClassificationBasedOnType($classificationType);
+        $classification = (new LeagueClassifications($season, $request->query->get('race_id')))->getClassificationBasedOnType($classificationType);
 
         $teamsClassification = (new LeagueTeamsClassification)->getClassification($season->getPlayers(), $season);
         

@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Tests\Model;
+namespace App\Tests\Model\Classification;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use App\Model\Classification\SeasonClassifications;
@@ -44,7 +44,7 @@ class SeasonClassificationsTest extends KernelTestCase
     
     public function test_if_get_race_classification_returns_correct_results()
     {
-        $classification = $this->seasonClassifications->getRaceClassification();
+        $classification = $this->seasonClassifications->getClassificationBasedOnType('race');
         $punctation = (new RacePunctation)->getPunctation();
 
         foreach ($classification as $result) {
@@ -55,7 +55,7 @@ class SeasonClassificationsTest extends KernelTestCase
 
     public function test_if_get_qualifications_classification_returns_correct_results()
     {
-        $classification = $this->seasonClassifications->getQualificationsClassification();
+        $classification = $this->seasonClassifications->getClassificationBasedOnType('qualifications');
       
         foreach ($classification as $result) {
             $this->assertTrue(in_array($result->getPosition(), range(1, 20)));
@@ -65,7 +65,7 @@ class SeasonClassificationsTest extends KernelTestCase
 
     public function test_if_get_drivers_classification_return_correct_results()
     {
-        $classification = $this->seasonClassifications->getDriversClassification();
+        $classification = $this->seasonClassifications->getClassificationBasedOnType('drivers');
         $punctation = (new RacePunctation)->getPunctation();
 
         foreach ($classification as $result) {

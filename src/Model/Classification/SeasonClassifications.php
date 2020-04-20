@@ -46,7 +46,7 @@ class SeasonClassifications
         return $classification;
     }
 
-    public function getDriversClassification()
+    private function getDriversClassification()
     {
         /* In default drivers have no assign points got in current season in database, so it has to be done here */
         foreach ($this->drivers as &$driver) {
@@ -57,7 +57,7 @@ class SeasonClassifications
         return $this->setDriversPositions($this->drivers);
     }
 
-    public function getRaceClassification(): array
+    private function getRaceClassification(): array
     {
         $race = $this->findRace($this->raceId);
 
@@ -70,7 +70,7 @@ class SeasonClassifications
         return $this->setDriversPositions($this->drivers);
     }
 
-    public function getQualificationsClassification(): object
+    private function getQualificationsClassification(): object
     {
         $race = $this->findRace($this->raceId);
 
@@ -91,7 +91,7 @@ class SeasonClassifications
         return $race;
     }
 
-    public function setDriversPositions($drivers)
+    private function setDriversPositions($drivers)
     {
         /* Sort drivers according to possesd points */
         usort ($drivers, function($a, $b) {

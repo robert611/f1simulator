@@ -6,17 +6,15 @@ use App\Model\DriverStatistics\LeaguePlayerPoints;
 
 class LeagueClassifications 
 {
-    public object $players;
     public object $league;
     public object $leaguePlayerPoints;
     public ?int $raceId;
 
-    public function __construct(object $players, object $league, ?int $raceId)
+    public function __construct(object $league, ?int $raceId)
     {
-        $this->players = $players;
         $this->league = $league;
-        $this->leaguePlayerPoints = new LeaguePlayerPoints();
         $this->raceId = $raceId;
+        $this->leaguePlayerPoints = new LeaguePlayerPoints();
     }
 
     public function getClassificationBasedOnType(string $type)
@@ -28,7 +26,7 @@ class LeagueClassifications
                 $classification = $this->getRaceClassification();
                 break;  
             case 'drivers':
-                $classification = $this->getDriversClassification();
+                $classification = $this->getPlayersClassification();
                 break;
             case 'qualifications':
                 $classification = $this->getQualificationsClassification();
@@ -55,15 +53,17 @@ class LeagueClassifications
         return $race->getRaceResults();
     }
 
-    private function getDriversClassification(): array
+    private function getPlayersClassification(): array
     {
+        $players = $this->league->getPlayers();
+
         /* In default drivers have no assign points got in current season in database, so it has to be done here */
-        foreach ($this->players as $player) {
+        foreach ($players as $player) {
             $points = $this->leaguePlayerPoints->getPlayerPoints($player);
             $player->setPoints($points);
         }
 
-        return $this->setPlayersPositions([...$this->players]);
+        return $this->setPlayersPositions([...$players]);
     }
 
     private function getQualificationsClassification()

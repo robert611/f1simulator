@@ -95,7 +95,7 @@
                                 </div>
                             </div>
                             <div>
-                                <a href="{{ path('multiplayer_show_season' , {'id' : league.getId(), 'classificationType' : 'drivers'}) }}">#Klasyfikacja kierowców</a>
+                                <a href="{{ path('multiplayer_show_season' , {'id' : league.getId(), 'classificationType' : 'players'}) }}">#Klasyfikacja kierowców</a>
                             </div>
                         </div>
                         <div class="midlle-section-dropdown-content">
@@ -103,12 +103,12 @@
                             
                         </div>
                         <div class="card mt-3 mb-2">
-                            {% if classificationType == 'drivers' %}
+                            {% if classificationType == 'players' %}
                                 <div class="card-header">
                                     <h4 class="text-center">Klasyfikacja kierowców</h4>
                                 </div>
                                 <div class="card-body">
-                                    {% include 'league_results/_drivers_classification.html.twig' %}
+                                    {% include 'league_results/_players_classification.html.twig' %}
                                 </div>
                             {% elseif classificationType == 'race' %}
                                 <div class="card-header">
