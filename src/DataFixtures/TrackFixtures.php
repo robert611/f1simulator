@@ -12,11 +12,11 @@ class TrackFixtures extends Fixture
     {
         $tracks = $this->getTracks();
 
-        foreach ($tracks as $key => $trackData) {
+        foreach ($tracks as $key => $data) {
             $track = new Track();
 
-            $track->setName($trackData['name']);
-            $track->setPicture($trackData['picture']);
+            $track->setName($data['name']);
+            $track->setPicture($data['picture']);
 
             $manager->persist($track);
             $manager->flush();

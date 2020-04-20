@@ -12,11 +12,11 @@ class TeamFixtures extends Fixture
     {
         $teams = $this->getTeams();
 
-        foreach ($teams as $key => $teamData) {
+        foreach ($teams as $key => $data) {
             $team = new Team();
 
-            $team->setName($teamData['name']);
-            $team->setPicture($teamData['picture']);
+            $team->setName($data['name']);
+            $team->setPicture($data['picture']);
             
             $manager->persist($team);
             $manager->flush();

@@ -18,13 +18,13 @@ class DriverFixtures extends Fixture implements DependentFixtureInterface
         $teamRepository = $manager
             ->getRepository(Team::class);
 
-        foreach ($drivers as $key => $driverData) {
+        foreach ($drivers as $key => $data) {
             $driver = new Driver();
 
-            $driver->setTeam($this->getReference('team.' . $driverData['team_id']));
-            $driver->setName($driverData['name']);
-            $driver->setSurname($driverData['surname']);
-            $driver->setCarId($driverData['car_id']);
+            $driver->setTeam($this->getReference('team.' . $data['team_id']));
+            $driver->setName($data['name']);
+            $driver->setSurname($data['surname']);
+            $driver->setCarId($data['car_id']);
            
             $manager->persist($driver);
             $manager->flush();

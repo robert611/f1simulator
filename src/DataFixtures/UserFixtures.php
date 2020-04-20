@@ -22,13 +22,13 @@ class UserFixtures extends Fixture
     {
         $users = $this->getUsers();
 
-        foreach ($users as $key => $userData) {
+        foreach ($users as $key => $data) {
             $user = new User();
 
-            $user->setUsername($userData['username']);
-            $user->setRoles($userData['roles']);
-            $user->setPassword($this->encoder->encodePassword($user, $userData['password']));
-            $user->setEmail($userData['email']);
+            $user->setUsername($data['username']);
+            $user->setRoles($data['roles']);
+            $user->setPassword($this->encoder->encodePassword($user, $data['password']));
+            $user->setEmail($data['email']);
 
             $manager->persist($user);
             $manager->flush();
@@ -42,7 +42,9 @@ class UserFixtures extends Fixture
         return [
             ['username' => 'Johny', 'roles' => ['ROLE_USER'], 'password' => 'password', 'email' => 'email@interia.pl'],
             ['username' => 'Tomy', 'roles' => ['ROLE_USER'], 'password' => 'password', 'email' => 'email@wp.pl'],
-            ['username' => 'Vicky', 'roles' => ['ROLE_USER'], 'password' => 'password', 'email' => 'email@example.pl']
+            ['username' => 'Vicky', 'roles' => ['ROLE_USER'], 'password' => 'password', 'email' => 'email@example.pl'],
+            ['username' => 'Julia', 'roles' => ['ROLE_USER'], 'password' => 'password', 'email' => 'testemail@example.pl'],
+            ['username' => 'Michael', 'roles' => ['ROLE_USER'], 'password' => 'password', 'email' => 'testbox@example.pl']
         ];
     }
 }
