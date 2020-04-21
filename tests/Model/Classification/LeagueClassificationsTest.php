@@ -51,7 +51,7 @@ class LeagueClassificationsTest extends KernelTestCase
 
     public function test_if_can_get_players_classification()
     {
-        $classification = $this->leagueClassifications->getClassificationBasedOnType('drivers');
+        $classification = $this->leagueClassifications->getClassificationBasedOnType('players');
         
         $this->assertTrue($classification[0] instanceof UserSeasonPlayers);
         $this->assertTrue($classification[0]->points > 0);
@@ -65,11 +65,11 @@ class LeagueClassificationsTest extends KernelTestCase
         $this->assertTrue($classification[0] instanceof UserSeasonQualifications);
     }
 
-    public function provideClassificationTypes()
+    private function provideClassificationTypes()
     {
         return [
             ['race'],
-            ['drivers'],
+            ['players'],
             ['qualifications'],
             ['notExistingOne']
         ];
