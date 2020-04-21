@@ -42,7 +42,7 @@ class TeamPointsTest extends KernelTestCase
         }
     }
 
-    public function getExpectedPoints($team)
+    private function getExpectedPoints($team)
     {
         $racePunctation = (new RacePunctation())->getPunctation();
         $drivers = $team->getDrivers();
