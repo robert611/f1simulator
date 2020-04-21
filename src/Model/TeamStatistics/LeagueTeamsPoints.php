@@ -4,9 +4,9 @@ namespace App\Model\TeamStatistics;
 
 use App\Model\DriverStatistics\LeaguePlayerPoints;
 
-class LeagueTeamPoints 
+class LeagueTeamsPoints 
 {
-    public function getTeamPoints(object $teams)
+    public function getTeamsPoints(object $teams)
     {
         $teams->map(function($team) {
             $points = 0;
