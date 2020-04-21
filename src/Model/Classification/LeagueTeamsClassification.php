@@ -2,19 +2,19 @@
 
 namespace App\Model\Classification;
 
-use App\Model\TeamStatistics\LeagueTeamPoints;
+use App\Model\TeamStatistics\LeagueTeamsPoints;
 
 class LeagueTeamsClassification 
 {
     public function getClassification(object $players)
     {
         $drivers = $this->getDrivers($players); /* Drivers who are replaced by players */
-        $teams = $this->getTeams($drivers); /* Get all teams involved in leagu from which players are given */
+        $teams = $this->getTeams($drivers); /* Get all teams involved in league from which players are given */
         
-        $teamPoints = new LeagueTeamPoints();
+        $teamsPoints = new LeagueTeamsPoints();
 
         /* This function takes teams, and return teams with set points */
-        $teams = $teamPoints->getTeamPoints($this->getTeamsWithPlayers($teams, $players));
+        $teams = $teamsPoints->getTeamsPoints($this->getTeamsWithPlayers($teams, $players));
         
         /* Change Array Collection to array so it can be sort */
         $teams = [...$teams->getValues()];
@@ -27,7 +27,7 @@ class LeagueTeamsClassification
         return $teams;
     }
 
-    public function getTeamsWithPlayers(object $teams, object $players): object
+    private function getTeamsWithPlayers(object $teams, object $players): object
     {
         /* In this way, every team from given league will have assigned its players to its object, and it will be easier to get points in LeagueTeamPoints model */
         $teams->map(function($team) use ($players) {
@@ -40,7 +40,7 @@ class LeagueTeamsClassification
         return $teams;
     }
 
-    public function getTeams(object $drivers): object
+    private function getTeams(object $drivers): object
     {
         $uniqueTeams = array();
 
@@ -61,7 +61,7 @@ class LeagueTeamsClassification
         return $teams;
     }
 
-    public function getDrivers(object $players): object
+    private function getDrivers(object $players): object
     {
         $drivers = $players->map(function($player) {
             return $player->getDriver();
