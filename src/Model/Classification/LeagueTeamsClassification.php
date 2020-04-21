@@ -24,10 +24,6 @@ class LeagueTeamsClassification
             return $a->getPoints() < $b->getPoints();
         });
         
-        foreach($teams as $key => &$team) {
-            $team->setPosition($key + 1);
-        }
-
         return $teams;
     }
 

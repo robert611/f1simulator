@@ -186,9 +186,9 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {% for team in teamsClassification %}
+                                                    {% for i, team in teamsClassification %}
                                                         <tr>
-                                                            <td>{{ team.position }}</td>
+                                                            <td>{{ i + 1 }}</td>
                                                             <td>{{ team.name }}</td>
                                                             <td><img class="f1-car-picture" src="{{ asset('/assets/cars/'~team.picture) }}" /></td>
                                                             <td>{{ team.points }}</td>
