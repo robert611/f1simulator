@@ -72,10 +72,10 @@ class UserSeasonController extends AbstractController
         $userLeagues = $leagueRepository->findBy(['owner' => $this->getUser()]);
         $leagues = array();
 
-        foreach ($this->getUser()->getUserSeasonPlayers() as $season) {
-            $leagues[] = $season->getSeason();
+        foreach ($this->getUser()->getUserSeasonPlayers() as $player) {
+            $leagues[] = $player->getSeason();
         }
-
+        
         return $this->render('league/index.html.twig', [
             'form' => $form->createView(),
             'userLeagues' => $userLeagues,
