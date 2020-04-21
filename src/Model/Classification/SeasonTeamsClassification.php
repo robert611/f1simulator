@@ -6,23 +6,28 @@ use App\Model\TeamStatistics\TeamPoints;
 
 class SeasonTeamsClassification 
 {
-    public function getClassification(array $teams, $season): array
+    public function getClassification(array $teams, ?object $season): array
     {
-        /* In default teams have no assign points got in current season in database, so it has to be done here */
+        $this->assaignTeamsPoints($teams, $season);
+        $this->sortTeamsAccordingToPoints($teams);
+
+        return $teams;
+    }
+
+    private function assaignTeamsPoints(&$teams, $season)
+    {
+        /* Teams points are not assaign in database */
+        /* If user did not start season, then every team has 0 points by default */
         foreach($teams as $team) {
             $points = $season ? (new TeamPoints())->getTeamPoints($team, $season) : 0;
             $team->setPoints($points);
         }
+    }
 
-        /* Sort Teams according to it's got points */
+    private function sortTeamsAccordingToPoints(&$teams)
+    {
         usort($teams, function($a, $b) {
             return $a->getPoints() < $b->getPoints();
         });
-        
-        foreach($teams as $key => &$team) {
-            $team->setPosition($key + 1);
-        }
-
-        return $teams;
     }
 }
