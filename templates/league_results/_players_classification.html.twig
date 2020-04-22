@@ -11,9 +11,9 @@
                 </tr>
             </thead>
             <tbody>
-                {% for player in classification %}
+                {% for i, player in classification %}
                     <tr>
-                        <td>{{ player.position }}</td>
+                        <td>{{ i + 1 }}</td>
                         <td>{{ player.getUser().getUsername() }}</td>
                         <td>{{ player.getDriver().getTeam().getName() }}</td>
                         <td><img class="f1-car-picture" src="/assets/cars/{{player.getDriver().getTeam().getPicture()}}"/></td>

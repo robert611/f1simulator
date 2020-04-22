@@ -40,13 +40,11 @@ class LeagueClassifications
 
     private function getRaceClassification(): object
     {
-        $leaguePlayerPoints = $this->leaguePlayerPoints;
-
         $race = $this->findRace($this->raceId);
 
         /* Set points to raceResults */
-        $race->getRaceResults()->map(function($result) use ($leaguePlayerPoints) {
-            $points = $leaguePlayerPoints->getPlayerPointsByRace($result);
+        $race->getRaceResults()->map(function($result) {
+            $points = $this->leaguePlayerPoints->getPlayerPointsByResult($result);
             $result->setPoints($points);
         });
 
@@ -58,12 +56,19 @@ class LeagueClassifications
         $players = $this->league->getPlayers();
 
         /* In default drivers have no assign points got in current season in database, so it has to be done here */
-        foreach ($players as $player) {
+        $players->map(function($player) {
             $points = $this->leaguePlayerPoints->getPlayerPoints($player);
             $player->setPoints($points);
-        }
+        });
 
-        return $this->setPlayersPositions([...$players]);
+        $players = [...$players];
+
+        /* Sort drivers according to possesd points */
+        usort ($players, function($a, $b) {
+            return $a->getPoints() < $b->getPoints();
+        });
+
+        return $players;
     }
 
     private function getQualificationsClassification()
@@ -84,19 +89,5 @@ class LeagueClassifications
         $race ? $race : $race = $this->league->getRaces()->first();
 
         return $race;
-    }
-
-    private function setPlayersPositions($drivers): array
-    {
-        /* Sort drivers according to possesd points */
-        usort ($drivers, function($a, $b) {
-            return $a->getPoints() < $b->getPoints();
-        });
-
-        foreach ($drivers as $key => &$driver) {
-            $driver->setPosition($key + 1);
-        }
-
-        return $drivers;
     }
 }
