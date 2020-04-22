@@ -65,7 +65,7 @@ class LeagueClassificationsTest extends KernelTestCase
         $this->assertTrue($classification[0] instanceof UserSeasonQualifications);
     }
 
-    private function provideClassificationTypes()
+    public function provideClassificationTypes()
     {
         return [
             ['race'],
