@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Tests\Model;
+namespace App\Tests\Model\GameSimulation;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use App\Model\GameSimulation\SimulateQualifications;

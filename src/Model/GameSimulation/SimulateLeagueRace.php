@@ -24,6 +24,7 @@ class SimulateLeagueRace
 
     private function setQualificationsResultsToPlayers($qualificationsResults, $players): array
     {
+        /* So now result holds a driver object, it will be change to player who is represented by given driver */
         foreach ($qualificationsResults as $key => $result) {
             $player = $players->filter(function($player) use ($result) {
                 return $player->getDriver() == $result;
