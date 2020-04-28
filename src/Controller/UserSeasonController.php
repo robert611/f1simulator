@@ -105,7 +105,7 @@ class UserSeasonController extends AbstractController
         $qualificationRepository = $this->getDoctrine()->getRepository(Qualification::class);
         $classification = (new LeagueClassifications($season, $request->query->get('race_id')))->getClassificationBasedOnType($classificationType);
 
-        $teamsClassification = (new LeagueTeamsClassification)->getClassification($season->getPlayers(), $season);
+        $teamsClassification = (new LeagueTeamsClassification)->getClassification($season);
         
         return $this->render('league/show_league.html.twig', [
             'league' => $season,

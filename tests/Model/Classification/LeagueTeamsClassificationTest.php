@@ -28,7 +28,7 @@ class LeagueTeamsClassificationTest extends KernelTestCase
     {
         $league = $this->entityManager->getRepository(UserSeason::class)->findOneBy(['completed' => 1]);
       
-        $classification = $this->leagueTeamsClassification->getClassification($league->getPlayers());
+        $classification = $this->leagueTeamsClassification->getClassification($league);
 
         foreach ($classification as $key => $team) {
             $this->assertTrue($team instanceof Team);
