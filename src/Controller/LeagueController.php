@@ -102,7 +102,7 @@ class LeagueController extends AbstractController
 
         [$qualificationsResults, $raceResults] = (new SimulateLeagueRace)->getRaceResults($season->getPlayers());
 
-        /* Save qualifications results in database */
+        /* Save qualifications results in database, element index is equivalent to its position */
         foreach ($qualificationsResults as $position => $player) {
             $qualification = new UserSeasonQualifications();
 
