@@ -20,7 +20,7 @@
                         {% endif %}
                         <td>{{ result.driver.team.name }}</td>
                         <td>
-                            <img class="f1-car-picture" src="/assets/cars/{{result.driver.team.picture}}"/>
+                            <img alt="{{ result.driver.team.name }}-car" class="f1-car-picture" src="/assets/cars/{{result.driver.team.picture}}"/>
                         </td>
                     </tr>
                 {% endfor %}

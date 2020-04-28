@@ -2,6 +2,10 @@
 
 {% block javascripts %}
     {{ parent() }} 
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+         
     <script src="{{ asset('assets/js/React/Teams.js') }}" type="text/babel"></script>
     <script src="{{ asset('assets/js/app/Dropdown.js') }}"></script>
 {% endblock %}
@@ -63,7 +67,7 @@
                         </div>
                         <div class="card-body flow-text"> 
                             <span>{{ track.name }} - <a href="{{ path('game_simulate_race') }}" class="btn btn-outline-info">Symuluj</a></span><br> 
-                            <img class="f1-track mt-3" src="{{ asset('assets/tracks/'~track.picture) }}"/> 
+                            <img alt="{{ track.name }}" class="f1-track mt-3" src="{{ asset('assets/tracks/'~track.picture) }}"/> 
                         </div> 
                     {% elseif (season|length) != 0 %} 
                         <div class="card-header"> 
@@ -157,7 +161,7 @@
                                                 <tr>
                                                     <td>{{ i + 1 }}</td>
                                                     <td>{{ team.name }}</td>
-                                                    <td><img class="f1-car-picture" src="{{ asset('/assets/cars/'~team.picture) }}" /></td>
+                                                    <td><img alt="{{ team.name }}-car" class="f1-car-picture" src="{{ asset('/assets/cars/'~team.picture) }}" /></td>
                                                     <td>{{ team.points }}</td>
                                                 </tr>
                                             {% endfor %}

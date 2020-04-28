@@ -31,8 +31,8 @@ class Teams extends React.Component {
                 return (
                     <tr key={team.id}>
                         <td>{team.name}</td>
-                        <td><img className="f1-car-picture" src={`/assets/cars/${team.picture}`} /></td>
-                        <td><button className="btn btn-outline-info btn-sm choose-team-button" data-teamid={team.id} onClick={() => startSeason(team.id)}>Wybierz</button></td>
+                        <td><img alt={ team.name } className="f1-car-picture" src={`/assets/cars/${team.picture}`} /></td>
+                        <td><button className="btn btn-primary btn-sm choose-team-button" data-teamid={team.id} onClick={() => startSeason(team.id)}>Wybierz</button></td>
                     </tr>
                 )
             });

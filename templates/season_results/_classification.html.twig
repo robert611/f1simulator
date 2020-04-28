@@ -22,7 +22,7 @@
                         {% endif %}
                         
                         <td>{{ driver.team.name }}</td>
-                        <td><img class="f1-car-picture" src="/assets/cars/{{driver.team.picture}}"/></td>
+                        <td><img alt="{{ driver.team.name }}-car" class="f1-car-picture" src="/assets/cars/{{driver.team.picture}}"/></td>
                         <td> {{ driver.points }} </td>
                     </tr>
                 {% endfor %}
