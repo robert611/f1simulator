@@ -112,14 +112,14 @@
                                 </div>
                             {% elseif classificationType == 'race' %}
                                 <div class="card-header">
-                                    <h4 class="text-center">Klasyfikacja {{ classification.getOwner().getTrack().getName() }}</h4>
+                                    <h4 class="text-center">Klasyfikacja {{ classification ? classification.getOwner().getTrack().getName() }}</h4>
                                 </div>
                                 <div class="card-body">
                                     {% include 'league_results/_race_classification.html.twig' %}
                                 </div>
                             {% else %}
                                 <div class="card-header">
-                                    <h4 class="text-center">Wyniki kwalifikacji - {{ classification.getOwner().getTrack().getName() }}</h4>
+                                    <h4 class="text-center">Wyniki kwalifikacji - {{ classification ? classification.getOwner().getTrack().getName() }}</h4>
                                 </div>
                                 <div class="card-body">
                                     {% include 'league_results/_qualifications_classification.html.twig' %}

@@ -75,10 +75,10 @@ class LeagueClassifications
     {
         $race = $this->findRace($this->raceId);
 
-        return $race->getQualifications();
+        return $race ? $race->getQualifications() : null;
     }
 
-    private function findRace(?int $id): object
+    private function findRace(?int $id): ?object
     {
         $race = $this->league->getRaces()->filter(function($race) use ($id) {
             return $race->getId() == $id;
@@ -87,6 +87,10 @@ class LeagueClassifications
         /* Just in case if this classification will be called without giving id, return some results */
         /* HTML will show proper race label */
         $race ? $race : $race = $this->league->getRaces()->first();
+
+        if (is_bool($race)) {
+            return null;
+        }
 
         return $race;
     }
