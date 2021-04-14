@@ -3,6 +3,8 @@ It is a website which allows a user to become an f1 driver and simulate f1 seaso
 
 ![alt text](https://i.postimg.cc/zG94NBKv/F1-Simulator.png)
 
+Click http://f1simulator.robert611.beep.pl/ to see the website
+
 ## Project Specifications
 - Create authentication functionality
 - Create offline f1 season simulation, with user account as one of the drivers
