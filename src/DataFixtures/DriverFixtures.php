@@ -3,15 +3,14 @@
 namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use App\Entity\Driver;
 use App\Entity\Team;
-use App\DataFixtures\TeamFixtures;
+use Doctrine\Persistence\ObjectManager;
 
 class DriverFixtures extends Fixture implements DependentFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $drivers = $this->getDrivers();
 
@@ -33,14 +32,14 @@ class DriverFixtures extends Fixture implements DependentFixtureInterface
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return array(
             TeamFixtures::class
         );
     }
 
-    public function getDrivers()
+    public function getDrivers(): array
     {
         return [
             ['team_id' => 1, 'name' => 'Charles', 'surname' => 'Leclerc', 'car_id' => 1],

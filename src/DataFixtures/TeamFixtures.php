@@ -3,12 +3,12 @@
 namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use App\Entity\Team;
 
 class TeamFixtures extends Fixture
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $teams = $this->getTeams();
 
@@ -25,7 +25,7 @@ class TeamFixtures extends Fixture
         }
     }
 
-    public function getTeams()
+    public function getTeams(): array
     {
         return [
             ['name' => 'Ferrari', 'picture' => 'ferrari.png'],

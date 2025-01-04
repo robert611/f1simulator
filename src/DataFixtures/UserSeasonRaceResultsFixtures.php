@@ -9,7 +9,7 @@ use App\Entity\UserSeasonRaceResults;
 
 class UserSeasonRaceResultsFixtures extends Fixture implements DependentFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $raceResults = $this->getRaceResults();
 
@@ -25,14 +25,14 @@ class UserSeasonRaceResultsFixtures extends Fixture implements DependentFixtureI
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return array(
             UserSeasonRacesFixtures::class
         );
     }
 
-    private function getRaceResults()
+    private function getRaceResults(): array
     {
         return [
             // Season id = 1, players = 5

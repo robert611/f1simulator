@@ -11,7 +11,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class UserSeasonRacesFixtures extends Fixture implements DependentFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $races = $this->getRaces(); 
 
@@ -28,7 +28,7 @@ class UserSeasonRacesFixtures extends Fixture implements DependentFixtureInterfa
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return array(
             UserSeasonFixtures::class,
@@ -36,7 +36,7 @@ class UserSeasonRacesFixtures extends Fixture implements DependentFixtureInterfa
         );
     }
 
-    public function getRaces()
+    public function getRaces(): array
     {
         return [
             ['track_id' => 1, 'season_id' => 1],

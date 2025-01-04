@@ -10,7 +10,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class UserSeasonFixtures extends Fixture implements DependentFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $seasons = $this->getSeasons();
 
@@ -33,14 +33,14 @@ class UserSeasonFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return array(
             UserFixtures::class
         );
     }
 
-    public function getSeasons()    
+    public function getSeasons(): array
     {
         return [
             ['owner_id' => 1, 'secret' => 'FH42H78XO1S1', 'max_players' => 15, 'name' => 'Liga Brunatnych kapust', 'completed' => 1, 'started' => 1],

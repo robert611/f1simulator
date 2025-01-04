@@ -3,15 +3,15 @@
 namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use App\Entity\UserSeasonPlayers;
 use App\DataFixtures\DriverFixtures;
 use App\DataFixtures\UserSeasonFixtures;
+use Doctrine\Persistence\ObjectManager;
 
 class UserSeasonPlayersFixtures extends Fixture implements DependentFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $players = $this->getPlayers(); 
 
@@ -29,7 +29,7 @@ class UserSeasonPlayersFixtures extends Fixture implements DependentFixtureInter
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return array(
             DriverFixtures::class,
@@ -37,7 +37,7 @@ class UserSeasonPlayersFixtures extends Fixture implements DependentFixtureInter
         );
     }
 
-    public function getPlayers()
+    public function getPlayers(): array
     {
         return [
             /* There should be an owner of the league also added as a player */

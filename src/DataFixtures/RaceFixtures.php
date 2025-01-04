@@ -3,14 +3,13 @@
 namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
-use App\DataFixtures\SeasonFixtures;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use App\Entity\Race;
+use Doctrine\Persistence\ObjectManager;
 
 class RaceFixtures extends Fixture implements DependentFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         for ($i = 1; $i <= 6; $i++) {
             $race = new Race();
@@ -25,7 +24,7 @@ class RaceFixtures extends Fixture implements DependentFixtureInterface
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return array(
             SeasonFixtures::class

@@ -3,12 +3,12 @@
 namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use App\Entity\Track;
 
 class TrackFixtures extends Fixture
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $tracks = $this->getTracks();
 
@@ -26,7 +26,7 @@ class TrackFixtures extends Fixture
         
     }
 
-    public function getTracks()
+    public function getTracks(): array
     {
         return [
             ['name' => "Australian Grand Prix", 'picture' => "australia.png"], 

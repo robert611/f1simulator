@@ -9,7 +9,7 @@ use App\Entity\UserSeasonQualifications;
 
 class UserSeasonQualificationsFixtures extends Fixture implements DependentFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $qualifications = $this->getQualifications();
 
@@ -25,14 +25,14 @@ class UserSeasonQualificationsFixtures extends Fixture implements DependentFixtu
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return array(
             UserSeasonRacesFixtures::class
         );
     }
 
-    private function getQualifications()
+    private function getQualifications(): array
     {
         return [
             // Season id = 1, players = 5

@@ -3,15 +3,13 @@
 namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use App\Entity\Season;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use App\DataFixtures\TeamFixtures;
-use App\DataFixtures\UserFixtures;
 
 class SeasonFixtures extends Fixture implements DependentFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $seasons = $this->getSeasons();
 
@@ -30,7 +28,7 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
       
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return array(
             TeamFixtures::class,
@@ -38,7 +36,7 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
         );
     }
 
-    public function getSeasons()
+    public function getSeasons(): array
     {
         return [
             ['user_id' => 1, 'driver_id' => 2, 'completed' => 1],
