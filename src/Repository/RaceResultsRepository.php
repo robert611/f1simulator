@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\RaceResults;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method RaceResults|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,33 +18,4 @@ class RaceResultsRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, RaceResults::class);
     }
-
-    // /**
-    //  * @return RaceResults[] Returns an array of RaceResults objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('r.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?RaceResults
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

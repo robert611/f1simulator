@@ -5,19 +5,21 @@ namespace App\Controller;
 use App\Entity\Driver;
 use App\Form\DriverType;
 use App\Repository\DriverRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * @Route("/driver")
- */
+#[Route('/driver')]
 class DriverController extends AbstractController
 {
-    /**
-     * @Route("/", name="driver_index", methods={"GET"})
-     */
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+    ) {
+    }
+
+    #[Route('/', name: 'driver_index', methods: ['GET'])]
     public function index(DriverRepository $driverRepository): Response
     {
         return $this->render('driver/index.html.twig', [
@@ -25,9 +27,7 @@ class DriverController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="driver_new", methods={"GET","POST"})
-     */
+    #[Route('/new', name: 'driver_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
         $driver = new Driver();
@@ -35,9 +35,8 @@ class DriverController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($driver);
-            $entityManager->flush();
+            $this->entityManager->persist($driver);
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('driver_index');
         }
@@ -48,9 +47,7 @@ class DriverController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="driver_show", methods={"GET"})
-     */
+    #[Route('/{id}', name: 'driver_show', methods: ['GET'])]
     public function show(Driver $driver): Response
     {
         return $this->render('driver/show.html.twig', [
@@ -58,16 +55,14 @@ class DriverController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="driver_edit", methods={"GET","POST"})
-     */
+    #[Route('/{id}/edit', name: 'driver_edit', methods: ["GET","POST"])]
     public function edit(Request $request, Driver $driver): Response
     {
         $form = $this->createForm(DriverType::class, $driver);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('driver_index');
         }
@@ -78,15 +73,12 @@ class DriverController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="driver_delete", methods={"DELETE"})
-     */
+    #[Route('/{id}', name: 'driver_delete', methods: ["DELETE"])]
     public function delete(Request $request, Driver $driver): Response
     {
         if ($this->isCsrfTokenValid('delete'.$driver->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($driver);
-            $entityManager->flush();
+            $this->entityManager->remove($driver);
+            $this->entityManager->flush();
         }
 
         return $this->redirectToRoute('driver_index');

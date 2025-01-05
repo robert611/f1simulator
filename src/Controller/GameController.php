@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use App\Model\GameSimulation\SimulateRace;
 use App\Model\GameSimulation\SimulateQualifications;
@@ -16,17 +17,19 @@ use App\Entity\Race;
 use App\Entity\Track;
 use App\Entity\RaceResults;
 use App\Model\DrawDriverToReplace;
+use Symfony\Component\Routing\Attribute\Route;
 
 class GameController extends AbstractController
 {
-    /**
-     * @Route("/game/season/start", name="game_season_start")
-     */
-    public function startSeason(Request $request)
-    {
-        $team = $this->getDoctrine()->getRepository(Team::class)->find($request->get('team'));
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+    ) {
+    }
 
-        $entityManager = $this->getDoctrine()->getManager();
+    #[Route('/game/season/start', name: 'game_season_start', methods: ['GET'])]
+    public function startSeason(Request $request): RedirectResponse
+    {
+        $team = $this->entityManager->getRepository(Team::class)->find($request->get('team'));
 
         $season = new Season();
 
@@ -34,48 +37,39 @@ class GameController extends AbstractController
         $season->setDriver((new DrawDriverToReplace)->getDriverToReplace($team));
         $season->setCompleted(0);
 
-        $entityManager->persist($season);
-
-        $entityManager->flush();
+        $this->entityManager->persist($season);
+        $this->entityManager->flush();
 
         return $this->redirectToRoute('app_index');
     }
 
-    /**
-     * @Route("/game/season/end", name="game_season_end")
-     */
-    public function endSeason()
+    #[Route('/game/season/end', name: 'game_season_end', methods: ['GET'])]
+    public function endSeason(): RedirectResponse
     {
-        $seasonRepository = $this->getDoctrine()->getRepository(Season::class);
+        $seasonRepository = $this->entityManager->getRepository(Season::class);
         $season = $seasonRepository->findOneBy(['user' => $this->getUser()->getId(), 'completed' => 0]);
         
-        if (!$season) {
+        if (null === $season) {
             $this->addFlash('error', 'Nie możesz zakończyć sezonu, bez jego rozpoczęcia.');
             return $this->redirectToRoute('app_index');
         }
 
         /* If number of finished races is equal to number of all tracks than season should be end */
-        if (count($season->getRaces()) == count($this->getDoctrine()->getRepository(Track::class)->findAll())) {
-
+        if (count($season->getRaces()) == count($this->entityManager->getRepository(Track::class)->findAll())) {
             $season->setCompleted(1);
-
-            $entityManager = $this->getDoctrine()->getManager();
-
-            $entityManager->persist($season);
-            $entityManager->flush();
+            $this->entityManager->persist($season);
+            $this->entityManager->flush();
         }
 
         return $this->redirectToRoute('app_index');
     }
-    /**
-     * @Route("/game/simulate/race", name="game_simulate_race")
-     */
-    public function simulateRace(Session $session)
+
+    #[Route('/game/simulate/race', name: 'game_simulate_race', methods: ['GET'])]
+    public function simulateRace(Session $session): RedirectResponse
     {
-        $seasonRepository = $this->getDoctrine()->getRepository(Season::class);
-        $trackRepository = $this->getDoctrine()->getRepository(Track::class);
-        $driverRepository = $this->getDoctrine()->getRepository(Driver::class);
-        $entityManager = $this->getDoctrine()->getManager();
+        $seasonRepository = $this->entityManager->getRepository(Season::class);
+        $trackRepository = $this->entityManager->getRepository(Track::class);
+        $driverRepository = $this->entityManager->getRepository(Driver::class);
 
         /* First find a season to which race belongs */
         $season = $seasonRepository->findOneBy(['user' => $this->getUser()->getId(), 'completed' => 0]);
@@ -93,8 +87,8 @@ class GameController extends AbstractController
 
             $season->setCompleted(1);
 
-            $entityManager->persist($season);
-            $entityManager->flush();
+            $this->entityManager->persist($season);
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('app_index');
         }
@@ -105,8 +99,8 @@ class GameController extends AbstractController
         $race->setTrack($track);
         $race->setSeason($season);
 
-        $entityManager->persist($race);
-        $entityManager->flush();
+        $this->entityManager->persist($race);
+        $this->entityManager->flush();
 
         $qualificationsResults = (new SimulateQualifications)->getQualificationsResults($driverRepository->findAll());
         
@@ -120,7 +114,7 @@ class GameController extends AbstractController
             $qualification->setDriver($driver);
             $qualification->setPosition($position);
 
-            $entityManager->persist($qualification);
+            $this->entityManager->persist($qualification);
         }
         
         /* Save race results in database */
@@ -131,10 +125,10 @@ class GameController extends AbstractController
             $raceResult->setDriver($driverRepository->find($driverId));
             $raceResult->setPosition($position);
 
-            $entityManager->persist($raceResult);
+            $this->entityManager->persist($raceResult);
         }
         
-        $entityManager->flush();
+        $this->entityManager->flush();
 
         return $this->redirectToRoute('app_index');
     }

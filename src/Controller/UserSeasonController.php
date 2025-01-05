@@ -2,30 +2,33 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use App\Form\UserSeasonType;
+use App\Entity\Driver;
+use App\Entity\Qualification;
+use App\Entity\Track;
 use App\Entity\UserSeason;
 use App\Entity\UserSeasonPlayers;
-use App\Entity\Driver;
-use App\Entity\Track;
-use App\Entity\Qualification;
-use App\Model\SecretGenerator;
-use App\Model\DrawDriverToReplace;
-use App\Model\DriverStatistics\FillLeaguePlayerData;
+use App\Form\UserSeasonType;
 use App\Model\Classification\LeagueClassifications;
 use App\Model\Classification\LeagueTeamsClassification;
+use App\Model\DrawDriverToReplace;
+use App\Model\DriverStatistics\FillLeaguePlayerData;
+use App\Model\SecretGenerator;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * @Route("/multiplayer")
- */
+#[Route('/multiplayer')]
 class UserSeasonController extends AbstractController
 {
-    /**
-     * @Route("/", name="multiplayer_index")
-     */
-    public function index(Request $request)
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+    ) {
+    }
+
+    #[Route('/', name: 'multiplayer_index', methods: ['GET'])]
+    public function index(Request $request): Response
     {
         $userSeason = new UserSeason();
 
@@ -39,7 +42,7 @@ class UserSeasonController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $userSeasonRepository = $this->getDoctrine()->getRepository(UserSeason::class);
+            $userSeasonRepository = $this->entityManager->getRepository(UserSeason::class);
 
             if (count($userSeasonRepository->findBy(['owner' => $this->getUser()])) >= 3) {
                 $this->addFlash('warning', 'W jednym momencie możesz mieć maksymalnie trzy nieukończone ligi');
@@ -52,23 +55,22 @@ class UserSeasonController extends AbstractController
             $userSeason->setSecret((new SecretGenerator)->getSecret());
             $userSeason->setCompleted(0);
 
-            $drivers = $this->getDoctrine()->getRepository(Driver::class)->findAll();
+            $drivers = $this->entityManager->getRepository(Driver::class)->findAll();
 
             $player = new UserSeasonPlayers();
             $player->setUser($this->getUser());
             $player->setDriver((new DrawDriverToReplace)->getDriverToReplaceInUserLeague($drivers, $userSeason->getPlayers()));
             $player->setSeason($userSeason);
     
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($userSeason);
-            $entityManager->persist($player);
-            $entityManager->flush();
+            $this->entityManager->persist($userSeason);
+            $this->entityManager->persist($player);
+            $this->entityManager->flush();
             
             $this->addFlash('success', 'Liga została stworzona');
             return $this->redirectToRoute('multiplayer_index');
         }
 
-        $leagueRepository = $this->getDoctrine()->getRepository(UserSeason::class);
+        $leagueRepository = $this->entityManager->getRepository(UserSeason::class);
         $userLeagues = $leagueRepository->findBy(['owner' => $this->getUser()]);
         $leagues = array();
 
@@ -83,17 +85,15 @@ class UserSeasonController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/show/{classificationType}", name="multiplayer_show_season")
-     */
-    public function showSeason(UserSeason $season, $classificationType = 'players', Request $request)
+    #[Route('/{id}/show/{classificationType}', name: 'multiplayer_show_season', methods: ['GET'])]
+    public function showSeason(UserSeason $season, $classificationType = 'players', Request $request): Response
     {
         $this->denyAccessUnlessGranted('league_show_season', $season);
 
-        $player = $this->getDoctrine()->getRepository(UserSeasonPlayers::class)->findOneBy(['season' => $season, 'user' => $this->getUser()]);
+        $player = $this->entityManager->getRepository(UserSeasonPlayers::class)->findOneBy(['season' => $season, 'user' => $this->getUser()]);
         $player = (new FillLeaguePlayerData($player, $season))->getPlayer();
 
-        $trackRepository = $this->getDoctrine()->getRepository(Track::class);
+        $trackRepository = $this->entityManager->getRepository(Track::class);
         $numberOfRacesInSeason = count($trackRepository->findAll());
 
         /* If there is no more races, false will be return */
@@ -102,7 +102,7 @@ class UserSeasonController extends AbstractController
         /* If there is no played races then drivers classification will be displayed */
         $season->getRaces()->last() ? null : $classificationType = 'drivers';
 
-        $qualificationRepository = $this->getDoctrine()->getRepository(Qualification::class);
+        $qualificationRepository = $this->entityManager->getRepository(Qualification::class);
         $classification = (new LeagueClassifications($season, $request->query->get('race_id')))->getClassificationBasedOnType($classificationType);
 
         $teamsClassification = (new LeagueTeamsClassification)->getClassification($season);

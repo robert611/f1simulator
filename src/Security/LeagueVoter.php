@@ -4,6 +4,7 @@ namespace App\Security;
 
 use App\Entity\UserSeason;
 use App\Entity\User;
+use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -18,14 +19,14 @@ class LeagueVoter extends Voter
     const SHOW = 'league_show_season';
     const SIMULATE_RACE = 'league_simulate_race';
 
-    private $trackRepository;
+    private TrackRepository $trackRepository;
 
     public function __construct(TrackRepository $trackRepository)
     {
         $this->trackRepository = $trackRepository;
     }
 
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
         if (!in_array($attribute, [self::START, self::JOIN, self::SIMULATE_RACE, self::END, self::SHOW])) {
             return false;
@@ -34,7 +35,7 @@ class LeagueVoter extends Voter
         return true;
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
 
@@ -57,10 +58,10 @@ class LeagueVoter extends Voter
                 return $this->canSimulateRace($league, $user);
         }
 
-        throw new \LoginException('There is no such action as: ' . $attribute . ' defined in league voter');
+        throw new LogicException('There is no such action as: ' . $attribute . ' defined in league voter');
     }
 
-    private function canStart(UserSeason $league, User $user)
+    private function canStart(UserSeason $league, User $user): bool
     {
         $access = $this->isLeagueOwner($league, $user);
 
@@ -70,16 +71,16 @@ class LeagueVoter extends Voter
             (new Session)->getFlashBag()->add('warning', 'Do rozpoczęcia ligi potrzebujesz przynajmniej dwóch użytkowników.');
         }
 
-        /* So user has to be an owner and there has to at least two players in league */
+        /* So user has to be an owner and there has to be at least two players in the league */
         return $access AND $enoughPlayers;
     }
 
-    private function canEnd(UserSeason $league, User $user)
+    private function canEnd(UserSeason $league, User $user): bool
     {
         return $this->isLeagueOwner($league, $user);
     }
 
-    public function canShow(UserSeason $league, User $user)
+    public function canShow(UserSeason $league, User $user): bool
     {
         /* This function checks if race, which results should be displayed in a page belongs to that league */
         if(!$this->doesRaceBelongToLeague($league)) {
@@ -94,7 +95,7 @@ class LeagueVoter extends Voter
         return $isPlayer->count() != 0;
     }
 
-    private function canJoin(?UserSeason $league, User $user)
+    private function canJoin(?UserSeason $league, User $user): bool
     {
         if (!$this->leagueExists($league, $user)) {
             return false;
@@ -111,7 +112,7 @@ class LeagueVoter extends Voter
         return true;
     }
 
-    private function canSimulateRace(UserSeason $league, User $user)
+    private function canSimulateRace(UserSeason $league, User $user): bool
     {
         if (!$this->isLeagueOwner($league, $user)) {
             return false;
@@ -125,28 +126,32 @@ class LeagueVoter extends Voter
         return true;
     }
 
-    private function isLeagueOwner(UserSeason $league, User $user)
+    private function isLeagueOwner(UserSeason $league, User $user): bool
     {
         $access = $user === $league->getOwner();
 
-        if (!$access) (new Session)->getFlashBag()->add('warning', 'Nie możesz wykonać tej operacji, ponieważ nie jesteś założycielem tej ligi.');
+        if (!$access) {
+            (new Session)->getFlashBag()->add('warning', 'Nie możesz wykonać tej operacji, ponieważ nie jesteś założycielem tej ligi.');
+        }
 
         return $access;
     }
 
-    private function leagueExists(?UserSeason $league, User $user)
+    private function leagueExists(?UserSeason $league, User $user): bool
     {
         $access = $league ? true : false;
 
-        if (!$access) (new Session)->getFlashBag()->add('warning', 'Nie istnieje liga o takim kluczu.');
+        if (!$access) {
+            (new Session)->getFlashBag()->add('warning', 'Nie istnieje liga o takim kluczu.');
+        }
         
         return $access;
     }
 
-    private function userInLeague(UserSeason $league, User $user)
+    private function userInLeague(UserSeason $league, User $user): bool
     {
         $alreadyIn = $league->getPlayers()->filter(function ($player) use ($user) {
-            return $player->getUser() == $user ? true : false;
+            return $player->getUser() === $user;
         });
 
         $access = $alreadyIn->count() > 0;
@@ -156,16 +161,18 @@ class LeagueVoter extends Voter
         return $access;
     }
 
-    private function maxPlayersReached(UserSeason $league)
+    private function maxPlayersReached(UserSeason $league): bool
     {
         $reached = count($league->getPlayers()) >= $league->getMaxPlayers();
 
-        if ($reached) (new Session)->getFlashBag()->add('warning', 'Ta liga osiągneła swoją maksymalną liczbę graczy');
+        if ($reached) {
+            (new Session)->getFlashBag()->add('warning', 'Ta liga osiągneła swoją maksymalną liczbę graczy');
+        }
         
         return $reached;
     }
 
-    private function doesRaceBelongToLeague(UserSeason $league)
+    private function doesRaceBelongToLeague(UserSeason $league): bool
     {
         $request = Request::createFromGlobals();
 
@@ -173,7 +180,7 @@ class LeagueVoter extends Voter
         $belongs = false;
 
         /* In this case, user does not display race results, therefore it does not matter */
-        if ($raceId == null) {
+        if ($raceId === null) {
             return true;
         }
         

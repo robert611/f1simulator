@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\UserSeasonQualifications;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method UserSeasonQualifications|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,33 +18,4 @@ class UserSeasonQualificationsRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, UserSeasonQualifications::class);
     }
-
-    // /**
-    //  * @return UserSeasonQualifications[] Returns an array of UserSeasonQualifications objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?UserSeasonQualifications
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

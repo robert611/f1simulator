@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DoctrineMigrations;
+namespace Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200325184310 extends AbstractMigration
+final class Version20200325185754 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,9 +22,9 @@ final class Version20200325184310 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE TABLE qualification (id INT AUTO_INCREMENT NOT NULL, driver_id INT NOT NULL, race_id INT NOT NULL, position SMALLINT NOT NULL, INDEX IDX_B712F0CEC3423909 (driver_id), UNIQUE INDEX UNIQ_B712F0CE6E59D40D (race_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('ALTER TABLE qualification ADD CONSTRAINT FK_B712F0CEC3423909 FOREIGN KEY (driver_id) REFERENCES driver (id)');
-        $this->addSql('ALTER TABLE qualification ADD CONSTRAINT FK_B712F0CE6E59D40D FOREIGN KEY (race_id) REFERENCES race (id)');
+        $this->addSql('ALTER TABLE qualification DROP FOREIGN KEY FK_B712F0CEC3423909');
+        $this->addSql('DROP INDEX IDX_B712F0CEC3423909 ON qualification');
+        $this->addSql('ALTER TABLE qualification ADD driver SMALLINT NOT NULL, DROP driver_id');
         $this->addSql('ALTER TABLE season CHANGE team_id team_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE user CHANGE roles roles JSON NOT NULL');
     }
@@ -34,7 +34,9 @@ final class Version20200325184310 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('DROP TABLE qualification');
+        $this->addSql('ALTER TABLE qualification ADD driver_id INT NOT NULL, DROP driver');
+        $this->addSql('ALTER TABLE qualification ADD CONSTRAINT FK_B712F0CEC3423909 FOREIGN KEY (driver_id) REFERENCES driver (id)');
+        $this->addSql('CREATE INDEX IDX_B712F0CEC3423909 ON qualification (driver_id)');
         $this->addSql('ALTER TABLE season CHANGE team_id team_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE user CHANGE roles roles LONGTEXT CHARACTER SET utf8mb4 NOT NULL COLLATE `utf8mb4_bin`');
     }
