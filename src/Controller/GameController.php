@@ -26,7 +26,7 @@ class GameController extends AbstractController
     ) {
     }
 
-    #[Route('/game/season/start', name: 'game_season_start', methods: ['GET'])]
+    #[Route('/game/season/start', name: 'game_season_start', methods: ['GET', 'POST'])]
     public function startSeason(Request $request): RedirectResponse
     {
         $team = $this->entityManager->getRepository(Team::class)->find($request->get('team'));
@@ -43,7 +43,7 @@ class GameController extends AbstractController
         return $this->redirectToRoute('app_index');
     }
 
-    #[Route('/game/season/end', name: 'game_season_end', methods: ['GET'])]
+    #[Route('/game/season/end', name: 'game_season_end', methods: ['GET', 'POST'])]
     public function endSeason(): RedirectResponse
     {
         $seasonRepository = $this->entityManager->getRepository(Season::class);
