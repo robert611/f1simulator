@@ -2,43 +2,32 @@
 
 namespace App\Entity;
 
+use App\Repository\RaceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\RaceRepository")
- */
+#[ORM\Entity(repositoryClass: RaceRepository::class)]
 class Race
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private int $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Track", inversedBy="races")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $track;
+    #[ORM\ManyToOne(targetEntity: Track::class, inversedBy: 'races')]
+    #[ORM\JoinColumn(nullable: false)]
+    private Track $track;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Season", inversedBy="races")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $season;
+    #[ORM\ManyToOne(targetEntity: Season::class, inversedBy: 'races')]
+    #[ORM\JoinColumn(nullable: false)]
+    private Season $season;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\RaceResults", mappedBy="race")
-     */
-    private $raceResults;
+    #[ORM\OneToMany(targetEntity: RaceResults::class, mappedBy: 'race')]
+    private Collection $raceResults;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Qualification", mappedBy="race", orphanRemoval=true)
-     */
-    private $qualifications;
+    #[ORM\OneToMany(targetEntity: Qualification::class, mappedBy: 'race', orphanRemoval: true)]
+    private Collection $qualifications;
 
     public function __construct()
     {

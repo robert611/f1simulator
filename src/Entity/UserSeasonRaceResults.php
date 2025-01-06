@@ -2,45 +2,36 @@
 
 namespace App\Entity;
 
+use App\Repository\UserSeasonRaceResultsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\UserSeasonRaceResultsRepository")
- */
+#[ORM\Entity(repositoryClass: UserSeasonRaceResultsRepository::class)]
 class UserSeasonRaceResults
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private int $id;
 
-    /**
-     * @ORM\Column(type="smallint")
-     */
-    private $position;
+    #[ORM\Column(type: 'smallint')]
+    private int $position;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\UserSeasonRaces", inversedBy="raceResults")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $race;
+    #[ORM\ManyToOne(targetEntity: UserSeasonRaces::class, inversedBy: 'raceResults')]
+    #[ORM\JoinColumn(nullable: false)]
+    private UserSeasonRaces $race;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\UserSeasonPlayers", inversedBy="raceResults")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $player;
+    #[ORM\ManyToOne(targetEntity: UserSeasonPlayers::class, inversedBy: 'raceResults')]
+    #[ORM\JoinColumn(nullable: false)]
+    private UserSeasonPlayers $player;
 
     public $points;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getPosition(): ?int
+    public function getPosition(): int
     {
         return $this->position;
     }
@@ -52,12 +43,12 @@ class UserSeasonRaceResults
         return $this;
     }
 
-    public function getRace(): ?UserSeasonRaces
+    public function getRace(): UserSeasonRaces
     {
         return $this->race;
     }
 
-    public function setRace(?UserSeasonRaces $race): self
+    public function setRace(UserSeasonRaces $race): self
     {
         $this->race = $race;
 
@@ -69,7 +60,7 @@ class UserSeasonRaceResults
         return $this->player;
     }
 
-    public function setPlayer(?UserSeasonPlayers $player): self
+    public function setPlayer(UserSeasonPlayers $player): self
     {
         $this->player = $player;
 

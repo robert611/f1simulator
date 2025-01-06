@@ -2,36 +2,27 @@
 
 namespace App\Entity;
 
+use App\Repository\TeamRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\TeamRepository")
- */
+#[ORM\Entity(repositoryClass: TeamRepository::class)]
 class Team
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    public $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    public int $id;
 
-    /**
-     * @ORM\Column(type="string", length=64)
-     */
-    public $name;
+    #[ORM\Column(type: 'string', length: 64, nullable: false)]
+    public string $name;
 
-    /**
-     * @ORM\Column(type="string", length=64)
-     */
-    public $picture;
+    #[ORM\Column(type: 'string', length: 64, nullable: false)]
+    public string $picture;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Driver", mappedBy="team", orphanRemoval=true)
-     */
-    public $drivers;
+    #[ORM\OneToMany(targetEntity: Driver::class, mappedBy: 'team', orphanRemoval: true)]
+    public Collection $drivers;
 
     public $points;
 
@@ -50,7 +41,7 @@ class Team
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -62,7 +53,7 @@ class Team
         return $this;
     }
 
-    public function getPicture(): ?string
+    public function getPicture(): string
     {
         return $this->picture;
     }

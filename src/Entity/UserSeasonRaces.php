@@ -2,43 +2,32 @@
 
 namespace App\Entity;
 
+use App\Repository\UserSeasonRacesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\UserSeasonRacesRepository")
- */
+#[ORM\Entity(repositoryClass: UserSeasonRacesRepository::class)]
 class UserSeasonRaces
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private int $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Track")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $track;
+    #[ORM\ManyToOne(targetEntity: Track::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private Track $track;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\UserSeason", inversedBy="races")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $season;
+    #[ORM\ManyToOne(targetEntity: UserSeason::class, inversedBy: 'races')]
+    #[ORM\JoinColumn(nullable: false)]
+    private UserSeason $season;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\UserSeasonRaceResults", mappedBy="race", orphanRemoval=true)
-     */
-    private $raceResults;
+    #[ORM\OneToMany(targetEntity: UserSeasonRaceResults::class, mappedBy: 'race', orphanRemoval: true)]
+    private Collection $raceResults;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\UserSeasonQualifications", mappedBy="race", orphanRemoval=true)
-     */
-    private $qualifications;
+    #[ORM\OneToMany(targetEntity: UserSeasonQualifications::class, mappedBy: 'race', orphanRemoval: true)]
+    private Collection $qualifications;
 
     public function __construct()
     {
@@ -51,24 +40,24 @@ class UserSeasonRaces
         return $this->id;
     }
 
-    public function getTrack(): ?Track
+    public function getTrack(): Track
     {
         return $this->track;
     }
 
-    public function setTrack(?Track $track): self
+    public function setTrack(Track $track): self
     {
         $this->track = $track;
 
         return $this;
     }
 
-    public function getSeason(): ?UserSeason
+    public function getSeason(): UserSeason
     {
         return $this->season;
     }
 
-    public function setSeason(?UserSeason $season): self
+    public function setSeason(UserSeason $season): self
     {
         $this->season = $season;
 

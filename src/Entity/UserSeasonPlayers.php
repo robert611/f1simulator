@@ -2,49 +2,36 @@
 
 namespace App\Entity;
 
+use App\Repository\UserSeasonPlayersRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\UserSeasonPlayersRepository")
- */
+#[ORM\Entity(repositoryClass: UserSeasonPlayersRepository::class)]
 class UserSeasonPlayers
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private int $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\UserSeason", inversedBy="players")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $season;
+    #[ORM\ManyToOne(targetEntity: UserSeason::class, inversedBy: 'players')]
+    #[ORM\JoinColumn(nullable: false)]
+    private UserSeason $season;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="userSeasonPlayers")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'userSeasonPlayers')]
+    #[ORM\JoinColumn(nullable: false)]
+    private User $user;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Driver")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $driver;
+    #[ORM\ManyToOne(targetEntity: Driver::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private Driver $driver;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\UserSeasonRaceResults", mappedBy="player", orphanRemoval=true)
-     */
-    private $raceResults;
+    #[ORM\OneToMany(targetEntity: UserSeasonRaceResults::class, mappedBy: 'player', orphanRemoval: true)]
+    private Collection $raceResults;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\UserSeasonQualifications", mappedBy="player", orphanRemoval=true)
-     */
-    private $qualificationsResults;
+    #[ORM\OneToMany(targetEntity: UserSeasonQualifications::class, mappedBy: 'player', orphanRemoval: true)]
+    private Collection $qualificationsResults;
 
     public $points;
 
@@ -172,7 +159,7 @@ class UserSeasonPlayers
      *
      * @return  self
      */ 
-    public function setPoints($points)
+    public function setPoints($points): static
     {
         $this->points = $points;
 
@@ -192,7 +179,7 @@ class UserSeasonPlayers
      *
      * @return  self
      */ 
-    public function setPosition($position)
+    public function setPosition($position): static
     {
         $this->position = $position;
 

@@ -2,56 +2,41 @@
 
 namespace App\Entity;
 
+use App\Repository\DriverRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\DriverRepository")
- */
+#[ORM\Entity(repositoryClass: DriverRepository::class)]
 class Driver
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    public $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    public int $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    public $name;
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    public string $name;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    public $surname;
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    public string $surname;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="drivers")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    public $team;
+    #[ORM\ManyToOne(targetEntity: Team::class, inversedBy: 'drivers')]
+    #[ORM\JoinColumn(nullable: false)]
+    public ?Team $team;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    public $car_id;
+    #[ORM\Column(type: 'integer')]
+    public int $car_id;
 
     public $points;
 
     public $position;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Qualification", mappedBy="driver", orphanRemoval=true)
-     */
-    private $qualifications;
+    #[ORM\OneToMany(targetEntity: Qualification::class, mappedBy: 'driver', orphanRemoval: true)]
+    private Collection $qualifications;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\RaceResults", mappedBy="driver")
-     */
-    private $raceResults;
+    #[ORM\OneToMany(targetEntity: RaceResults::class, mappedBy: 'driver')]
+    private Collection $raceResults;
 
     public function __construct()
     {
@@ -59,12 +44,12 @@ class Driver
         $this->qualifications = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -117,7 +102,7 @@ class Driver
         return $this->points ? $this->points : 0;
     }
 
-    public function setPoints(string $points)
+    public function setPoints(string $points): static
     {
         $this->points = $points;
 
@@ -126,10 +111,10 @@ class Driver
 
     public function getPosition(): int
     {
-        return $this->position ? $this->position : 0;
+        return $this->position ?: 0;
     }
 
-    public function setPosition(string $position)
+    public function setPosition(string $position): static
     {
         $this->position = $position;
 

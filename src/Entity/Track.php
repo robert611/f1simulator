@@ -2,36 +2,27 @@
 
 namespace App\Entity;
 
+use App\Repository\TrackRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\TrackRepository")
- */
+#[ORM\Entity(repositoryClass: TrackRepository::class)]
 class Track
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private int $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    private string $name;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $picture;
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    private string $picture;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Race", mappedBy="track")
-     */
-    private $races;
+    #[ORM\OneToMany(targetEntity: Race::class, mappedBy: 'track')]
+    private Collection $races;
 
     public function __construct()
     {
@@ -43,7 +34,7 @@ class Track
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -55,7 +46,7 @@ class Track
         return $this;
     }
 
-    public function getPicture(): ?string
+    public function getPicture(): string
     {
         return $this->picture;
     }

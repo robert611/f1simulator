@@ -2,35 +2,26 @@
 
 namespace App\Entity;
 
+use App\Repository\RaceResultsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\RaceResultsRepository")
- */
+#[ORM\Entity(repositoryClass: RaceResultsRepository::class)]
 class RaceResults
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private int $id;
 
-    /**
-     * @ORM\Column(type="smallint")
-     */
-    private $position;
+    #[ORM\Column(type: 'smallint')]
+    private int $position;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Race", inversedBy="raceResults")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $race;
+    #[ORM\ManyToOne(targetEntity: Race::class, inversedBy: 'raceResults')]
+    #[ORM\JoinColumn(nullable: false)]
+    private Race $race;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Driver", inversedBy="raceResults")
-     */
-    private $driver;
+    #[ORM\ManyToOne(targetEntity: Driver::class, inversedBy: 'raceResults')]
+    private Driver $driver;
 
     public function getId(): ?int
     {
@@ -49,24 +40,24 @@ class RaceResults
         return $this;
     }
 
-    public function getRace(): ?race
+    public function getRace(): race
     {
         return $this->race;
     }
 
-    public function setRace(?race $race): self
+    public function setRace(race $race): self
     {
         $this->race = $race;
 
         return $this;
     }
 
-    public function getDriver(): ?Driver
+    public function getDriver(): Driver
     {
         return $this->driver;
     }
 
-    public function setDriver(?Driver $driver): self
+    public function setDriver(Driver $driver): self
     {
         $this->driver = $driver;
 

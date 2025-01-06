@@ -2,76 +2,57 @@
 
 namespace App\Entity;
 
+use App\Repository\UserSeasonRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\UserSeasonRepository")
- * @UniqueEntity(fields={"name"}, message="Istnieje już liga z taką nazwą")
- */
+#[ORM\Entity(repositoryClass: UserSeasonRepository::class)]
+#[UniqueEntity(fields: ['name'], message: 'Istnieje już liga z taką nazwą')]
 class UserSeason
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private int $id;
 
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
-    private $secret;
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    private string $secret;
 
-    /**
-     * @ORM\Column(type="smallint")
-     * @Assert\Range(
-     *      min = 2,
-     *      max = 20,
-     *      minMessage = "Minimalna liczba graczy to 2",
-     *      maxMessage = "Maksymalna liczba graczy to 20"
-     * )
-     */
-    private $max_players;
+    #[ORM\Column(type: 'smallint')]
+    #[Assert\Range(
+        minMessage: 'Minimalna liczba graczy to 2',
+        maxMessage: 'Maksymalna liczba graczy to 20',
+        min: 2,
+        max: 20
+    )]
+    private int $max_players;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="userSeasons")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $owner;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'userSeasons')]
+    #[ORM\JoinColumn(nullable: false)]
+    private User $owner;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\UserSeasonPlayers", mappedBy="season", orphanRemoval=true)
-     */
-    private $players;
+    #[ORM\OneToMany(targetEntity: UserSeasonPlayers::class, mappedBy: 'season', orphanRemoval: true)]
+    private Collection $players;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\UserSeasonRaces", mappedBy="season", orphanRemoval=true)
-     */
-    private $races;
+    #[ORM\OneToMany(targetEntity: UserSeasonRaces::class, mappedBy: 'season', orphanRemoval: true)]
+    private Collection $races;
 
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
-    private $name;
+    #[ORM\Column(type: 'string', length: 255, unique: true, nullable: false)]
+    private string $name;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $completed;
+    #[ORM\Column(type: 'boolean', nullable: false)]
+    private bool $completed;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $started;
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    private bool $started;
 
     public function __construct()
     {
-        $this->userSeasonPlayers = new ArrayCollection();
-        $this->userSeasonRaces = new ArrayCollection();
+        $this->players = new ArrayCollection();
+        $this->races = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -79,7 +60,7 @@ class UserSeason
         return $this->id;
     }
 
-    public function getSecret(): ?string
+    public function getSecret(): string
     {
         return $this->secret;
     }
@@ -91,7 +72,7 @@ class UserSeason
         return $this;
     }
 
-    public function getMaxPlayers(): ?int
+    public function getMaxPlayers(): int
     {
         return $this->max_players;
     }
@@ -125,8 +106,8 @@ class UserSeason
 
     public function addPlayer(UserSeasonPlayers $userSeasonPlayer): self
     {
-        if (!$this->userSeasonPlayers->contains($userSeasonPlayer)) {
-            $this->userSeasonPlayers[] = $userSeasonPlayer;
+        if (!$this->players->contains($userSeasonPlayer)) {
+            $this->players[] = $userSeasonPlayer;
             $userSeasonPlayer->setSeason($this);
         }
 
@@ -135,8 +116,8 @@ class UserSeason
 
     public function removePlayer(UserSeasonPlayers $userSeasonPlayer): self
     {
-        if ($this->userSeasonPlayers->contains($userSeasonPlayer)) {
-            $this->userSeasonPlayers->removeElement($userSeasonPlayer);
+        if ($this->players->contains($userSeasonPlayer)) {
+            $this->players->removeElement($userSeasonPlayer);
             // set the owning side to null (unless already changed)
             if ($userSeasonPlayer->getSeason() === $this) {
                 $userSeasonPlayer->setSeason(null);
@@ -158,7 +139,7 @@ class UserSeason
     {
         if (!$this->races->contains($userSeasonRace)) {
             $this->races[] = $userSeasonRace;
-            $userSeasonRace->setUserSeason($this);
+            $userSeasonRace->setSeason($this);
         }
 
         return $this;
@@ -166,18 +147,18 @@ class UserSeason
 
     public function removeUserSeasonRace(UserSeasonRaces $userSeasonRace): self
     {
-        if ($this->userSeasonRaces->contains($userSeasonRace)) {
-            $this->userSeasonRaces->removeElement($userSeasonRace);
+        if ($this->races->contains($userSeasonRace)) {
+            $this->races->removeElement($userSeasonRace);
             // set the owning side to null (unless already changed)
-            if ($userSeasonRace->getUserSeason() === $this) {
-                $userSeasonRace->setUserSeason(null);
+            if ($userSeasonRace->getSeason() === $this) {
+                $userSeasonRace->setSeason(null);
             }
         }
 
         return $this;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -189,7 +170,7 @@ class UserSeason
         return $this;
     }
 
-    public function getCompleted(): ?bool
+    public function getCompleted(): bool
     {
         return $this->completed;
     }
@@ -201,12 +182,12 @@ class UserSeason
         return $this;
     }
 
-    public function getStarted(): ?bool
+    public function getStarted(): bool
     {
         return $this->started;
     }
 
-    public function setStarted(?bool $started): self
+    public function setStarted(bool $started): self
     {
         $this->started = $started;
 

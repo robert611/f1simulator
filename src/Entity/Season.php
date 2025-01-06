@@ -2,46 +2,34 @@
 
 namespace App\Entity;
 
+use App\Repository\SeasonRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\SeasonRepository")
- */
+#[ORM\Entity(repositoryClass: SeasonRepository::class)]
 class Season
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private int $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Driver")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $driver;
+    #[ORM\ManyToOne(targetEntity: Driver::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private Driver $driver;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="seasons")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'seasons')]
+    #[ORM\JoinColumn(nullable: false)]
+    private user $user;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $completed;
+    #[ORM\Column(type: 'boolean')]
+    private bool $completed;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Race", mappedBy="season")
-     */
-    private $races;
+    #[ORM\OneToMany(targetEntity: Race::class, mappedBy: 'season')]
+    private Collection $races;
 
-    private $userPoints;
-
+    private int $userPoints;
    
     public function __construct()
     {
@@ -60,7 +48,7 @@ class Season
         return $this;
     }
 
-    public function getUserPoints()
+    public function getUserPoints(): int
     {
         return $this->userPoints;
     }

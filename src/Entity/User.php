@@ -6,62 +6,45 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use App\Repository\UserRepository;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @UniqueEntity(fields={"username"}, message="Istnieje już konto z takim loginem")
- * @UniqueEntity(fields={"email"}, message="Istnieje już konto z takim emailem")
- */
-class User implements UserInterface, \Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(fields: ['username'], message: 'Istnieje już konto z takim loginem')]
+#[UniqueEntity(fields: ['email'], message: 'Istnieje już konto z takim emailem')]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private int $id;
 
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     */
-    private $username;
+    #[ORM\Column(type: 'string', length: 180, unique: true, nullable: false)]
+    private string $username;
 
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     */
-    private $email;
+    #[ORM\Column(type: 'string', length: 180, unique: true, nullable: false)]
+    private string $email;
 
-    /**
-     * @ORM\Column(type="json")
-     */
-    private $roles = [];
+    #[ORM\Column(type: 'json', nullable: false)]
+    private array $roles = [];
 
-    /**
-     * @var string The hashed password
-     * @ORM\Column(type="string")
-     */
-    private $password;
+    #[ORM\Column(type: 'string', nullable: false)]
+    private string $password;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Season", mappedBy="user", orphanRemoval=true)
-     */
-    private $seasons;
+    #[ORM\OneToMany(targetEntity: Season::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $seasons;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\UserSeason", mappedBy="owner")
-     */
-    private $userSeasons;
+    #[ORM\OneToMany(targetEntity: UserSeason::class, mappedBy: 'owner')]
+    private Collection $userSeasons;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\UserSeasonPlayers", mappedBy="user", orphanRemoval=true)
-     */
-    private $userSeasonPlayers;
+    #[ORM\OneToMany(targetEntity: UserSeasonPlayers::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $userSeasonPlayers;
 
     public function __construct()
     {
         $this->seasons = new ArrayCollection();
-        $this->usersSeasons = new ArrayCollection();
+        $this->userSeasons = new ArrayCollection();
         $this->userSeasonPlayers = new ArrayCollection();
     }
 
@@ -144,7 +127,7 @@ class User implements UserInterface, \Symfony\Component\Security\Core\User\Passw
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
@@ -182,17 +165,17 @@ class User implements UserInterface, \Symfony\Component\Security\Core\User\Passw
     }
 
     /**
-     * @return Collection|UsersSeason[]
+     * @return Collection|UserSeason[]
      */
     public function getUsersSeasons(): Collection
     {
-        return $this->usersSeasons;
+        return $this->userSeasons;
     }
 
     public function addUsersSeason(UserSeason $userSeason): self
     {
-        if (!$this->userSeason->contains($userSeason)) {
-            $this->userSeason[] = $userSeason;
+        if (!$this->userSeasons->contains($userSeason)) {
+            $this->userSeasons[] = $userSeason;
             $userSeason->setOwner($this);
         }
 
@@ -201,8 +184,8 @@ class User implements UserInterface, \Symfony\Component\Security\Core\User\Passw
 
     public function removeUsersSeason(UserSeason $userSeason): self
     {
-        if ($this->userSeason->contains($userSeason)) {
-            $this->userSeason->removeElement($userSeason);
+        if ($this->userSeasons->contains($userSeason)) {
+            $this->userSeasons->removeElement($userSeason);
             // set the owning side to null (unless already changed)
             if ($userSeason->getOwner() === $this) {
                 $userSeason->setOwner(null);
@@ -241,5 +224,10 @@ class User implements UserInterface, \Symfony\Component\Security\Core\User\Passw
         }
 
         return $this;
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->username;
     }
 }
