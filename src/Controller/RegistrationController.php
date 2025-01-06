@@ -19,7 +19,7 @@ class RegistrationController extends AbstractController
     ) {
     }
 
-    #[Route('/register', name: 'app_register', methods: ['GET'])]
+    #[Route('/register', name: 'app_register', methods: ['GET', 'POST'])]
     public function register(Request $request, UserPasswordHasherInterface $passwordEncoder): Response
     {
         if ($this->getUser()) {

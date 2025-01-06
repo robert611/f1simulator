@@ -26,7 +26,7 @@ class IndexController extends AbstractController
     }
 
     #[Route('/home/{classificationType}', name: 'app_index', methods: ['GET'])]
-    public function index($classificationType = 'drivers', Request $request): Response
+    public function index(Request $request, $classificationType = 'drivers'): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 

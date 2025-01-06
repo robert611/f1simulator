@@ -51,7 +51,7 @@ class LeagueController extends AbstractController
     {
         $this->denyAccessUnlessGranted('league_start', $season);
 
-        $season->setStarted(1);
+        $season->setStarted(true);
 
         $this->entityManager->persist($season);
         $this->entityManager->flush();
