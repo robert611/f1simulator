@@ -32,7 +32,7 @@ class UserSeasonController extends AbstractController
     {
         $userSeason = new UserSeason();
 
-        /* This is create league form | It is not a good idea to place it in this method */
+        /* This is league creation form | It is not a good idea to place it in this method */
         $form = $this->createForm(UserSeasonType::class, $userSeason, [
             'action' => $this->generateUrl('multiplayer_index'),
             'method' => 'POST',
@@ -86,7 +86,7 @@ class UserSeasonController extends AbstractController
     }
 
     #[Route('/{id}/show/{classificationType}', name: 'multiplayer_show_season', methods: ['GET'])]
-    public function showSeason(UserSeason $season, $classificationType = 'players', Request $request): Response
+    public function showSeason(Request $request, UserSeason $season, $classificationType = 'players'): Response
     {
         $this->denyAccessUnlessGranted('league_show_season', $season);
 
