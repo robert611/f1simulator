@@ -25,7 +25,7 @@ class LeagueController extends AbstractController
     ) {
     }
 
-    #[Route('/join', name: 'league_join', methods: ['GET'])]
+    #[Route('/join', name: 'league_join', methods: ['GET', 'POST'])]
     public function join(Request $request): RedirectResponse
     {
         $secret = $request->request->get('league-secret');
