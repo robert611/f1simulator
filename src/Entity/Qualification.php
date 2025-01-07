@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\QualificationRepository;
@@ -10,19 +12,19 @@ class Qualification
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(name: 'id', type: 'integer')]
     private int $id;
 
+    #[ORM\Column(name: 'position', type: 'smallint', nullable: false)]
+    private int $position;
+
     #[ORM\ManyToOne(targetEntity: Driver::class, inversedBy: 'qualifications')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'driver_id', nullable: false)]
     private Driver $driver;
 
     #[ORM\ManyToOne(targetEntity: Race::class, inversedBy: 'qualifications')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'race_id', nullable: false)]
     private Race $race;
-
-    #[ORM\Column(type: 'smallint')]
-    private int $position;
 
     public function getId(): ?int
     {
