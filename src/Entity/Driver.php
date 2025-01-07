@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\DriverRepository;
@@ -12,31 +14,31 @@ class Driver
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(name: 'id', type: 'integer')]
     public int $id;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    #[ORM\Column(name: 'name', type: 'string', length: 255, nullable: false)]
     public string $name;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    #[ORM\Column(name: 'surname', type: 'string', length: 255, nullable: false)]
     public string $surname;
 
     #[ORM\ManyToOne(targetEntity: Team::class, inversedBy: 'drivers')]
-    #[ORM\JoinColumn(nullable: false)]
-    public ?Team $team;
+    #[ORM\JoinColumn(name: 'team_id', nullable: false)]
+    public Team $team;
 
-    #[ORM\Column(type: 'integer')]
-    public int $car_id;
-
-    public $points;
-
-    public $position;
+    #[ORM\Column(name: 'car_id', type: 'integer', nullable: false)]
+    public int $carId;
 
     #[ORM\OneToMany(targetEntity: Qualification::class, mappedBy: 'driver', orphanRemoval: true)]
     private Collection $qualifications;
 
     #[ORM\OneToMany(targetEntity: RaceResults::class, mappedBy: 'driver')]
     private Collection $raceResults;
+
+    public int $points;
+
+    public int $position;
 
     public function __construct()
     {
@@ -73,36 +75,36 @@ class Driver
         return $this;
     }
 
-    public function getTeam(): ?team
+    public function getTeam(): Team
     {
         return $this->team;
     }
 
-    public function setTeam(?team $team): self
+    public function setTeam(Team $team): self
     {
         $this->team = $team;
 
         return $this;
     }
 
-    public function getCarId(): ?int
+    public function getCarId(): int
     {
-        return $this->car_id;
+        return $this->carId;
     }
 
-    public function setCarId(int $car_id): self
+    public function setCarId(int $carId): self
     {
-        $this->car_id = $car_id;
+        $this->carId = $carId;
 
         return $this;
     }
 
     public function getPoints(): int
     {
-        return $this->points ? $this->points : 0;
+        return $this->points ?: 0;
     }
 
-    public function setPoints(string $points): static
+    public function setPoints(int $points): static
     {
         $this->points = $points;
 
@@ -114,7 +116,7 @@ class Driver
         return $this->position ?: 0;
     }
 
-    public function setPosition(string $position): static
+    public function setPosition(int $position): static
     {
         $this->position = $position;
 
@@ -122,7 +124,7 @@ class Driver
     }
 
     /**
-     * @return Collection|Qualification[]
+     * @return Collection<Qualification>
      */
     public function getQualifications(): Collection
     {
@@ -143,17 +145,13 @@ class Driver
     {
         if ($this->qualifications->contains($qualification)) {
             $this->qualifications->removeElement($qualification);
-            // set the owning side to null (unless already changed)
-            if ($qualification->getDriver() === $this) {
-                $qualification->setDriver(null);
-            }
         }
 
         return $this;
     }
 
     /**
-     * @return Collection|RaceResults[]
+     * @return Collection<RaceResults>
      */
     public function getRaceResults(): Collection
     {
@@ -174,10 +172,6 @@ class Driver
     {
         if ($this->raceResults->contains($raceResult)) {
             $this->raceResults->removeElement($raceResult);
-            // set the owning side to null (unless already changed)
-            if ($raceResult->getDriver() === $this) {
-                $raceResult->setDriver(null);
-            }
         }
 
         return $this;

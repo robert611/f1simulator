@@ -2,18 +2,21 @@
 
 namespace App\Model\Classification;
 
+use App\Entity\Driver;
 use App\Model\DriverStatistics\DriverPoints;
-use App\Entity\Season;
-use App\Entity\UserSeason;
 
 class SeasonClassifications 
 {
-    public $drivers;
+    /** @var Driver[] $drivers */
+    public array $drivers;
     public object $driverPoints;
     public ?object $season;
     public $raceId;
 
-    public function __construct($drivers, ?object $season, $raceId)
+    /**
+     * @param Driver[] $drivers
+     */
+    public function __construct(array $drivers, ?object $season, $raceId)
     {
         $this->drivers = $drivers;
         $this->driverPoints = new DriverPoints();
@@ -91,7 +94,11 @@ class SeasonClassifications
         return $race;
     }
 
-    private function setDriversPositions($drivers)
+    /**
+     * @param Driver[] $drivers
+     * @return Driver[]
+     */
+    private function setDriversPositions(array $drivers): array
     {
         /* Sort drivers according to possesd points */
         usort ($drivers, function($a, $b) {

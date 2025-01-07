@@ -16,7 +16,7 @@ class SeasonTeamsClassification
 
     private function assaignTeamsPoints(&$teams, $season)
     {
-        /* Teams points are not assaign in database */
+        /* Teams points are not assign in database */
         /* If user did not start season, then every team has 0 points by default */
         foreach($teams as $team) {
             $points = $season ? (new TeamPoints())->getTeamPoints($team, $season) : 0;

@@ -2,15 +2,16 @@
 
 namespace App\Model\Classification;
 
+use App\Entity\UserSeason;
 use App\Model\DriverStatistics\LeaguePlayerPoints;
 
 class LeagueClassifications 
 {
-    public object $league;
-    public object $leaguePlayerPoints;
-    public ?int $raceId;
+    public UserSeason $league;
+    public LeaguePlayerPoints $leaguePlayerPoints;
+    public int $raceId;
 
-    public function __construct(object $league, ?int $raceId)
+    public function __construct(UserSeason $league, int $raceId)
     {
         $this->league = $league;
         $this->raceId = $raceId;
@@ -19,23 +20,11 @@ class LeagueClassifications
 
     public function getClassificationBasedOnType(string $type)
     {
-        $classification = null;
-
-        switch ($type) {
-            case 'race':
-                $classification = $this->getRaceClassification();
-                break;  
-            case 'players':
-                $classification = $this->getPlayersClassification();
-                break;
-            case 'qualifications':
-                $classification = $this->getQualificationsClassification();
-                break;
-            default: 
-                $classification = $this->getQualificationsClassification(); /* It matches the default option in html */
-        }
-
-        return $classification;
+        return match ($type) {
+            'race' => $this->getRaceClassification(),
+            'players' => $this->getPlayersClassification(),
+            default => $this->getQualificationsClassification(), /* It matches the default option in html */
+        };
     }
 
     private function getRaceClassification(): object
