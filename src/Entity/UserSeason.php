@@ -45,7 +45,7 @@ class UserSeason
     #[ORM\Column(type: 'boolean', nullable: false)]
     private bool $completed;
 
-    #[ORM\Column(type: 'boolean', nullable: true)]
+    #[ORM\Column(type: 'boolean', nullable: false)]
     private bool $started;
 
     public function __construct()

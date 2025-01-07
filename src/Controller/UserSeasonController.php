@@ -49,11 +49,13 @@ class UserSeasonController extends AbstractController
                 return $this->redirectToRoute('multiplayer_index');
             }
 
+            /** @var UserSeason $userSeason */
             $userSeason = $form->getData();
 
             $userSeason->setOwner($this->getUser());
             $userSeason->setSecret((new SecretGenerator)->getSecret());
             $userSeason->setCompleted(0);
+            $userSeason->setStarted(false);
 
             $drivers = $this->entityManager->getRepository(Driver::class)->findAll();
 
