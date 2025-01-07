@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\RaceRepository;
@@ -12,15 +14,15 @@ class Race
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(name: 'id', type: 'integer')]
     private int $id;
 
     #[ORM\ManyToOne(targetEntity: Track::class, inversedBy: 'races')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'track_id', nullable: false)]
     private Track $track;
 
     #[ORM\ManyToOne(targetEntity: Season::class, inversedBy: 'races')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'season_id', nullable: false)]
     private Season $season;
 
     #[ORM\OneToMany(targetEntity: RaceResults::class, mappedBy: 'race')]
@@ -35,29 +37,29 @@ class Race
         $this->qualifications = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getTrack(): ?track
+    public function getTrack(): Track
     {
         return $this->track;
     }
 
-    public function setTrack(?track $track): self
+    public function setTrack(Track $track): self
     {
         $this->track = $track;
 
         return $this;
     }
 
-    public function getSeason(): ?season
+    public function getSeason(): season
     {
         return $this->season;
     }
 
-    public function setSeason(?season $season): self
+    public function setSeason(season $season): self
     {
         $this->season = $season;
 
@@ -65,7 +67,7 @@ class Race
     }
 
     /**
-     * @return Collection|RaceResults[]
+     * @return Collection<RaceResults>
      */
     public function getRaceResults(): Collection
     {
@@ -86,17 +88,13 @@ class Race
     {
         if ($this->raceResults->contains($raceResult)) {
             $this->raceResults->removeElement($raceResult);
-            // set the owning side to null (unless already changed)
-            if ($raceResult->getRace() === $this) {
-                $raceResult->setRace(null);
-            }
         }
 
         return $this;
     }
 
     /**
-     * @return Collection|Qualification[]
+     * @return Collection<Qualification>
      */
     public function getQualifications(): Collection
     {
@@ -117,10 +115,6 @@ class Race
     {
         if ($this->qualifications->contains($qualification)) {
             $this->qualifications->removeElement($qualification);
-            // set the owning side to null (unless already changed)
-            if ($qualification->getRace() === $this) {
-                $qualification->setRace(null);
-            }
         }
 
         return $this;
