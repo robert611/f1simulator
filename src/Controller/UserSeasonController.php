@@ -27,7 +27,7 @@ class UserSeasonController extends AbstractController
     ) {
     }
 
-    #[Route('/', name: 'multiplayer_index', methods: ['GET'])]
+    #[Route('/', name: 'multiplayer_index', methods: ['GET', 'POST'])]
     public function index(Request $request): Response
     {
         $userSeason = new UserSeason();

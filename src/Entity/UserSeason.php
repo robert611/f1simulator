@@ -23,8 +23,7 @@ class UserSeason
 
     #[ORM\Column(type: 'smallint')]
     #[Assert\Range(
-        minMessage: 'Minimalna liczba graczy to 2',
-        maxMessage: 'Maksymalna liczba graczy to 20',
+        notInRangeMessage: 'Liczba graczy musi być w przedziale od 2 do 20',
         min: 2,
         max: 20
     )]
