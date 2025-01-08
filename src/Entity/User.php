@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -12,7 +14,7 @@ use App\Repository\UserRepository;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['username'], message: 'Istnieje już konto z takim loginem')]
-#[UniqueEntity(fields: ['email'], message: 'Istnieje już konto z takim emailem')]
+#[UniqueEntity(fields: ['email'], message: 'Istnieje już konto z takim adresem email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -20,16 +22,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'integer')]
     private int $id;
 
-    #[ORM\Column(type: 'string', length: 180, unique: true, nullable: false)]
+    #[ORM\Column(name: 'username', type: 'string', length: 180, unique: true, nullable: false)]
     private string $username;
 
-    #[ORM\Column(type: 'string', length: 180, unique: true, nullable: false)]
+    #[ORM\Column(name: 'email', type: 'string', length: 180, unique: true, nullable: false)]
     private string $email;
 
-    #[ORM\Column(type: 'json', nullable: false)]
+    #[ORM\Column(name: 'roles', type: 'json', nullable: false)]
     private array $roles = [];
 
-    #[ORM\Column(type: 'string', nullable: false)]
+    #[ORM\Column(name: 'password', type: 'string', nullable: false)]
     private string $password;
 
     #[ORM\OneToMany(targetEntity: Season::class, mappedBy: 'user', orphanRemoval: true)]
@@ -48,7 +50,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->userSeasonPlayers = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -60,26 +62,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->username;
+        return $this->username;
     }
 
-    public function setUsername(string $username): self
+    public function setUsername(string $username): void
     {
         $this->username = $username;
-
-        return $this;
     }
 
     public function getEmail(): string
     {
-        return (string) $this->email;
+        return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(string $email): void
     {
         $this->email = $email;
-
-        return $this;
     }
 
     /**
@@ -94,11 +92,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): self
+    public function setRoles(array $roles): void
     {
         $this->roles = $roles;
-
-        return $this;
     }
 
     /**
@@ -106,14 +102,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(string $password): void
     {
         $this->password = $password;
-
-        return $this;
     }
 
     /**
@@ -134,96 +128,72 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection|Season[]
+     * @return Collection<Season>
      */
     public function getSeasons(): Collection
     {
         return $this->seasons;
     }
 
-    public function addSeason(Season $season): self
+    public function addSeason(Season $season): void
     {
         if (!$this->seasons->contains($season)) {
             $this->seasons[] = $season;
             $season->setUser($this);
         }
-
-        return $this;
     }
 
-    public function removeSeason(Season $season): self
+    public function removeSeason(Season $season): void
     {
         if ($this->seasons->contains($season)) {
             $this->seasons->removeElement($season);
-            // set the owning side to null (unless already changed)
-            if ($season->getUser() === $this) {
-                $season->setUser(null);
-            }
         }
-
-        return $this;
     }
 
     /**
-     * @return Collection|UserSeason[]
+     * @return Collection<UserSeason>
      */
     public function getUsersSeasons(): Collection
     {
         return $this->userSeasons;
     }
 
-    public function addUsersSeason(UserSeason $userSeason): self
+    public function addUsersSeason(UserSeason $userSeason): void
     {
         if (!$this->userSeasons->contains($userSeason)) {
             $this->userSeasons[] = $userSeason;
             $userSeason->setOwner($this);
         }
-
-        return $this;
     }
 
-    public function removeUsersSeason(UserSeason $userSeason): self
+    public function removeUsersSeason(UserSeason $userSeason): void
     {
         if ($this->userSeasons->contains($userSeason)) {
             $this->userSeasons->removeElement($userSeason);
-            // set the owning side to null (unless already changed)
-            if ($userSeason->getOwner() === $this) {
-                $userSeason->setOwner(null);
-            }
         }
-
-        return $this;
     }
 
     /**
-     * @return Collection|UserSeasonPlayers[]
+     * @return Collection<UserSeasonPlayers>
      */
     public function getUserSeasonPlayers(): Collection
     {
         return $this->userSeasonPlayers;
     }
 
-    public function addUserSeasonPlayer(UserSeasonPlayers $userSeasonPlayer): self
+    public function addUserSeasonPlayer(UserSeasonPlayers $userSeasonPlayer): void
     {
         if (!$this->userSeasonPlayers->contains($userSeasonPlayer)) {
             $this->userSeasonPlayers[] = $userSeasonPlayer;
             $userSeasonPlayer->setUser($this);
         }
-
-        return $this;
     }
 
-    public function removeUserSeasonPlayer(UserSeasonPlayers $userSeasonPlayer): self
+    public function removeUserSeasonPlayer(UserSeasonPlayers $userSeasonPlayer): void
     {
         if ($this->userSeasonPlayers->contains($userSeasonPlayer)) {
             $this->userSeasonPlayers->removeElement($userSeasonPlayer);
-            // set the owning side to null (unless already changed)
-            if ($userSeasonPlayer->getUser() === $this) {
-                $userSeasonPlayer->setUser(null);
-            }
         }
-
-        return $this;
     }
 
     public function getUserIdentifier(): string
