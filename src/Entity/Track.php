@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\TrackRepository;
@@ -12,13 +14,13 @@ class Track
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(name: 'id', type: 'integer')]
     private int $id;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    #[ORM\Column(name: 'name', type: 'string', length: 255, nullable: false)]
     private string $name;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    #[ORM\Column(name: 'picture', type: 'string', length: 255, nullable: false)]
     private string $picture;
 
     #[ORM\OneToMany(targetEntity: Race::class, mappedBy: 'track')]
@@ -29,7 +31,7 @@ class Track
         $this->races = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -39,11 +41,9 @@ class Track
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(string $name): void
     {
         $this->name = $name;
-
-        return $this;
     }
 
     public function getPicture(): string
@@ -51,41 +51,31 @@ class Track
         return $this->picture;
     }
 
-    public function setPicture(string $picture): self
+    public function setPicture(string $picture): void
     {
         $this->picture = $picture;
-
-        return $this;
     }
 
     /**
-     * @return Collection|Race[]
+     * @return Collection<Race>
      */
     public function getRaces(): Collection
     {
         return $this->races;
     }
 
-    public function addRace(Race $race): self
+    public function addRace(Race $race): void
     {
         if (!$this->races->contains($race)) {
             $this->races[] = $race;
             $race->setTrack($this);
         }
-
-        return $this;
     }
 
-    public function removeRace(Race $race): self
+    public function removeRace(Race $race): void
     {
         if ($this->races->contains($race)) {
             $this->races->removeElement($race);
-            // set the owning side to null (unless already changed)
-            if ($race->getTrack() === $this) {
-                $race->setTrack(null);
-            }
         }
-
-        return $this;
     }
 }
