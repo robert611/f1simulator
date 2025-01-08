@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\SeasonRepository;
@@ -12,18 +14,18 @@ class Season
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(name: 'id', type: 'integer')]
     private int $id;
 
     #[ORM\ManyToOne(targetEntity: Driver::class)]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'driver_id', nullable: false)]
     private Driver $driver;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'seasons')]
-    #[ORM\JoinColumn(nullable: false)]
-    private user $user;
+    #[ORM\JoinColumn(name: 'user_id', nullable: false)]
+    private User $user;
 
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(name: 'completed', type: 'boolean', nullable: false)]
     private bool $completed;
 
     #[ORM\OneToMany(targetEntity: Race::class, mappedBy: 'season')]
@@ -36,7 +38,7 @@ class Season
         $this->races = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -53,19 +55,19 @@ class Season
         return $this->userPoints;
     }
 
-    public function getUser(): ?user
+    public function getUser(): User
     {
         return $this->user;
     }
 
-    public function setUser(?user $user): self
+    public function setUser(User $user): self
     {
         $this->user = $user;
 
         return $this;
     }
 
-    public function getCompleted(): ?bool
+    public function getCompleted(): bool
     {
         return $this->completed;
     }
@@ -78,7 +80,7 @@ class Season
     }
 
     /**
-     * @return Collection|Race[]
+     * @return Collection<Race>
      */
     public function getRaces(): Collection
     {
@@ -99,10 +101,6 @@ class Season
     {
         if ($this->races->contains($races)) {
             $this->races->removeElement($races);
-            // set the owning side to null (unless already changed)
-            if ($races->getSeason() === $this) {
-                $races->setSeason(null);
-            }
         }
 
         return $this;
@@ -122,21 +120,17 @@ class Season
     {
         if ($this->races->contains($race)) {
             $this->races->removeElement($race);
-            // set the owning side to null (unless already changed)
-            if ($race->getSeason() === $this) {
-                $race->setSeason(null);
-            }
         }
 
         return $this;
     }
 
-    public function getDriver(): ?Driver
+    public function getDriver(): Driver
     {
         return $this->driver;
     }
 
-    public function setDriver(?Driver $driver): self
+    public function setDriver(Driver $driver): self
     {
         $this->driver = $driver;
 
