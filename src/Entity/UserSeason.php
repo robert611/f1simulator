@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\UserSeasonRepository;
@@ -15,23 +17,32 @@ class UserSeason
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(name: 'id', type: 'integer')]
     private int $id;
 
-    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    #[ORM\Column(name: 'secret', type: 'string', length: 255, unique: true, nullable: false)]
     private string $secret;
 
-    #[ORM\Column(type: 'smallint')]
+    #[ORM\Column(name: 'max_players', type: 'smallint', nullable: false)]
     #[Assert\Range(
         notInRangeMessage: 'Liczba graczy musi być w przedziale od 2 do 20',
         min: 2,
         max: 20
     )]
-    private int $max_players;
+    private int $maxPlayers;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'userSeasons')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'owner_id', nullable: false)]
     private User $owner;
+
+    #[ORM\Column(name: 'name', type: 'string', length: 255, unique: true, nullable: false)]
+    private string $name;
+
+    #[ORM\Column(name: 'completed', type: 'boolean', nullable: false)]
+    private bool $completed;
+
+    #[ORM\Column(name: 'started', type: 'boolean', nullable: false)]
+    private bool $started;
 
     #[ORM\OneToMany(targetEntity: UserSeasonPlayers::class, mappedBy: 'season', orphanRemoval: true)]
     private Collection $players;
@@ -39,22 +50,13 @@ class UserSeason
     #[ORM\OneToMany(targetEntity: UserSeasonRaces::class, mappedBy: 'season', orphanRemoval: true)]
     private Collection $races;
 
-    #[ORM\Column(type: 'string', length: 255, unique: true, nullable: false)]
-    private string $name;
-
-    #[ORM\Column(type: 'boolean', nullable: false)]
-    private bool $completed;
-
-    #[ORM\Column(type: 'boolean', nullable: false)]
-    private bool $started;
-
     public function __construct()
     {
         $this->players = new ArrayCollection();
         $this->races = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -64,97 +66,75 @@ class UserSeason
         return $this->secret;
     }
 
-    public function setSecret(string $secret): self
+    public function setSecret(string $secret): void
     {
         $this->secret = $secret;
-
-        return $this;
     }
 
     public function getMaxPlayers(): int
     {
-        return $this->max_players;
+        return $this->maxPlayers;
     }
 
-    public function setMaxPlayers(int $max_players): self
+    public function setMaxPlayers(int $maxPlayers): void
     {
-        $this->max_players = $max_players;
-
-        return $this;
+        $this->maxPlayers = $maxPlayers;
     }
 
-    public function getOwner(): ?User
+    public function getOwner(): User
     {
         return $this->owner;
     }
 
-    public function setOwner(?User $owner): self
+    public function setOwner(User $owner): void
     {
         $this->owner = $owner;
-
-        return $this;
     }
 
     /**
-     * @return Collection|UserSeasonPlayers[]
+     * @return Collection<UserSeasonPlayers>
      */
-    public function getPlayers(): ?Collection
+    public function getPlayers(): Collection
     {
         return $this->players;
     }
 
-    public function addPlayer(UserSeasonPlayers $userSeasonPlayer): self
+    public function addPlayer(UserSeasonPlayers $userSeasonPlayer): void
     {
         if (!$this->players->contains($userSeasonPlayer)) {
             $this->players[] = $userSeasonPlayer;
             $userSeasonPlayer->setSeason($this);
         }
-
-        return $this;
     }
 
-    public function removePlayer(UserSeasonPlayers $userSeasonPlayer): self
+    public function removePlayer(UserSeasonPlayers $userSeasonPlayer): void
     {
         if ($this->players->contains($userSeasonPlayer)) {
             $this->players->removeElement($userSeasonPlayer);
-            // set the owning side to null (unless already changed)
-            if ($userSeasonPlayer->getSeason() === $this) {
-                $userSeasonPlayer->setSeason(null);
-            }
         }
-
-        return $this;
     }
 
     /**
-     * @return Collection|UserSeasonRaces[]
+     * @return Collection<UserSeasonRaces>
      */
     public function getRaces(): Collection
     {
         return $this->races;
     }
 
-    public function addRace(UserSeasonRaces $userSeasonRace): self
+    public function addRace(UserSeasonRaces $userSeasonRace): void
     {
         if (!$this->races->contains($userSeasonRace)) {
             $this->races[] = $userSeasonRace;
             $userSeasonRace->setSeason($this);
         }
-
-        return $this;
     }
 
-    public function removeUserSeasonRace(UserSeasonRaces $userSeasonRace): self
+    public function removeUserSeasonRace(UserSeasonRaces $userSeasonRace): void
     {
         if ($this->races->contains($userSeasonRace)) {
             $this->races->removeElement($userSeasonRace);
-            // set the owning side to null (unless already changed)
-            if ($userSeasonRace->getSeason() === $this) {
-                $userSeasonRace->setSeason(null);
-            }
         }
-
-        return $this;
     }
 
     public function getName(): string
@@ -162,11 +142,9 @@ class UserSeason
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(string $name): void
     {
         $this->name = $name;
-
-        return $this;
     }
 
     public function getCompleted(): bool
@@ -174,11 +152,9 @@ class UserSeason
         return $this->completed;
     }
 
-    public function setCompleted(bool $completed): self
+    public function setCompleted(bool $completed): void
     {
         $this->completed = $completed;
-
-        return $this;
     }
 
     public function getStarted(): bool
@@ -186,10 +162,8 @@ class UserSeason
         return $this->started;
     }
 
-    public function setStarted(bool $started): self
+    public function setStarted(bool $started): void
     {
         $this->started = $started;
-
-        return $this;
     }
 }

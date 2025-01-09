@@ -55,7 +55,7 @@ class DriverController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'driver_edit', methods: ["GET","POST"])]
+    #[Route('/{id}/edit', name: 'driver_edit', methods: ["GET", "POST"])]
     public function edit(Request $request, Driver $driver): Response
     {
         $form = $this->createForm(DriverType::class, $driver);

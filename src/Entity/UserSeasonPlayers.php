@@ -48,12 +48,12 @@ class UserSeasonPlayers
         return $this->id;
     }
 
-    public function getSeason(): ?UserSeason
+    public function getSeason(): UserSeason
     {
         return $this->season;
     }
 
-    public function setSeason(?UserSeason $season): self
+    public function setSeason(UserSeason $season): self
     {
         $this->season = $season;
 
