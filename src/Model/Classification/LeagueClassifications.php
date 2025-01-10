@@ -2,6 +2,8 @@
 
 namespace App\Model\Classification;
 
+use App\Entity\Race;
+use App\Entity\RaceResults;
 use App\Entity\UserSeason;
 use App\Model\DriverStatistics\LeaguePlayerPoints;
 
@@ -9,9 +11,9 @@ class LeagueClassifications
 {
     public UserSeason $league;
     public LeaguePlayerPoints $leaguePlayerPoints;
-    public int $raceId;
+    public ?int $raceId;
 
-    public function __construct(UserSeason $league, int $raceId)
+    public function __construct(UserSeason $league, ?int $raceId)
     {
         $this->league = $league;
         $this->raceId = $raceId;
@@ -32,6 +34,7 @@ class LeagueClassifications
         $race = $this->findRace($this->raceId);
 
         /* Set points to raceResults */
+        /** @var RaceResults $result */
         $race->getRaceResults()->map(function($result) {
             $points = $this->leaguePlayerPoints->getPlayerPointsByResult($result);
             $result->setPoints($points);
@@ -67,7 +70,7 @@ class LeagueClassifications
         return $race ? $race->getQualifications() : null;
     }
 
-    private function findRace(?int $id): ?object
+    private function findRace(?int $id): ?Race
     {
         $race = $this->league->getRaces()->filter(function($race) use ($id) {
             return $race->getId() == $id;

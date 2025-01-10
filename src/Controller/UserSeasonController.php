@@ -24,6 +24,7 @@ class UserSeasonController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
+        private readonly LeagueTeamsClassification $leagueTeamsClassification,
     ) {
     }
 
@@ -107,7 +108,7 @@ class UserSeasonController extends AbstractController
         $qualificationRepository = $this->entityManager->getRepository(Qualification::class);
         $classification = (new LeagueClassifications($season, $request->query->get('race_id')))->getClassificationBasedOnType($classificationType);
 
-        $teamsClassification = (new LeagueTeamsClassification)->getClassification($season);
+        $teamsClassification = $this->leagueTeamsClassification->getClassification($season);
         
         return $this->render('league/show_league.html.twig', [
             'league' => $season,

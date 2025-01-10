@@ -1,12 +1,25 @@
 <?php 
 
+declare(strict_types=1);
+
 namespace App\Model\TeamStatistics;
 
+use App\Entity\Driver;
+use App\Entity\Team;
+use App\Entity\UserSeason;
+use App\Entity\UserSeasonPlayers;
 use App\Model\DriverStatistics\LeaguePlayerPoints;
+use App\Repository\TeamRepository;
+use Doctrine\Common\Collections\Collection;
 
-class LeagueTeamsPoints 
+class LeagueTeamsPoints
 {
-    public function getTeamsPoints(object $league)
+    public function __construct(
+        public readonly TeamRepository $teamRepository,
+    ) {
+    }
+
+    public function getTeamsPoints(UserSeason $league): array
     {
         $players = $league->getPlayers();
 
@@ -15,59 +28,61 @@ class LeagueTeamsPoints
 
         $teams = $this->getTeamsWithPlayers($teams, $players);
 
-        $teams->map(function($team) {
+        foreach ($teams as $team) {
             $points = 0;
 
-            $team->getPlayers()->map(function($player) use (&$points) {
+            foreach ($team->getPlayers() as $player) {
                 $points += (new LeaguePlayerPoints)->getPlayerPoints($player);
-            });
+            }
 
             $team->setPoints($points);
-        });
+        }
 
         return $teams;
     }
 
-    private function getTeamsWithPlayers(object $teams, object $players): object
+    /**
+     * @param Team[] $teams
+     * @param Collection<UserSeasonPlayers> $players
+     * @return Team[]
+     */
+    private function getTeamsWithPlayers(array $teams, Collection $players): array
     {
-        /* In this way, every team from given league will have assigned its players to its object, and it will be easier to get points in LeagueTeamPoints model */
-        $teams->map(function($team) use ($players) {
+        foreach ($teams as $team) {
             $players->map(function($player) use ($team) {
-                if ($player->getDriver()->getTeam()->getId() == $team->getId())
+                /** @var UserSeasonPlayers $player */
+                if ($player->getDriver()->getTeam()->getId() === $team->getId()) {
                     $team->addPlayer($player);
+                }
             });
-        });
+        }
 
         return $teams;
     }
 
-    private function getTeams(object $drivers): object
+    /**
+     * @param Collection<Driver> $drivers
+     * @return Team[]
+     */
+    private function getTeams(Collection $drivers): array
     {
-        $uniqueTeams = array();
+        $teamsIds = $drivers->map(function($driver) {
+            /** @var Driver $driver */
+            return $driver->getTeam()->getId();
+        })->toArray();
 
-        $teams = $drivers->map(function($driver) {
-            return $driver->getTeam(); 
-        });
-
-        /* Filter teams so only unique ones will be return */
-        /* It is important to know that filter changes unwanted values to null */
-        $teams = $teams->filter(function($team) use (&$uniqueTeams) {
-            if (!in_array($team->getId(), $uniqueTeams)) {
-                $uniqueTeams[] = $team->getId();
-                return true;
-            }
-            return false;
-        });
-
-        return $teams;
+        return $this->teamRepository->findBy(['id' => $teamsIds]);
     }
 
-    private function getDrivers(object $players): object
+    /**
+     * @param Collection<UserSeasonPlayers> $players
+     * @return Collection<Driver>
+     */
+    private function getDrivers(Collection $players): Collection
     {
-        $drivers = $players->map(function($player) {
+        return $players->map(function($player) {
+            /** @var UserSeasonPlayers $player */
             return $player->getDriver();
         });
-
-        return $drivers;
     }
 }

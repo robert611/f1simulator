@@ -6,7 +6,7 @@ use App\Model\Configuration\RacePunctation;
 
 class LeaguePlayerPoints
 {
-    public function getPlayerPoints(object $player)
+    public function getPlayerPoints(object $player): int
     {
         $points = 0;
 
@@ -17,7 +17,7 @@ class LeaguePlayerPoints
         return $points;
     }
 
-    public function getPlayerPointsByResult(object $result)
+    public function getPlayerPointsByResult(object $result): int
     {
         return (new RacePunctation)->getPunctation()[$result->getPosition()];
     }

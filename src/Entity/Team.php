@@ -30,12 +30,11 @@ class Team
 
     public int $position;
 
-    public ArrayCollection $players;
+    public array $players = [];
 
     public function __construct()
     {
         $this->drivers = new ArrayCollection();
-        $this->players = new ArrayCollection();
     }
 
     public function getId(): int
@@ -95,21 +94,23 @@ class Team
     }
 
     /**
-     * @return Collection<UserSeasonPlayers>
+     * @return UserSeasonPlayers[]
      * There is no UserSeasonPlayers column in database
      */
-    public function getPlayers(): Collection
+    public function getPlayers(): array
     {
         return $this->players;
     }
 
-    public function addPlayer(UserSeasonPlayers $player): self
+    public function addPlayer(UserSeasonPlayers $player): void
     {
-        if (!$this->players->contains($player)) {
-            $this->players[] = $player;
+        foreach ($this->players as $existingPlayer) {
+            if ($existingPlayer->getId() === $player->getId()) {
+                return;
+            }
         }
 
-        return $this;
+        $this->players[] = $player;
     }
 
     public function getPoints(): int
