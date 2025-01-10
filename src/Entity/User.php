@@ -40,7 +40,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: UserSeason::class, mappedBy: 'owner')]
     private Collection $userSeasons;
 
-    #[ORM\OneToMany(targetEntity: UserSeasonPlayers::class, mappedBy: 'user', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: UserSeasonPlayer::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $userSeasonPlayers;
 
     public function __construct()
@@ -174,14 +174,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<UserSeasonPlayers>
+     * @return Collection<UserSeasonPlayer>
      */
     public function getUserSeasonPlayers(): Collection
     {
         return $this->userSeasonPlayers;
     }
 
-    public function addUserSeasonPlayer(UserSeasonPlayers $userSeasonPlayer): void
+    public function addUserSeasonPlayer(UserSeasonPlayer $userSeasonPlayer): void
     {
         if (!$this->userSeasonPlayers->contains($userSeasonPlayer)) {
             $this->userSeasonPlayers[] = $userSeasonPlayer;
@@ -189,7 +189,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
     }
 
-    public function removeUserSeasonPlayer(UserSeasonPlayers $userSeasonPlayer): void
+    public function removeUserSeasonPlayer(UserSeasonPlayer $userSeasonPlayer): void
     {
         if ($this->userSeasonPlayers->contains($userSeasonPlayer)) {
             $this->userSeasonPlayers->removeElement($userSeasonPlayer);

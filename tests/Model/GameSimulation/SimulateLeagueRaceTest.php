@@ -5,7 +5,7 @@ namespace App\Tests\Model\GameSimulation;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use App\Model\GameSimulation\SimulateLeagueRace;
 use App\Entity\UserSeason;
-use App\Entity\UserSeasonPlayers;
+use App\Entity\UserSeasonPlayer;
 
 
 class SimulateLeagueRaceTest extends KernelTestCase
@@ -31,8 +31,8 @@ class SimulateLeagueRaceTest extends KernelTestCase
         $this->assertTrue(count($raceResults) == count($players));
 
         for ($i = 1, $j = count($qualificationsResults); $i <= $j; $i++) {
-            $this->assertTrue($qualificationsResults[$i] instanceof UserSeasonPlayers);
-            $this->assertTrue($raceResults[$i] instanceof UserSeasonPlayers);
+            $this->assertTrue($qualificationsResults[$i] instanceof UserSeasonPlayer);
+            $this->assertTrue($raceResults[$i] instanceof UserSeasonPlayer);
         }
     }
 }

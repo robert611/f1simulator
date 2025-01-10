@@ -100,7 +100,7 @@ class SeasonClassifications
      */
     private function setDriversPositions(array $drivers): array
     {
-        /* Sort drivers according to possesd points */
+        /* Sort drivers according to possessed points */
         usort ($drivers, function($a, $b) {
             return $a->getPoints() < $b->getPoints();
         });

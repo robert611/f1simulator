@@ -94,7 +94,7 @@ class Team
     }
 
     /**
-     * @return UserSeasonPlayers[]
+     * @return UserSeasonPlayer[]
      * There is no UserSeasonPlayers column in database
      */
     public function getPlayers(): array
@@ -102,7 +102,7 @@ class Team
         return $this->players;
     }
 
-    public function addPlayer(UserSeasonPlayers $player): void
+    public function addPlayer(UserSeasonPlayer $player): void
     {
         foreach ($this->players as $existingPlayer) {
             if ($existingPlayer->getId() === $player->getId()) {

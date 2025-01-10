@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\UserSeason;
-use App\Entity\UserSeasonPlayers;
+use App\Entity\UserSeasonPlayer;
 use App\Entity\UserSeasonRaces;
 use App\Entity\UserSeasonQualifications;
 use App\Entity\UserSeasonRaceResults;
@@ -35,7 +35,7 @@ class LeagueController extends AbstractController
 
         $drivers = $this->entityManager->getRepository(Driver::class)->findAll();
 
-        $player = new UserSeasonPlayers();
+        $player = new UserSeasonPlayer();
         $player->setUser($this->getUser());
         $player->setDriver((new DrawDriverToReplace)->getDriverToReplaceInUserLeague($drivers,  $league->getPlayers()));
         $player->setSeason($league);

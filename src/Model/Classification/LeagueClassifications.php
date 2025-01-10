@@ -5,6 +5,8 @@ namespace App\Model\Classification;
 use App\Entity\Race;
 use App\Entity\RaceResults;
 use App\Entity\UserSeason;
+use App\Entity\UserSeasonPlayer;
+use App\Entity\UserSeasonRaces;
 use App\Model\DriverStatistics\LeaguePlayerPoints;
 
 class LeagueClassifications 
@@ -49,13 +51,14 @@ class LeagueClassifications
 
         /* In default drivers have no assign points got in current season in database, so it has to be done here */
         $players->map(function($player) {
+            /** @var UserSeasonPlayer $player */
             $points = $this->leaguePlayerPoints->getPlayerPoints($player);
             $player->setPoints($points);
         });
 
         $players = [...$players];
 
-        /* Sort drivers according to possesd points */
+        /* Sort drivers according to possessed points */
         usort ($players, function($a, $b) {
             return $a->getPoints() < $b->getPoints();
         });
@@ -70,10 +73,10 @@ class LeagueClassifications
         return $race ? $race->getQualifications() : null;
     }
 
-    private function findRace(?int $id): ?Race
+    private function findRace(?int $id): ?UserSeasonRaces
     {
         $race = $this->league->getRaces()->filter(function($race) use ($id) {
-            return $race->getId() == $id;
+            return $race->getId() === $id;
         })->first();
 
         /* Just in case if this classification will be called without giving id, return some results */

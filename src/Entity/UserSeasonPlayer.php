@@ -8,9 +8,11 @@ use App\Repository\UserSeasonPlayersRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Table;
 
 #[ORM\Entity(repositoryClass: UserSeasonPlayersRepository::class)]
-class UserSeasonPlayers
+#[table('user_season_players')]
+class UserSeasonPlayer
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -35,9 +37,7 @@ class UserSeasonPlayers
     #[ORM\OneToMany(targetEntity: UserSeasonQualifications::class, mappedBy: 'player', orphanRemoval: true)]
     private Collection $qualificationsResults;
 
-    public $points;
-
-    public $position;
+    public int $points;
 
     public function __construct()
     {
@@ -126,43 +126,13 @@ class UserSeasonPlayers
         }
     }
 
-    /**
-     * Get the value of points
-     */ 
-    public function getPoints()
+    public function getPoints(): int
     {
         return $this->points;
     }
 
-    /**
-     * Set the value of points
-     *
-     * @return  self
-     */ 
-    public function setPoints($points): static
+    public function setPoints(int $points): void
     {
         $this->points = $points;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of position
-     */ 
-    public function getPosition()
-    {
-        return $this->position;
-    }
-
-    /**
-     * Set the value of position
-     *
-     * @return  self
-     */ 
-    public function setPosition($position): static
-    {
-        $this->position = $position;
-
-        return $this;
     }
 }

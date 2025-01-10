@@ -7,7 +7,7 @@ namespace App\Model\TeamStatistics;
 use App\Entity\Driver;
 use App\Entity\Team;
 use App\Entity\UserSeason;
-use App\Entity\UserSeasonPlayers;
+use App\Entity\UserSeasonPlayer;
 use App\Model\DriverStatistics\LeaguePlayerPoints;
 use App\Repository\TeamRepository;
 use Doctrine\Common\Collections\Collection;
@@ -43,14 +43,14 @@ class LeagueTeamsPoints
 
     /**
      * @param Team[] $teams
-     * @param Collection<UserSeasonPlayers> $players
+     * @param Collection<UserSeasonPlayer> $players
      * @return Team[]
      */
     private function getTeamsWithPlayers(array $teams, Collection $players): array
     {
         foreach ($teams as $team) {
             $players->map(function($player) use ($team) {
-                /** @var UserSeasonPlayers $player */
+                /** @var UserSeasonPlayer $player */
                 if ($player->getDriver()->getTeam()->getId() === $team->getId()) {
                     $team->addPlayer($player);
                 }
@@ -75,13 +75,13 @@ class LeagueTeamsPoints
     }
 
     /**
-     * @param Collection<UserSeasonPlayers> $players
+     * @param Collection<UserSeasonPlayer> $players
      * @return Collection<Driver>
      */
     private function getDrivers(Collection $players): Collection
     {
         return $players->map(function($player) {
-            /** @var UserSeasonPlayers $player */
+            /** @var UserSeasonPlayer $player */
             return $player->getDriver();
         });
     }

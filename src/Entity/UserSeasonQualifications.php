@@ -13,9 +13,9 @@ class UserSeasonQualifications
     #[ORM\Column(type: 'integer')]
     private int $id;
 
-    #[ORM\ManyToOne(targetEntity: UserSeasonPlayers::class, inversedBy: 'qualificationsResults')]
+    #[ORM\ManyToOne(targetEntity: UserSeasonPlayer::class, inversedBy: 'qualificationsResults')]
     #[ORM\JoinColumn(nullable: false)]
-    private UserSeasonPlayers $player;
+    private UserSeasonPlayer $player;
 
     #[ORM\ManyToOne(targetEntity: UserSeasonRaces::class, inversedBy: 'qualifications')]
     #[ORM\JoinColumn(nullable: false)]
@@ -29,12 +29,12 @@ class UserSeasonQualifications
         return $this->id;
     }
 
-    public function getPlayer(): UserSeasonPlayers
+    public function getPlayer(): UserSeasonPlayer
     {
         return $this->player;
     }
 
-    public function setPlayer(UserSeasonPlayers $player): self
+    public function setPlayer(UserSeasonPlayer $player): self
     {
         $this->player = $player;
 

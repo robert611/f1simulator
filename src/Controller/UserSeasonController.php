@@ -6,7 +6,7 @@ use App\Entity\Driver;
 use App\Entity\Qualification;
 use App\Entity\Track;
 use App\Entity\UserSeason;
-use App\Entity\UserSeasonPlayers;
+use App\Entity\UserSeasonPlayer;
 use App\Form\UserSeasonType;
 use App\Model\Classification\LeagueClassifications;
 use App\Model\Classification\LeagueTeamsClassification;
@@ -60,7 +60,7 @@ class UserSeasonController extends AbstractController
 
             $drivers = $this->entityManager->getRepository(Driver::class)->findAll();
 
-            $player = new UserSeasonPlayers();
+            $player = new UserSeasonPlayer();
             $player->setUser($this->getUser());
             $player->setDriver((new DrawDriverToReplace)->getDriverToReplaceInUserLeague($drivers, $userSeason->getPlayers()));
             $player->setSeason($userSeason);
@@ -93,7 +93,7 @@ class UserSeasonController extends AbstractController
     {
         $this->denyAccessUnlessGranted('league_show_season', $season);
 
-        $player = $this->entityManager->getRepository(UserSeasonPlayers::class)->findOneBy(['season' => $season, 'user' => $this->getUser()]);
+        $player = $this->entityManager->getRepository(UserSeasonPlayer::class)->findOneBy(['season' => $season, 'user' => $this->getUser()]);
         $player = (new FillLeaguePlayerData($player, $season))->getPlayer();
 
         $trackRepository = $this->entityManager->getRepository(Track::class);

@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use App\Model\Classification\LeagueClassifications;
 use App\Entity\UserSeason;
 use App\Entity\UserSeasonRaceResults;
-use App\Entity\UserSeasonPlayers;
+use App\Entity\UserSeasonPlayer;
 use App\Entity\UserSeasonQualifications;
 
 class LeagueClassificationsTest extends KernelTestCase
@@ -53,7 +53,7 @@ class LeagueClassificationsTest extends KernelTestCase
     {
         $classification = $this->leagueClassifications->getClassificationBasedOnType('players');
         
-        $this->assertTrue($classification[0] instanceof UserSeasonPlayers);
+        $this->assertTrue($classification[0] instanceof UserSeasonPlayer);
         $this->assertTrue($classification[0]->points > 0);
 
     }
