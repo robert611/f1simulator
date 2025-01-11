@@ -26,7 +26,7 @@ class UserSeasonRaces
     #[ORM\OneToMany(targetEntity: UserSeasonRaceResults::class, mappedBy: 'race', orphanRemoval: true)]
     private Collection $raceResults;
 
-    #[ORM\OneToMany(targetEntity: UserSeasonQualifications::class, mappedBy: 'race', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: UserSeasonQualification::class, mappedBy: 'race', orphanRemoval: true)]
     private Collection $qualifications;
 
     public function __construct()
@@ -96,14 +96,14 @@ class UserSeasonRaces
     }
 
     /**
-     * @return Collection|UserSeasonQualifications[]
+     * @return Collection|UserSeasonQualification[]
      */
     public function getQualifications(): Collection
     {
         return $this->qualifications;
     }
 
-    public function addQualification(UserSeasonQualifications $qualification): self
+    public function addQualification(UserSeasonQualification $qualification): self
     {
         if (!$this->qualifications->contains($qualification)) {
             $this->qualifications[] = $qualification;
@@ -113,7 +113,7 @@ class UserSeasonRaces
         return $this;
     }
 
-    public function removeQualification(UserSeasonQualifications $qualification): self
+    public function removeQualification(UserSeasonQualification $qualification): self
     {
         if ($this->qualifications->contains($qualification)) {
             $this->qualifications->removeElement($qualification);

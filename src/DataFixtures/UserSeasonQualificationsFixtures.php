@@ -5,7 +5,7 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use App\Entity\UserSeasonQualifications;
+use App\Entity\UserSeasonQualification;
 
 class UserSeasonQualificationsFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -14,7 +14,7 @@ class UserSeasonQualificationsFixtures extends Fixture implements DependentFixtu
         $qualifications = $this->getQualifications();
 
         foreach ($qualifications as $key => $data) {
-            $qualification = new UserSeasonQualifications();
+            $qualification = new UserSeasonQualification();
 
             $qualification->setPlayer($this->getReference('league_player.' . $data['player_id']));
             $qualification->setRace($this->getReference('league_race.' . $data['race_id']));

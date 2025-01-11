@@ -7,7 +7,7 @@ use App\Model\Classification\LeagueClassifications;
 use App\Entity\UserSeason;
 use App\Entity\UserSeasonRaceResults;
 use App\Entity\UserSeasonPlayer;
-use App\Entity\UserSeasonQualifications;
+use App\Entity\UserSeasonQualification;
 
 class LeagueClassificationsTest extends KernelTestCase
 {
@@ -62,7 +62,7 @@ class LeagueClassificationsTest extends KernelTestCase
     {
         $classification = $this->leagueClassifications->getClassificationBasedOnType('qualifications');
         
-        $this->assertTrue($classification[0] instanceof UserSeasonQualifications);
+        $this->assertTrue($classification[0] instanceof UserSeasonQualification);
     }
 
     public function provideClassificationTypes()

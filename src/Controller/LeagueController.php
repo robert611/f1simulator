@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\UserSeason;
 use App\Entity\UserSeasonPlayer;
 use App\Entity\UserSeasonRaces;
-use App\Entity\UserSeasonQualifications;
+use App\Entity\UserSeasonQualification;
 use App\Entity\UserSeasonRaceResults;
 use App\Entity\Driver;
 use App\Entity\Track;
@@ -95,7 +95,7 @@ class LeagueController extends AbstractController
 
         /* Save qualifications results in database, element index is equivalent to its position */
         foreach ($qualificationsResults as $position => $player) {
-            $qualification = new UserSeasonQualifications();
+            $qualification = new UserSeasonQualification();
             $qualification->setRace($race);
             $qualification->setPlayer($player);
             $qualification->setPosition($position);
