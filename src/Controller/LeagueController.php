@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\UserSeason;
 use App\Entity\UserSeasonPlayer;
-use App\Entity\UserSeasonRaces;
+use App\Entity\UserSeasonRace;
 use App\Entity\UserSeasonQualification;
 use App\Entity\UserSeasonRaceResult;
 use App\Entity\Driver;
@@ -83,7 +83,7 @@ class LeagueController extends AbstractController
         $track = $lastRace ? $trackRepository->find($lastRace->getTrack()->getId() + 1) : $trackRepository->findAll()[0];
 
         /* Save race in the database */
-        $race = new UserSeasonRaces();
+        $race = new UserSeasonRace();
 
         $race->setTrack($track);
         $race->setSeason($season);

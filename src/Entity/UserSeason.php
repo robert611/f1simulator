@@ -47,7 +47,7 @@ class UserSeason
     #[ORM\OneToMany(targetEntity: UserSeasonPlayer::class, mappedBy: 'season', orphanRemoval: true)]
     private Collection $players;
 
-    #[ORM\OneToMany(targetEntity: UserSeasonRaces::class, mappedBy: 'season', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: UserSeasonRace::class, mappedBy: 'season', orphanRemoval: true)]
     private Collection $races;
 
     public function __construct()
@@ -115,14 +115,14 @@ class UserSeason
     }
 
     /**
-     * @return Collection<UserSeasonRaces>
+     * @return Collection<UserSeasonRace>
      */
     public function getRaces(): Collection
     {
         return $this->races;
     }
 
-    public function addRace(UserSeasonRaces $userSeasonRace): void
+    public function addRace(UserSeasonRace $userSeasonRace): void
     {
         if (!$this->races->contains($userSeasonRace)) {
             $this->races[] = $userSeasonRace;
@@ -130,7 +130,7 @@ class UserSeason
         }
     }
 
-    public function removeUserSeasonRace(UserSeasonRaces $userSeasonRace): void
+    public function removeUserSeasonRace(UserSeasonRace $userSeasonRace): void
     {
         if ($this->races->contains($userSeasonRace)) {
             $this->races->removeElement($userSeasonRace);

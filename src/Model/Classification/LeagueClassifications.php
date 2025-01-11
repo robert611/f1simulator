@@ -6,7 +6,7 @@ use App\Entity\Race;
 use App\Entity\RaceResults;
 use App\Entity\UserSeason;
 use App\Entity\UserSeasonPlayer;
-use App\Entity\UserSeasonRaces;
+use App\Entity\UserSeasonRace;
 use App\Model\DriverStatistics\LeaguePlayerPoints;
 
 class LeagueClassifications 
@@ -73,7 +73,7 @@ class LeagueClassifications
         return $race ? $race->getQualifications() : null;
     }
 
-    private function findRace(?int $id): ?UserSeasonRaces
+    private function findRace(?int $id): ?UserSeasonRace
     {
         $race = $this->league->getRaces()->filter(function($race) use ($id) {
             return $race->getId() === $id;

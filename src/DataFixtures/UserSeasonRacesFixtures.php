@@ -4,7 +4,7 @@ namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use App\Entity\UserSeasonRaces;
+use App\Entity\UserSeasonRace;
 use App\DataFixtures\UserSeasonFixtures;
 use App\DataFixtures\UserSeasonPlayersFixtures;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -16,7 +16,7 @@ class UserSeasonRacesFixtures extends Fixture implements DependentFixtureInterfa
         $races = $this->getRaces(); 
 
         foreach ($races as $key => $data) {
-            $race = new UserSeasonRaces();
+            $race = new UserSeasonRace();
 
             $race->setTrack($this->getReference('track.' . $data['track_id']));
             $race->setSeason($this->getReference('userSeason.' . $data['season_id']));

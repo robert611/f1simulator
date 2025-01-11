@@ -20,9 +20,9 @@ class UserSeasonQualification
     #[ORM\JoinColumn(name: 'player_id', nullable: false)]
     private UserSeasonPlayer $player;
 
-    #[ORM\ManyToOne(targetEntity: UserSeasonRaces::class, inversedBy: 'qualifications')]
+    #[ORM\ManyToOne(targetEntity: UserSeasonRace::class, inversedBy: 'qualifications')]
     #[ORM\JoinColumn(name: 'race_id', nullable: false)]
-    private UserSeasonRaces $race;
+    private UserSeasonRace $race;
 
     #[ORM\Column(name: 'position', type: 'smallint', nullable: false)]
     private int $position;
@@ -42,12 +42,12 @@ class UserSeasonQualification
         $this->player = $player;
     }
 
-    public function getRace(): UserSeasonRaces
+    public function getRace(): UserSeasonRace
     {
         return $this->race;
     }
 
-    public function setRace(UserSeasonRaces $race): void
+    public function setRace(UserSeasonRace $race): void
     {
         $this->race = $race;
     }

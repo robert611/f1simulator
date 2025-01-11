@@ -2,20 +2,20 @@
 
 namespace App\Repository;
 
-use App\Entity\UserSeasonRaces;
+use App\Entity\UserSeasonRace;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method UserSeasonRaces|null find($id, $lockMode = null, $lockVersion = null)
- * @method UserSeasonRaces|null findOneBy(array $criteria, array $orderBy = null)
- * @method UserSeasonRaces[]    findAll()
- * @method UserSeasonRaces[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method UserSeasonRace|null find($id, $lockMode = null, $lockVersion = null)
+ * @method UserSeasonRace|null findOneBy(array $criteria, array $orderBy = null)
+ * @method UserSeasonRace[]    findAll()
+ * @method UserSeasonRace[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class UserSeasonRacesRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, UserSeasonRaces::class);
+        parent::__construct($registry, UserSeasonRace::class);
     }
 }
