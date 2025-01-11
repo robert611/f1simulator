@@ -13,7 +13,7 @@ class UserSeasonQualification
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
     private int $id;
 
     #[ORM\ManyToOne(targetEntity: UserSeasonPlayer::class, inversedBy: 'qualificationsResults')]

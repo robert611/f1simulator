@@ -10,11 +10,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DriverRepository::class)]
+#[ORM\Table(name: 'driver')]
 class Driver
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
     public int $id;
 
     #[ORM\Column(name: 'name', type: 'string', length: 255, nullable: false)]
@@ -33,7 +34,7 @@ class Driver
     #[ORM\OneToMany(targetEntity: Qualification::class, mappedBy: 'driver', orphanRemoval: true)]
     private Collection $qualifications;
 
-    #[ORM\OneToMany(targetEntity: RaceResults::class, mappedBy: 'driver')]
+    #[ORM\OneToMany(targetEntity: RaceResult::class, mappedBy: 'driver')]
     private Collection $raceResults;
 
     public int $points;
@@ -56,23 +57,19 @@ class Driver
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(string $name): void
     {
         $this->name = $name;
-
-        return $this;
     }
 
-    public function getSurname(): ?string
+    public function getSurname(): string
     {
         return $this->surname;
     }
 
-    public function setSurname(string $surname): self
+    public function setSurname(string $surname): void
     {
         $this->surname = $surname;
-
-        return $this;
     }
 
     public function getTeam(): Team
@@ -80,11 +77,9 @@ class Driver
         return $this->team;
     }
 
-    public function setTeam(Team $team): self
+    public function setTeam(Team $team): void
     {
         $this->team = $team;
-
-        return $this;
     }
 
     public function getCarId(): int
@@ -92,11 +87,9 @@ class Driver
         return $this->carId;
     }
 
-    public function setCarId(int $carId): self
+    public function setCarId(int $carId): void
     {
         $this->carId = $carId;
-
-        return $this;
     }
 
     public function getPoints(): int
@@ -104,11 +97,9 @@ class Driver
         return $this->points ?: 0;
     }
 
-    public function setPoints(int $points): static
+    public function setPoints(int $points): void
     {
         $this->points = $points;
-
-        return $this;
     }
 
     public function getPosition(): int
@@ -116,11 +107,9 @@ class Driver
         return $this->position ?: 0;
     }
 
-    public function setPosition(int $position): static
+    public function setPosition(int $position): void
     {
         $this->position = $position;
-
-        return $this;
     }
 
     /**
@@ -151,14 +140,14 @@ class Driver
     }
 
     /**
-     * @return Collection<RaceResults>
+     * @return Collection<RaceResult>
      */
     public function getRaceResults(): Collection
     {
         return $this->raceResults;
     }
 
-    public function addRaceResult(RaceResults $raceResult): self
+    public function addRaceResult(RaceResult $raceResult): self
     {
         if (!$this->raceResults->contains($raceResult)) {
             $this->raceResults[] = $raceResult;
@@ -168,7 +157,7 @@ class Driver
         return $this;
     }
 
-    public function removeRaceResult(RaceResults $raceResult): self
+    public function removeRaceResult(RaceResult $raceResult): self
     {
         if ($this->raceResults->contains($raceResult)) {
             $this->raceResults->removeElement($raceResult);

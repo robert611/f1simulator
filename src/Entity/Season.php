@@ -10,11 +10,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SeasonRepository::class)]
+#[ORM\Table(name: 'season')]
 class Season
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
     private int $id;
 
     #[ORM\ManyToOne(targetEntity: Driver::class)]
@@ -43,11 +44,9 @@ class Season
         return $this->id;
     }
 
-    public function setUserPoints(int $points): self
+    public function setUserPoints(int $points): void
     {
         $this->userPoints = $points;
-
-        return $this;
     }
 
     public function getUserPoints(): int
@@ -60,11 +59,9 @@ class Season
         return $this->user;
     }
 
-    public function setUser(User $user): self
+    public function setUser(User $user): void
     {
         $this->user = $user;
-
-        return $this;
     }
 
     public function getCompleted(): bool
@@ -72,11 +69,9 @@ class Season
         return $this->completed;
     }
 
-    public function setCompleted(bool $completed): self
+    public function setCompleted(bool $completed): void
     {
         $this->completed = $completed;
-
-        return $this;
     }
 
     /**
@@ -87,42 +82,34 @@ class Season
         return $this->races;
     }
 
-    public function addRaces(Race $races): self
+    public function addRaces(Race $races): void
     {
         if (!$this->races->contains($races)) {
             $this->races[] = $races;
             $races->setSeason($this);
         }
-
-        return $this;
     }
 
-    public function removeRaces(Race $races): self
+    public function removeRaces(Race $races): void
     {
         if ($this->races->contains($races)) {
             $this->races->removeElement($races);
         }
-
-        return $this;
     }
 
-    public function addRace(race $race): self
+    public function addRace(race $race): void
     {
         if (!$this->races->contains($race)) {
             $this->races[] = $race;
             $race->setSeason($this);
         }
-
-        return $this;
     }
 
-    public function removeRace(race $race): self
+    public function removeRace(race $race): void
     {
         if ($this->races->contains($race)) {
             $this->races->removeElement($race);
         }
-
-        return $this;
     }
 
     public function getDriver(): Driver
@@ -130,10 +117,8 @@ class Season
         return $this->driver;
     }
 
-    public function setDriver(Driver $driver): self
+    public function setDriver(Driver $driver): void
     {
         $this->driver = $driver;
-
-        return $this;
     }
 }

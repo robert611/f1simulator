@@ -5,7 +5,7 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use App\Entity\RaceResults;
+use App\Entity\RaceResult;
 
 class RaceResultsFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -14,7 +14,7 @@ class RaceResultsFixtures extends Fixture implements DependentFixtureInterface
         for ($i = 1; $i <= 6; $i++) {
 
             for ($j = 1; $j <= 20; $j++) {
-                $raceResults = new RaceResults();
+                $raceResults = new RaceResult();
 
                 $raceResults->setRace($this->getReference('race.' . $i));
                 $raceResults->setDriver($this->getReference('driver.' . $j));

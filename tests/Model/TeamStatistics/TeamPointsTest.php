@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use App\Model\TeamStatistics\TeamPoints;
 use App\Model\Configuration\RacePunctation;
 use App\Entity\Driver;
-use App\Entity\RaceResults;
+use App\Entity\RaceResult;
 use App\Entity\Team;
 use App\Entity\Season;
 
@@ -28,7 +28,7 @@ class TeamPointsTest extends KernelTestCase
     public function test_if_get_team_points_return_team_points()
     {
         $driversRepository = $this->entityManager->getRepository(Driver::class);
-        $raceResultsRepository = $this->entityManager->getRepository(RaceResults::class);
+        $raceResultsRepository = $this->entityManager->getRepository(RaceResult::class);
 
         $teamPointsModel = new TeamPoints($raceResultsRepository);
 

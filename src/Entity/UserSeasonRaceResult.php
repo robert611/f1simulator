@@ -13,7 +13,7 @@ class UserSeasonRaceResult
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
     private int $id;
 
     #[ORM\Column(name: 'position', type: 'smallint')]

@@ -3,7 +3,7 @@
 namespace App\Model\Classification;
 
 use App\Entity\Race;
-use App\Entity\RaceResults;
+use App\Entity\RaceResult;
 use App\Entity\UserSeason;
 use App\Entity\UserSeasonPlayer;
 use App\Entity\UserSeasonRace;
@@ -36,7 +36,7 @@ class LeagueClassifications
         $race = $this->findRace($this->raceId);
 
         /* Set points to raceResults */
-        /** @var RaceResults $result */
+        /** @var RaceResult $result */
         $race->getRaceResults()->map(function($result) {
             $points = $this->leaguePlayerPoints->getPlayerPointsByResult($result);
             $result->setPoints($points);

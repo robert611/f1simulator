@@ -12,12 +12,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: UserSeasonRepository::class)]
+#[ORM\Table(name: 'user_season')]
 #[UniqueEntity(fields: ['name'], message: 'Istnieje już liga z taką nazwą')]
 class UserSeason
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
     private int $id;
 
     #[ORM\Column(name: 'secret', type: 'string', length: 255, unique: true, nullable: false)]

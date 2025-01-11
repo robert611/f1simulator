@@ -10,11 +10,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TeamRepository::class)]
+#[ORM\Table(name: 'team')]
 class Team
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
     public int $id;
 
     #[ORM\Column(name: 'name', type: 'string', length: 64, nullable: false)]
@@ -47,11 +48,9 @@ class Team
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(string $name): void
     {
         $this->name = $name;
-
-        return $this;
     }
 
     public function getPicture(): string
@@ -59,11 +58,9 @@ class Team
         return $this->picture;
     }
 
-    public function setPicture(string $picture): self
+    public function setPicture(string $picture): void
     {
         $this->picture = $picture;
-
-        return $this;
     }
 
     /**
@@ -74,23 +71,19 @@ class Team
         return $this->drivers;
     }
 
-    public function addDriver(Driver $driver): self
+    public function addDriver(Driver $driver): void
     {
         if (!$this->drivers->contains($driver)) {
             $this->drivers[] = $driver;
             $driver->setTeam($this);
         }
-
-        return $this;
     }
 
-    public function removeDriver(Driver $driver): self
+    public function removeDriver(Driver $driver): void
     {
         if ($this->drivers->contains($driver)) {
             $this->drivers->removeElement($driver);
         }
-
-        return $this;
     }
 
     /**

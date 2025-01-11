@@ -8,11 +8,12 @@ use App\Repository\RaceResultsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RaceResultsRepository::class)]
-class RaceResults
+#[ORM\Table(name: 'race_results')]
+class RaceResult
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
     private int $id;
 
     #[ORM\Column(name: 'position', type: 'smallint', nullable: false)]
@@ -36,11 +37,9 @@ class RaceResults
         return $this->position;
     }
 
-    public function setPosition(int $position): self
+    public function setPosition(int $position): void
     {
         $this->position = $position;
-
-        return $this;
     }
 
     public function getRace(): Race
@@ -48,11 +47,9 @@ class RaceResults
         return $this->race;
     }
 
-    public function setRace(Race $race): self
+    public function setRace(Race $race): void
     {
         $this->race = $race;
-
-        return $this;
     }
 
     public function getDriver(): Driver
@@ -60,10 +57,8 @@ class RaceResults
         return $this->driver;
     }
 
-    public function setDriver(Driver $driver): self
+    public function setDriver(Driver $driver): void
     {
         $this->driver = $driver;
-
-        return $this;
     }
 }

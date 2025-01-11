@@ -15,7 +15,7 @@ use App\Entity\Driver;
 use App\Entity\Team;
 use App\Entity\Race;
 use App\Entity\Track;
-use App\Entity\RaceResults;
+use App\Entity\RaceResult;
 use App\Model\DrawDriverToReplace;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -119,7 +119,7 @@ class GameController extends AbstractController
         
         /* Save race results in database */
         foreach ($raceResults as $position => $driverId) {
-            $raceResult = new RaceResults();
+            $raceResult = new RaceResult();
 
             $raceResult->setRace($race);
             $raceResult->setDriver($driverRepository->find($driverId));
