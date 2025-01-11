@@ -8,7 +8,7 @@ use App\Repository\UserSeasonQualificationsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserSeasonQualificationsRepository::class)]
-#[ORM\Table(name: 'user_season_qualifications')]
+#[ORM\Table(name: 'user_season_qualification')]
 class UserSeasonQualification
 {
     #[ORM\Id]

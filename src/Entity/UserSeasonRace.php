@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserSeasonRacesRepository::class)]
-#[ORM\Table(name: '`user_season_races`')]
+#[ORM\Table(name: 'user_season_race')]
 class UserSeasonRace
 {
     #[ORM\Id]

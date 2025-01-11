@@ -8,10 +8,9 @@ use App\Repository\UserSeasonPlayersRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Table;
 
 #[ORM\Entity(repositoryClass: UserSeasonPlayersRepository::class)]
-#[table('user_season_players')]
+#[ORM\Table('user_season_player')]
 class UserSeasonPlayer
 {
     #[ORM\Id]

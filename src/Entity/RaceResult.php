@@ -8,7 +8,7 @@ use App\Repository\RaceResultsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RaceResultsRepository::class)]
-#[ORM\Table(name: 'race_results')]
+#[ORM\Table(name: 'race_result')]
 class RaceResult
 {
     #[ORM\Id]
