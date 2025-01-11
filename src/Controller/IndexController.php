@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
+use App\Repository\SeasonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Season;
@@ -9,10 +12,10 @@ use App\Entity\Track;
 use App\Entity\Team;
 use App\Entity\Driver;
 use App\Entity\Race;
-use App\Model\DriverStatistics\DriverPoints;
-use App\Model\DriverStatistics\DriverPodiums;
-use App\Model\Classification\SeasonClassifications;
-use App\Model\Classification\SeasonTeamsClassification;
+use App\Service\DriverStatistics\DriverPoints;
+use App\Service\DriverStatistics\DriverPodiums;
+use App\Service\Classification\SeasonClassifications;
+use App\Service\Classification\SeasonTeamsClassification;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,6 +25,7 @@ class IndexController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
+        private readonly SeasonRepository $seasonRepository,
     ) {
     }
 
@@ -30,7 +34,7 @@ class IndexController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $season = $this->entityManager->getRepository(Season::class)->findOneBy(['user' => $this->getUser(), 'completed' => 0]);
+        $season = $this->seasonRepository->findOneBy(['user' => $this->getUser(), 'completed' => 0]);
 
         $trackRepository = $this->entityManager->getRepository(Track::class);
        

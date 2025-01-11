@@ -3,7 +3,7 @@
 namespace App\Tests\Model;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Model\DriverStatistics\DriverPodiums;
+use App\Service\DriverStatistics\DriverPodiums;
 use App\Entity\Driver;
 use App\Entity\Season;
 

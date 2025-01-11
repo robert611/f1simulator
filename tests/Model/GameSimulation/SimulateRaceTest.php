@@ -3,10 +3,10 @@
 namespace App\Tests\Model\GameSimulation;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Model\GameSimulation\SimulateQualifications;
-use App\Model\GameSimulation\SimulateRace;
-use App\Model\Configuration\TeamsStrength;
-use App\Model\Configuration\QualificationAdvantage;
+use App\Service\GameSimulation\SimulateQualifications;
+use App\Service\GameSimulation\SimulateRace;
+use App\Service\Configuration\TeamsStrength;
+use App\Service\Configuration\QualificationAdvantage;
 use App\Entity\Driver;
 use App\Entity\Team;
 

@@ -1,8 +1,8 @@
 <?php 
 
-namespace App\Model\DriverStatistics;
+namespace App\Service\DriverStatistics;
 
-use App\Model\Configuration\RacePunctation;
+use App\Service\Configuration\RacePunctation;
 
 class LeaguePlayerPoints
 {

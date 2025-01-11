@@ -3,8 +3,8 @@
 namespace App\Test\Model;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Model\TeamStatistics\LeagueTeamsPoints;
-use App\Model\Configuration\RacePunctation;
+use App\Service\TeamStatistics\LeagueTeamsPoints;
+use App\Service\Configuration\RacePunctation;
 use App\Entity\UserSeason;
 use App\Entity\Team;
 

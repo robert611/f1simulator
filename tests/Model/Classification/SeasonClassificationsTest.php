@@ -3,11 +3,11 @@
 namespace App\Tests\Model\Classification;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Model\Classification\SeasonClassifications;
+use App\Service\Classification\SeasonClassifications;
 use App\Entity\Driver;
 use App\Entity\Season;
 use App\Entity\Qualification;
-use App\Model\Configuration\RacePunctation;
+use App\Service\Configuration\RacePunctation;
 
 class SeasonClassificationsTest extends KernelTestCase 
 {

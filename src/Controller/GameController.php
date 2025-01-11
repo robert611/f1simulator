@@ -6,8 +6,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use App\Model\GameSimulation\SimulateRace;
-use App\Model\GameSimulation\SimulateQualifications;
+use App\Service\GameSimulation\SimulateRace;
+use App\Service\GameSimulation\SimulateQualifications;
 use Symfony\Component\HttpFoundation\Session\Session;
 USE App\Entity\Qualification;
 use App\Entity\Season;
@@ -16,7 +16,7 @@ use App\Entity\Team;
 use App\Entity\Race;
 use App\Entity\Track;
 use App\Entity\RaceResult;
-use App\Model\DrawDriverToReplace;
+use App\Service\DrawDriverToReplace;
 use Symfony\Component\Routing\Attribute\Route;
 
 class GameController extends AbstractController

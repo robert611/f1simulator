@@ -1,13 +1,13 @@
 <?php 
 
-namespace App\Model\Classification;
+namespace App\Service\Classification;
 
 use App\Entity\Race;
 use App\Entity\RaceResult;
 use App\Entity\UserSeason;
 use App\Entity\UserSeasonPlayer;
 use App\Entity\UserSeasonRace;
-use App\Model\DriverStatistics\LeaguePlayerPoints;
+use App\Service\DriverStatistics\LeaguePlayerPoints;
 
 class LeagueClassifications 
 {

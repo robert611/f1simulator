@@ -1,9 +1,9 @@
 <?php 
 
-namespace App\Model\GameSimulation;
+namespace App\Service\GameSimulation;
 
-use App\Model\GameSimulation\SimulateQualifications;
-use App\Model\GameSimulation\SimulateRace;
+use App\Service\GameSimulation\SimulateQualifications;
+use App\Service\GameSimulation\SimulateRace;
 
 class SimulateLeagueRace
 {

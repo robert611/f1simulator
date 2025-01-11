@@ -1,9 +1,9 @@
 <?php 
 
-namespace App\Model\DriverStatistics;
+namespace App\Service\DriverStatistics;
 
 use App\Entity\Driver;
-use App\Model\Configuration\RacePunctation;
+use App\Service\Configuration\RacePunctation;
 
 class DriverPoints 
 {

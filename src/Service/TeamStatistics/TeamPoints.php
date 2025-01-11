@@ -1,8 +1,8 @@
 <?php 
 
-namespace App\Model\TeamStatistics;
+namespace App\Service\TeamStatistics;
 
-use App\Model\DriverStatistics\DriverPoints;
+use App\Service\DriverStatistics\DriverPoints;
 
 class TeamPoints 
 {

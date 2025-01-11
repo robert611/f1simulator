@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Model\Configuration;
+namespace App\Service\Configuration;
 
 class TeamsStrength
 {

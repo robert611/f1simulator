@@ -3,7 +3,7 @@
 namespace App\Tests\Model;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Model\DriverStatistics\FillLeaguePlayerData;
+use App\Service\DriverStatistics\FillLeaguePlayerData;
 use App\Entity\UserSeason;
 
 class FillLeagueUserDataTest extends KernelTestCase 

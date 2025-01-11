@@ -3,8 +3,8 @@
 namespace App\Tests\Model;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Model\DriverStatistics\LeaguePlayerPoints;
-use App\Model\Configuration\RacePunctation;
+use App\Service\DriverStatistics\LeaguePlayerPoints;
+use App\Service\Configuration\RacePunctation;
 use App\Entity\UserSeason;
 
 class LeaguePlayerPointsTest extends KernelTestCase 

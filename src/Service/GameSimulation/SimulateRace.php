@@ -1,9 +1,9 @@
 <?php 
 
-namespace App\Model\GameSimulation;
+namespace App\Service\GameSimulation;
 
-use App\Model\Configuration\TeamsStrength;
-use App\Model\Configuration\QualificationAdvantage;
+use App\Service\Configuration\TeamsStrength;
+use App\Service\Configuration\QualificationAdvantage;
 
 class SimulateRace
 {

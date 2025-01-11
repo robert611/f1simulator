@@ -1,9 +1,9 @@
 <?php 
 
-namespace App\Model\DriverStatistics;
+namespace App\Service\DriverStatistics;
 
-use App\Model\DriverStatistics\LeaguePlayerPoints;
-use App\Model\DriverStatistics\DriverPodiums;
+use App\Service\DriverStatistics\LeaguePlayerPoints;
+use App\Service\DriverStatistics\DriverPodiums;
 
 class FillLeaguePlayerData
 {

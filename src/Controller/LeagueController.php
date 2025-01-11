@@ -13,8 +13,8 @@ use App\Entity\UserSeasonQualification;
 use App\Entity\UserSeasonRaceResult;
 use App\Entity\Driver;
 use App\Entity\Track;
-use App\Model\DrawDriverToReplace;
-use App\Model\GameSimulation\SimulateLeagueRace;
+use App\Service\DrawDriverToReplace;
+use App\Service\GameSimulation\SimulateLeagueRace;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/league')]

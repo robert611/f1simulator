@@ -1,9 +1,9 @@
 <?php 
 
-namespace App\Model\Classification;
+namespace App\Service\Classification;
 
 use App\Entity\Driver;
-use App\Model\DriverStatistics\DriverPoints;
+use App\Service\DriverStatistics\DriverPoints;
 
 class SeasonClassifications 
 {

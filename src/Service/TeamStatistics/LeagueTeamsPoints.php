@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Model\TeamStatistics;
+namespace App\Service\TeamStatistics;
 
 use App\Entity\Driver;
 use App\Entity\Team;
 use App\Entity\UserSeason;
 use App\Entity\UserSeasonPlayer;
-use App\Model\DriverStatistics\LeaguePlayerPoints;
+use App\Service\DriverStatistics\LeaguePlayerPoints;
 use App\Repository\TeamRepository;
 use Doctrine\Common\Collections\Collection;
 

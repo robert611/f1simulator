@@ -3,7 +3,7 @@
 namespace App\Tests\Model\GameSimulation;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Model\GameSimulation\SimulateLeagueRace;
+use App\Service\GameSimulation\SimulateLeagueRace;
 use App\Entity\UserSeason;
 use App\Entity\UserSeasonPlayer;
 

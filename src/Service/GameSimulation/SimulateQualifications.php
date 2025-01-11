@@ -1,8 +1,8 @@
 <?php 
 
-namespace App\Model\GameSimulation;
+namespace App\Service\GameSimulation;
 
-use App\Model\Configuration\TeamsStrength;
+use App\Service\Configuration\TeamsStrength;
 
 class SimulateQualifications
 {

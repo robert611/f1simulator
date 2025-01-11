@@ -1,8 +1,8 @@
 <?php 
 
-namespace App\Model\Classification;
+namespace App\Service\Classification;
 
-use App\Model\TeamStatistics\TeamPoints;
+use App\Service\TeamStatistics\TeamPoints;
 
 class SeasonTeamsClassification 
 {

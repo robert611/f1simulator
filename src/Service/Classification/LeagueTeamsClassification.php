@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Model\Classification;
+namespace App\Service\Classification;
 
 use App\Entity\UserSeason;
-use App\Model\TeamStatistics\LeagueTeamsPoints;
+use App\Service\TeamStatistics\LeagueTeamsPoints;
 
 class LeagueTeamsClassification 
 {

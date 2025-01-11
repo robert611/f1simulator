@@ -3,7 +3,7 @@
 namespace App\Tests\Model\Classification;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Model\Classification\SeasonTeamsClassification;
+use App\Service\Classification\SeasonTeamsClassification;
 use App\Entity\Team;
 use App\Entity\Season;
 

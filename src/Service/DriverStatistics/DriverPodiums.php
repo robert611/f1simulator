@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Model\DriverStatistics;
+namespace App\Service\DriverStatistics;
 
 class DriverPodiums
 {
