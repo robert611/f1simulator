@@ -10,7 +10,7 @@ use App\Entity\UserSeason;
 use App\Entity\UserSeasonPlayer;
 use App\Entity\UserSeasonRaces;
 use App\Entity\UserSeasonQualification;
-use App\Entity\UserSeasonRaceResults;
+use App\Entity\UserSeasonRaceResult;
 use App\Entity\Driver;
 use App\Entity\Track;
 use App\Model\DrawDriverToReplace;
@@ -106,7 +106,7 @@ class LeagueController extends AbstractController
         
         /* Save race results in database */
         foreach ($raceResults as $position => $player) {
-            $raceResult = new UserSeasonRaceResults();
+            $raceResult = new UserSeasonRaceResult();
             $raceResult->setRace($race);
             $raceResult->setPlayer($player);
             $raceResult->setPosition($position);

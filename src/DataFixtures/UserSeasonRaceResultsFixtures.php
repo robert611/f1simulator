@@ -5,7 +5,7 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use App\Entity\UserSeasonRaceResults;
+use App\Entity\UserSeasonRaceResult;
 
 class UserSeasonRaceResultsFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -14,7 +14,7 @@ class UserSeasonRaceResultsFixtures extends Fixture implements DependentFixtureI
         $raceResults = $this->getRaceResults();
 
         foreach ($raceResults as $key => $data) {
-            $result = new UserSeasonRaceResults();
+            $result = new UserSeasonRaceResult();
 
             $result->setPlayer($this->getReference('league_player.' . $data['player_id']));
             $result->setRace($this->getReference('league_race.' . $data['race_id']));

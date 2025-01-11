@@ -31,7 +31,7 @@ class UserSeasonPlayer
     #[ORM\JoinColumn(name: 'driver_id', nullable: false)]
     private Driver $driver;
 
-    #[ORM\OneToMany(targetEntity: UserSeasonRaceResults::class, mappedBy: 'player', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: UserSeasonRaceResult::class, mappedBy: 'player', orphanRemoval: true)]
     private Collection $raceResults;
 
     #[ORM\OneToMany(targetEntity: UserSeasonQualification::class, mappedBy: 'player', orphanRemoval: true)]
@@ -81,14 +81,14 @@ class UserSeasonPlayer
     }
 
     /**
-     * @return Collection<UserSeasonRaceResults>
+     * @return Collection<UserSeasonRaceResult>
      */
     public function getRaceResults(): Collection
     {
         return $this->raceResults;
     }
 
-    public function addRaceResult(UserSeasonRaceResults $raceResult): void
+    public function addRaceResult(UserSeasonRaceResult $raceResult): void
     {
         if (!$this->raceResults->contains($raceResult)) {
             $this->raceResults[] = $raceResult;
@@ -96,7 +96,7 @@ class UserSeasonPlayer
         }
     }
 
-    public function removeRaceResult(UserSeasonRaceResults $raceResult): void
+    public function removeRaceResult(UserSeasonRaceResult $raceResult): void
     {
         if ($this->raceResults->contains($raceResult)) {
             $this->raceResults->removeElement($raceResult);

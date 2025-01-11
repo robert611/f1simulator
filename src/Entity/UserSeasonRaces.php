@@ -23,7 +23,7 @@ class UserSeasonRaces
     #[ORM\JoinColumn(nullable: false)]
     private UserSeason $season;
 
-    #[ORM\OneToMany(targetEntity: UserSeasonRaceResults::class, mappedBy: 'race', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: UserSeasonRaceResult::class, mappedBy: 'race', orphanRemoval: true)]
     private Collection $raceResults;
 
     #[ORM\OneToMany(targetEntity: UserSeasonQualification::class, mappedBy: 'race', orphanRemoval: true)]
@@ -65,14 +65,14 @@ class UserSeasonRaces
     }
 
     /**
-     * @return Collection|UserSeasonRaceResults[]
+     * @return Collection|UserSeasonRaceResult[]
      */
     public function getRaceResults(): Collection
     {
         return $this->raceResults;
     }
 
-    public function addRaceResult(UserSeasonRaceResults $raceResult): self
+    public function addRaceResult(UserSeasonRaceResult $raceResult): self
     {
         if (!$this->raceResults->contains($raceResult)) {
             $this->raceResults[] = $raceResult;
@@ -82,7 +82,7 @@ class UserSeasonRaces
         return $this;
     }
 
-    public function removeRaceResult(UserSeasonRaceResults $raceResult): self
+    public function removeRaceResult(UserSeasonRaceResult $raceResult): self
     {
         if ($this->raceResults->contains($raceResult)) {
             $this->raceResults->removeElement($raceResult);

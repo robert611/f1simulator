@@ -1,30 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\UserSeasonRaceResultsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserSeasonRaceResultsRepository::class)]
-class UserSeasonRaceResults
+#[ORM\Table(name: 'user_season_race_results')]
+class UserSeasonRaceResult
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(name: 'id', type: 'integer')]
     private int $id;
 
-    #[ORM\Column(type: 'smallint')]
+    #[ORM\Column(name: 'position', type: 'smallint')]
     private int $position;
 
     #[ORM\ManyToOne(targetEntity: UserSeasonRaces::class, inversedBy: 'raceResults')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'race_id', nullable: false)]
     private UserSeasonRaces $race;
 
     #[ORM\ManyToOne(targetEntity: UserSeasonPlayer::class, inversedBy: 'raceResults')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'player_id', nullable: false)]
     private UserSeasonPlayer $player;
-
-    public $points;
 
     public function getId(): int
     {
@@ -36,11 +37,9 @@ class UserSeasonRaceResults
         return $this->position;
     }
 
-    public function setPosition(int $position): self
+    public function setPosition(int $position): void
     {
         $this->position = $position;
-
-        return $this;
     }
 
     public function getRace(): UserSeasonRaces
@@ -48,42 +47,18 @@ class UserSeasonRaceResults
         return $this->race;
     }
 
-    public function setRace(UserSeasonRaces $race): self
+    public function setRace(UserSeasonRaces $race): void
     {
         $this->race = $race;
-
-        return $this;
     }
 
-    public function getPlayer(): ?UserSeasonPlayer
+    public function getPlayer(): UserSeasonPlayer
     {
         return $this->player;
     }
 
-    public function setPlayer(UserSeasonPlayer $player): self
+    public function setPlayer(UserSeasonPlayer $player): void
     {
         $this->player = $player;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of points
-     */ 
-    public function getPoints()
-    {
-        return $this->points;
-    }
-
-    /**
-     * Set the value of points
-     *
-     * @return  self
-     */ 
-    public function setPoints($points)
-    {
-        $this->points = $points;
-
-        return $this;
     }
 }
