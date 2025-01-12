@@ -3,7 +3,10 @@
 namespace App\Service\Classification;
 
 use App\Entity\Driver;
+use App\Entity\Qualification;
+use App\Entity\Race;
 use App\Service\DriverStatistics\DriverPoints;
+use Doctrine\Common\Collections\Collection;
 
 class SeasonClassifications 
 {
@@ -24,23 +27,21 @@ class SeasonClassifications
         $this->raceId = $raceId;
     }
 
-    public function getClassificationBasedOnType(string $type)
+    public function getClassificationBasedOnType(ClassificationType $classificationType)
     {
-        $classification = null;
-
         if (!$this->season) {
             return $this->getDriversClassification();
         }
 
-        switch ($type) {
-            case 'race':
-                $classification = $this->getRaceClassification();
+        switch ($classificationType) {
+            case ClassificationType::RACE:
+                $classification = $this->getRaceClassification(); // zwraca Driver[]
                 break;  
-            case 'drivers':
-                $classification = $this->getDriversClassification();
+            case ClassificationType::DRIVERS:
+                $classification = $this->getDriversClassification(); // zwraca Driver[]
                 break;
-            case 'qualifications':
-                $classification = $this->getQualificationsClassification();
+            case ClassificationType::QUALIFICATIONS:
+                $classification = $this->getQualificationsClassification(); // zwraca Collection<Qualification>
                 break;
             default: 
                 $classification = $this->getQualificationsClassification(); /* It matches the default option in html */
@@ -73,20 +74,23 @@ class SeasonClassifications
         return $this->setDriversPositions($this->drivers);
     }
 
-    private function getQualificationsClassification(): object
+    /**
+     * @return Collection<Qualification>
+     */
+    private function getQualificationsClassification(): Collection
     {
         $race = $this->findRace($this->raceId);
 
         return $race->getQualifications();
     }
 
-    private function findRace($id): object
+    private function findRace($id): Race
     {
         $race = $this->season->getRaces()->filter(function($race) use ($id) {
             return $race->getId() == $id;
         })->first();
 
-        /* If user typed unproper race id, it matches the default name in twig */
+        /* If user typed un proper race id, it matches the default name in twig */
         if (!$race) {
             $race = $this->season->getRaces()->first();
         }

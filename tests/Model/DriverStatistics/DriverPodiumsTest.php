@@ -3,7 +3,7 @@
 namespace App\Tests\Model;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Service\DriverStatistics\DriverPodiums;
+use App\Service\DriverStatistics\DriverPodiumsService;
 use App\Entity\Driver;
 use App\Entity\Season;
 
@@ -22,7 +22,7 @@ class DriverPodiumsTest extends KernelTestCase
         $this->entityManager = $kernel->getContainer()
             ->get('doctrine')
             ->getManager();
-        $this->driverPodiums = new DriverPodiums();
+        $this->driverPodiums = new DriverPodiumsService();
     }
 
     public function test_if_get_driver_podiums_returns_driver_podiums()

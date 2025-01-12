@@ -11,12 +11,12 @@
                 </tr>
             </thead>
             <tbody>
-                {% for driver in classification %}
-                    <tr class={{ season and season.driver == driver ? 'highlight-driver'}}>
+                {% for driver in currentDriverSeason.classification %}
+                    <tr class={{ currentDriverSeason.season and currentDriverSeason.season.driver == driver ? 'highlight-driver'}}>
                         <td>{{ driver.position }}</td>
 
-                        {% if season and season.driver == driver %}
-                            <td>{{ season.user.username }}</td>
+                        {% if currentDriverSeason.season and currentDriverSeason.season.driver == driver %}
+                            <td>{{ currentDriverSeason.season.user.username }}</td>
                         {% else %}
                             <td>{{ driver.name }} {{ driver.surname }}</td>
                         {% endif %}

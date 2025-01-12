@@ -3,29 +3,22 @@
 namespace App\Service\DriverStatistics;
 
 use App\Entity\Driver;
+use App\Entity\Season;
 use App\Service\Configuration\RacePunctation;
 
 class DriverPoints 
 {
-    public array $punctation;
-
-    public function __construct()
+    public static function getDriverPoints(Driver $driver, ?Season $season): int
     {
-        $this->punctation = (new RacePunctation)->getPunctation();
-    }
-
-    public function getDriverPoints(Driver $driver, ?object $season): int
-    {
-        if ($season == null) {
+        if (null === $season) {
             return 0;
         }
         
         $points = 0;
 
-        foreach ($driver->getRaceResults() as $result) {
-            if ($result->getRace()->getSeason()->getId() == $season->getId())
-            {
-                $points += $this->punctation[$result->getPosition()];
+        foreach ($driver->getRaceResults() as $raceResult) {
+            if ($raceResult->getRace()->getSeason()->getId() === $season->getId()) {
+                $points += RacePunctation::getPositionPunctation($raceResult->getPosition());
             }
         }
 
@@ -42,6 +35,6 @@ class DriverPoints
             return 0;
         }
 
-        return $this->punctation[$position];
+        return RacePunctation::getPositionPunctation($position);
     }
 }

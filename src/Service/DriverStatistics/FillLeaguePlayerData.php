@@ -3,7 +3,7 @@
 namespace App\Service\DriverStatistics;
 
 use App\Service\DriverStatistics\LeaguePlayerPoints;
-use App\Service\DriverStatistics\DriverPodiums;
+use App\Service\DriverStatistics\DriverPodiumsService;
 
 class FillLeaguePlayerData
 {
@@ -18,7 +18,7 @@ class FillLeaguePlayerData
 
     public function getPlayer()
     {
-        $this->player->podiums = (new DriverPodiums)->getDriverPodiums($this->player, $this->league);
+        $this->player->podiums = (new DriverPodiumsService)->getDriverPodiums($this->player, $this->league);
         $this->player->points = (new LeaguePlayerPoints)->getPlayerPoints($this->player);
     
         return $this->player;

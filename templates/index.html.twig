@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-xs-12 col-md-3">
                 <div class="card">
-                    {% if (season|length) == 0 %}
+                    {% if currentDriverSeason is same as(null) %}
                         <div class="card-header">
                             <h4>Wybierz zespół i rozpocznij sezon</h4>
                         </div>
@@ -34,26 +34,26 @@
                             <h4>Obecny sezon</h4>
                         </div>
                         <div class="card-body flow-text">
-                            <span>Kierowca: {{ season.getUser().username }} </span><br>
-                            <span>Zespół: {{ season.getDriver().getTeam().name }}</span><br>
-                            <span>Numer samochodu: {{ season.getDriver().getCarId() }}</span><br>
-                            <span>Rozegrane wyścigi: {{ season.getRaces()|length }} / {{ numberOfRacesInSeason }}</span><br>
-                            <span>Zdobyte punkty: {{ season.getUserPoints() }} </span><br>
+                            <span>Kierowca: {{ currentDriverSeason.season.user.username }} </span><br>
+                            <span>Zespół: {{ currentDriverSeason.season.driver.team.name }}</span><br>
+                            <span>Numer samochodu: {{ currentDriverSeason.season.driver.carId }}</span><br>
+                            <span>Rozegrane wyścigi: {{ currentDriverSeason.season.races|length }} / {{ currentDriverSeason.numberOfRaces }}</span><br>
+                            <span>Zdobyte punkty: {{ currentDriverSeason.driverPoints }} </span><br>
 
                             <hr>
                             <div class="driver-medals mt-2">
                                 <div class="row">
                                     <div class="col gold-medal mb-1">
                                         <i class="fa-solid fa-medal fa-3x"></i><br>
-                                        <span>{{ driverPodiums[1] }}</span>
+                                        <span>{{ currentDriverSeason.driverPodiums.firstPlacePodiums }}</span>
                                     </div>
                                     <div class="col silver-medal mb-1">
                                         <i class="fa-solid fa-medal fa-3x"></i><br>
-                                        <span>{{ driverPodiums[2] }}</span>
+                                        <span>{{ currentDriverSeason.driverPodiums.secondPlacePodiums }}</span>
                                     </div>
                                     <div class="col bronze-medal mb-1">
                                         <i class="fa-solid fa-medal fa-3x"></i><br>
-                                        <span>{{ driverPodiums[3] }}</span>
+                                        <span>{{ currentDriverSeason.driverPodiums.thirdPlacePodiums }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -61,15 +61,15 @@
                     {% endif %}
                 </div>
                 <div class="card mt-5 mb-2">
-                    {% if track.name is defined %}
+                    {% if currentDriverSeason.currentTrack %}
                         <div class="card-header"> 
                             <h4>Kolejny wyścig</h4> 
                         </div>
-                        <div class="card-body flow-text"> 
-                            <span>{{ track.name }} - <a href="{{ path('game_simulate_race') }}" class="btn btn-outline-info">Symuluj</a></span><br> 
-                            <img alt="{{ track.name }}" class="f1-track mt-3" src="{{ asset('assets/tracks/'~track.picture) }}"/> 
-                        </div> 
-                    {% elseif (season|length) != 0 %} 
+                        <div class="card-body flow-text">
+                            <span>{{ currentDriverSeason.currentTrack.name }} - <a href="{{ path('game_simulate_race') }}" class="btn btn-outline-info">Symuluj</a></span><br>
+                            <img alt="{{ currentDriverSeason.currentTrack.name }}" class="f1-track mt-3" src="{{ asset('assets/tracks/'~currentDriverSeason.currentTrack.picture) }}"/>
+                        </div>
+                    {% elseif currentDriverSeason %}
                         <div class="card-header"> 
                             <h4>Koniec sezonu</h4> 
                         </div> 
@@ -83,12 +83,12 @@
                 <div class="row">
                     <div class="col-xs-12 col-md-8">
                         <div class="middle-section-menu mb-3">
-                            <div class="">
+                            <div>
                                 <a class="custom-dropdown" data-target="div-for-race-results-anchors">#Wyniki Wyścigów <i class="fas fa-arrow-down ml-1" data-destiny="races"></i></a>
                                 <div class="div-for-classification-results-anchors" id="div-for-race-results-anchors">
-                                    {% if season and season.getRaces()|length != 0 %}
-                                        {% for race in season.getRaces() %}
-                                            <a href="{{ path('app_index' , {'classificationType' : 'race', 'race_id' : race.id}) }}">
+                                    {% if currentDriverSeason.season and currentDriverSeason.season.races|length != 0 %}
+                                        {% for race in currentDriverSeason.season.races %}
+                                            <a href="{{ path('app_index' , {'classificationType' : 'RACE', 'race_id' : race.id}) }}">
                                                 {{ race.getTrack().getName() }}
                                             </a>
                                         {% endfor %}
@@ -100,10 +100,10 @@
                             <div>
                                 <a class="custom-dropdown" data-target="div-for-qualifications-results-anchors">#Wyniki kwalifikacji <i class="fas fa-arrow-down ml-1" data-destiny="qualifications"></i></a>
                                 <div class="div-for-classification-results-anchors" id="div-for-qualifications-results-anchors">
-                                    {% if season and season.getRaces()|length != 0 %}
-                                        {% for race in season.getRaces() %}
-                                            <a href="{{ path('app_index' , {'classificationType' : 'qualifications', 'race_id' : race.id}) }}">
-                                                {{ race.getTrack().getName() }}
+                                    {% if currentDriverSeason.season and currentDriverSeason.season.races|length != 0 %}
+                                        {% for race in currentDriverSeason.season.races %}
+                                            <a href="{{ path('app_index' , {'classificationType' : 'QUALIFICATIONS', 'race_id' : race.id}) }}">
+                                                {{ race.track.name }}
                                             </a>
                                         {% endfor %}
                                     {% else %}
@@ -112,18 +112,18 @@
                                 </div>
                             </div>
                             <div>
-                                <a href="/home/drivers">#Klasyfikacja kierowców</a>
+                                <a href="{{ path('app_index') }}">#Klasyfikacja kierowców</a>
                             </div>
                         </div>
                         <div class="card mb-2">
-                            {% if classificationType == 'drivers' %}
+                            {% if classificationType == enum('App\\Service\\Classification\\ClassificationType').DRIVERS %}
                                 <div class="card-header">
                                     <h4 class="text-center">Klasyfikacja kierowców</h4>
                                 </div>
                                 <div class="card-body">
                                     {% include 'season_results/_classification.html.twig' %}
                                 </div>
-                            {% elseif classificationType == 'race' %}
+                            {% elseif classificationType == enum('App\\Service\\Classification\\ClassificationType').RACE %}
                                 <div class="card-header">
                                     <h4 class="text-center">Klasyfikacja - {{ raceName ? raceName : season.races[0].track.name }}</h4>
                                 </div>

@@ -7,7 +7,7 @@ Array.from(dropdowns).forEach((dropdown) => {
 function showDropdownOptions(event) {
 
 	/* It has to be (this) because it refers to a element even if I will click directly on an icon element in anchor element */
-	/* Eevery dropdown should have data-target which contains id of target element */
+	/* Every dropdown should have data-target which contains id of target element */
 	let containerId = this.getAttribute('data-target');
 	let container = document.getElementById(containerId);
 
@@ -16,7 +16,7 @@ function showDropdownOptions(event) {
 
 /* Close the dropdown menu if the user clicks outside of it */
 window.onclick = function(event) {
-	let divsToHide = new Array();
+	let divsToHide = [];
 
 	/* Notice that it will work only if dropdown contains as first child arrow down icon element */
 	Array.from(dropdowns).forEach((dropdown) => {

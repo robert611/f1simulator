@@ -4,7 +4,7 @@ namespace App\Service\Configuration;
 
 class RacePunctation 
 {
-    public function getPunctation(): array
+    public static function getPunctation(): array
     {
         return [
             '1' => 25,
@@ -28,5 +28,10 @@ class RacePunctation
             '19' => 0,
             '20' => 0
         ];
+    }
+
+    public static function getPositionPunctation(int $position): int
+    {
+        return self::getPunctation()[$position];
     }
 }

@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Repository\SeasonRepository;
+use App\Service\Classification\ClassificationType;
+use App\Service\CurrentDriverSeasonService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Entity\Season;
 use App\Entity\Track;
 use App\Entity\Team;
 use App\Entity\Driver;
 use App\Entity\Race;
 use App\Service\DriverStatistics\DriverPoints;
-use App\Service\DriverStatistics\DriverPodiums;
+use App\Service\DriverStatistics\DriverPodiumsService;
 use App\Service\Classification\SeasonClassifications;
 use App\Service\Classification\SeasonTeamsClassification;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -26,11 +27,12 @@ class IndexController extends AbstractController
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly SeasonRepository $seasonRepository,
+        private readonly CurrentDriverSeasonService $currentDriverSeasonService,
     ) {
     }
 
     #[Route('/home/{classificationType}', name: 'app_index', methods: ['GET'])]
-    public function index(Request $request, $classificationType = 'drivers'): Response
+    public function index(Request $request, ClassificationType $classificationType = ClassificationType::DRIVERS): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -44,11 +46,11 @@ class IndexController extends AbstractController
             $season->setUserPoints((new DriverPoints())->getDriverPoints($driver, $season));
           
             $track = $season->getRaces()->last() ? $trackRepository->find($season->getRaces()->last()->getTrack()->getId() + 1) : $trackRepository->findAll()[0];
-            $season->getRaces()->last() ? null : $classificationType  = 'drivers';
+            $season->getRaces()->last() ? null : $classificationType = ClassificationType::DRIVERS;
 
-            $driverPodiums = (new DriverPodiums())->getDriverPodiums($driver, $season);
+            $driverPodiums = (new DriverPodiumsService())->getDriverPodiums($driver, $season);
         } else {
-            $classificationType = 'drivers';
+            $classificationType = ClassificationType::DRIVERS;
         }
 
         $numberOfRacesInSeason = count($trackRepository->findAll());
@@ -64,15 +66,20 @@ class IndexController extends AbstractController
         $teams = $this->entityManager->getRepository(Team::class)->findAll();
         $teamsClassification = (new SeasonTeamsClassification)->getClassification($teams, $season);
 
+        $currentDriverSeason = $this->currentDriverSeasonService->buildCurrentDriverSeasonData(
+            $this->getUser()->getId(),
+            $classificationType,
+            $request->query->get('race_id'),
+        );
+
         return $this->render('index.html.twig', [
-            'season' => $season,
-            'track' => $track ?? null,
             'raceName' => $raceName,
             'classification' => $classification,
             'driverPodiums' => $driverPodiums ?? null,
             'classificationType' => $classificationType,
             'numberOfRacesInSeason' => $numberOfRacesInSeason,
-            'teamsClassification' => $teamsClassification
+            'teamsClassification' => $teamsClassification,
+            'currentDriverSeason' => $currentDriverSeason,
         ]);
     }
 
