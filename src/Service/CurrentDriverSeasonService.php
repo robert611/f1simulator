@@ -19,6 +19,7 @@ class CurrentDriverSeasonService
         private readonly SeasonRepository $seasonRepository,
         private readonly TrackRepository $trackRepository,
         private readonly DriverRepository $driverRepository,
+        private readonly SeasonClassifications $seasonClassifications,
     ) {
     }
 
@@ -49,9 +50,9 @@ class CurrentDriverSeasonService
 
         $drivers = $this->driverRepository->findAll();
 
-        $classification = (new SeasonClassifications($drivers, $season, $raceId))->getClassificationBasedOnType(
-            $classificationType,
-        );
+        $this->seasonClassifications->setEntryData($drivers, $season, $raceId);
+
+        $classification = $this->seasonClassifications->getClassificationBasedOnType($classificationType);
 
         return CurrentDriverSeason::create(
             $season,

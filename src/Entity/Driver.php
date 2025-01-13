@@ -72,6 +72,11 @@ class Driver
         $this->surname = $surname;
     }
 
+    public function getFullName(): string
+    {
+        return $this->name . ' ' . $this->surname;
+    }
+
     public function getTeam(): Team
     {
         return $this->team;

@@ -5,6 +5,8 @@ namespace App\Service\Classification;
 use App\Entity\Driver;
 use App\Entity\Qualification;
 use App\Entity\Race;
+use App\Model\DriversClassification;
+use App\Repository\DriverRepository;
 use App\Service\DriverStatistics\DriverPoints;
 use Doctrine\Common\Collections\Collection;
 
@@ -12,14 +14,19 @@ class SeasonClassifications
 {
     /** @var Driver[] $drivers */
     public array $drivers;
-    public object $driverPoints;
+    public DriverPoints $driverPoints;
     public ?object $season;
     public $raceId;
+
+    public function __construct(
+       private readonly DriverRepository $driverRepository,
+    ) {
+    }
 
     /**
      * @param Driver[] $drivers
      */
-    public function __construct(array $drivers, ?object $season, $raceId)
+    public function setEntryData(array $drivers, ?object $season, $raceId): void
     {
         $this->drivers = $drivers;
         $this->driverPoints = new DriverPoints();
@@ -48,6 +55,13 @@ class SeasonClassifications
         }
 
         return $classification;
+    }
+
+    public function getDefaultDriversClassification(): DriversClassification
+    {
+        $drivers = $this->driverRepository->findAll();
+
+        return DriversClassification::createDefaultClassification($drivers);
     }
 
     private function getDriversClassification()

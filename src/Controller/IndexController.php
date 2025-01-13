@@ -9,12 +9,8 @@ use App\Service\Classification\ClassificationType;
 use App\Service\CurrentDriverSeasonService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Entity\Track;
 use App\Entity\Team;
-use App\Entity\Driver;
 use App\Entity\Race;
-use App\Service\DriverStatistics\DriverPoints;
-use App\Service\DriverStatistics\DriverPodiumsService;
 use App\Service\Classification\SeasonClassifications;
 use App\Service\Classification\SeasonTeamsClassification;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -28,6 +24,7 @@ class IndexController extends AbstractController
         private readonly EntityManagerInterface $entityManager,
         private readonly SeasonRepository $seasonRepository,
         private readonly CurrentDriverSeasonService $currentDriverSeasonService,
+        private readonly SeasonClassifications $seasonClassifications,
     ) {
     }
 
@@ -38,46 +35,28 @@ class IndexController extends AbstractController
 
         $season = $this->seasonRepository->findOneBy(['user' => $this->getUser(), 'completed' => 0]);
 
-        $trackRepository = $this->entityManager->getRepository(Track::class);
-       
-        if ($season) {
-            $driver = $season->getDriver();
-           
-            $season->setUserPoints((new DriverPoints())->getDriverPoints($driver, $season));
-          
-            $track = $season->getRaces()->last() ? $trackRepository->find($season->getRaces()->last()->getTrack()->getId() + 1) : $trackRepository->findAll()[0];
-            $season->getRaces()->last() ? null : $classificationType = ClassificationType::DRIVERS;
-
-            $driverPodiums = (new DriverPodiumsService())->getDriverPodiums($driver, $season);
-        } else {
-            $classificationType = ClassificationType::DRIVERS;
-        }
-
-        $numberOfRacesInSeason = count($trackRepository->findAll());
-
-        /* Get classification ['Last Race', 'Qualifications' , 'General Drivers Classification'] */
-        $drivers = $this->entityManager->getRepository(Driver::class)->findAll();
-     
-        $classification = (new SeasonClassifications($drivers, $season, $request->query->get('race_id')))->getClassificationBasedOnType($classificationType);
-        
-        $raceName = $request->query->has('race_id') ? $this->entityManager->getRepository(Race::class)->find($request->query->get('race_id'))->getTrack()->getName() : null;
-
-        /* Teams Classification|Ranking */
-        $teams = $this->entityManager->getRepository(Team::class)->findAll();
-        $teamsClassification = (new SeasonTeamsClassification)->getClassification($teams, $season);
-
         $currentDriverSeason = $this->currentDriverSeasonService->buildCurrentDriverSeasonData(
             $this->getUser()->getId(),
             $classificationType,
             $request->query->get('race_id'),
         );
 
+        if (null === $currentDriverSeason) {
+            $classificationType = ClassificationType::DRIVERS;
+        }
+
+        $defaultDriversClassification = $this->seasonClassifications->getDefaultDriversClassification();
+
+        $raceName = $request->query->has('race_id') ? $this->entityManager->getRepository(Race::class)->find($request->query->get('race_id'))->getTrack()->getName() : null;
+
+        /* Teams Classification|Ranking */
+        $teams = $this->entityManager->getRepository(Team::class)->findAll();
+        $teamsClassification = (new SeasonTeamsClassification)->getClassification($teams, $season);
+
         return $this->render('index.html.twig', [
             'raceName' => $raceName,
-            'classification' => $classification,
-            'driverPodiums' => $driverPodiums ?? null,
+            'defaultDriversClassification' => $defaultDriversClassification,
             'classificationType' => $classificationType,
-            'numberOfRacesInSeason' => $numberOfRacesInSeason,
             'teamsClassification' => $teamsClassification,
             'currentDriverSeason' => $currentDriverSeason,
         ]);
