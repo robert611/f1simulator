@@ -1,33 +1,57 @@
-<?php 
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service\Classification;
 
+use App\Model\TeamsClassification;
+use App\Model\TeamSeasonResult;
+use App\Repository\SeasonRepository;
+use App\Repository\TeamRepository;
 use App\Service\TeamStatistics\TeamPoints;
 
 class SeasonTeamsClassification 
 {
-    public function getClassification(array $teams, ?object $season): array
-    {
-        $this->assaignTeamsPoints($teams, $season);
-        $this->sortTeamsAccordingToPoints($teams);
-
-        return $teams;
+    public function __construct(
+        private readonly TeamRepository $teamRepository,
+        private readonly SeasonRepository $seasonRepository,
+    ) {
     }
 
-    private function assaignTeamsPoints(&$teams, $season)
+    public function getClassification(int $userId): TeamsClassification
     {
-        /* Teams points are not assign in database */
-        /* If user did not start season, then every team has 0 points by default */
-        foreach($teams as $team) {
-            $points = $season ? (new TeamPoints())->getTeamPoints($team, $season) : 0;
-            $team->setPoints($points);
+        $teams = $this->teamRepository->findAll();
+        $season = $this->seasonRepository->findOneBy(['user' => $userId, 'completed' => 0]);
+
+        $teamsPointsTable = [];
+
+        foreach ($teams as $team) {
+            if ($season) {
+                $teamsPointsTable[$team->getId()] = (new TeamPoints())->getTeamPoints($team, $season);
+                continue;
+            }
+
+            $teamsPointsTable[$team->getId()] = 0;
         }
+
+        // Sorts using descending order and preserves array keys
+        arsort($teamsPointsTable);
+
+        $teamSeasonResults = [];
+
+        foreach ($teams as $team) {
+            $keyPosition = array_search($team->getId(), array_keys($teamsPointsTable));
+            $position = $keyPosition + 1;
+            $teamSeasonResults[] = TeamSeasonResult::create($team, $teamsPointsTable[$team->getId()], $position);
+        }
+
+        return TeamsClassification::create($teamSeasonResults);
     }
 
-    private function sortTeamsAccordingToPoints(&$teams)
+    public function getDefaultTeamsClassification(): TeamsClassification
     {
-        usort($teams, function($a, $b) {
-            return $a->getPoints() < $b->getPoints();
-        });
+        $teams = $this->teamRepository->findAll();
+
+        return TeamsClassification::createDefaultClassification($teams);
     }
 }

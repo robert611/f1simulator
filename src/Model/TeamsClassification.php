@@ -8,21 +8,52 @@ use App\Entity\Team;
 
 class TeamsClassification
 {
-    private int $position;
-    private Team $team;
+    /** @var TeamSeasonResult[] $teamsSeasonResults */
+    private array $teamsSeasonResults;
 
-    public function getPosition(): int
+    /**
+     * @return TeamSeasonResult[]
+     */
+    public function getTeamsSeasonResults(): array
     {
-        return $this->position;
+        return $this->teamsSeasonResults;
     }
 
-    public function getTeam(): Team
+    /**
+     * This classification is shown if there is no active user season
+     * All teams have zero points and are displayed in random order
+     *
+     * @param Team[] $teams
+     */
+    public static function createDefaultClassification(array $teams): self
     {
-        return $this->team;
+        $teamsSeasonResults = [];
+
+        $position = 1;
+
+        foreach ($teams as $team) {
+            $teamsSeasonResults[] = TeamSeasonResult::create($team, 0, $position);
+            $position += 1;
+        }
+
+        $teamsClassification = new self();
+        $teamsClassification->teamsSeasonResults = $teamsSeasonResults;
+
+        return $teamsClassification;
     }
 
-    public static function __create(): void
+    /**
+     * @param TeamSeasonResult[] $teamsSeasonResults
+     */
+    public static function create(array $teamsSeasonResults): self
     {
+        usort($teamsSeasonResults, function (TeamSeasonResult $a, TeamSeasonResult $b): int {
+            return $a->getPosition() <=> $b->getPosition();
+        });
 
+        $teamsClassification = new self();
+        $teamsClassification->teamsSeasonResults = $teamsSeasonResults;
+
+        return $teamsClassification;
     }
 }

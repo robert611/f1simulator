@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Repository\SeasonRepository;
 use App\Service\Classification\ClassificationType;
 use App\Service\CurrentDriverSeasonService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Entity\Team;
 use App\Entity\Race;
 use App\Service\Classification\SeasonClassifications;
 use App\Service\Classification\SeasonTeamsClassification;
@@ -22,9 +20,9 @@ class IndexController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly SeasonRepository $seasonRepository,
         private readonly CurrentDriverSeasonService $currentDriverSeasonService,
         private readonly SeasonClassifications $seasonClassifications,
+        private readonly SeasonTeamsClassification $seasonTeamsClassification,
     ) {
     }
 
@@ -32,8 +30,6 @@ class IndexController extends AbstractController
     public function index(Request $request, ClassificationType $classificationType = ClassificationType::DRIVERS): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-
-        $season = $this->seasonRepository->findOneBy(['user' => $this->getUser(), 'completed' => 0]);
 
         $currentDriverSeason = $this->currentDriverSeasonService->buildCurrentDriverSeasonData(
             $this->getUser()->getId(),
@@ -47,17 +43,15 @@ class IndexController extends AbstractController
 
         $defaultDriversClassification = $this->seasonClassifications->getDefaultDriversClassification();
 
-        $raceName = $request->query->has('race_id') ? $this->entityManager->getRepository(Race::class)->find($request->query->get('race_id'))->getTrack()->getName() : null;
+        $defaultTeamsClassification = $this->seasonTeamsClassification->getDefaultTeamsClassification();
 
-        /* Teams Classification|Ranking */
-        $teams = $this->entityManager->getRepository(Team::class)->findAll();
-        $teamsClassification = (new SeasonTeamsClassification)->getClassification($teams, $season);
+        $raceName = $request->query->has('race_id') ? $this->entityManager->getRepository(Race::class)->find($request->query->get('race_id'))->getTrack()->getName() : null;
 
         return $this->render('index.html.twig', [
             'raceName' => $raceName,
             'defaultDriversClassification' => $defaultDriversClassification,
             'classificationType' => $classificationType,
-            'teamsClassification' => $teamsClassification,
+            'defaultTeamsClassification' => $defaultTeamsClassification,
             'currentDriverSeason' => $currentDriverSeason,
         ]);
     }

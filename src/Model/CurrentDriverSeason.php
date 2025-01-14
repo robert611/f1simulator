@@ -15,7 +15,7 @@ class CurrentDriverSeason
     private ?Track $currentTrack;
     private int $numberOfRaces;
     private mixed $classification; // Nie ma wspólnego typu danych, bo klasyfikacji mogą być trzy typy
-    private ?TeamsClassification $teamsClassification;
+    private TeamsClassification $teamsClassification;
 
     public function getSeason(): Season
     {
@@ -59,7 +59,7 @@ class CurrentDriverSeason
         ?Track $currentTrack,
         int $numberOfRaces,
         mixed $classification,
-        ?TeamsClassification $teamsClassification,
+        TeamsClassification $teamsClassification,
     ): self {
         $currentDriverSeason = new self();
         $currentDriverSeason->season = $season;
@@ -69,20 +69,6 @@ class CurrentDriverSeason
         $currentDriverSeason->numberOfRaces = $numberOfRaces;
         $currentDriverSeason->classification = $classification;
         $currentDriverSeason->teamsClassification = $teamsClassification;
-
-        return $currentDriverSeason;
-    }
-
-    public static function createEmpty(): self
-    {
-        $currentDriverSeason = new self();
-        $currentDriverSeason->season = null;
-        $currentDriverSeason->driverPoints = 0;
-        $currentDriverSeason->driverPodiums = null;
-        $currentDriverSeason->currentTrack = null;
-        $currentDriverSeason->numberOfRaces = 0; // Wyścigi w bazie danych
-        $currentDriverSeason->classification = null; // Wtedy domyślnie jest klasyfikacja kierowców, każdy ma 0 punktów
-        $currentDriverSeason->teamsClassification = null;
 
         return $currentDriverSeason;
     }

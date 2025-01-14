@@ -157,14 +157,25 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {% for i, team in teamsClassification %}
-                                                <tr>
-                                                    <td>{{ i + 1 }}</td>
-                                                    <td>{{ team.name }}</td>
-                                                    <td><img alt="{{ team.name }}-car" class="f1-car-picture" src="{{ asset('/assets/cars/'~team.picture) }}" /></td>
-                                                    <td>{{ team.points }}</td>
-                                                </tr>
-                                            {% endfor %}
+                                            {% if currentDriverSeason %}
+                                                {% for teamResult in currentDriverSeason.teamsClassification.teamsSeasonResults %}
+                                                    <tr>
+                                                        <td>{{ teamResult.position}}</td>
+                                                        <td>{{ teamResult.team.name }}</td>
+                                                        <td><img alt="{{ teamResult.team.name }}-car" class="f1-car-picture" src="{{ asset('/assets/cars/'~teamResult.team.picture) }}" /></td>
+                                                        <td>{{ teamResult.points }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            {% else %}
+                                                {% for teamResult in defaultTeamsClassification.teamsSeasonResults %}
+                                                    <tr>
+                                                        <td>{{ teamResult.position }}</td>
+                                                        <td>{{ teamResult.team.name }}</td>
+                                                        <td><img alt="{{ teamResult.team.name }}-car" class="f1-car-picture" src="{{ asset('/assets/cars/'~teamResult.team.picture) }}" /></td>
+                                                        <td>{{ teamResult.points }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            {% endif %}
                                         </tbody>
                                     </table>
                                 </div>
