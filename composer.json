@@ -53,7 +53,8 @@
         "symfony/maker-bundle": "^1.61",
         "symfony/phpunit-bridge": "^7.2",
         "symfony/stopwatch": "7.1.*",
-        "symfony/web-profiler-bundle": "7.1.*"
+        "symfony/web-profiler-bundle": "7.1.*",
+        "phpstan/phpstan": "^2.1"
     },
     "autoload": {
         "psr-4": {

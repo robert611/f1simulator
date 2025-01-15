@@ -17,3 +17,7 @@ f1simulator_symfony.sql
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###
