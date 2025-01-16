@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Model\CurrentDriverSeason;
 use App\Repository\DriverRepository;
+use App\Repository\RaceRepository;
 use App\Repository\SeasonRepository;
 use App\Repository\TrackRepository;
 use App\Service\Classification\ClassificationType;
@@ -20,6 +21,7 @@ class CurrentDriverSeasonService
         private readonly SeasonRepository $seasonRepository,
         private readonly TrackRepository $trackRepository,
         private readonly DriverRepository $driverRepository,
+        private readonly RaceRepository $raceRepository,
         private readonly SeasonClassifications $seasonClassifications,
         private readonly SeasonTeamsClassification $seasonTeamsClassification,
     ) {
@@ -58,6 +60,11 @@ class CurrentDriverSeasonService
 
         $teamsClassification = $this->seasonTeamsClassification->getClassification($userId);
 
+        $race = null;
+        if ($raceId) {
+            $race = $this->raceRepository->find($raceId);
+        }
+
         return CurrentDriverSeason::create(
             $season,
             $driverPoints,
@@ -66,6 +73,7 @@ class CurrentDriverSeasonService
             $numberOfRacesInTheSeason,
             $classification,
             $teamsClassification,
+            $race,
         );
     }
 }

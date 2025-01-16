@@ -6,8 +6,6 @@ namespace App\Controller;
 
 use App\Service\Classification\ClassificationType;
 use App\Service\CurrentDriverSeasonService;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Race;
 use App\Service\Classification\SeasonClassifications;
 use App\Service\Classification\SeasonTeamsClassification;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -18,7 +16,6 @@ use Symfony\Component\Routing\Attribute\Route;
 class IndexController extends BaseController
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
         private readonly CurrentDriverSeasonService $currentDriverSeasonService,
         private readonly SeasonClassifications $seasonClassifications,
         private readonly SeasonTeamsClassification $seasonTeamsClassification,
@@ -35,7 +32,7 @@ class IndexController extends BaseController
         $currentDriverSeason = $this->currentDriverSeasonService->buildCurrentDriverSeasonData(
             $this->getUser()->getId(),
             $classificationType,
-            $request->query->get('race_id'),
+            $request->query->get('raceId'),
         );
 
         if (null === $currentDriverSeason) {
@@ -46,10 +43,7 @@ class IndexController extends BaseController
 
         $defaultTeamsClassification = $this->seasonTeamsClassification->getDefaultTeamsClassification();
 
-        $raceName = $request->query->has('race_id') ? $this->entityManager->getRepository(Race::class)->find($request->query->get('race_id'))->getTrack()->getName() : null;
-
         return $this->render('index.html.twig', [
-            'raceName' => $raceName,
             'defaultDriversClassification' => $defaultDriversClassification,
             'classificationType' => $classificationType,
             'defaultTeamsClassification' => $defaultTeamsClassification,

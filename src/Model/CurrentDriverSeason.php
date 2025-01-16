@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model;
 
+use App\Entity\Race;
 use App\Entity\Season;
 use App\Entity\Track;
 
@@ -16,6 +17,7 @@ class CurrentDriverSeason
     private int $numberOfRaces;
     private mixed $classification; // Nie ma wspólnego typu danych, bo klasyfikacji mogą być trzy typy
     private TeamsClassification $teamsClassification;
+    private ?Race $classificationRace;
 
     public function getSeason(): Season
     {
@@ -52,6 +54,11 @@ class CurrentDriverSeason
         return $this->teamsClassification;
     }
 
+    public function getClassificationRace(): ?Race
+    {
+        return $this->classificationRace;
+    }
+
     public static function create(
         Season $season,
         int $driverPoints,
@@ -60,6 +67,7 @@ class CurrentDriverSeason
         int $numberOfRaces,
         mixed $classification,
         TeamsClassification $teamsClassification,
+        ?Race $classificationRace,
     ): self {
         $currentDriverSeason = new self();
         $currentDriverSeason->season = $season;
@@ -69,6 +77,7 @@ class CurrentDriverSeason
         $currentDriverSeason->numberOfRaces = $numberOfRaces;
         $currentDriverSeason->classification = $classification;
         $currentDriverSeason->teamsClassification = $teamsClassification;
+        $currentDriverSeason->classificationRace = $classificationRace;
 
         return $currentDriverSeason;
     }
