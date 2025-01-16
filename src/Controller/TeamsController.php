@@ -3,12 +3,11 @@
 namespace App\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Team;
 use Symfony\Component\Routing\Attribute\Route;
 
-class TeamsController extends AbstractController
+class TeamsController extends BaseController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,

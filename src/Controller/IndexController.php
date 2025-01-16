@@ -7,7 +7,6 @@ namespace App\Controller;
 use App\Service\Classification\ClassificationType;
 use App\Service\CurrentDriverSeasonService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Race;
 use App\Service\Classification\SeasonClassifications;
 use App\Service\Classification\SeasonTeamsClassification;
@@ -16,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class IndexController extends AbstractController
+class IndexController extends BaseController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
@@ -27,8 +26,10 @@ class IndexController extends AbstractController
     }
 
     #[Route('/home/{classificationType}', name: 'app_index', methods: ['GET'])]
-    public function index(Request $request, ClassificationType $classificationType = ClassificationType::DRIVERS): Response
-    {
+    public function index(
+        Request $request,
+        ClassificationType $classificationType = ClassificationType::DRIVERS,
+    ): Response {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $currentDriverSeason = $this->currentDriverSeasonService->buildCurrentDriverSeasonData(

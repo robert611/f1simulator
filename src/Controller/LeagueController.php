@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\UserSeason;
@@ -18,7 +17,7 @@ use App\Service\GameSimulation\SimulateLeagueRace;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/league')]
-class LeagueController extends AbstractController
+class LeagueController extends BaseController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,

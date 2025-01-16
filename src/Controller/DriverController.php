@@ -6,13 +6,12 @@ use App\Entity\Driver;
 use App\Form\DriverType;
 use App\Repository\DriverRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/driver')]
-class DriverController extends AbstractController
+class DriverController extends BaseController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
