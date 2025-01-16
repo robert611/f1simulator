@@ -22,12 +22,9 @@
                         </div>
                         <div class="card-body flow-text">
                             <form class="form-inline" id="start-season-form" method="post" action="{{ path('game_season_start') }}">
-                                <input type="hidden" name="team" id="start-season-form-team-input">
+                                <input type="hidden" name="teamId" id="start-season-form-team-input">
                             </form>
-
-                            <div id="f1-teams">
-
-                            </div>
+                            <div id="f1-teams"></div>
                         </div>
                     {% else %}
                         <div class="card-header">

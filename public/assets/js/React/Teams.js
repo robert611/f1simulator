@@ -1,6 +1,6 @@
 class Teams extends React.Component {
     state = {
-        teams: null
+        teams: null,
     }
 
     componentDidMount() {
@@ -23,16 +23,20 @@ class Teams extends React.Component {
     
             form.submit();
         }
-        
 
-        if(Array.isArray(this.state.teams))
-        {
+        if (Array.isArray(this.state.teams)) {
             teams = this.state.teams.map((team) => {
                 return (
                     <tr key={team.id}>
                         <td>{team.name}</td>
                         <td><img alt={ team.name } className="f1-car-picture" src={`/assets/cars/${team.picture}`} /></td>
-                        <td><button className="btn btn-primary btn-sm choose-team-button" data-teamid={team.id} onClick={() => startSeason(team.id)}>Wybierz</button></td>
+                        <td>
+                            <button className="btn btn-primary btn-sm choose-team-button"
+                                    data-teamId={team.id}
+                                    onClick={() => startSeason(team.id)}>
+                                Wybierz
+                            </button>
+                        </td>
                     </tr>
                 )
             });

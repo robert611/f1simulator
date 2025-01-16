@@ -109,4 +109,14 @@ class Season
     {
         $this->driver = $driver;
     }
+
+    public static function create(User $user, Driver $driver): self
+    {
+        $season = new self();
+        $season->user = $user;
+        $season->driver = $driver;
+        $season->completed = false;
+
+        return $season;
+    }
 }

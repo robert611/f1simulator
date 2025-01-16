@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\TeamRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,7 +12,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use App\Entity\Qualification;
 use App\Entity\Season;
 use App\Entity\Driver;
-use App\Entity\Team;
 use App\Entity\Race;
 use App\Entity\Track;
 use App\Entity\RaceResult;
@@ -21,6 +21,8 @@ use Symfony\Component\Routing\Attribute\Route;
 class GameController extends BaseController
 {
     public function __construct(
+        private readonly TeamRepository $teamRepository,
+        private readonly DrawDriverToReplace $drawDriverToReplace,
         private readonly EntityManagerInterface $entityManager,
     ) {
     }
@@ -28,13 +30,14 @@ class GameController extends BaseController
     #[Route('/game/season/start', name: 'game_season_start', methods: ['GET', 'POST'])]
     public function startSeason(Request $request): RedirectResponse
     {
-        $team = $this->entityManager->getRepository(Team::class)->find($request->get('team'));
+        $team = $this->teamRepository->find($request->get('teamId'));
 
-        $season = new Season();
+        $driver = $this->drawDriverToReplace->getDriverToReplace($team);
 
-        $season->setUser($this->getUser());
-        $season->setDriver((new DrawDriverToReplace)->getDriverToReplace($team));
-        $season->setCompleted(0);
+        $season = Season::create(
+            $this->getUser(),
+            $driver,
+        );
 
         $this->entityManager->persist($season);
         $this->entityManager->flush();
@@ -47,7 +50,7 @@ class GameController extends BaseController
     {
         $seasonRepository = $this->entityManager->getRepository(Season::class);
         $season = $seasonRepository->findOneBy(['user' => $this->getUser()->getId(), 'completed' => 0]);
-        
+
         if (null === $season) {
             $this->addFlash('error', 'Nie możesz zakończyć sezonu, bez jego rozpoczęcia.');
             return $this->redirectToRoute('app_index');
@@ -115,7 +118,7 @@ class GameController extends BaseController
 
             $this->entityManager->persist($qualification);
         }
-        
+
         /* Save race results in database */
         foreach ($raceResults as $position => $driverId) {
             $raceResult = new RaceResult();
@@ -126,7 +129,7 @@ class GameController extends BaseController
 
             $this->entityManager->persist($raceResult);
         }
-        
+
         $this->entityManager->flush();
 
         return $this->redirectToRoute('app_index');
