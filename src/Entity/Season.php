@@ -32,8 +32,6 @@ class Season
     #[ORM\OneToMany(targetEntity: Race::class, mappedBy: 'season')]
     private Collection $races;
 
-    private int $userPoints;
-   
     public function __construct()
     {
         $this->races = new ArrayCollection();
@@ -42,16 +40,6 @@ class Season
     public function getId(): int
     {
         return $this->id;
-    }
-
-    public function setUserPoints(int $points): void
-    {
-        $this->userPoints = $points;
-    }
-
-    public function getUserPoints(): int
-    {
-        return $this->userPoints;
     }
 
     public function getUser(): User
