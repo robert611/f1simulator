@@ -1,15 +1,28 @@
 <?php 
 
+declare(strict_types=1);
+
 namespace App\Service;
+
+use App\Entity\Driver;
+use App\Entity\Team;
 
 class DrawDriverToReplace
 {
-    /* This function takes team which user chose and draws one of the driver of that team to replace him with user */
-    public function getDriverToReplace(object $team): object
+    /**
+     * Returns of on given team drivers in a random order
+     */
+    public function getDriverToReplace(Team $team): Driver
     {
-        $drivers = $team->getDrivers();
+        /** @var Driver[] $drivers */
+        $drivers = $team->getDrivers()->toArray();
 
-        $random = rand(0, (count($drivers) - 1));
+        // Reindex array to make sure it starts from 0
+        $drivers = array_values($drivers);
+
+        $driversLength = count($drivers) - 1;
+
+        $random = rand(0, $driversLength);
 
         return $drivers[$random];
     }

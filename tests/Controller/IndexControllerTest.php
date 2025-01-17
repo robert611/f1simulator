@@ -13,7 +13,7 @@ class IndexControllerTest extends WebTestCase
 {
     public $client = null;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->client = static::createClient();
     }

@@ -125,4 +125,13 @@ class Team
     {
         $this->position = $position;
     }
+
+    public static function create(string $name, string $picture): self
+    {
+        $team = new self();
+        $team->name = $name;
+        $team->picture = $picture;
+
+        return $team;
+    }
 }

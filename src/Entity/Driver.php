@@ -170,4 +170,15 @@ class Driver
 
         return $this;
     }
+
+    public static function create(string $name, string $surname, Team $team, int $carId): self
+    {
+        $driver = new self();
+        $driver->name = $name;
+        $driver->surname = $surname;
+        $driver->team = $team;
+        $driver->carId = $carId;
+
+        return $driver;
+    }
 }
