@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
+use App\Repository\SeasonRepository;
 use App\Repository\TeamRepository;
+use App\Repository\TrackRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +26,8 @@ class GameController extends BaseController
 {
     public function __construct(
         private readonly TeamRepository $teamRepository,
+        private readonly SeasonRepository $seasonRepository,
+        private readonly TrackRepository $trackRepository,
         private readonly DrawDriverToReplace $drawDriverToReplace,
         private readonly EntityManagerInterface $entityManager,
     ) {
@@ -33,6 +39,11 @@ class GameController extends BaseController
         $team = $this->teamRepository->find($request->get('teamId'));
 
         $driver = $this->drawDriverToReplace->getDriverToReplace($team);
+
+        if (null === $driver) {
+            $this->addFlash('error', 'Ten zespół nie posiada kierowców. Wybierz inny zespół.');
+            return $this->redirectToRoute('app_index');
+        }
 
         $season = Season::create(
             $this->getUser(),

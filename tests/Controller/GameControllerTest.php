@@ -1,41 +1,58 @@
 <?php 
 
+declare(strict_types=1);
+
 namespace App\Tests\Controller;
 
+use App\Repository\SeasonRepository;
+use App\Tests\Common\Fixtures;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken;
-use Symfony\Component\BrowserKit\Cookie;
-use Symfony\Component\HttpFoundation\Response;
-use App\Entity\User;
-use App\Entity\Team;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-
 
 class GameControllerTest extends WebTestCase
 {
-    public $client = null;
+    private KernelBrowser $client;
+    private Fixtures $fixtures;
+    private SeasonRepository $seasonRepository;
 
     public function setUp(): void
     {
-        $this->client = static::createClient();
+        $this->client = self::createClient();
+        $this->fixtures = self::getContainer()->get(Fixtures::class);
+        $this->seasonRepository = self::getContainer()->get(SeasonRepository::class);
     }
 
-    public function testStartSeason()
+    #[Test]
+    public function canStartNewSeason(): void
     {
-        $this->logIn();
+        // given
+        $user = $this->fixtures->aUser();
+        $this->client->loginUser($user);
 
-        $teamId = self::$container->get('doctrine')->getRepository(Team::class)->findAll()[0]->getId();
+        // and given
+        $team = $this->fixtures->aTeamWithDrivers();
 
-        $this->client->request('POST', '/game/season/start', ['team' => $teamId]);
+        // when
+        $this->client->request('POST', '/game/season/start', ['teamId' => $team->getId()]);
 
-        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+        // then (User will be redirected back to index page)
+        self::assertEquals(302, $this->client->getResponse()->getStatusCode());
+
+        // and then (User season is created in the database)
+        $dbSeason = $this->seasonRepository->findOneBy([]);
+        self::assertEquals($dbSeason->getUser()->getId(), $user->getId());
+        self::assertEquals($dbSeason->getDriver()->getTeam()->getId(), $team->getId());
+        self::assertFalse($dbSeason->getCompleted());
     }
 
     
     public function testEndSeason()
     {
-        $this->logIn();
+        $user = $this->fixtures->getUser();
+
+        $this->client->loginUser($user);
 
         $this->client->request('POST', '/game/season/end');
 
@@ -44,16 +61,16 @@ class GameControllerTest extends WebTestCase
 
     public function testSimulateRace()
     {
-        $this->logIn();
+        $user = $this->fixtures->getUser();
+
+        $this->client->loginUser($user);
 
         $this->client->request('POST', '/game/simulate/race');
 
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
     }
 
-    /**
-     * @dataProvider provideUrls
-     */
+    #[DataProvider('provideUrls')]
     public function testPagesInCaseOfUnloggedUser($url)
     {
         $this->client->request('GET', $url);
@@ -61,34 +78,12 @@ class GameControllerTest extends WebTestCase
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
     }
 
-    public function provideUrls()
+    public static function provideUrls(): array
     {
         return [
             ['/game/season/start'],
             ['/game/season/end'],
             ['/game/simulate/race']
         ];
-    }
-
-    private function logIn()
-    {
-        $session = self::$container->get('session');
-        $entityManager = self::$container->get('doctrine'); 
-
-        $user = $entityManager->getRepository(User::class)->findAll()[0];
-
-        $firewallName = 'main';
-        // if you don't define multiple connected firewalls, the context defaults to the firewall name
-        // See https://symfony.com/doc/current/reference/configuration/security.html#firewall-context
-        $firewallContext = 'guard_context';
-
-        // you may need to use a different token class depending on your application.
-        // for example, when using Guard authentication you must instantiate PostAuthenticationGuardToken
-        $token = new PostAuthenticationGuardToken($user, 'username', ['ROLE_USER']);
-        $session->set('_security_'.$firewallContext, serialize($token));
-        $session->save();
-
-        $cookie = new Cookie($session->getName(), $session->getId());
-        $this->client->getCookieJar()->set($cookie);
     }
 }

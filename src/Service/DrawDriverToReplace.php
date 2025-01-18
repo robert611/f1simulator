@@ -12,10 +12,14 @@ class DrawDriverToReplace
     /**
      * Returns of on given team drivers in a random order
      */
-    public function getDriverToReplace(Team $team): Driver
+    public function getDriverToReplace(Team $team): ?Driver
     {
         /** @var Driver[] $drivers */
         $drivers = $team->getDrivers()->toArray();
+
+        if (empty($drivers)) {
+            return null;
+        }
 
         // Reindex array to make sure it starts from 0
         $drivers = array_values($drivers);
