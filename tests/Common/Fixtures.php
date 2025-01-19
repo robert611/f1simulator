@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Common;
 
 use App\Entity\Driver;
+use App\Entity\Season;
 use App\Entity\Team;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -67,5 +68,15 @@ class Fixtures
         }
 
         return $driver;
+    }
+
+    public function aSeason(User $user, Driver $driver): Season
+    {
+        $season = Season::Create($user, $driver);
+
+        $this->entityManager->persist($season);
+        $this->entityManager->flush();
+
+        return $season;
     }
 }

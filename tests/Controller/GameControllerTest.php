@@ -74,16 +74,50 @@ class GameControllerTest extends WebTestCase
         self::assertEquals('Ten zespół nie posiada kierowców. Wybierz inny zespół.', $errorFlashBags[0]);
     }
 
-    public function testEndSeason()
+    #[Test]
+    public function canEndSeason(): void
     {
-        $user = $this->fixtures->getUser();
-
+        // given
+        $user = $this->fixtures->aUser();
         $this->client->loginUser($user);
 
+        // and given
+        $team = $this->fixtures->aTeam();
+        $driver = $this->fixtures->aDriver("Robert", "Kubica", $team, 88);
+        $this->fixtures->aSeason($user, $driver);
+
+        // when
         $this->client->request('POST', '/game/season/end');
 
-        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+        // then
+        self::assertEquals(302, $this->client->getResponse()->getStatusCode());
+        self::assertResponseRedirects('/home');
+
+        // and then (Season is ended)
+        $season = $this->seasonRepository->findOneBy(['user' => $user->getId()]);
+        self::assertTrue($season->getCompleted());
     }
+
+    #[Test]
+    public function willHandleEndSeasonRequestWhenThereIsNoSeason(): void
+    {
+        // given
+        $user = $this->fixtures->aUser();
+        $this->client->loginUser($user);
+
+        // when
+        $this->client->request('POST', '/game/season/end');
+
+        // then
+        self::assertEquals(302, $this->client->getResponse()->getStatusCode());
+        self::assertResponseRedirects('/home');
+
+        // and then
+        $errorFlashBags = $this->client->getRequest()->getSession()->getFlashBag()->get('error');
+        self::assertCount(1, $errorFlashBags);
+        self::assertEquals('Nie możesz zakończyć sezonu, bez jego rozpoczęcia.', $errorFlashBags[0]);
+    }
+
 
     public function testSimulateRace()
     {

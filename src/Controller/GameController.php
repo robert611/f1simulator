@@ -59,18 +59,17 @@ class GameController extends BaseController
     #[Route('/game/season/end', name: 'game_season_end', methods: ['GET', 'POST'])]
     public function endSeason(): RedirectResponse
     {
-        $seasonRepository = $this->entityManager->getRepository(Season::class);
-        $season = $seasonRepository->findOneBy(['user' => $this->getUser()->getId(), 'completed' => 0]);
+        $season = $this->seasonRepository->findOneBy(['user' => $this->getUser()->getId(), 'completed' => false]);
 
         if (null === $season) {
             $this->addFlash('error', 'Nie możesz zakończyć sezonu, bez jego rozpoczęcia.');
             return $this->redirectToRoute('app_index');
         }
 
-        /* If number of finished races is equal to number of all tracks than season should be end */
-        if (count($season->getRaces()) == count($this->entityManager->getRepository(Track::class)->findAll())) {
-            $season->setCompleted(1);
-            $this->entityManager->persist($season);
+        $tracksCount = $this->trackRepository->count();
+
+        if ($season->getRaces()->count() === $tracksCount) {
+            $season->endSeason();
             $this->entityManager->flush();
         }
 

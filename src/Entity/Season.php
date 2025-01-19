@@ -119,4 +119,9 @@ class Season
 
         return $season;
     }
+
+    public function endSeason(): void
+    {
+        $this->completed = true;
+    }
 }
