@@ -20,6 +20,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class LeagueController extends BaseController
 {
     public function __construct(
+        private readonly SimulateLeagueRace $simulateLeagueRace,
         private readonly EntityManagerInterface $entityManager,
     ) {
     }
@@ -90,7 +91,7 @@ class LeagueController extends BaseController
         $this->entityManager->persist($race);
         $this->entityManager->flush();
 
-        [$qualificationsResults, $raceResults] = (new SimulateLeagueRace)->getRaceResults($season->getPlayers());
+        [$qualificationsResults, $raceResults] = $this->simulateLeagueRace->getRaceResults($season->getPlayers());
 
         /* Save qualifications results in database, element index is equivalent to its position */
         foreach ($qualificationsResults as $position => $player) {

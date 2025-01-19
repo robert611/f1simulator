@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Repository\DriverRepository;
 use App\Repository\SeasonRepository;
 use App\Repository\TeamRepository;
 use App\Repository\TrackRepository;
@@ -15,9 +16,7 @@ use App\Service\GameSimulation\SimulateQualifications;
 use Symfony\Component\HttpFoundation\Session\Session;
 use App\Entity\Qualification;
 use App\Entity\Season;
-use App\Entity\Driver;
 use App\Entity\Race;
-use App\Entity\Track;
 use App\Entity\RaceResult;
 use App\Service\DrawDriverToReplace;
 use Symfony\Component\Routing\Attribute\Route;
@@ -28,7 +27,9 @@ class GameController extends BaseController
         private readonly TeamRepository $teamRepository,
         private readonly SeasonRepository $seasonRepository,
         private readonly TrackRepository $trackRepository,
+        private readonly DriverRepository $driverRepository,
         private readonly DrawDriverToReplace $drawDriverToReplace,
+        private readonly SimulateQualifications $simulateQualifications,
         private readonly EntityManagerInterface $entityManager,
     ) {
     }
@@ -79,44 +80,37 @@ class GameController extends BaseController
     #[Route('/game/simulate/race', name: 'game_simulate_race', methods: ['GET'])]
     public function simulateRace(Session $session): RedirectResponse
     {
-        $seasonRepository = $this->entityManager->getRepository(Season::class);
-        $trackRepository = $this->entityManager->getRepository(Track::class);
-        $driverRepository = $this->entityManager->getRepository(Driver::class);
-
         /* First find a season to which race belongs */
-        $season = $seasonRepository->findOneBy(['user' => $this->getUser()->getId(), 'completed' => 0]);
+        $season = $this->seasonRepository->findOneBy(['user' => $this->getUser()->getId(), 'completed' => 0]);
 
-        if (!$season) {
+        if (null === $season) {
             $this->addFlash('error', 'Nie możesz symulować wyścigu, bez rozpoczęcia sezonu.');
             return $this->redirectToRoute('app_index');
         }
 
         $lastRace = $season->getRaces()->last();
-        $track = $lastRace ? $trackRepository->find($lastRace->getTrack()->getId() + 1) : $trackRepository->findAll()[0];
+        $track = $lastRace ? $this->trackRepository->find($lastRace->getTrack()->getId() + 1) : $this->trackRepository->findAll()[0];
 
-        if (count($season->getRaces()) == count($trackRepository->findAll())) {
+        $tracksCount = $this->trackRepository->count();
+
+        if ($season->getRaces()->count() === $tracksCount) {
             $session->getFlashBag()->add('error', 'Wystąpił problem z rozegraniem wyścigu, ze względu bezpieczeństwa danych twój sezon został zakończony.');
 
-            $season->setCompleted(1);
+            $season->endSeason();
 
-            $this->entityManager->persist($season);
             $this->entityManager->flush();
 
             return $this->redirectToRoute('app_index');
         }
 
-        /* Save race in the database */
-        $race = new Race();
-
-        $race->setTrack($track);
-        $race->setSeason($season);
+        $race = Race::create($track, $season);
 
         $this->entityManager->persist($race);
         $this->entityManager->flush();
 
-        $qualificationsResults = (new SimulateQualifications)->getQualificationsResults($driverRepository->findAll());
+        $qualificationsResults = $this->simulateQualifications->getQualificationsResults();
         
-        $raceResults = (new SimulateRace)->getRaceResults($driverRepository->findAll(), $qualificationsResults);
+        $raceResults = (new SimulateRace)->getRaceResults($this->driverRepository->findAll(), $qualificationsResults);
 
         /* Save qualifications results in database */
         foreach ($qualificationsResults as $position => $driver) {
@@ -134,7 +128,7 @@ class GameController extends BaseController
             $raceResult = new RaceResult();
 
             $raceResult->setRace($race);
-            $raceResult->setDriver($driverRepository->find($driverId));
+            $raceResult->setDriver($this->driverRepository->find($driverId));
             $raceResult->setPosition($position);
 
             $this->entityManager->persist($raceResult);

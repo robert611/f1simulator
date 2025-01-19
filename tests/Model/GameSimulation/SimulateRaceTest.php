@@ -36,7 +36,7 @@ class SimulateRaceTest extends KernelTestCase
         $this->simulateRace = new SimulateRace();
         $this->simulateQualifications = new SimulateQualifications();
 
-        $this->qualificationsResults = $this->simulateQualifications->getQualificationsResults($this->drivers);
+        $this->qualificationsResults = $this->simulateQualifications->getLeagueQualificationsResults($this->drivers);
     }
 
     public function test_if_get_race_results_returns_correct_results()

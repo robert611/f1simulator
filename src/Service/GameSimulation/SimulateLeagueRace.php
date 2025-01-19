@@ -7,12 +7,17 @@ use App\Service\GameSimulation\SimulateRace;
 
 class SimulateLeagueRace
 {
+    public function __construct(
+        private readonly SimulateQualifications $simulateQualifications,
+    ) {
+    }
+
     public function getRaceResults(object $players): array
     {
         /* Drivers who are replaced by players */
         $drivers = $this->getDrivers($players);
 
-        $qualificationsResults = (new SimulateQualifications)->getQualificationsResults($drivers);
+        $qualificationsResults = $this->simulateQualifications->getLeagueQualificationsResults($drivers);
 
         $raceResults = (new SimulateRace)->getRaceResults($drivers, $qualificationsResults);
     

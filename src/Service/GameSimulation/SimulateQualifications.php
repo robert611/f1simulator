@@ -2,21 +2,27 @@
 
 namespace App\Service\GameSimulation;
 
+use App\Repository\DriverRepository;
 use App\Service\Configuration\TeamsStrength;
 
 class SimulateQualifications
 {
-    /* Every team has it's strength which says how competetive team is, multiplier multiplies strength of the teams by some value to make diffrences beetwen them greater */
+    /* Every team has it's strength which says how competitive team is, multiplier multiplies strength of the teams by some value to make diffrences beetwen them greater */
     public int $multiplier = 3;
 
-    public function getQualificationsResults($drivers)
+    public function __construct(
+        private readonly DriverRepository $driverRepository,
+    ) {
+    }
+
+    public function getLeagueQualificationsResults($drivers): array
     {
-        $results = array();
+        $results = [];
 
         $coupons = $this->getCoupons();
 
         for ($i = 1, $j = count($drivers); $i <= $j; $i++) {
-            /* If boths driver from given team will be already drawn, check function will return true and draw will be repeat until $team with only one or zero drivers finished will be drawn */
+            /* If both driver from given team will be already drawn, check function will return true and draw will be repeat until $team with only one or zero drivers finished will be drawn */
             do
             {
                 $teamName = $coupons[rand(1, count($coupons))];
@@ -33,7 +39,36 @@ class SimulateQualifications
         return $results;
     }
 
-    public function getCoupons()
+    public function getQualificationsResults(): array
+    {
+        $drivers = $this->driverRepository->findAll();
+
+        $results = [];
+
+        $coupons = $this->getCoupons();
+
+        for ($i = 1; $i <= count($drivers); $i++) {
+            /* If both driver from given team will be already drawn, check function will return true and draw will be repeat until $team with only one or zero drivers finished will be drawn */
+            do {
+                $teamName = $coupons[rand(1, count($coupons))];
+            } while($this->checkIfBothDriversFromTeamAlreadyFinished($teamName, $results));
+
+            /* At this point team from which driver will be draw is drawn, not the driver per se so now draw one of the drivers from that team and put him in finished drivers */
+            $driver = $this->drawDriverFromTeam($teamName, $drivers, $results);
+
+            /* If there is no drawn driver, then iterate once again */
+            $driver ? $results[$i] = $driver : $i--;
+        }
+
+        return $results;
+    }
+
+    /**
+     * @return array{int, string}
+     *
+     * For instance [1 => "Mercedes", 2 => "Mercedes", 3 => "Red Bull"]
+     */
+    public function getCoupons(): array
     {
         $teams = (new TeamsStrength)->getTeamsStrength();
         $coupons = array();

@@ -34,7 +34,7 @@ class SimulateQualificationsTest extends KernelTestCase
 
     public function test_if_get_qualification_results_returns_correct_results()
     {
-        $results = $this->simulateQualifications->getQualificationsResults($this->drivers);
+        $results = $this->simulateQualifications->getLeagueQualificationsResults($this->drivers);
 
         /* Array indexes start from 1 */
         $this->assertTrue(count($results) == count($this->drivers));
