@@ -2,6 +2,8 @@
 
 namespace App\Service\GameSimulation;
 
+use App\Model\GameSimulation\QualificationResult;
+use App\Model\GameSimulation\QualificationResultsCollection;
 use App\Repository\DriverRepository;
 use App\Service\Configuration\TeamsStrength;
 
@@ -39,28 +41,34 @@ class SimulateQualifications
         return $results;
     }
 
-    public function getQualificationsResults(): array
+    public function getQualificationsResults(): QualificationResultsCollection
     {
         $drivers = $this->driverRepository->findAll();
 
-        $results = [];
+        $result = QualificationResultsCollection::create();
 
         $coupons = $this->getCoupons();
 
-        for ($i = 1; $i <= count($drivers); $i++) {
+        for ($position = 1; $position <= count($drivers); $position++) {
             /* If both driver from given team will be already drawn, check function will return true and draw will be repeat until $team with only one or zero drivers finished will be drawn */
             do {
                 $teamName = $coupons[rand(1, count($coupons))];
-            } while($this->checkIfBothDriversFromTeamAlreadyFinished($teamName, $results));
+            } while ($this->checkIfBothDriversFromTeamAlreadyFinished($teamName, $result->toPlainArray()));
 
             /* At this point team from which driver will be draw is drawn, not the driver per se so now draw one of the drivers from that team and put him in finished drivers */
-            $driver = $this->drawDriverFromTeam($teamName, $drivers, $results);
+            $driver = $this->drawDriverFromTeam($teamName, $drivers, $result->toPlainArray());
+
+            if ($driver) {
+                $qualificationResult = QualificationResult::create($driver, $position);
+                $result->addQualificationResult($qualificationResult);
+                continue;
+            }
 
             /* If there is no drawn driver, then iterate once again */
-            $driver ? $results[$i] = $driver : $i--;
+            $position -= 1;
         }
 
-        return $results;
+        return $result;
     }
 
     /**

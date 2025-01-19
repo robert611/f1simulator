@@ -19,7 +19,7 @@ class SimulateLeagueRace
 
         $qualificationsResults = $this->simulateQualifications->getLeagueQualificationsResults($drivers);
 
-        $raceResults = (new SimulateRace)->getRaceResults($drivers, $qualificationsResults);
+        $raceResults = (new SimulateRace)->getLeagueRaceResults($drivers, $qualificationsResults);
     
         return [
             $this->setQualificationsResultsToPlayers($qualificationsResults, $players),

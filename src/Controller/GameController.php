@@ -108,17 +108,16 @@ class GameController extends BaseController
         $this->entityManager->persist($race);
         $this->entityManager->flush();
 
-        $qualificationsResults = $this->simulateQualifications->getQualificationsResults();
+        $qualificationResultsCollection = $this->simulateQualifications->getQualificationsResults();
         
-        $raceResults = (new SimulateRace)->getRaceResults($this->driverRepository->findAll(), $qualificationsResults);
+        $raceResults = (new SimulateRace)->getRaceResults($this->driverRepository->findAll(), $qualificationResultsCollection);
 
         /* Save qualifications results in database */
-        foreach ($qualificationsResults as $position => $driver) {
+        foreach ($qualificationResultsCollection->getQualificationResults() as $qualificationResult) {
             $qualification = new Qualification();
-
             $qualification->setRace($race);
-            $qualification->setDriver($driver);
-            $qualification->setPosition($position);
+            $qualification->setDriver($qualificationResult->getDriver());
+            $qualification->setPosition($qualificationResult->getPosition());
 
             $this->entityManager->persist($qualification);
         }

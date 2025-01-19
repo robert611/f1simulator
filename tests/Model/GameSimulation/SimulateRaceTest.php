@@ -41,7 +41,7 @@ class SimulateRaceTest extends KernelTestCase
 
     public function test_if_get_race_results_returns_correct_results()
     {
-        $raceResults = $this->simulateRace->getRaceResults($this->drivers, $this->qualificationsResults);
+        $raceResults = $this->simulateRace->getLeagueRaceResults($this->drivers, $this->qualificationsResults);
 
         $this->assertTrue(count($raceResults) == count($this->drivers));
 

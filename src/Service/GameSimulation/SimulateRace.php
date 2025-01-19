@@ -2,17 +2,37 @@
 
 namespace App\Service\GameSimulation;
 
+use App\Model\GameSimulation\QualificationResultsCollection;
 use App\Service\Configuration\TeamsStrength;
 use App\Service\Configuration\QualificationAdvantage;
 
 class SimulateRace
 {
-    /* Every team has it's strength which says how competetive team is, multiplier multiplies strength of the teams by some value to make diffrences beetwen them grater */
+    /* Every team has it's strength which says how competitive team is, multiplier multiplies strength of the teams by some value to make diffrences beetwen them grater */
     public int $multiplier = 3;
 
-    public function getRaceResults($drivers, $qualificationsResults): array
+    public function getRaceResults($drivers, QualificationResultsCollection $qualificationResults): array
     {
-        $results = array();
+        $results = [];
+
+        $coupons = $this->getCoupons($qualificationResults->toPlainArray());
+
+        for ($i = 1; $i <= count($drivers); $i++) {
+            do
+            {
+                $driverId = $coupons[rand(0, count($coupons) - 1)];
+            } 
+            while(in_array($driverId, $results));
+
+            $results[$i] = $driverId;
+        }
+
+        return $results;
+    }
+
+    public function getLeagueRaceResults($drivers, $qualificationsResults): array
+    {
+        $results = [];
 
         $coupons = $this->getCoupons($qualificationsResults);
 
@@ -20,7 +40,7 @@ class SimulateRace
             do
             {
                 $driverId = $coupons[rand(0, count($coupons) - 1)];
-            } 
+            }
             while(in_array($driverId, $results));
 
             $results[$i] = $driverId;
