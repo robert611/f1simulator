@@ -36,6 +36,7 @@ class GameControllerTest extends WebTestCase
 
         // when
         $this->client->request('POST', '/game/season/start', ['teamId' => $team->getId()]);
+        self::assertResponseRedirects('/home');
 
         // then (User will be redirected back to index page)
         self::assertEquals(302, $this->client->getResponse()->getStatusCode());
@@ -47,7 +48,32 @@ class GameControllerTest extends WebTestCase
         self::assertFalse($dbSeason->getCompleted());
     }
 
-    
+    #[Test]
+    public function willStartingNewSeasonForATeamWithoutDriversBeHandled(): void
+    {
+        // given
+        $user = $this->fixtures->aUser();
+        $this->client->loginUser($user);
+
+        // and given
+        $team = $this->fixtures->aTeam();
+
+        // when
+        $this->client->request('POST', '/game/season/start', ['teamId' => $team->getId()]);
+
+        // then (User will be redirected back to index page)
+        self::assertEquals(302, $this->client->getResponse()->getStatusCode());
+        self::assertResponseRedirects('/home');
+
+        // and then (User season was not created and is not in the database)
+        self::assertEquals(0, $this->seasonRepository->count());
+
+        // and then (Flash message is set)
+        $errorFlashBags = $this->client->getRequest()->getSession()->getFlashBag()->get('error');
+        self::assertCount(1, $errorFlashBags);
+        self::assertEquals('Ten zespół nie posiada kierowców. Wybierz inny zespół.', $errorFlashBags[0]);
+    }
+
     public function testEndSeason()
     {
         $user = $this->fixtures->getUser();
