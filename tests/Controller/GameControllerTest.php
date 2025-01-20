@@ -137,6 +137,35 @@ class GameControllerTest extends WebTestCase
         self::assertEquals('Nie możesz symulować wyścigu, bez rozpoczęcia sezonu.', $errorFlashBags[0]);
     }
 
+    #[Test]
+    public function checkIfSimulatingARaceForFinishedSeasonWillEndTheSeason(): void
+    {
+        // given
+        $user = $this->fixtures->aUser();
+        $this->client->loginUser($user);
+
+        // and given
+        $team = $this->fixtures->aTeam();
+        $driver = $this->fixtures->aDriver("Robert", "Kubica", $team, 88);
+        $this->fixtures->aSeason($user, $driver);
+
+        // when
+        $this->client->request('POST', '/game/simulate/race');
+
+        // then
+        self::assertEquals(302, $this->client->getResponse()->getStatusCode());
+
+        // and then
+        $expectedMessage = 'Wystąpił problem z rozegraniem wyścigu, ze względu bezpieczeństwa danych twój 
+            sezon został zakończony.';
+        $expectedMessage = str_replace(["\r\n", "\n", "\r"], '', $expectedMessage);
+        $expectedMessage = rtrim($expectedMessage);
+        $expectedMessage = preg_replace('/\s+/', ' ', $expectedMessage);
+        $errorFlashBags = $this->client->getRequest()->getSession()->getFlashBag()->get('error');
+        self::assertCount(1, $errorFlashBags);
+        self::assertEquals($expectedMessage, $errorFlashBags[0]);
+    }
+
     #[DataProvider('provideUrls')]
     public function testPagesInCaseOfUnloggedUser($url)
     {
