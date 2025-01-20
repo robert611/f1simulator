@@ -4,20 +4,15 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Repository\DriverRepository;
 use App\Repository\SeasonRepository;
 use App\Repository\TeamRepository;
 use App\Repository\TrackRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use App\Service\GameSimulation\SimulateRace;
-use App\Service\GameSimulation\SimulateQualifications;
+use App\Service\GameSimulation\SimulateRaceService;
 use Symfony\Component\HttpFoundation\Session\Session;
-use App\Entity\Qualification;
 use App\Entity\Season;
-use App\Entity\Race;
-use App\Entity\RaceResult;
 use App\Service\DrawDriverToReplace;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -27,9 +22,8 @@ class GameController extends BaseController
         private readonly TeamRepository $teamRepository,
         private readonly SeasonRepository $seasonRepository,
         private readonly TrackRepository $trackRepository,
-        private readonly DriverRepository $driverRepository,
         private readonly DrawDriverToReplace $drawDriverToReplace,
-        private readonly SimulateQualifications $simulateQualifications,
+        private readonly SimulateRaceService $simulateRaceService,
         private readonly EntityManagerInterface $entityManager,
     ) {
     }
@@ -88,9 +82,6 @@ class GameController extends BaseController
             return $this->redirectToRoute('app_index');
         }
 
-        $lastRace = $season->getRaces()->last();
-        $track = $lastRace ? $this->trackRepository->find($lastRace->getTrack()->getId() + 1) : $this->trackRepository->findAll()[0];
-
         $tracksCount = $this->trackRepository->count();
 
         if ($season->getRaces()->count() === $tracksCount) {
@@ -103,37 +94,7 @@ class GameController extends BaseController
             return $this->redirectToRoute('app_index');
         }
 
-        $race = Race::create($track, $season);
-
-        $this->entityManager->persist($race);
-        $this->entityManager->flush();
-
-        $qualificationResultsCollection = $this->simulateQualifications->getQualificationsResults();
-        
-        $raceResults = (new SimulateRace)->getRaceResults($this->driverRepository->findAll(), $qualificationResultsCollection);
-
-        /* Save qualifications results in database */
-        foreach ($qualificationResultsCollection->getQualificationResults() as $qualificationResult) {
-            $qualification = new Qualification();
-            $qualification->setRace($race);
-            $qualification->setDriver($qualificationResult->getDriver());
-            $qualification->setPosition($qualificationResult->getPosition());
-
-            $this->entityManager->persist($qualification);
-        }
-
-        /* Save race results in database */
-        foreach ($raceResults as $position => $driverId) {
-            $raceResult = new RaceResult();
-
-            $raceResult->setRace($race);
-            $raceResult->setDriver($this->driverRepository->find($driverId));
-            $raceResult->setPosition($position);
-
-            $this->entityManager->persist($raceResult);
-        }
-
-        $this->entityManager->flush();
+        $this->simulateRaceService->simulateRace($season);
 
         return $this->redirectToRoute('app_index');
     }

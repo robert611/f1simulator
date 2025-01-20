@@ -3,7 +3,7 @@
 namespace App\Service\GameSimulation;
 
 use App\Service\GameSimulation\SimulateQualifications;
-use App\Service\GameSimulation\SimulateRace;
+use App\Service\GameSimulation\SimulateRaceService;
 
 class SimulateLeagueRace
 {
@@ -19,7 +19,7 @@ class SimulateLeagueRace
 
         $qualificationsResults = $this->simulateQualifications->getLeagueQualificationsResults($drivers);
 
-        $raceResults = (new SimulateRace)->getLeagueRaceResults($drivers, $qualificationsResults);
+        $raceResults = (new SimulateRaceService)->getLeagueRaceResults($drivers, $qualificationsResults);
     
         return [
             $this->setQualificationsResultsToPlayers($qualificationsResults, $players),

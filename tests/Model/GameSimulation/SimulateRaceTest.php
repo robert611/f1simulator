@@ -4,7 +4,7 @@ namespace App\Tests\Model\GameSimulation;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use App\Service\GameSimulation\SimulateQualifications;
-use App\Service\GameSimulation\SimulateRace;
+use App\Service\GameSimulation\SimulateRaceService;
 use App\Service\Configuration\TeamsStrength;
 use App\Service\Configuration\QualificationAdvantage;
 use App\Entity\Driver;
@@ -33,7 +33,7 @@ class SimulateRaceTest extends KernelTestCase
         $this->drivers = $this->entityManager->getRepository(Driver::class)->findAll();
         $this->teams = $this->entityManager->getRepository(Team::class)->findAll();     
 
-        $this->simulateRace = new SimulateRace();
+        $this->simulateRace = new SimulateRaceService();
         $this->simulateQualifications = new SimulateQualifications();
 
         $this->qualificationsResults = $this->simulateQualifications->getLeagueQualificationsResults($this->drivers);
