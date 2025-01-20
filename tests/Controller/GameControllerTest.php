@@ -118,16 +118,23 @@ class GameControllerTest extends WebTestCase
         self::assertEquals('Nie możesz zakończyć sezonu, bez jego rozpoczęcia.', $errorFlashBags[0]);
     }
 
-
-    public function testSimulateRace()
+    #[Test]
+    public function checkIfSeasonMustBeStartedToSimulateRace(): void
     {
-        $user = $this->fixtures->getUser();
-
+        // given
+        $user = $this->fixtures->aUser();
         $this->client->loginUser($user);
 
+        // when
         $this->client->request('POST', '/game/simulate/race');
 
-        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+        // then
+        self::assertEquals(302, $this->client->getResponse()->getStatusCode());
+
+        // and then
+        $errorFlashBags = $this->client->getRequest()->getSession()->getFlashBag()->get('error');
+        self::assertCount(1, $errorFlashBags);
+        self::assertEquals('Nie możesz symulować wyścigu, bez rozpoczęcia sezonu.', $errorFlashBags[0]);
     }
 
     #[DataProvider('provideUrls')]

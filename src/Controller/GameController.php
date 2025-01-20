@@ -71,11 +71,11 @@ class GameController extends BaseController
         return $this->redirectToRoute('app_index');
     }
 
-    #[Route('/game/simulate/race', name: 'game_simulate_race', methods: ['GET'])]
+    #[Route('/game/simulate/race', name: 'game_simulate_race', methods: ['GET', 'POST'])]
     public function simulateRace(Session $session): RedirectResponse
     {
         /* First find a season to which race belongs */
-        $season = $this->seasonRepository->findOneBy(['user' => $this->getUser()->getId(), 'completed' => 0]);
+        $season = $this->seasonRepository->findOneBy(['user' => $this->getUser()->getId(), 'completed' => false]);
 
         if (null === $season) {
             $this->addFlash('error', 'Nie możesz symulować wyścigu, bez rozpoczęcia sezonu.');
