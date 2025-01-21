@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\UserSeasonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +21,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class LeagueController extends BaseController
 {
     public function __construct(
+        private readonly UserSeasonRepository $userSeasonRepository,
         private readonly SimulateLeagueRace $simulateLeagueRace,
         private readonly EntityManagerInterface $entityManager,
     ) {
@@ -29,16 +31,15 @@ class LeagueController extends BaseController
     public function join(Request $request): RedirectResponse
     {
         $secret = $request->request->get('league-secret');
-        $league = $this->entityManager->getRepository(UserSeason::class)->findOneBy(['secret' => $secret]);
+        $league = $this->userSeasonRepository->findOneBy(['secret' => $secret]);
 
         $this->denyAccessUnlessGranted('league_join', $league);
 
         $drivers = $this->entityManager->getRepository(Driver::class)->findAll();
 
-        $player = new UserSeasonPlayer();
-        $player->setUser($this->getUser());
-        $player->setDriver((new DrawDriverToReplace)->getDriverToReplaceInUserLeague($drivers,  $league->getPlayers()));
-        $player->setSeason($league);
+        $driver = (new DrawDriverToReplace)->getDriverToReplaceInUserLeague($drivers,  $league->getPlayers());
+
+        $player = UserSeasonPlayer::create($league, $this->getUser(), $driver);
 
         $this->entityManager->persist($player);
         $this->entityManager->flush();

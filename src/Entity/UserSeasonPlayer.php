@@ -134,4 +134,14 @@ class UserSeasonPlayer
     {
         $this->points = $points;
     }
+
+    public static function create(UserSeason $userSeason, User $user, Driver $driver): self
+    {
+        $userSeasonPlayer = new self();
+        $userSeasonPlayer->season = $userSeason;
+        $userSeasonPlayer->user = $user;
+        $userSeasonPlayer->driver = $driver;
+
+        return $userSeasonPlayer;
+    }
 }
