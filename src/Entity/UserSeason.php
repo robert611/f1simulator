@@ -167,4 +167,23 @@ class UserSeason
     {
         $this->started = $started;
     }
+
+    public static function create(
+        string $secret,
+        int $maxPlayers,
+        User $owner,
+        string $name,
+        bool $completed,
+        bool $started,
+    ): self {
+        $userSeason = new self();
+        $userSeason->secret = $secret;
+        $userSeason->maxPlayers = $maxPlayers;
+        $userSeason->owner = $owner;
+        $userSeason->name = $name;
+        $userSeason->completed = $completed;
+        $userSeason->started = $started;
+
+        return $userSeason;
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\UserSeasonRepository;
+use App\Security\LeagueVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +34,7 @@ class LeagueController extends BaseController
         $secret = $request->request->get('league-secret');
         $league = $this->userSeasonRepository->findOneBy(['secret' => $secret]);
 
-        $this->denyAccessUnlessGranted('league_join', $league);
+        $this->denyAccessUnlessGranted(LeagueVoter::JOIN, $league);
 
         $drivers = $this->entityManager->getRepository(Driver::class)->findAll();
 

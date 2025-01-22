@@ -8,6 +8,7 @@ use App\Entity\Driver;
 use App\Entity\Season;
 use App\Entity\Team;
 use App\Entity\User;
+use App\Entity\UserSeason;
 use Doctrine\ORM\EntityManagerInterface;
 
 class Fixtures
@@ -22,6 +23,20 @@ class Fixtures
         $user = new User();
         $user->setUsername('tommy123');
         $user->setEmail('tommy123@gmail.com');
+        $user->setPassword('password');
+        $user->setRoles(['ROLE_USER']);
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        return $user;
+    }
+
+    public function aCustomUser(string $username, string $email): User
+    {
+        $user = new User();
+        $user->setUsername($username);
+        $user->setEmail($email);
         $user->setPassword('password');
         $user->setRoles(['ROLE_USER']);
 
@@ -78,5 +93,28 @@ class Fixtures
         $this->entityManager->flush();
 
         return $season;
+    }
+
+    public function aUserSeason(
+        string $secret,
+        int $maxPlayers,
+        User $owner,
+        string $name,
+        bool $completed,
+        bool $started,
+    ): UserSeason {
+        $userSeason = UserSeason::create(
+            $secret,
+            $maxPlayers,
+            $owner,
+            $name,
+            $completed,
+            $started,
+        );
+
+        $this->entityManager->persist($userSeason);
+        $this->entityManager->flush();
+
+        return $userSeason;
     }
 }
