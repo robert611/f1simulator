@@ -51,7 +51,7 @@ class LeagueController extends BaseController
     #[Route('/{id}/start', name: 'league_start', methods: ['GET'])]
     public function startLeague(UserSeason $season): RedirectResponse
     {
-        $this->denyAccessUnlessGranted('league_start', $season);
+        $this->denyAccessUnlessGranted(LeagueVoter::JOIN, $season);
 
         $season->setStarted(true);
 
@@ -64,7 +64,7 @@ class LeagueController extends BaseController
     #[Route('/{id}/end', name: 'league_end', methods: ['GET'])]
     public function endLeague(UserSeason $season): RedirectResponse
     {
-        $this->denyAccessUnlessGranted('league_end', $season);
+        $this->denyAccessUnlessGranted(LeagueVoter::END, $season);
 
         $season->setCompleted(1);
 
@@ -77,7 +77,7 @@ class LeagueController extends BaseController
     #[Route('/{id}/simulate/race', name: 'league_simulate_race', methods: ['GET'])]
     public function simulateRace(UserSeason $season): RedirectResponse
     {
-        $this->denyAccessUnlessGranted('league_simulate_race', $season);
+        $this->denyAccessUnlessGranted(LeagueVoter::SIMULATE_RACE, $season);
 
         $trackRepository = $this->entityManager->getRepository(Track::class);
 

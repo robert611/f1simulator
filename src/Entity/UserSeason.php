@@ -16,6 +16,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[UniqueEntity(fields: ['name'], message: 'Istnieje już liga z taką nazwą')]
 class UserSeason
 {
+    public const MINIMUM_PLAYERS = 2;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'id', type: 'integer', nullable: false)]

@@ -8,6 +8,7 @@ use App\Entity\Track;
 use App\Entity\UserSeason;
 use App\Entity\UserSeasonPlayer;
 use App\Form\UserSeasonType;
+use App\Security\LeagueVoter;
 use App\Service\Classification\LeagueClassifications;
 use App\Service\Classification\LeagueTeamsClassification;
 use App\Service\DrawDriverToReplace;
@@ -90,7 +91,7 @@ class UserSeasonController extends BaseController
     #[Route('/{id}/show/{classificationType}', name: 'multiplayer_show_season', methods: ['GET'])]
     public function showSeason(Request $request, UserSeason $season, $classificationType = 'players'): Response
     {
-        $this->denyAccessUnlessGranted('league_show_season', $season);
+        $this->denyAccessUnlessGranted(LeagueVoter::SHOW_SEASON, $season);
 
         $player = $this->entityManager->getRepository(UserSeasonPlayer::class)->findOneBy(['season' => $season, 'user' => $this->getUser()]);
         $player = (new FillLeaguePlayerData($player, $season))->getPlayer();
