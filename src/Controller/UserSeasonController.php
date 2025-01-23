@@ -42,11 +42,11 @@ class UserSeasonController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $userSeasonRepository = $this->entityManager->getRepository(UserSeason::class);
 
-            if (count($userSeasonRepository->findBy(['owner' => $this->getUser()])) >= 3) {
+            if ($userSeasonRepository->count(['owner' => $this->getUser()]) >= 3) {
                 $this->addFlash('warning', 'W jednym momencie możesz mieć maksymalnie trzy nieukończone ligi');
+
                 return $this->redirectToRoute('multiplayer_index');
             }
 
@@ -70,12 +70,13 @@ class UserSeasonController extends BaseController
             $this->entityManager->flush();
             
             $this->addFlash('success', 'Liga została stworzona');
+
             return $this->redirectToRoute('multiplayer_index');
         }
 
         $leagueRepository = $this->entityManager->getRepository(UserSeason::class);
         $userLeagues = $leagueRepository->findBy(['owner' => $this->getUser()]);
-        $leagues = array();
+        $leagues = [];
 
         foreach ($this->getUser()->getUserSeasonPlayers() as $player) {
             $leagues[] = $player->getSeason();
@@ -84,7 +85,7 @@ class UserSeasonController extends BaseController
         return $this->render('league/index.html.twig', [
             'form' => $form->createView(),
             'userLeagues' => $userLeagues,
-            'leagues' => $leagues
+            'leagues' => $leagues,
         ]);
     }
 
