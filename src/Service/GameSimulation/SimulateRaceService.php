@@ -6,11 +6,11 @@ use App\Entity\Qualification;
 use App\Entity\Race;
 use App\Entity\RaceResult;
 use App\Entity\Season;
+use App\Model\Configuration\QualificationAdvantage;
+use App\Model\Configuration\TeamsStrength;
 use App\Model\GameSimulation\QualificationResultsCollection;
 use App\Repository\DriverRepository;
 use App\Repository\TrackRepository;
-use App\Service\Configuration\TeamsStrength;
-use App\Service\Configuration\QualificationAdvantage;
 use Doctrine\ORM\EntityManagerInterface;
 
 class SimulateRaceService

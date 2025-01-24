@@ -2,13 +2,13 @@
 
 namespace App\Tests\Model\GameSimulation;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Service\GameSimulation\SimulateQualifications;
-use App\Service\GameSimulation\SimulateRaceService;
-use App\Service\Configuration\TeamsStrength;
-use App\Service\Configuration\QualificationAdvantage;
 use App\Entity\Driver;
 use App\Entity\Team;
+use App\Model\Configuration\QualificationAdvantage;
+use App\Model\Configuration\TeamsStrength;
+use App\Service\GameSimulation\SimulateQualifications;
+use App\Service\GameSimulation\SimulateRaceService;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class SimulateRaceTest extends KernelTestCase
 {

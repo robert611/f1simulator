@@ -2,11 +2,11 @@
 
 namespace App\Tests\Model;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Service\DriverStatistics\DriverPoints;
 use App\Entity\Driver;
 use App\Entity\Season;
-use App\Service\Configuration\RaceScoringSystem;
+use App\Model\Configuration\RaceScoringSystem;
+use App\Service\DriverStatistics\DriverPoints;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class DriverPointsTest extends KernelTestCase 
 {

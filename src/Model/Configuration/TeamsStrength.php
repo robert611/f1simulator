@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Configuration;
+namespace App\Model\Configuration;
 
 class TeamsStrength
 {

@@ -2,12 +2,12 @@
 
 namespace App\Tests\Model\Classification;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Service\Classification\SeasonClassifications;
 use App\Entity\Driver;
-use App\Entity\Season;
 use App\Entity\Qualification;
-use App\Service\Configuration\RaceScoringSystem;
+use App\Entity\Season;
+use App\Model\Configuration\RaceScoringSystem;
+use App\Service\Classification\SeasonClassifications;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class SeasonClassificationsTest extends KernelTestCase 
 {

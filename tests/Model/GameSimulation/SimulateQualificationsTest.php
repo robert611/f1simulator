@@ -2,11 +2,11 @@
 
 namespace App\Tests\Model;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Service\GameSimulation\SimulateQualifications;
-use App\Service\Configuration\TeamsStrength;
 use App\Entity\Driver;
 use App\Entity\Team;
+use App\Model\Configuration\TeamsStrength;
+use App\Service\GameSimulation\SimulateQualifications;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class SimulateQualificationsTest extends KernelTestCase
 {

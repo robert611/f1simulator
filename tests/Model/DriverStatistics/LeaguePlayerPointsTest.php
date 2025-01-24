@@ -2,10 +2,9 @@
 
 namespace App\Tests\Model;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Service\DriverStatistics\LeaguePlayerPoints;
-use App\Service\Configuration\RaceScoringSystem;
 use App\Entity\UserSeason;
+use App\Service\DriverStatistics\LeaguePlayerPoints;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class LeaguePlayerPointsTest extends KernelTestCase 
 {

@@ -2,13 +2,13 @@
 
 namespace App\Test\Model;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Service\TeamStatistics\TeamPoints;
-use App\Service\Configuration\RaceScoringSystem;
 use App\Entity\Driver;
 use App\Entity\RaceResult;
-use App\Entity\Team;
 use App\Entity\Season;
+use App\Entity\Team;
+use App\Model\Configuration\RaceScoringSystem;
+use App\Service\TeamStatistics\TeamPoints;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class TeamPointsTest extends KernelTestCase
 {

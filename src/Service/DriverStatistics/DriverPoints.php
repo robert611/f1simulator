@@ -4,7 +4,7 @@ namespace App\Service\DriverStatistics;
 
 use App\Entity\Driver;
 use App\Entity\Season;
-use App\Service\Configuration\RaceScoringSystem;
+use App\Model\Configuration\RaceScoringSystem;
 
 class DriverPoints 
 {

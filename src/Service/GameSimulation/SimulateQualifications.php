@@ -2,10 +2,10 @@
 
 namespace App\Service\GameSimulation;
 
+use App\Model\Configuration\TeamsStrength;
 use App\Model\GameSimulation\QualificationResult;
 use App\Model\GameSimulation\QualificationResultsCollection;
 use App\Repository\DriverRepository;
-use App\Service\Configuration\TeamsStrength;
 
 class SimulateQualifications
 {
