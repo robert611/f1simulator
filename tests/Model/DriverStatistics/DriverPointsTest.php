@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use App\Service\DriverStatistics\DriverPoints;
 use App\Entity\Driver;
 use App\Entity\Season;
-use App\Service\Configuration\RacePunctation;
+use App\Service\Configuration\RaceScoringSystem;
 
 class DriverPointsTest extends KernelTestCase 
 {
@@ -33,13 +33,13 @@ class DriverPointsTest extends KernelTestCase
 
         $season = $this->entityManager->getRepository(Season::class)->findOneBy(['completed' => 1]);
 
-        $punctation = (new RacePunctation)->getPunctation();
+        $raceScoringSystem = (new RaceScoringSystem)->getRaceScoringSystem();
 
         /* According to test database drivers order reflects driver position */
         foreach ($drivers as $key => $driver) {
             $points = $this->driverPoints->getDriverPoints($driver, $season);
 
-            $expectedPoints = 6 * $punctation[$key + 1];
+            $expectedPoints = 6 * $raceScoringSystem[$key + 1];
 
             $this->assertEquals($points, $expectedPoints);
             

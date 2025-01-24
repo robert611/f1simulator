@@ -1,5 +1,7 @@
 <?php 
 
+declare(strict_types=1);
+
 namespace App\Service\Configuration;
 
 class QualificationAdvantage
@@ -26,7 +28,7 @@ class QualificationAdvantage
             17 => 2,
             18 => 1,
             19 => 1,
-            20 => 1
+            20 => 1,
         ];
     }
 }

@@ -1,10 +1,12 @@
 <?php 
 
+declare(strict_types=1);
+
 namespace App\Service\Configuration;
 
-class RacePunctation 
+class RaceScoringSystem
 {
-    public static function getPunctation(): array
+    public static function getRaceScoringSystem(): array
     {
         return [
             '1' => 25,
@@ -26,12 +28,12 @@ class RacePunctation
             '17' => 0,
             '18' => 0, 
             '19' => 0,
-            '20' => 0
+            '20' => 0,
         ];
     }
 
-    public static function getPositionPunctation(int $position): int
+    public static function getPositionScore(int $position): int
     {
-        return self::getPunctation()[$position];
+        return self::getRaceScoringSystem()[$position];
     }
 }

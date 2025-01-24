@@ -4,7 +4,7 @@ namespace App\Test\Model;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use App\Service\TeamStatistics\TeamPoints;
-use App\Service\Configuration\RacePunctation;
+use App\Service\Configuration\RaceScoringSystem;
 use App\Entity\Driver;
 use App\Entity\RaceResult;
 use App\Entity\Team;
@@ -44,9 +44,9 @@ class TeamPointsTest extends KernelTestCase
 
     private function getExpectedPoints($team)
     {
-        $racePunctation = (new RacePunctation())->getPunctation();
+        $raceScoringSystem = (new RaceScoringSystem())->getRaceScoringSystem();
         $drivers = $team->getDrivers();
 
-        return $racePunctation[$drivers[0]->getCarId()] * 6 + $racePunctation[$drivers[1]->getCarId()] * 6;  
+        return $raceScoringSystem[$drivers[0]->getCarId()] * 6 + $raceScoringSystem[$drivers[1]->getCarId()] * 6;
     }
 }

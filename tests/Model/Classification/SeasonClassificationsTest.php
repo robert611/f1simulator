@@ -7,7 +7,7 @@ use App\Service\Classification\SeasonClassifications;
 use App\Entity\Driver;
 use App\Entity\Season;
 use App\Entity\Qualification;
-use App\Service\Configuration\RacePunctation;
+use App\Service\Configuration\RaceScoringSystem;
 
 class SeasonClassificationsTest extends KernelTestCase 
 {
@@ -45,11 +45,11 @@ class SeasonClassificationsTest extends KernelTestCase
     public function test_if_get_race_classification_returns_correct_results()
     {
         $classification = $this->seasonClassifications->getClassificationBasedOnType('race');
-        $punctation = (new RacePunctation)->getPunctation();
+        $raceScoringSystem = (new RaceScoringSystem)->getRaceScoringSystem();
 
         foreach ($classification as $result) {
             $this->assertTrue(in_array($result->getPosition(), range(1, 20)));
-            $this->assertEquals($result->getPoints(), $punctation[$result->getPosition()]);
+            $this->assertEquals($result->getPoints(), $raceScoringSystem[$result->getPosition()]);
         }
     }
 
@@ -66,21 +66,21 @@ class SeasonClassificationsTest extends KernelTestCase
     public function test_if_get_drivers_classification_return_correct_results()
     {
         $classification = $this->seasonClassifications->getClassificationBasedOnType('drivers');
-        $punctation = (new RacePunctation)->getPunctation();
+        $raceScoringSystem = (new RaceScoringSystem)->getRaceScoringSystem();
 
         foreach ($classification as $result) {
             $this->assertTrue(in_array($result->position, range(1, 20)));
-            $this->assertEquals($result->getPoints(), 6 * $punctation[$result->getPosition()]);
+            $this->assertEquals($result->getPoints(), 6 * $raceScoringSystem[$result->getPosition()]);
         }
     }
 
-    public function provideClassificationTypes()
+    public function provideClassificationTypes(): array
     {
         return [
             ['race'],
             ['drivers'],
             ['qualifications'],
-            ['notExistingOne']
+            ['notExistingOne'],
         ];
     }
 }

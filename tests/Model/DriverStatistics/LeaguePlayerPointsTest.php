@@ -4,7 +4,7 @@ namespace App\Tests\Model;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use App\Service\DriverStatistics\LeaguePlayerPoints;
-use App\Service\Configuration\RacePunctation;
+use App\Service\Configuration\RaceScoringSystem;
 use App\Entity\UserSeason;
 
 class LeaguePlayerPointsTest extends KernelTestCase 
@@ -30,8 +30,6 @@ class LeaguePlayerPointsTest extends KernelTestCase
 
     public function test_if_can_get_player_points()
     {
-        $punctation = (new RacePunctation)->getPunctation();
-
         /* I have count it looking on the database */
         $this->assertTrue($this->leaguePlayerPoints->getPlayerPoints($this->league->getPlayers()[0]) == 150);
         $this->assertTrue($this->leaguePlayerPoints->getPlayerPoints($this->league->getPlayers()[1]) == 108);

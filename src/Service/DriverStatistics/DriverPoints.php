@@ -4,7 +4,7 @@ namespace App\Service\DriverStatistics;
 
 use App\Entity\Driver;
 use App\Entity\Season;
-use App\Service\Configuration\RacePunctation;
+use App\Service\Configuration\RaceScoringSystem;
 
 class DriverPoints 
 {
@@ -18,7 +18,7 @@ class DriverPoints
 
         foreach ($driver->getRaceResults() as $raceResult) {
             if ($raceResult->getRace()->getSeason()->getId() === $season->getId()) {
-                $points += RacePunctation::getPositionPunctation($raceResult->getPosition());
+                $points += RaceScoringSystem::getPositionScore($raceResult->getPosition());
             }
         }
 
@@ -35,6 +35,6 @@ class DriverPoints
             return 0;
         }
 
-        return RacePunctation::getPositionPunctation($position);
+        return RaceScoringSystem::getPositionScore($position);
     }
 }

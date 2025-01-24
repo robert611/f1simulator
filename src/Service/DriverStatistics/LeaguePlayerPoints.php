@@ -2,7 +2,7 @@
 
 namespace App\Service\DriverStatistics;
 
-use App\Service\Configuration\RacePunctation;
+use App\Service\Configuration\RaceScoringSystem;
 
 class LeaguePlayerPoints
 {
@@ -19,6 +19,6 @@ class LeaguePlayerPoints
 
     public function getPlayerPointsByResult(object $result): int
     {
-        return (new RacePunctation)->getPunctation()[$result->getPosition()];
+        return (new RaceScoringSystem)->getRaceScoringSystem()[$result->getPosition()];
     }
 }
