@@ -51,12 +51,12 @@ class SimulateRaceTest extends KernelTestCase
         }
     }
 
-    /* Coupons contain driverId, so altough most of the code is similar to the one in getCoupons() method there always may be a problem with filling data */
+    /* Coupons contain driverId, so although most of the code is similar to the one in getCoupons() method there always may be a problem with filling data */
     public function test_if_get_coupons_returns_correct_amount_of_coupons()
     {
         $expectedCoupons = 0;
 
-        $teamsStrength = (new TeamsStrength)->getTeamsStrength();
+        $teamsStrength = TeamsStrength::getTeamsStrength();
         $qualificationResultAdvantage = (new QualificationAdvantage)->getQualificationResultAdvantage();
 
         /* Calculate Strength Of Drivers */

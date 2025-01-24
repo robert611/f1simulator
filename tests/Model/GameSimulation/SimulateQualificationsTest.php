@@ -51,7 +51,7 @@ class SimulateQualificationsTest extends KernelTestCase
     {
         $expectedCoupons = 0;
 
-        $teamsStrength = (new TeamsStrength)->getTeamsStrength();
+        $teamsStrength = TeamsStrength::getTeamsStrength();
 
         foreach ($teamsStrength as $strength) {
             $expectedCoupons += ceil($strength);

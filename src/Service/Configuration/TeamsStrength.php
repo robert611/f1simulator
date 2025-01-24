@@ -1,10 +1,12 @@
 <?php 
 
+declare(strict_types=1);
+
 namespace App\Service\Configuration;
 
 class TeamsStrength
 {
-    public function getTeamsStrength(): array
+    public static function getTeamsStrength(): array
     {
         return [
             'Mercedes' => 23,
@@ -16,7 +18,7 @@ class TeamsStrength
             'Toro Rosso' => 5.9,
             'Haas' => 5.7,
             'Alfa Romeo' => 5.7,
-            'Williams' => 0.6
+            'Williams' => 0.6,
         ];
     }
 }

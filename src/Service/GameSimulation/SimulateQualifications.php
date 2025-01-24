@@ -78,7 +78,7 @@ class SimulateQualifications
      */
     public function getCoupons(): array
     {
-        $teams = (new TeamsStrength)->getTeamsStrength();
+        $teams = TeamsStrength::getTeamsStrength();
         $coupons = array();
         
         for ($i = 1; $i <= $this->multiplier; $i++)
