@@ -33,7 +33,7 @@ class DriverPointsTest extends KernelTestCase
 
         $season = $this->entityManager->getRepository(Season::class)->findOneBy(['completed' => 1]);
 
-        $raceScoringSystem = (new RaceScoringSystem)->getRaceScoringSystem();
+        $raceScoringSystem = RaceScoringSystem::getRaceScoringSystem();
 
         /* According to test database drivers order reflects driver position */
         foreach ($drivers as $key => $driver) {

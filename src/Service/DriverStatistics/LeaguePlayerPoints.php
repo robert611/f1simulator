@@ -19,6 +19,6 @@ class LeaguePlayerPoints
 
     public function getPlayerPointsByResult(object $result): int
     {
-        return (new RaceScoringSystem)->getRaceScoringSystem()[$result->getPosition()];
+        return RaceScoringSystem::getRaceScoringSystem()[$result->getPosition()];
     }
 }

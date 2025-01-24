@@ -44,7 +44,7 @@ class TeamPointsTest extends KernelTestCase
 
     private function getExpectedPoints($team)
     {
-        $raceScoringSystem = (new RaceScoringSystem())->getRaceScoringSystem();
+        $raceScoringSystem = RaceScoringSystem::getRaceScoringSystem();
         $drivers = $team->getDrivers();
 
         return $raceScoringSystem[$drivers[0]->getCarId()] * 6 + $raceScoringSystem[$drivers[1]->getCarId()] * 6;

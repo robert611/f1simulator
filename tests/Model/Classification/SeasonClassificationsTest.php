@@ -45,7 +45,7 @@ class SeasonClassificationsTest extends KernelTestCase
     public function test_if_get_race_classification_returns_correct_results()
     {
         $classification = $this->seasonClassifications->getClassificationBasedOnType('race');
-        $raceScoringSystem = (new RaceScoringSystem)->getRaceScoringSystem();
+        $raceScoringSystem = RaceScoringSystem::getRaceScoringSystem();
 
         foreach ($classification as $result) {
             $this->assertTrue(in_array($result->getPosition(), range(1, 20)));
@@ -66,7 +66,7 @@ class SeasonClassificationsTest extends KernelTestCase
     public function test_if_get_drivers_classification_return_correct_results()
     {
         $classification = $this->seasonClassifications->getClassificationBasedOnType('drivers');
-        $raceScoringSystem = (new RaceScoringSystem)->getRaceScoringSystem();
+        $raceScoringSystem = RaceScoringSystem::getRaceScoringSystem();
 
         foreach ($classification as $result) {
             $this->assertTrue(in_array($result->position, range(1, 20)));
