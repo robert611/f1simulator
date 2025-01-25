@@ -79,4 +79,13 @@ class Track
             $this->races->removeElement($race);
         }
     }
+
+    public static function create(string $name, string $picture): self
+    {
+        $track = new self();
+        $track->name = $name;
+        $track->picture = $picture;
+
+        return $track;
+    }
 }

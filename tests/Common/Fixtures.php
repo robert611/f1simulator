@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Tests\Common;
 
 use App\Entity\Driver;
+use App\Entity\Race;
 use App\Entity\Season;
 use App\Entity\Team;
+use App\Entity\Track;
 use App\Entity\User;
 use App\Entity\UserSeason;
 use Doctrine\ORM\EntityManagerInterface;
@@ -116,5 +118,25 @@ class Fixtures
         $this->entityManager->flush();
 
         return $userSeason;
+    }
+
+    public function aTrack(string $name, string $picture): Track
+    {
+        $track = Track::create($name, $picture);
+
+        $this->entityManager->persist($track);
+        $this->entityManager->flush();
+
+        return $track;
+    }
+
+    public function aRace(Track $track, Season $season): Race
+    {
+        $race = Race::Create($track, $season);
+
+        $this->entityManager->persist($race);
+        $this->entityManager->flush();
+
+        return $race;
     }
 }
