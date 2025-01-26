@@ -17,8 +17,8 @@ class SimulateRaceTest extends KernelTestCase
      */
     private $entityManager;
 
-    private object $simulateRace;
-    private object $simulateQualifications;
+    private SimulateRaceService $simulateRace;
+    private SimulateQualifications $simulateQualifications;
     private array $drivers;
     private array $teams;
     private array $qualificationsResults;
@@ -33,8 +33,8 @@ class SimulateRaceTest extends KernelTestCase
         $this->drivers = $this->entityManager->getRepository(Driver::class)->findAll();
         $this->teams = $this->entityManager->getRepository(Team::class)->findAll();     
 
-        $this->simulateRace = new SimulateRaceService();
-        $this->simulateQualifications = new SimulateQualifications();
+        $this->simulateRace = self::getContainer()->get(SimulateRaceService::class);
+        $this->simulateQualifications = self::getContainer()->get(SimulateQualifications::class);
 
         $this->qualificationsResults = $this->simulateQualifications->getLeagueQualificationsResults($this->drivers);
     }

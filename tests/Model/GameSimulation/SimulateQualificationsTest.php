@@ -15,7 +15,7 @@ class SimulateQualificationsTest extends KernelTestCase
      */
     private $entityManager;
 
-    private object $simulateQualifications;
+    private SimulateQualifications $simulateQualifications;
     private array $drivers;
     private array $teams;
 
@@ -29,7 +29,7 @@ class SimulateQualificationsTest extends KernelTestCase
         $this->drivers = $this->entityManager->getRepository(Driver::class)->findAll();
         $this->teams = $this->entityManager->getRepository(Team::class)->findAll();     
 
-        $this->simulateQualifications = new SimulateQualifications();
+        $this->simulateQualifications = self::getContainer()->get(SimulateQualifications::class);
     }
 
     public function test_if_get_qualification_results_returns_correct_results()

@@ -30,7 +30,7 @@ class TeamPointsTest extends KernelTestCase
         $driversRepository = $this->entityManager->getRepository(Driver::class);
         $raceResultsRepository = $this->entityManager->getRepository(RaceResult::class);
 
-        $teamPointsModel = new TeamPoints($raceResultsRepository);
+        $teamPointsModel = new TeamPoints();
 
         $season = $this->entityManager->getRepository(Season::class)->findOneBy(['completed' => 1]);
         $teams = $this->entityManager->getRepository(Team::class)->findAll();
