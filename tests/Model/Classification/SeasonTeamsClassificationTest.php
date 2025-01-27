@@ -2,6 +2,7 @@
 
 namespace App\Tests\Model\Classification;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use App\Service\Classification\SeasonTeamsClassification;
 use App\Entity\Team;
@@ -9,19 +10,15 @@ use App\Entity\Season;
 
 class SeasonTeamsClassificationTest extends KernelTestCase
 {
-    /**
-     * @var \Doctrine\ORM\EntityManager
-     */
-    private $entityManager;
-
-    private object $seasonTeamsClassification;
+    private EntityManagerInterface $entityManager;
+    private SeasonTeamsClassification $seasonTeamsClassification;
 
     public function setUp(): void
     {
         $kernel = self::bootKernel();
         $this->entityManager = $kernel->getContainer()->get('doctrine')->getManager();
 
-        $this->seasonTeamsClassification = new SeasonTeamsClassification();
+        $this->seasonTeamsClassification = self::getContainer()->get(SeasonTeamsClassification::class);
     }
 
     public function test_if_can_get_teams_classification()
