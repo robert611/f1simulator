@@ -2,31 +2,32 @@
 
 namespace App\Tests\Model\Classification;
 
+use App\Tests\Common\Fixtures;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use App\Service\Classification\SeasonTeamsClassification;
 use App\Entity\Team;
-use App\Entity\Season;
 
 class SeasonTeamsClassificationTest extends KernelTestCase
 {
-    private EntityManagerInterface $entityManager;
     private SeasonTeamsClassification $seasonTeamsClassification;
+    private Fixtures $fixtures;
 
     public function setUp(): void
     {
-        $kernel = self::bootKernel();
-        $this->entityManager = $kernel->getContainer()->get('doctrine')->getManager();
-
         $this->seasonTeamsClassification = self::getContainer()->get(SeasonTeamsClassification::class);
+        $this->fixtures = self::getContainer()->get(Fixtures::class);
     }
 
-    public function test_if_can_get_teams_classification()
+    public function test_if_can_get_teams_classification(): void
     {
-        $season = $this->entityManager->getRepository(Season::class)->findOneBy(['completed' => 1]);
-        $teams = $this->entityManager->getRepository(Team::class)->findAll();
+        // given
+        $user = $this->fixtures->aUser();
+        $team = $this->fixtures->aTeam();
+        $driver = $this->fixtures->aDriver('Robert', 'Kubica', $team, '88');
+        $season = $this->fixtures->aSeason($user, $driver);
 
-        $classification = $this->seasonTeamsClassification->getClassification($teams, $season);
+        $classification = $this->seasonTeamsClassification->getClassification($user->getId());
 
         foreach ($classification as $key => $team) {
             $this->assertTrue($team instanceof Team);
