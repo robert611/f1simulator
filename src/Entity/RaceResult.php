@@ -61,4 +61,14 @@ class RaceResult
     {
         $this->driver = $driver;
     }
+
+    public static function create(int $position, Race $race, Driver $driver): self
+    {
+        $raceResult = new self();
+        $raceResult->position = $position;
+        $raceResult->race = $race;
+        $raceResult->driver = $driver;
+
+        return $raceResult;
+    }
 }

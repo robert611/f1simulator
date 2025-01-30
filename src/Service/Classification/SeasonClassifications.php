@@ -5,6 +5,7 @@ namespace App\Service\Classification;
 use App\Entity\Driver;
 use App\Entity\Qualification;
 use App\Entity\Race;
+use App\Entity\Season;
 use App\Model\DriversClassification;
 use App\Repository\DriverRepository;
 use App\Service\DriverStatistics\DriverPoints;

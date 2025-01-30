@@ -1,12 +1,12 @@
 <?php 
 
+declare(strict_types=1);
+
 namespace App\Tests\Model\Classification;
 
 use App\Tests\Common\Fixtures;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use App\Service\Classification\SeasonTeamsClassification;
-use App\Entity\Team;
 
 class SeasonTeamsClassificationTest extends KernelTestCase
 {
@@ -23,25 +23,57 @@ class SeasonTeamsClassificationTest extends KernelTestCase
     {
         // given
         $user = $this->fixtures->aUser();
-        $team = $this->fixtures->aTeam();
-        $driver = $this->fixtures->aDriver('Robert', 'Kubica', $team, '88');
-        $season = $this->fixtures->aSeason($user, $driver);
 
+        // and given
+        $williams = $this->fixtures->aTeamWithName("Williams");
+        $alphaTauri = $this->fixtures->aTeamWithName("Alpha tauri");
+        $renault = $this->fixtures->aTeamWithName("Renault");
+
+        // and given
+        $kubica = $this->fixtures->aDriver('Robert', 'Kubica', $williams, 88);
+        $russell = $this->fixtures->aDriver('George', 'Russell', $williams, 50);
+        $alphaTauriDriver = $this->fixtures->aDriver('Pierre', 'Gasly', $alphaTauri, 100);
+        $renaultDriver = $this->fixtures->aDriver('Fernando', 'Alonso', $renault, 40);
+
+        // and given
+        $season = $this->fixtures->aSeason($user, $kubica);
+
+        // and given
+        $track = $this->fixtures->aTrack("Monaco Grand Prix", "monaco.png");
+        $race = $this->fixtures->aRace($track, $season);
+
+        // and given (Williams drivers results)
+        $this->fixtures->aRaceResult(1, $race, $kubica);
+        $this->fixtures->aRaceResult(3, $race, $russell);
+
+        // and given (Alpha Tauri drivers results)
+        $this->fixtures->aRaceResult(2, $race, $alphaTauriDriver);
+
+        // and given (Renault drivers results)
+        $this->fixtures->aRaceResult(4, $race, $renaultDriver);
+
+        // when
         $classification = $this->seasonTeamsClassification->getClassification($user->getId());
 
-        foreach ($classification as $key => $team) {
-            $this->assertTrue($team instanceof Team);
-            $this->assertTrue($team->getPoints() >= (isset($classification[$key + 1]) ? $classification[$key + 1]->getPoints() : 0));
-        }
+        // then
+        self::assertEquals(3, count($classification->getTeamsSeasonResults()));
 
-        $this->assertTrue(count($classification) == 10);
+        // and then
+        $firstPlaceTeam = $classification->getTeamsSeasonResults()[0];
+        self::assertEquals($williams, $firstPlaceTeam->getTeam());
+        self::assertEquals(1, $firstPlaceTeam->getPosition());
+        self::assertEquals(40, $firstPlaceTeam->getPoints());
 
-        /* I have count it, looking on results in database */
-        $this->assertTrue($classification[0]->getPoints() == 258);
-        $this->assertTrue($classification[1]->getPoints() == 162);
-        $this->assertTrue($classification[2]->getPoints() == 108);
+        // and then
+        $secondPlaceTeam = $classification->getTeamsSeasonResults()[1];
+        self::assertEquals($alphaTauri, $secondPlaceTeam->getTeam());
+        self::assertEquals(2, $secondPlaceTeam->getPosition());
+        self::assertEquals(18, $secondPlaceTeam->getPoints());
 
-        /* ... */
-        $this->assertTrue($classification[9]->getPoints() == 0);
+        // and then
+        $thirdPlaceTeam = $classification->getTeamsSeasonResults()[2];
+        self::assertEquals($renault, $thirdPlaceTeam->getTeam());
+        self::assertEquals(3, $thirdPlaceTeam->getPosition());
+        self::assertEquals(12, $thirdPlaceTeam->getPoints());
     }
 }

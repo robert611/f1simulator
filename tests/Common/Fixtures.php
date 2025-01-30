@@ -6,6 +6,7 @@ namespace App\Tests\Common;
 
 use App\Entity\Driver;
 use App\Entity\Race;
+use App\Entity\RaceResult;
 use App\Entity\Season;
 use App\Entity\Team;
 use App\Entity\Track;
@@ -58,6 +59,16 @@ class Fixtures
         return $team;
     }
 
+    public function aTeamWithName(string $name): Team
+    {
+        $team = Team::create($name, "$name.png");
+
+        $this->entityManager->persist($team);
+        $this->entityManager->flush();
+
+        return $team;
+    }
+
     public function aTeamWithDrivers(): Team
     {
         $team = Team::Create("Mercedes", "mercedes.png");
@@ -77,6 +88,8 @@ class Fixtures
     public function aDriver(string $name, string $surname, Team $team, int $carId, ?bool $useFlash = true): Driver
     {
         $driver = Driver::create($name, $surname, $team, $carId);
+
+        $team->addDriver($driver);
 
         $this->entityManager->persist($driver);
 
@@ -138,5 +151,17 @@ class Fixtures
         $this->entityManager->flush();
 
         return $race;
+    }
+
+    public function aRaceResult(int $position, Race $race, Driver $driver): RaceResult
+    {
+        $raceResult = RaceResult::create($position, $race, $driver);
+
+        $driver->addRaceResult($raceResult);
+
+        $this->entityManager->persist($raceResult);
+        $this->entityManager->flush();
+
+        return $raceResult;
     }
 }
