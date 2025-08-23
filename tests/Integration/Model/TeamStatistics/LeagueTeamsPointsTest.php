@@ -1,12 +1,12 @@
 <?php 
 
-namespace App\Test\Model;
+namespace App\Tests\Integration\Model\TeamStatistics;
 
+use App\Entity\Team;
+use App\Entity\UserSeason;
+use App\Service\TeamStatistics\LeagueTeamsPoints;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Service\TeamStatistics\LeagueTeamsPoints;
-use App\Entity\UserSeason;
-use App\Entity\Team;
 
 class LeagueTeamPointsTest extends KernelTestCase
 {

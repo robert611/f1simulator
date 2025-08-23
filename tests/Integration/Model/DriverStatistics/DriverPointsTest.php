@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Tests\Model;
+namespace App\Tests\Integration\Model\DriverStatistics;
 
 use App\Entity\Driver;
 use App\Entity\Season;

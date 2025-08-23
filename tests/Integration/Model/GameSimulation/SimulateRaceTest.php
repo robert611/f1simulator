@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Tests\Model\GameSimulation;
+namespace App\Tests\Integration\Model\GameSimulation;
 
 use App\Entity\Driver;
 use App\Entity\Team;

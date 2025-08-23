@@ -188,4 +188,18 @@ class UserSeason
 
         return $userSeason;
     }
+
+    /**
+     * @return Driver[]
+     */
+    public function getLeagueDrivers(): array
+    {
+        $leagueDrivers = [];
+
+        foreach ($this->getPlayers() as $player) {
+            $leagueDrivers[] = $player->getDriver();
+        }
+
+        return $leagueDrivers;
+    }
 }

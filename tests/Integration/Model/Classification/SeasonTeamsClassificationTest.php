@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Model\Classification;
+namespace App\Tests\Integration\Model\Classification;
 
+use App\Service\Classification\SeasonTeamsClassification;
 use App\Tests\Common\Fixtures;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Service\Classification\SeasonTeamsClassification;
 
 class SeasonTeamsClassificationTest extends KernelTestCase
 {

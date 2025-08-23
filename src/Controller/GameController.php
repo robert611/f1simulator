@@ -33,7 +33,7 @@ class GameController extends BaseController
     {
         $team = $this->teamRepository->find($request->get('teamId'));
 
-        $driver = $this->drawDriverToReplace->getDriverToReplace($team);
+        $driver = $team->drawDriverToReplace();
 
         if (null === $driver) {
             $this->addFlash('error', 'Ten zespół nie posiada kierowców. Wybierz inny zespół.');

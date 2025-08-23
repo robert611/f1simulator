@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Tests\Model\Classification;
+namespace App\Tests\Integration\Model\Classification;
 
 use App\Entity\Driver;
 use App\Entity\Qualification;

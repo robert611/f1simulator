@@ -2,18 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Service;
+namespace App\Tests\Unit\Entity;
 
 use App\Entity\Driver;
 use App\Entity\Team;
-use App\Service\DrawDriverToReplace;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-class DrawDriverToReplaceTest extends TestCase
+class TeamTest extends TestCase
 {
     #[Test]
-    public function canGetDriverToReplace(): void
+    public function it_checks_if_driver_to_replace_will_be_drawn(): void
     {
         // given
         $team = Team::create("Mercedes", "mercedes.png");
@@ -27,11 +26,22 @@ class DrawDriverToReplaceTest extends TestCase
         $team->addDriver($driverTwo);
 
         // when
-        $service = new DrawDriverToReplace();
-
-        $driverToBeReplaced = $service->getDriverToReplace($team);
+        $driverToBeReplaced = $team->drawDriverToReplace();
 
         // then
         self::assertContains($driverToBeReplaced, [$driverOne, $driverTwo]);
+    }
+
+    #[Test]
+    public function it_checks_if_driver_to_replace_will_not_be_drawn_for_team_without_drivers(): void
+    {
+        // given
+        $team = Team::create("Mercedes", "mercedes.png");
+
+        // when
+        $driverToBeReplaced = $team->drawDriverToReplace();
+
+        // then
+        self::assertNull($driverToBeReplaced);
     }
 }

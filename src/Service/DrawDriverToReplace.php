@@ -5,56 +5,32 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Driver;
-use App\Entity\Team;
+use App\Entity\UserSeason;
 
 class DrawDriverToReplace
 {
     /**
-     * Returns of on given team drivers in a random order
+     * @param Driver[] $allDrivers
      */
-    public function getDriverToReplace(Team $team): ?Driver
+    public function getDriverToReplaceInUserLeague(array $allDrivers, UserSeason $league): ?Driver
     {
-        /** @var Driver[] $drivers */
-        $drivers = $team->getDrivers()->toArray();
+        $takenDrivers = $league->getLeagueDrivers();
 
-        if (empty($drivers)) {
+        $availableDrivers = array_udiff(
+            $allDrivers,
+            $takenDrivers,
+            fn(Driver $a, Driver $b) => $a->getId() <=> $b->getId(),
+        );
+
+        // Reindex array to make sure it starts from 0
+        $availableDrivers = array_values($availableDrivers);
+
+        if (empty($availableDrivers)) {
             return null;
         }
 
-        // Reindex array to make sure it starts from 0
-        $drivers = array_values($drivers);
+        $randomKey = array_rand($availableDrivers);
 
-        $driversLength = count($drivers) - 1;
-
-        $random = rand(0, $driversLength);
-
-        return $drivers[$random];
-    }
-
-    public function getDriverToReplaceInUserLeague(array $drivers, ?object $leaguePlayers): object
-    {
-        $takenDrivers = $leaguePlayers ? $this->getTakenDriversFromLeague($leaguePlayers) : [];
-
-        $availableDrivers = array_filter($drivers, function ($driver) use ($takenDrivers) {
-            return in_array($driver, $takenDrivers) ? false : true;
-        });
-
-        /* It ensures that array will be indexed properly, it means there will not be indexes like 0, 1, 2, 5, 7, 8, 9, 11 */
-        shuffle($availableDrivers);
-
-        $random = rand(0, (count($availableDrivers) - 1));
-
-        return $availableDrivers[$random];
-    }
-
-    public function getTakenDriversFromLeague(?object $leaguePlayers): array
-    {
-        $takenDrivers = array();
-
-        foreach ($leaguePlayers as $player) {
-            $takenDrivers[] = $player->getDriver();
-        }
-
-        return $takenDrivers;
+        return $availableDrivers[$randomKey];
     }
 }

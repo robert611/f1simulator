@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Test\Model;
+namespace App\Tests\Integration\Model\TeamStatistics;
 
 use App\Entity\Driver;
 use App\Entity\RaceResult;

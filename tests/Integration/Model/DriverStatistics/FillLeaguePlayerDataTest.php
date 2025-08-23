@@ -1,10 +1,10 @@
 <?php 
 
-namespace App\Tests\Model;
+namespace App\Tests\Integration\Model\DriverStatistics;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Service\DriverStatistics\FillLeaguePlayerData;
 use App\Entity\UserSeason;
+use App\Service\DriverStatistics\FillLeaguePlayerData;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class FillLeagueUserDataTest extends KernelTestCase 
 {

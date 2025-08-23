@@ -1,12 +1,12 @@
 <?php 
 
-namespace App\Tests\Model\Classification;
+namespace App\Tests\Integration\Model\Classification;
 
+use App\Entity\Team;
+use App\Entity\UserSeason;
+use App\Service\Classification\LeagueTeamsClassification;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Service\Classification\LeagueTeamsClassification;
-use App\Entity\UserSeason;
-use App\Entity\Team;
 
 class LeagueTeamsClassificationTest extends KernelTestCase
 {

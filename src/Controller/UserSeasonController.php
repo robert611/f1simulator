@@ -62,7 +62,7 @@ class UserSeasonController extends BaseController
 
             $player = new UserSeasonPlayer();
             $player->setUser($this->getUser());
-            $player->setDriver((new DrawDriverToReplace)->getDriverToReplaceInUserLeague($drivers, $userSeason->getPlayers()));
+            $player->setDriver((new DrawDriverToReplace)->getDriverToReplaceInUserLeague($drivers, $userSeason));
             $player->setSeason($userSeason);
     
             $this->entityManager->persist($userSeason);

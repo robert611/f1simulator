@@ -12,6 +12,7 @@ use App\Entity\Team;
 use App\Entity\Track;
 use App\Entity\User;
 use App\Entity\UserSeason;
+use App\Entity\UserSeasonPlayer;
 use Doctrine\ORM\EntityManagerInterface;
 
 class Fixtures
@@ -131,6 +132,22 @@ class Fixtures
         $this->entityManager->flush();
 
         return $userSeason;
+    }
+
+    public function aUserSeasonPlayer(UserSeason $userReason, User $user, Driver $driver): UserSeasonPlayer
+    {
+        $userSeasonPlayer = UserSeasonPlayer::create(
+            $userReason,
+            $user,
+            $driver,
+        );
+
+        $userReason->addPlayer($userSeasonPlayer);
+
+        $this->entityManager->persist($userSeasonPlayer);
+        $this->entityManager->flush();
+
+        return $userSeasonPlayer;
     }
 
     public function aTrack(string $name, string $picture): Track

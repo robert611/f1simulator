@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Tests\Model;
+namespace App\Tests\Integration\Model\DriverStatistics;
 
 use App\Entity\UserSeason;
 use App\Service\DriverStatistics\LeaguePlayerPoints;

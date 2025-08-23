@@ -1,12 +1,12 @@
 <?php 
 
-namespace App\Tests\Model\GameSimulation;
+namespace App\Tests\Integration\Model\GameSimulation;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Service\GameSimulation\SimulateLeagueRace;
 use App\Entity\UserSeason;
 use App\Entity\UserSeasonPlayer;
+use App\Service\GameSimulation\SimulateLeagueRace;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 
 class SimulateLeagueRaceTest extends KernelTestCase

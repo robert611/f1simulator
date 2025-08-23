@@ -1,11 +1,11 @@
 <?php 
 
-namespace App\Tests\Model;
+namespace App\Tests\Integration\Model\DriverStatistics;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Service\DriverStatistics\DriverPodiumsService;
 use App\Entity\Driver;
 use App\Entity\Season;
+use App\Service\DriverStatistics\DriverPodiumsService;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class DriverPodiumsTest extends KernelTestCase
 {

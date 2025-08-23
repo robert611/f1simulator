@@ -134,4 +134,21 @@ class Team
 
         return $team;
     }
+
+    public function drawDriverToReplace(): ?Driver
+    {
+        /** @var Driver[] $drivers */
+        $drivers = $this->getDrivers()->toArray();
+
+        if (empty($drivers)) {
+            return null;
+        }
+
+        // Reindex array to make sure it starts from 0
+        $drivers = array_values($drivers);
+
+        $randomKey = array_rand($drivers);
+
+        return $drivers[$randomKey];
+    }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Repository\UserSeasonRepository;
@@ -38,7 +40,7 @@ class LeagueController extends BaseController
 
         $drivers = $this->entityManager->getRepository(Driver::class)->findAll();
 
-        $driver = (new DrawDriverToReplace)->getDriverToReplaceInUserLeague($drivers,  $league->getPlayers());
+        $driver = (new DrawDriverToReplace)->getDriverToReplaceInUserLeague($drivers, $league);
 
         $player = UserSeasonPlayer::create($league, $this->getUser(), $driver);
 
