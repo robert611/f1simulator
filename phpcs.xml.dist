@@ -10,6 +10,10 @@
 
     <rule ref="PSR12"/>
 
+    <rule ref="Generic.Files.LineEndings">
+        <exclude name="Generic.Files.LineEndings.InvalidEOLChar"/>
+    </rule>
+
     <file>bin/</file>
     <file>config/</file>
     <file>public/</file>
