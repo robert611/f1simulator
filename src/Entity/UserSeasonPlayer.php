@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Model\DriverPodiumsDTO;
 use App\Repository\UserSeasonPlayersRepository;
+use App\Service\DriverStatistics\DriverPodiumsService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -143,5 +145,27 @@ class UserSeasonPlayer
         $userSeasonPlayer->driver = $driver;
 
         return $userSeasonPlayer;
+    }
+
+    public function getDriverPodiumsDTO(): DriverPodiumsDTO
+    {
+        $podiumsTable = DriverPodiumsService::getPodiumsTable();
+
+        /** @var UserSeasonRaceResult[] $raceResults */
+        $raceResults = $this->getRaceResults()->toArray();
+
+        foreach ($raceResults as $raceResult) {
+            $position = $raceResult->getPosition();
+
+            if ($position >= 1 && $position <= 3) {
+                $podiumsTable[$position] += 1;
+            }
+        }
+
+        return DriverPodiumsDTO::create(
+            $podiumsTable[1],
+            $podiumsTable[2],
+            $podiumsTable[3],
+        );
     }
 }

@@ -40,7 +40,7 @@ class LeagueController extends BaseController
 
         $drivers = $this->entityManager->getRepository(Driver::class)->findAll();
 
-        $driver = (new DrawDriverToReplace)->getDriverToReplaceInUserLeague($drivers, $league);
+        $driver = (new DrawDriverToReplace())->getDriverToReplaceInUserLeague($drivers, $league);
 
         $player = UserSeasonPlayer::create($league, $this->getUser(), $driver);
 

@@ -95,7 +95,7 @@ class UserSeasonController extends BaseController
         $this->denyAccessUnlessGranted(LeagueVoter::SHOW_SEASON, $season);
 
         $player = $this->entityManager->getRepository(UserSeasonPlayer::class)->findOneBy(['season' => $season, 'user' => $this->getUser()]);
-        $player = (new FillLeaguePlayerData($player, $season))->getPlayer();
+        $player = (new FillLeaguePlayerData($player))->getPlayer();
 
         $trackRepository = $this->entityManager->getRepository(Track::class);
         $numberOfRacesInSeason = count($trackRepository->findAll());

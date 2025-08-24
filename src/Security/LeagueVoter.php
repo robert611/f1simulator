@@ -53,7 +53,7 @@ class LeagueVoter extends Voter
             case self::JOIN:
                 return $this->canJoin($league, $user);
             case self::SHOW_SEASON:
-                return $this->canShow($league, $user);    
+                return $this->canShow($league, $user);
             case self::SIMULATE_RACE:
                 return $this->canSimulateRace($league, $user);
         }

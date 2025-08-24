@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
@@ -6,7 +6,7 @@ namespace App\Service\DriverStatistics;
 
 use App\Entity\Driver;
 use App\Entity\Season;
-use App\Model\DriverPodiums;
+use App\Model\DriverPodiumsDTO;
 
 class DriverPodiumsService
 {
@@ -17,7 +17,7 @@ class DriverPodiumsService
         $podiumsTable = self::getPodiumsTable();
 
         foreach ($races as $race) {
-            $raceResultCollection = $driver->getRaceResults()->filter(function($result) use ($race) {
+            $raceResultCollection = $driver->getRaceResults()->filter(function ($result) use ($race) {
                 return $result->getRace()->getId() === $race->getId();
             });
 
@@ -27,17 +27,19 @@ class DriverPodiumsService
 
             $position = $raceResultCollection->first()->getPosition();
 
-            if ($position >= 1 && $position <= 3)  $podiumsTable[$position] += 1;
+            if ($position >= 1 && $position <= 3) {
+                $podiumsTable[$position] += 1;
+            }
         }
 
         return $podiumsTable;
     }
 
-    public static function getDriverPodiumsDTO(Driver $driver, Season $season): DriverPodiums
+    public static function getDriverPodiumsDTO(Driver $driver, Season $season): DriverPodiumsDTO
     {
         $podiumsTable = self::getDriverPodiums($driver, $season);
 
-        return DriverPodiums::create(
+        return DriverPodiumsDTO::create(
             $podiumsTable[1],
             $podiumsTable[2],
             $podiumsTable[3],

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-class DriverPodiums
+class DriverPodiumsDTO
 {
     private int $firstPlacePodiums = 0;
     private int $secondPlacePodiums = 0;

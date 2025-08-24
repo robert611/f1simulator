@@ -12,7 +12,7 @@ class CurrentDriverSeason
 {
     private Season $season;
     private int $driverPoints;
-    private DriverPodiums $driverPodiums;
+    private DriverPodiumsDTO $driverPodiums;
     private ?Track $currentTrack;
     private int $numberOfRaces;
     private mixed $classification; // Nie ma wspólnego typu danych, bo klasyfikacji mogą być trzy typy
@@ -29,7 +29,7 @@ class CurrentDriverSeason
         return $this->driverPoints;
     }
 
-    public function getDriverPodiums(): DriverPodiums
+    public function getDriverPodiums(): DriverPodiumsDTO
     {
         return $this->driverPodiums;
     }
@@ -62,7 +62,7 @@ class CurrentDriverSeason
     public static function create(
         Season $season,
         int $driverPoints,
-        DriverPodiums $driverPodiums,
+        DriverPodiumsDTO $driverPodiums,
         ?Track $currentTrack,
         int $numberOfRaces,
         mixed $classification,
