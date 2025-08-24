@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Model\Configuration\RaceScoringSystem;
 use App\Model\DriverPodiumsDTO;
 use App\Repository\UserSeasonPlayersRepository;
 use App\Service\DriverStatistics\DriverPodiumsService;
@@ -38,7 +39,7 @@ class UserSeasonPlayer
     #[ORM\OneToMany(targetEntity: UserSeasonQualification::class, mappedBy: 'player', orphanRemoval: true)]
     private Collection $qualificationsResults;
 
-    public int $points;
+    public ?int $points = null;
 
     public function __construct()
     {
@@ -127,16 +128,6 @@ class UserSeasonPlayer
         }
     }
 
-    public function getPoints(): int
-    {
-        return $this->points;
-    }
-
-    public function setPoints(int $points): void
-    {
-        $this->points = $points;
-    }
-
     public static function create(UserSeason $userSeason, User $user, Driver $driver): self
     {
         $userSeasonPlayer = new self();
@@ -167,5 +158,25 @@ class UserSeasonPlayer
             $podiumsTable[2],
             $podiumsTable[3],
         );
+    }
+
+    public function getPoints(): int
+    {
+        if (null !== $this->points) {
+            return $this->points;
+        }
+
+        /** @var UserSeasonRaceResult[] $raceResults */
+        $raceResults = $this->getRaceResults()->toArray();
+
+        $points = 0;
+
+        foreach ($raceResults as $raceResult) {
+            $points += RaceScoringSystem::getRaceScoringSystem()[$raceResult->getPosition()];
+        }
+
+        $this->points = $points;
+
+        return $points;
     }
 }

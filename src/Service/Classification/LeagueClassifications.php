@@ -47,19 +47,10 @@ class LeagueClassifications
 
     private function getPlayersClassification(): array
     {
-        $players = $this->league->getPlayers();
-
-        /* In default drivers have no assign points got in current season in database, so it has to be done here */
-        $players->map(function($player) {
-            /** @var UserSeasonPlayer $player */
-            $points = $this->leaguePlayerPoints->getPlayerPoints($player);
-            $player->setPoints($points);
-        });
-
-        $players = [...$players];
+        $players = $this->league->getPlayers()->toArray();
 
         /* Sort drivers according to possessed points */
-        usort ($players, function($a, $b) {
+        usort($players, function($a, $b) {
             return $a->getPoints() < $b->getPoints();
         });
 

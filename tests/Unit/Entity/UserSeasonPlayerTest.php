@@ -71,4 +71,95 @@ class UserSeasonPlayerTest extends TestCase
         self::assertEquals(1, $driverPodiumsDTO->getSecondPlacePodiums());
         self::assertEquals(0, $driverPodiumsDTO->getThirdPlacePodiums());
     }
+
+    #[Test]
+    public function it_checks_if_player_points_will_be_calculated(): void
+    {
+        // given
+        $userSeason = new UserSeason();
+
+        $userSeasonPlayer = new UserSeasonPlayer();
+
+        $userSeasonPlayer->setSeason($userSeason);
+
+        $race1 = new UserSeasonRace();
+        $race2 = new UserSeasonRace();
+
+        $raceResult1 = new UserSeasonRaceResult();
+        $raceResult1->setRace($race1);
+        $raceResult1->setPlayer($userSeasonPlayer);
+        $raceResult1->setPosition(8);
+
+        $raceResult2 = new UserSeasonRaceResult();
+        $raceResult2->setRace($race2);
+        $raceResult2->setPlayer($userSeasonPlayer);
+        $raceResult2->setPosition(5);
+
+        $race1->addRaceResult($raceResult1);
+        $race2->addRaceResult($raceResult2);
+
+        $userSeason->addRace($race1);
+        $userSeason->addRace($race2);
+
+        $userSeasonPlayer->addRaceResult($raceResult1);
+        $userSeasonPlayer->addRaceResult($raceResult2);
+
+        // when
+        $points = $userSeasonPlayer->getPoints();
+
+        // then
+        self::assertEquals(14, $points);
+    }
+
+    #[Test]
+    public function it_checks_if_player_points_will_be_calculated_using_memoization(): void
+    {
+        // given
+        $userSeason = new UserSeason();
+
+        $userSeasonPlayer = new UserSeasonPlayer();
+
+        $userSeasonPlayer->setSeason($userSeason);
+
+        $race1 = new UserSeasonRace();
+        $race2 = new UserSeasonRace();
+        $race3 = new UserSeasonRace();
+
+        $raceResult1 = new UserSeasonRaceResult();
+        $raceResult1->setRace($race1);
+        $raceResult1->setPlayer($userSeasonPlayer);
+        $raceResult1->setPosition(9);
+
+        $raceResult2 = new UserSeasonRaceResult();
+        $raceResult2->setRace($race2);
+        $raceResult2->setPlayer($userSeasonPlayer);
+        $raceResult2->setPosition(2);
+
+        $raceResult3 = new UserSeasonRaceResult();
+        $raceResult3->setRace($race2);
+        $raceResult3->setPlayer($userSeasonPlayer);
+        $raceResult3->setPosition(5);
+
+        $race1->addRaceResult($raceResult1);
+        $race2->addRaceResult($raceResult2);
+
+        $userSeason->addRace($race1);
+        $userSeason->addRace($race2);
+        $userSeason->addRace($race3);
+
+        $userSeasonPlayer->addRaceResult($raceResult1);
+        $userSeasonPlayer->addRaceResult($raceResult2);
+
+        // when
+        $originalPoints = $userSeasonPlayer->getPoints();
+
+        $race3->addRaceResult($raceResult3);
+        $userSeasonPlayer->addRaceResult($raceResult3);
+
+        $pointsAfter = $userSeasonPlayer->getPoints();
+
+        // then
+        self::assertEquals(20, $originalPoints);
+        self::assertEquals(20, $pointsAfter);
+    }
 }
