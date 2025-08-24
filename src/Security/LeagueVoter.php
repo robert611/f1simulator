@@ -180,6 +180,7 @@ class LeagueVoter extends Voter
     {
         $request = Request::createFromGlobals();
 
+        // @todo to jest skomplikowany kod, podatny na błędy, żeby tak głęboko w voterze korzystać z request
         $raceId = $request->query->get('race_id');
 
         /* In this case, user does not display race results, therefore it does not matter */
@@ -187,8 +188,8 @@ class LeagueVoter extends Voter
             return true;
         }
 
-
         $belongs = false;
+
         $league->getRaces()->map(function($race) use (&$belongs, $raceId) {
             if ($race->getId() === (int) $raceId) {
                 $belongs = true;

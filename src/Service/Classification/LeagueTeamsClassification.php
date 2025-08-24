@@ -16,7 +16,9 @@ class LeagueTeamsClassification
 
     public function getClassification(UserSeason $league): array
     {
-        /* This function takes league, and return teams from that league with set points */
+        /* This function takes the league and returns teams from that league with set points */
+        // @TODO Tutaj dodawane jest properties points w magiczny sposób do encji
+        // @TODO Trzeba to zrefaktoryzować
         $teams = $this->leagueTeamsPoints->getTeamsPoints($league);
 
         /* Sort teams according to their points */
