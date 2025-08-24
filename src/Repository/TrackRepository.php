@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\Track;
@@ -17,5 +19,18 @@ class TrackRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Track::class);
+    }
+
+    public function getNextTrack(int $previousTrackId): ?Track
+    {
+        $result = $this->createQueryBuilder('t')
+            ->where('t.id > :previousTrackId')
+            ->setParameter('previousTrackId', $previousTrackId)
+            ->setMaxResults(1)
+            ->orderBy('t.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+        return $result[0] ?? null;
     }
 }

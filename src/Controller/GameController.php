@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Service\GameSimulation\SimulateRaceService;
 use Symfony\Component\HttpFoundation\Session\Session;
 use App\Entity\Season;
-use App\Service\DrawDriverToReplace;
 use Symfony\Component\Routing\Attribute\Route;
 
 class GameController extends BaseController
@@ -22,7 +21,6 @@ class GameController extends BaseController
         private readonly TeamRepository $teamRepository,
         private readonly SeasonRepository $seasonRepository,
         private readonly TrackRepository $trackRepository,
-        private readonly DrawDriverToReplace $drawDriverToReplace,
         private readonly SimulateRaceService $simulateRaceService,
         private readonly EntityManagerInterface $entityManager,
     ) {

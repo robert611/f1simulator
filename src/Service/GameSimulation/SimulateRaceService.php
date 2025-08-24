@@ -15,7 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class SimulateRaceService
 {
-    /* Every team has it's strength which says how competitive team is, multiplier multiplies strength of the teams by some value to make diffrences beetwen them grater */
+    /* Every team has it's strength which says how competitive team is, multiplier multiplies the strength of the teams by some value to make differences between them grater */
     public int $multiplier = 3;
 
     public function __construct(
@@ -31,8 +31,7 @@ class SimulateRaceService
         $lastRace = $season->getRaces()->last();
 
         if ($lastRace) {
-            /** @TODO poleganie na statycznych id rekordów w tabeli trackRepository nie ma sensu */
-            $track = $this->trackRepository->find($lastRace->getTrack()->getId() + 1);
+            $track = $this->trackRepository->getNextTrack($lastRace->getTrack()->getId());
         } else {
             $track = $this->trackRepository->findOneBy([]);
         }
@@ -114,7 +113,7 @@ class SimulateRaceService
         $coupons = array();
         $driversStrength = array();
 
-        /* Calculate Strength Of Drivers */
+        /* Calculate the strength of drivers */
         foreach ($qualificationsResults as $position => $driver) {
             $driverTeamStrength = $teams[$driver->getTeam()->getName()];
             $driverQualificationAdvantage = $qualificationResultAdvantage[$position];
@@ -124,7 +123,7 @@ class SimulateRaceService
             $driversStrength[$driver->getId()] = $strength;
         }
 
-        /* Mercedes is the strongest team, and first index contains the driver who won qualifications */
+        /* Mercedes is the strongest team, and the first index contains the driver who won qualifications */
         $highestPossibleStrength = ceil($teams['Mercedes'] + $qualificationResultAdvantage[1]);
 
         for ($i = 1; $i <= $this->multiplier; $i++)
