@@ -104,7 +104,6 @@ class UserSeasonController extends BaseController
         /* If there is no played races then drivers classification will be displayed */
         $season->getRaces()->last() ? null : $classificationType = 'drivers';
 
-        $qualificationRepository = $this->entityManager->getRepository(Qualification::class);
         $classification = (new LeagueClassifications($season, $request->query->get('race_id')))->getClassificationBasedOnType($classificationType);
 
         $teamsClassification = $this->leagueTeamsClassification->getClassification($season);

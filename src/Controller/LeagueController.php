@@ -53,7 +53,7 @@ class LeagueController extends BaseController
     #[Route('/{id}/start', name: 'league_start', methods: ['GET'])]
     public function startLeague(UserSeason $season): RedirectResponse
     {
-        $this->denyAccessUnlessGranted(LeagueVoter::JOIN, $season);
+        $this->denyAccessUnlessGranted(LeagueVoter::START, $season);
 
         $season->setStarted(true);
 
@@ -68,7 +68,7 @@ class LeagueController extends BaseController
     {
         $this->denyAccessUnlessGranted(LeagueVoter::END, $season);
 
-        $season->setCompleted(1);
+        $season->setCompleted(true);
 
         $this->entityManager->persist($season);
         $this->entityManager->flush();
