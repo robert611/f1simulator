@@ -108,4 +108,13 @@ class UserSeasonRace
             $this->qualifications->removeElement($qualification);
         }
     }
+
+    public static function create(Track $track, UserSeason $userSeason): self
+    {
+        $userSeasonRace = new self();
+        $userSeasonRace->track = $track;
+        $userSeasonRace->season = $userSeason;
+
+        return $userSeasonRace;
+    }
 }

@@ -61,4 +61,17 @@ class UserSeasonQualification
     {
         $this->position = $position;
     }
+
+    public static function create(
+        UserSeasonPlayer $userSeasonPlayer,
+        UserSeasonRace $userSeasonRace,
+        int $position,
+    ): self {
+        $userSeasonQualification = new self();
+        $userSeasonQualification->player = $userSeasonPlayer;
+        $userSeasonQualification->race = $userSeasonRace;
+        $userSeasonQualification->position = $position;
+
+        return $userSeasonQualification;
+    }
 }

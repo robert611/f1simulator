@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -13,17 +15,13 @@ class TrackFixtures extends Fixture
         $tracks = $this->getTracks();
 
         foreach ($tracks as $key => $data) {
-            $track = new Track();
-
-            $track->setName($data['name']);
-            $track->setPicture($data['picture']);
+            $track = Track::create($data['name'], $data['picture']);
 
             $manager->persist($track);
             $manager->flush();
 
             $this->addReference('track.'. ($key + 1), $track);
         }
-        
     }
 
     public function getTracks(): array

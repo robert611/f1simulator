@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataFixtures;
 
+use App\Entity\Track;
+use App\Entity\UserSeason;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\UserSeasonRace;
-use App\DataFixtures\UserSeasonFixtures;
-use App\DataFixtures\UserSeasonPlayersFixtures;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class UserSeasonRacesFixtures extends Fixture implements DependentFixtureInterface
@@ -16,15 +18,15 @@ class UserSeasonRacesFixtures extends Fixture implements DependentFixtureInterfa
         $races = $this->getRaces(); 
 
         foreach ($races as $key => $data) {
-            $race = new UserSeasonRace();
+            $track = $this->getReference('track.' . $data['track_id'], Track::class);
+            $userSeason = $this->getReference('userSeason.' . $data['season_id'], UserSeason::class);
 
-            $race->setTrack($this->getReference('track.' . $data['track_id']));
-            $race->setSeason($this->getReference('userSeason.' . $data['season_id']));
-            
-            $manager->persist($race);
+            $userSeasonRace = UserSeasonRace::create($track, $userSeason);
+
+            $manager->persist($userSeasonRace);
             $manager->flush();
 
-            $this->addReference('league_race.' . ($key + 1), $race);
+            $this->addReference('league_race.' . ($key + 1), $userSeasonRace);
         }
     }
 

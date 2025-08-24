@@ -61,4 +61,14 @@ class UserSeasonRaceResult
     {
         $this->player = $player;
     }
+
+    public static function create(int $position, UserSeasonRace $race, UserSeasonPlayer $player): self
+    {
+        $userSeasonRaceResult = new self();
+        $userSeasonRaceResult->position = $position;
+        $userSeasonRaceResult->race = $race;
+        $userSeasonRaceResult->player = $player;
+
+        return $userSeasonRaceResult;
+    }
 }

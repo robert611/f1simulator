@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataFixtures;
 
+use App\Entity\UserSeasonPlayer;
+use App\Entity\UserSeasonRace;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -13,14 +17,17 @@ class UserSeasonRaceResultsFixtures extends Fixture implements DependentFixtureI
     {
         $raceResults = $this->getRaceResults();
 
-        foreach ($raceResults as $key => $data) {
-            $result = new UserSeasonRaceResult();
+        foreach ($raceResults as $data) {
+            $userSeasonPlayer = $this->getReference('league_player.' . $data['player_id'], UserSeasonPlayer::class);
+            $userSeasonRace = $this->getReference('league_race.' . $data['race_id'], UserSeasonRace::class);
 
-            $result->setPlayer($this->getReference('league_player.' . $data['player_id']));
-            $result->setRace($this->getReference('league_race.' . $data['race_id']));
-            $result->setPosition($data['position']);
+            $userSeasonRaceResult = UserSeasonRaceResult::create(
+                $data['position'],
+                $userSeasonRace,
+                $userSeasonPlayer,
+            );
 
-            $manager->persist($result);
+            $manager->persist($userSeasonRaceResult);
             $manager->flush();
         }
     }

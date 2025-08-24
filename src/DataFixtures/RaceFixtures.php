@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataFixtures;
 
+use App\Entity\Season;
+use App\Entity\Track;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use App\Entity\Race;
@@ -12,10 +16,10 @@ class RaceFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         for ($i = 1; $i <= 6; $i++) {
-            $race = new Race();
+            $track = $this->getReference("track." . $i, Track::class);
+            $season = $this->getReference("season.1", Season::class);
 
-            $race->setTrack($this->getReference("track." . $i));
-            $race->setSeason($this->getReference("season.1"));
+            $race = Race::create($track, $season);
 
             $manager->persist($race);
             $manager->flush();

@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataFixtures;
 
+use App\Entity\Driver;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Season;
@@ -14,11 +18,14 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
         $seasons = $this->getSeasons();
 
         foreach ($seasons as $key => $data) {
-            $season = new Season();
+            $user = $this->getReference('user.' .$data['user_id'],User::class);
+            $driver = $this->getReference('driver.' . $data['driver_id'], Driver::class);
 
-            $season->setUser($this->getReference('user.' .$data['user_id']));
-            $season->setDriver($this->getReference('driver.' . $data['driver_id']));
-            $season->setCompleted($data['completed']);
+            $season = Season::create($user, $driver);
+
+            if ($data['completed']) {
+                $season->endSeason();
+            }
 
             $manager->persist($season);
             $manager->flush();
@@ -39,8 +46,8 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
     public function getSeasons(): array
     {
         return [
-            ['user_id' => 1, 'driver_id' => 2, 'completed' => 1],
-            ['user_id' => 2, 'driver_id' => 8, 'completed' => 0],
+            ['user_id' => 1, 'driver_id' => 2, 'completed' => true],
+            ['user_id' => 2, 'driver_id' => 8, 'completed' => false],
         ];   
     }
 }

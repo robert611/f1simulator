@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataFixtures;
 
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\UserSeason;
-use App\DataFixtures\UserFixtures;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class UserSeasonFixtures extends Fixture implements DependentFixtureInterface
@@ -15,14 +17,16 @@ class UserSeasonFixtures extends Fixture implements DependentFixtureInterface
         $seasons = $this->getSeasons();
 
         foreach ($seasons as $key => $data) {
-            $userSeason = new UserSeason();
+            $owner = $this->getReference('user.' . $data['owner_id'], User::class);
 
-            $userSeason->setOwner($this->getReference('user.' . $data['owner_id']));
-            $userSeason->setSecret($data['secret']);
-            $userSeason->setMaxPlayers($data['max_players']);
-            $userSeason->setName($data['name']);
-            $userSeason->setCompleted($data['completed']);
-            $userSeason->setStarted($data['started']);
+            $userSeason = UserSeason::create(
+                $data['secret'],
+                $data['max_players'],
+                $owner,
+                $data['name'],
+                $data['completed'],
+                $data['started'],
+            );
 
             $manager->persist($userSeason);
             $manager->flush();
@@ -43,9 +47,9 @@ class UserSeasonFixtures extends Fixture implements DependentFixtureInterface
     public function getSeasons(): array
     {
         return [
-            ['owner_id' => 1, 'secret' => 'FH42H78XO1S1', 'max_players' => 15, 'name' => 'Liga Brunatnych kapust', 'completed' => 1, 'started' => 1],
-            ['owner_id' => 2, 'secret' => 'HJRTY1B5X99A', 'max_players' => 20, 'name' => 'Rocket League', 'completed' => 0, 'started' => 1],
-            ['owner_id' => 3, 'secret' => 'B32X8FOP01XX', 'max_players' => 2, 'name' => 'Liga Jabłek Brzoskwiniowych', 'completed' => 0, 'started' => 0]
+            ['owner_id' => 1, 'secret' => 'FH42H78XO1S1', 'max_players' => 15, 'name' => 'Liga Brunatnych kapust', 'completed' => true, 'started' => true],
+            ['owner_id' => 2, 'secret' => 'HJRTY1B5X99A', 'max_players' => 20, 'name' => 'Rocket League', 'completed' => false, 'started' => true],
+            ['owner_id' => 3, 'secret' => 'B32X8FOP01XX', 'max_players' => 2, 'name' => 'Liga Jabłek Brzoskwiniowych', 'completed' => false, 'started' => false]
         ];
     }
 }

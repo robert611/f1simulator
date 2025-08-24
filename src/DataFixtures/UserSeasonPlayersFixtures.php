@@ -1,7 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataFixtures;
 
+use App\Entity\Driver;
+use App\Entity\User;
+use App\Entity\UserSeason;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use App\Entity\UserSeasonPlayer;
@@ -14,11 +19,11 @@ class UserSeasonPlayersFixtures extends Fixture implements DependentFixtureInter
         $players = $this->getPlayers(); 
 
         foreach ($players as $key => $data) {
-            $player = new UserSeasonPlayer();
+            $season = $this->getReference('userSeason.' . $data['season_id'], UserSeason::class);
+            $user = $this->getReference('user.' . $data['user_id'], User::class);
+            $driver = $this->getReference('driver.' . $data['driver_id'], Driver::class);
 
-            $player->setSeason($this->getReference('userSeason.' . $data['season_id']));
-            $player->setUser($this->getReference('user.' . $data['user_id']));
-            $player->setDriver($this->getReference('driver.' . $data['driver_id']));
+            $player = UserSeasonPlayer::create($season, $user, $driver);
 
             $manager->persist($player);
             $manager->flush();
