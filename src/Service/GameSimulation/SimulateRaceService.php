@@ -2,6 +2,7 @@
 
 namespace App\Service\GameSimulation;
 
+use App\Entity\Driver;
 use App\Entity\Qualification;
 use App\Entity\Race;
 use App\Entity\RaceResult;
@@ -88,7 +89,13 @@ class SimulateRaceService
         return $results;
     }
 
-    public function getLeagueRaceResults($drivers, $qualificationsResults): array
+    /**
+     * @param Driver[] $drivers
+     * @param Driver[] $qualificationsResults
+     *
+     * @return int[]
+     */
+    public function getLeagueRaceResults(array $drivers, array $qualificationsResults): array
     {
         $results = [];
 
@@ -105,13 +112,16 @@ class SimulateRaceService
         return $results;
     }
 
+    /**
+     * @param Driver[] $qualificationsResults
+     */
     public function getCoupons(array $qualificationsResults): array
     {
         $teams = TeamsStrength::getTeamsStrength();
         $qualificationResultAdvantage = (new QualificationAdvantage)->getQualificationResultAdvantage();
 
-        $coupons = array();
-        $driversStrength = array();
+        $coupons = [];
+        $driversStrength = [];
 
         /* Calculate the strength of drivers */
         foreach ($qualificationsResults as $position => $driver) {

@@ -1,25 +1,32 @@
 <?php 
 
+declare(strict_types=1);
+
 namespace App\Service\GameSimulation;
 
-use App\Service\GameSimulation\SimulateQualifications;
-use App\Service\GameSimulation\SimulateRaceService;
+use App\Entity\Driver;
+use App\Entity\UserSeasonPlayer;
+use Doctrine\Common\Collections\Collection;
 
 class SimulateLeagueRace
 {
     public function __construct(
         private readonly SimulateQualifications $simulateQualifications,
+        private readonly SimulateRaceService $simulateRaceService,
     ) {
     }
 
-    public function getRaceResults(object $players): array
+    /**
+     * @param Collection<UserSeasonPlayer> $players
+     */
+    public function getRaceResults(Collection $players): array
     {
-        /* Drivers who are replaced by players */
+        /* Drivers who players replace */
         $drivers = $this->getDrivers($players);
 
         $qualificationsResults = $this->simulateQualifications->getLeagueQualificationsResults($drivers);
 
-        $raceResults = (new SimulateRaceService)->getLeagueRaceResults($drivers, $qualificationsResults);
+        $raceResults = $this->simulateRaceService->getLeagueRaceResults($drivers, $qualificationsResults);
     
         return [
             $this->setQualificationsResultsToPlayers($qualificationsResults, $players),
@@ -52,12 +59,17 @@ class SimulateLeagueRace
        return $raceResults;
     }
 
-    private function getDrivers($players): array
+    /**
+     * @param Collection<UserSeasonPlayer> $players
+     *
+     * @return Driver[]
+     */
+    private function getDrivers(Collection $players): array
     {
-        $drivers = $players->map(function($player) {
+        $drivers = $players->map(function(UserSeasonPlayer $player) {
             return $player->getDriver();
         });
 
-        return [...$drivers->getValues()];
+        return $drivers->toArray();
     }
 }

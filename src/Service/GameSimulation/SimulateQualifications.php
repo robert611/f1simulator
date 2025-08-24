@@ -2,6 +2,7 @@
 
 namespace App\Service\GameSimulation;
 
+use App\Entity\Driver;
 use App\Model\Configuration\TeamsStrength;
 use App\Model\GameSimulation\QualificationResult;
 use App\Model\GameSimulation\QualificationResultsCollection;
@@ -17,21 +18,24 @@ class SimulateQualifications
     ) {
     }
 
-    public function getLeagueQualificationsResults($drivers): array
+    /**
+     * @param Driver[] $drivers
+     *
+     * @return Driver[]
+     */
+    public function getLeagueQualificationsResults(array $drivers): array
     {
         $results = [];
 
         $coupons = $this->getCoupons();
 
         for ($i = 1, $j = count($drivers); $i <= $j; $i++) {
-            /* If both driver from given team will be already drawn, check function will return true and draw will be repeat until $team with only one or zero drivers finished will be drawn */
-            do
-            {
+            /* If both drivers from given team are already drawn, check function will return true and draw will be repeat until $team with only one or zero drivers finished will be drawn */
+            do {
                 $teamName = $coupons[rand(1, count($coupons))];
-            } 
-            while($this->checkIfBothDriversFromTeamAlreadyFinished($teamName, $results));
+            } while($this->checkIfBothDriversFromTeamAlreadyFinished($teamName, $results));
 
-            /* At this point team from which driver will be draw is drawn, not the driver per se so now draw one of the drivers from that team and put him in finished drivers */
+            /* At this point team from which a driver will be draw is drawn, not the driver per se so now draw one of the drivers from that team and put him in finished drivers */
             $driver = $this->drawDriverFromTeam($teamName, $drivers, $results);
 
             /* If there is no drawn driver, then iterate once again */
