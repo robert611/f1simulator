@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Repository\TrackRepository;
 use App\Repository\UserSeasonRepository;
 use App\Security\LeagueVoter;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,6 +26,7 @@ class LeagueController extends BaseController
 {
     public function __construct(
         private readonly UserSeasonRepository $userSeasonRepository,
+        private readonly TrackRepository $trackRepository,
         private readonly SimulateLeagueRace $simulateLeagueRace,
         private readonly EntityManagerInterface $entityManager,
     ) {
@@ -81,10 +83,10 @@ class LeagueController extends BaseController
     {
         $this->denyAccessUnlessGranted(LeagueVoter::SIMULATE_RACE, $season);
 
-        $trackRepository = $this->entityManager->getRepository(Track::class);
-
         $lastRace = $season->getRaces()->last();
-        $track = $lastRace ? $trackRepository->find($lastRace->getTrack()->getId() + 1) : $trackRepository->findAll()[0];
+        $track = $lastRace
+            ? $this->trackRepository->getNextTrack($lastRace->getTrack()->getId())
+            : $this->trackRepository->findOneBy([]);
 
         /* Save race in the database */
         $race = new UserSeasonRace();
@@ -107,7 +109,7 @@ class LeagueController extends BaseController
             $this->entityManager->persist($qualification);
             $this->entityManager->flush();
         }
-        
+
         /* Save race results in database */
         foreach ($raceResults as $position => $player) {
             $raceResult = new UserSeasonRaceResult();
