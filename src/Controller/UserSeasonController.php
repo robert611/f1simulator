@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Driver;
-use App\Entity\Qualification;
 use App\Entity\Track;
 use App\Entity\UserSeason;
 use App\Entity\UserSeasonPlayer;
 use App\Form\UserSeasonType;
+use App\Repository\TrackRepository;
 use App\Security\LeagueVoter;
 use App\Service\Classification\LeagueClassifications;
 use App\Service\Classification\LeagueTeamsClassification;
@@ -24,6 +26,7 @@ class UserSeasonController extends BaseController
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly LeagueTeamsClassification $leagueTeamsClassification,
+        private readonly TrackRepository $trackRepository,
     ) {
     }
 
@@ -54,7 +57,7 @@ class UserSeasonController extends BaseController
 
             $userSeason->setOwner($this->getUser());
             $userSeason->setSecret((new SecretGenerator)->getSecret());
-            $userSeason->setCompleted(0);
+            $userSeason->setCompleted(false);
             $userSeason->setStarted(false);
 
             $drivers = $this->entityManager->getRepository(Driver::class)->findAll();
@@ -95,14 +98,19 @@ class UserSeasonController extends BaseController
 
         $player = $this->entityManager->getRepository(UserSeasonPlayer::class)->findOneBy(['season' => $season, 'user' => $this->getUser()]);
 
-        $trackRepository = $this->entityManager->getRepository(Track::class);
-        $numberOfRacesInSeason = count($trackRepository->findAll());
+        $numberOfRacesInSeason = $this->trackRepository->count();
 
-        /* If there is no more races, false will be return */
-        $track = $season->getRaces()->last() ? $trackRepository->find($season->getRaces()->last()->getTrack()->getId() + 1) : $trackRepository->findAll()[0];
-        
-        /* If there is no played races then drivers classification will be displayed */
-        $season->getRaces()->last() ? null : $classificationType = 'drivers';
+        if ($season->getRaces()->count()) {
+            $track = $this->trackRepository->getNextTrack($season->getRaces()->last()->getTrack()->getId());
+        } else {
+            // @TODO I need a function in repository with sorting for getting first track.
+            $track = $this->trackRepository->findOneBy([]);
+        }
+
+        if ($season->getRaces()->count() === 0) {
+            $classificationType = 'drivers';
+        }
+
 
         $classification = (new LeagueClassifications($season, $request->query->get('race_id')))->getClassificationBasedOnType($classificationType);
 
