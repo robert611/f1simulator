@@ -15,10 +15,10 @@
                         <h4>Statystyki</h4>
                     </div>
                     <div class="card-body flow-text">
-                        <span>Kierowca: {{ player.getUser().username }} </span><br>
-                        <span>Zespół: {{ player.getDriver().getTeam().name }}</span><br>
-                        <span>Numer samochodu: {{ player.getDriver().getCarId() }}</span><br>
-                        <span>Rozegrane wyścigi: {{ league.getRaces()|length }} / {{ numberOfRacesInSeason }}</span><br>
+                        <span>Kierowca: {{ player.user.username }} </span><br>
+                        <span>Zespół: {{ player.driver.team.name }}</span><br>
+                        <span>Numer samochodu: {{ player.driver.carNumber }}</span><br>
+                        <span>Rozegrane wyścigi: {{ league.races|length }} / {{ numberOfRacesInSeason }}</span><br>
                         <span>Zdobyte punkty: {{ player.points }} </span><br>
 
                         <hr>

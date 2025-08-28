@@ -28,8 +28,8 @@ class Driver
     #[ORM\JoinColumn(name: 'team_id', nullable: false)]
     public Team $team;
 
-    #[ORM\Column(name: 'car_id', type: 'integer', nullable: false)]
-    public int $carId;
+    #[ORM\Column(name: 'car_number', type: 'integer', nullable: false)]
+    public int $carNumber;
 
     #[ORM\OneToMany(targetEntity: Qualification::class, mappedBy: 'driver', orphanRemoval: true)]
     private Collection $qualifications;
@@ -87,14 +87,14 @@ class Driver
         $this->team = $team;
     }
 
-    public function getCarId(): int
+    public function getCarNumber(): int
     {
-        return $this->carId;
+        return $this->carNumber;
     }
 
-    public function setCarId(int $carId): void
+    public function setCarNumber(int $carNumber): void
     {
-        $this->carId = $carId;
+        $this->carNumber = $carNumber;
     }
 
     public function getPoints(): int
@@ -171,13 +171,13 @@ class Driver
         return $this;
     }
 
-    public static function create(string $name, string $surname, Team $team, int $carId): self
+    public static function create(string $name, string $surname, Team $team, int $carNumber): self
     {
         $driver = new self();
         $driver->name = $name;
         $driver->surname = $surname;
         $driver->team = $team;
-        $driver->carId = $carId;
+        $driver->carNumber = $carNumber;
 
         return $driver;
     }

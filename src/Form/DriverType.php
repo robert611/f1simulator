@@ -18,10 +18,20 @@ class DriverType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class, ['required' => true])
-            ->add('surname', TextType::class, ['required' => true])
-            ->add('car_id', NumberType::class, ['required' => true])
-            ->add('team', EntityType::class, ['class' => Team::class, 'choice_label' => 'name'])
+            ->add('name', TextType::class, [
+                'required' => true,
+            ])
+            ->add('surname', TextType::class, [
+                'required' => true,
+            ])
+            ->add('carNumber', NumberType::class, [
+                'required' => true,
+                'attr' => ['min' => 1],
+            ])
+            ->add('team', EntityType::class, [
+                'class' => Team::class,
+                'choice_label' => 'name',
+            ])
         ;
     }
 

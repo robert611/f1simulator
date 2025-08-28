@@ -1,21 +1,20 @@
 <?php 
 
+declare(strict_types=1);
+
 namespace App\Tests\Integration\Model\TeamStatistics;
 
-use App\Entity\Driver;
-use App\Entity\RaceResult;
 use App\Entity\Season;
 use App\Entity\Team;
 use App\Model\Configuration\RaceScoringSystem;
 use App\Service\TeamStatistics\TeamPoints;
+use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class TeamPointsTest extends KernelTestCase
 {
-    /**
-     * @var \Doctrine\ORM\EntityManager
-     */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
     public function setUp(): void 
     {
@@ -25,11 +24,9 @@ class TeamPointsTest extends KernelTestCase
             ->getManager();
     }
 
-    public function test_if_get_team_points_return_team_points()
+    #[Test]
+    public function it_checks_if_get_team_points_returns_correct_value(): void
     {
-        $driversRepository = $this->entityManager->getRepository(Driver::class);
-        $raceResultsRepository = $this->entityManager->getRepository(RaceResult::class);
-
         $teamPointsModel = new TeamPoints();
 
         $season = $this->entityManager->getRepository(Season::class)->findOneBy(['completed' => 1]);
@@ -47,6 +44,6 @@ class TeamPointsTest extends KernelTestCase
         $raceScoringSystem = RaceScoringSystem::getRaceScoringSystem();
         $drivers = $team->getDrivers();
 
-        return $raceScoringSystem[$drivers[0]->getCarId()] * 6 + $raceScoringSystem[$drivers[1]->getCarId()] * 6;
+        return $raceScoringSystem[$drivers[0]->getCarNumber()] * 6 + $raceScoringSystem[$drivers[1]->getCarNumber()] * 6;
     }
 }

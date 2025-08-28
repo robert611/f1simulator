@@ -86,9 +86,9 @@ class Fixtures
         return $team;
     }
 
-    public function aDriver(string $name, string $surname, Team $team, int $carId, ?bool $useFlash = true): Driver
+    public function aDriver(string $name, string $surname, Team $team, int $carNumber, ?bool $useFlash = true): Driver
     {
-        $driver = Driver::create($name, $surname, $team, $carId);
+        $driver = Driver::create($name, $surname, $team, $carNumber);
 
         $team->addDriver($driver);
 

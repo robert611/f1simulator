@@ -14,7 +14,7 @@
                                     <th>Id</th>
                                     <th>Name</th>
                                     <th>Surname</th>
-                                    <th>Car_id</th>
+                                    <th>Car Number</th>
                                     <th>actions</th>
                                 </tr>
                             </thead>
@@ -24,7 +24,7 @@
                                     <td>{{ driver.id }}</td>
                                     <td>{{ driver.name }}</td>
                                     <td>{{ driver.surname }}</td>
-                                    <td>{{ driver.carId }}</td>
+                                    <td>{{ driver.carNumber }}</td>
                                     <td>
                                         <a class="btn btn-outline-success" href="{{ path('driver_show', {'id': driver.id}) }}">show</a>
                                         <a class="btn btn-outline-info" href="{{ path('driver_edit', {'id': driver.id}) }}">edit</a>
