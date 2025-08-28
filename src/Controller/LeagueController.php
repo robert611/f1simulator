@@ -86,7 +86,7 @@ class LeagueController extends BaseController
         $lastRace = $season->getRaces()->last();
         $track = $lastRace
             ? $this->trackRepository->getNextTrack($lastRace->getTrack()->getId())
-            : $this->trackRepository->findOneBy([]);
+            : $this->trackRepository->getFirstTrack();
 
         /* Save race in the database */
         $race = new UserSeasonRace();

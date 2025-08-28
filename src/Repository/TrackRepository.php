@@ -21,9 +21,20 @@ class TrackRepository extends ServiceEntityRepository
         parent::__construct($registry, Track::class);
     }
 
+    public function getFirstTrack(): ?Track
+    {
+        return $this->createQueryBuilder('t')
+            ->select('t')
+            ->orderBy('t.id', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     public function getNextTrack(int $previousTrackId): ?Track
     {
         $result = $this->createQueryBuilder('t')
+            ->select('t')
             ->where('t.id > :previousTrackId')
             ->setParameter('previousTrackId', $previousTrackId)
             ->setMaxResults(1)

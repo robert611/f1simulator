@@ -103,8 +103,7 @@ class UserSeasonController extends BaseController
         if ($season->getRaces()->count()) {
             $track = $this->trackRepository->getNextTrack($season->getRaces()->last()->getTrack()->getId());
         } else {
-            // @TODO I need a function in repository with sorting for getting first track.
-            $track = $this->trackRepository->findOneBy([]);
+            $track = $this->trackRepository->getFirstTrack();
         }
 
         if ($season->getRaces()->count() === 0) {

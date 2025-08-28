@@ -45,9 +45,9 @@ class CurrentDriverSeasonService
         $driverPodiums = DriverPodiumsService::getDriverPodiumsDTO($driver, $season);
 
         if ($season->getRaces()->last()) {
-            $currentTrack = $this->trackRepository->find($season->getRaces()->last()->getTrack()->getId() + 1);
+            $currentTrack = $this->trackRepository->getNextTrack($season->getRaces()->last()->getTrack()->getId());
         } else {
-            $currentTrack = $this->trackRepository->findOneBy([], ['id' => 'ASC']);
+            $currentTrack = $this->trackRepository->getFirstTrack();
         }
 
         $numberOfRacesInTheSeason = $this->trackRepository->count();

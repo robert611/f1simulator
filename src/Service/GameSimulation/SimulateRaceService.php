@@ -34,7 +34,7 @@ class SimulateRaceService
         if ($lastRace) {
             $track = $this->trackRepository->getNextTrack($lastRace->getTrack()->getId());
         } else {
-            $track = $this->trackRepository->findOneBy([]);
+            $track = $this->trackRepository->getFirstTrack();
         }
 
         $race = Race::create($track, $season);
