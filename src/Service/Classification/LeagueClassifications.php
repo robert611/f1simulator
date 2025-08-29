@@ -1,53 +1,45 @@
 <?php 
 
+declare(strict_types=1);
+
 namespace App\Service\Classification;
 
-use App\Entity\Race;
-use App\Entity\RaceResult;
 use App\Entity\UserSeason;
-use App\Entity\UserSeasonPlayer;
 use App\Entity\UserSeasonRace;
+use App\Entity\UserSeasonRaceResult;
 use App\Service\DriverStatistics\LeaguePlayerPoints;
+use Doctrine\Common\Collections\Collection;
 
 class LeagueClassifications 
 {
-    public UserSeason $league;
-    public LeaguePlayerPoints $leaguePlayerPoints;
-    public ?int $raceId;
-
-    public function __construct(UserSeason $league, ?int $raceId)
+    public function getClassificationBasedOnType(UserSeason $league, ?int $raceId, ClassificationType $type)
     {
-        $this->league = $league;
-        $this->raceId = $raceId;
-        $this->leaguePlayerPoints = new LeaguePlayerPoints();
-    }
-
-    public function getClassificationBasedOnType(string $type)
-    {
+        // @TODO, this return type must be unified, maybe some dto with empty values in case of problems?
         return match ($type) {
-            'race' => $this->getRaceClassification(),
-            'players' => $this->getPlayersClassification(),
-            default => $this->getQualificationsClassification(), /* It matches the default option in html */
+            ClassificationType::RACE => $this->getRaceClassification($league, $raceId),
+            ClassificationType::PLAYERS => $this->getPlayersClassification($league),
+            default => $this->getQualificationsClassification($raceId), /* It matches the default option in HTML */
         };
     }
 
-    private function getRaceClassification(): object
+    private function getRaceClassification(UserSeason $league, ?int $raceId): object
     {
-        $race = $this->findRace($this->raceId);
+        // @TODO, race could be null, but it's not really handled, does this make sense?
+        $race = $this->findRace($league, $raceId);
 
         /* Set points to raceResults */
-        /** @var RaceResult $result */
-        $race->getRaceResults()->map(function($result) {
-            $points = $this->leaguePlayerPoints->getPlayerPointsByResult($result);
+        $race->getRaceResults()->map(function(UserSeasonRaceResult $result) {
+            $points = LeaguePlayerPoints::getPlayerPointsByResult($result);
+            // @TODO, I deleted this method omitting following occurrence
             $result->setPoints($points);
         });
 
         return $race->getRaceResults();
     }
 
-    private function getPlayersClassification(): array
+    private function getPlayersClassification(UserSeason $league): array
     {
-        $players = $this->league->getPlayers()->toArray();
+        $players = $league->getPlayers()->toArray();
 
         /* Sort drivers according to possessed points */
         usort($players, function($a, $b) {
@@ -57,24 +49,27 @@ class LeagueClassifications
         return $players;
     }
 
-    private function getQualificationsClassification()
+    private function getQualificationsClassification(UserSeason $league, ?int $raceId): ?Collection
     {
-        $race = $this->findRace($this->raceId);
+        $race = $this->findRace($league, $raceId);
 
-        return $race ? $race->getQualifications() : null;
+        return $race?->getQualifications();
     }
 
-    private function findRace(?int $id): ?UserSeasonRace
+    private function findRace(UserSeason $league, ?int $id): ?UserSeasonRace
     {
-        $race = $this->league->getRaces()->filter(function($race) use ($id) {
+        // @TODO is this checking really required, can't I just get the race from database by id?
+        $race = $league->getRaces()->filter(function($race) use ($id) {
             return $race->getId() === $id;
         })->first();
 
         /* Just in case if this classification will be called without giving id, return some results */
         /* HTML will show proper race label */
-        $race ? $race : $race = $this->league->getRaces()->first();
+        if (false === $race) {
+            $race = $league->getRaces()->first();
+        }
 
-        if (is_bool($race)) {
+        if (false === $race) {
             return null;
         }
 

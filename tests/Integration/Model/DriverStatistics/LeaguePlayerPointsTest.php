@@ -40,7 +40,7 @@ class LeaguePlayerPointsTest extends KernelTestCase
     public function test_if_can_get_player_points_by_result()
     {
         $this->league->getRaces()->first()->getRaceResults()->map(function($result) {
-            $points = $this->leaguePlayerPoints->getPlayerPointsByResult($result);
+            $points = LeaguePlayerPoints::getPlayerPointsByResult($result);
 
             $this->assertTrue($points > 0);
         });

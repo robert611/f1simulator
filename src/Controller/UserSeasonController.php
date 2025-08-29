@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Driver;
-use App\Entity\Track;
 use App\Entity\UserSeason;
 use App\Entity\UserSeasonPlayer;
 use App\Form\UserSeasonType;
 use App\Repository\TrackRepository;
 use App\Security\LeagueVoter;
+use App\Service\Classification\ClassificationType;
 use App\Service\Classification\LeagueClassifications;
 use App\Service\Classification\LeagueTeamsClassification;
 use App\Service\DrawDriverToReplace;
@@ -26,6 +26,7 @@ class UserSeasonController extends BaseController
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly LeagueTeamsClassification $leagueTeamsClassification,
+        private readonly LeagueClassifications $leagueClassification,
         private readonly TrackRepository $trackRepository,
     ) {
     }
@@ -92,8 +93,11 @@ class UserSeasonController extends BaseController
     }
 
     #[Route('/{id}/show/{classificationType}', name: 'multiplayer_show_season', methods: ['GET'])]
-    public function showSeason(Request $request, UserSeason $season, $classificationType = 'players'): Response
-    {
+    public function showSeason(
+        Request $request,
+        UserSeason $season,
+        ClassificationType $classificationType = ClassificationType::PLAYERS,
+    ): Response {
         $this->denyAccessUnlessGranted(LeagueVoter::SHOW_SEASON, $season);
 
         $player = $this->entityManager->getRepository(UserSeasonPlayer::class)->findOneBy(['season' => $season, 'user' => $this->getUser()]);
@@ -110,8 +114,13 @@ class UserSeasonController extends BaseController
             $classificationType = 'drivers';
         }
 
+        $raceId = $request->query->get('race_id');
 
-        $classification = (new LeagueClassifications($season, $request->query->get('race_id')))->getClassificationBasedOnType($classificationType);
+        $classification = $this->leagueClassification->getClassificationBasedOnType(
+            $season,
+            $raceId,
+            $classificationType,
+        );
 
         $teamsClassification = $this->leagueTeamsClassification->getClassification($season);
         

@@ -11,13 +11,13 @@ class LeaguePlayerPoints
         $points = 0;
 
         $player->getRaceResults()->map(function ($result) use (&$points) {
-            $points += $this->getPlayerPointsByResult($result);
+            $points += self::getPlayerPointsByResult($result);
         });
 
         return $points;
     }
 
-    public function getPlayerPointsByResult(object $result): int
+    public static function getPlayerPointsByResult(object $result): int
     {
         return RaceScoringSystem::getRaceScoringSystem()[$result->getPosition()];
     }
