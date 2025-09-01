@@ -8,6 +8,7 @@ use App\Model\Configuration\RaceScoringSystem;
 use App\Repository\TrackRepository;
 use App\Repository\UserSeasonRepository;
 use App\Security\LeagueVoter;
+use App\Service\Classification\LeagueClassifications;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,6 +29,7 @@ class LeagueController extends BaseController
         private readonly UserSeasonRepository $userSeasonRepository,
         private readonly TrackRepository $trackRepository,
         private readonly SimulateLeagueRace $simulateLeagueRace,
+        private readonly LeagueClassifications $leagueClassifications,
         private readonly EntityManagerInterface $entityManager,
     ) {
     }
@@ -79,11 +81,11 @@ class LeagueController extends BaseController
     }
 
     #[Route('/{id}/simulate/race', name: 'league_simulate_race', methods: ['GET'])]
-    public function simulateRace(UserSeason $season): RedirectResponse
+    public function simulateRace(UserSeason $userSeason): RedirectResponse
     {
-        $this->denyAccessUnlessGranted(LeagueVoter::SIMULATE_RACE, $season);
+        $this->denyAccessUnlessGranted(LeagueVoter::SIMULATE_RACE, $userSeason);
 
-        $lastRace = $season->getRaces()->last();
+        $lastRace = $userSeason->getRaces()->last();
         $track = $lastRace
             ? $this->trackRepository->getNextTrack($lastRace->getTrack()->getId())
             : $this->trackRepository->getFirstTrack();
@@ -92,12 +94,12 @@ class LeagueController extends BaseController
         $race = new UserSeasonRace();
 
         $race->setTrack($track);
-        $race->setSeason($season);
+        $race->setSeason($userSeason);
 
         $this->entityManager->persist($race);
         $this->entityManager->flush();
 
-        [$qualificationsResults, $raceResults] = $this->simulateLeagueRace->getRaceResults($season->getPlayers());
+        [$qualificationsResults, $raceResults] = $this->simulateLeagueRace->getRaceResults($userSeason->getPlayers());
 
         foreach ($qualificationsResults as $position => $player) {
             $qualification = new UserSeasonQualification();
@@ -120,6 +122,8 @@ class LeagueController extends BaseController
             $this->entityManager->flush();
         }
 
-        return $this->redirectToRoute('multiplayer_show_season', ['id' => $season->getId()]);
+        $this->leagueClassifications->recalculatePlayersPositions($userSeason);
+
+        return $this->redirectToRoute('multiplayer_show_season', ['id' => $userSeason->getId()]);
     }
 }

@@ -8,9 +8,36 @@ use App\Entity\UserSeason;
 use App\Entity\UserSeasonPlayer;
 use App\Entity\UserSeasonRace;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManagerInterface;
 
 class LeagueClassifications 
 {
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+    ) {
+    }
+
+    public function recalculatePlayersPositions(UserSeason $league): void
+    {
+        /** @var UserSeasonPlayer[] $leaguePlayers */
+        $leaguePlayers = $league->getPlayers()->toArray();
+
+        usort($leaguePlayers, function(UserSeasonPlayer $a, UserSeasonPlayer $b) {
+            return $b->getPoints() <=> $a->getPoints();
+        });
+
+        // Reindex table
+        $leaguePlayers = array_values($leaguePlayers);
+
+        foreach ($leaguePlayers as $index => $player) {
+            $position = $index + 1;
+
+            $player->updatePosition($position);
+        }
+
+        $this->entityManager->flush();
+    }
+
     public function getClassificationBasedOnType(UserSeason $league, ?int $raceId, ClassificationType $type)
     {
         // @TODO, this return type must be unified, maybe some dto with empty values in case of problems?

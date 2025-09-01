@@ -36,6 +36,9 @@ class UserSeasonPlayer
     #[ORM\Column(name: 'points', type: 'integer', nullable: false)]
     private int $points = 0;
 
+    #[ORM\Column(name: 'position', type: 'integer', nullable: false)]
+    private int $position = 0;
+
     #[ORM\OneToMany(targetEntity: UserSeasonRaceResult::class, mappedBy: 'player', orphanRemoval: true)]
     private Collection $raceResults;
 
@@ -86,6 +89,11 @@ class UserSeasonPlayer
     public function getPoints(): int
     {
         return $this->points;
+    }
+
+    public function getPosition(): int
+    {
+        return $this->position;
     }
 
     /**
@@ -141,6 +149,7 @@ class UserSeasonPlayer
         $userSeasonPlayer->user = $user;
         $userSeasonPlayer->driver = $driver;
         $userSeasonPlayer->points = 0;
+        $userSeasonPlayer->position = 0;
 
         return $userSeasonPlayer;
     }
@@ -148,6 +157,17 @@ class UserSeasonPlayer
     public function addPoints(int $points): void
     {
         $this->points += $points;
+    }
+
+    public function updatePosition(int $position): void
+    {
+        $this->position = $position;
+    }
+
+    public function assignClassificationProperties(int $points, int $position): void
+    {
+        $this->points = $points;
+        $this->position = $position;
     }
 
     public function getDriverPodiumsDTO(): DriverPodiumsDTO
