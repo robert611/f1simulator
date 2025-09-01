@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service\Classification;
 
 use App\Entity\UserSeason;
+use App\Entity\UserSeasonPlayer;
 use App\Entity\UserSeasonRace;
 use Doctrine\Common\Collections\Collection;
 
@@ -32,10 +33,8 @@ class LeagueClassifications
     {
         $players = $league->getPlayers()->toArray();
 
-        // @TODO, currently players have no points assigned, sorting will not work
-
         /* Sort drivers according to possessed points */
-        usort($players, function($a, $b) {
+        usort($players, function(UserSeasonPlayer $a, UserSeasonPlayer $b) {
             return $a->getPoints() < $b->getPoints();
         });
 

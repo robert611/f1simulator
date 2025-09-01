@@ -109,10 +109,12 @@ class LeagueController extends BaseController
             $this->entityManager->flush();
         }
 
+        /** @var UserSeasonPlayer $player */
         foreach ($raceResults as $position => $player) {
             $points = RaceScoringSystem::getPositionScore($position);
 
             $raceResult = UserSeasonRaceResult::create($position, $points, $race, $player);
+            $player->addPoints($points);
 
             $this->entityManager->persist($raceResult);
             $this->entityManager->flush();

@@ -33,13 +33,14 @@ class UserSeasonPlayer
     #[ORM\JoinColumn(name: 'driver_id', nullable: false)]
     private Driver $driver;
 
+    #[ORM\Column(name: 'points', type: 'integer', nullable: false)]
+    private int $points = 0;
+
     #[ORM\OneToMany(targetEntity: UserSeasonRaceResult::class, mappedBy: 'player', orphanRemoval: true)]
     private Collection $raceResults;
 
     #[ORM\OneToMany(targetEntity: UserSeasonQualification::class, mappedBy: 'player', orphanRemoval: true)]
     private Collection $qualificationsResults;
-
-    public ?int $points = null;
 
     public function __construct()
     {
@@ -80,6 +81,11 @@ class UserSeasonPlayer
     public function setDriver(Driver $driver): void
     {
         $this->driver = $driver;
+    }
+
+    public function getPoints(): int
+    {
+        return $this->points;
     }
 
     /**
@@ -134,8 +140,14 @@ class UserSeasonPlayer
         $userSeasonPlayer->season = $userSeason;
         $userSeasonPlayer->user = $user;
         $userSeasonPlayer->driver = $driver;
+        $userSeasonPlayer->points = 0;
 
         return $userSeasonPlayer;
+    }
+
+    public function addPoints(int $points): void
+    {
+        $this->points += $points;
     }
 
     public function getDriverPodiumsDTO(): DriverPodiumsDTO
@@ -158,25 +170,5 @@ class UserSeasonPlayer
             $podiumsTable[2],
             $podiumsTable[3],
         );
-    }
-
-    public function getPoints(): int
-    {
-        if (null !== $this->points) {
-            return $this->points;
-        }
-
-        /** @var UserSeasonRaceResult[] $raceResults */
-        $raceResults = $this->getRaceResults()->toArray();
-
-        $points = 0;
-
-        foreach ($raceResults as $raceResult) {
-            $points += RaceScoringSystem::getRaceScoringSystem()[$raceResult->getPosition()];
-        }
-
-        $this->points = $points;
-
-        return $points;
     }
 }
