@@ -16,8 +16,11 @@ class UserSeasonRaceResult
     #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
     private int $id;
 
-    #[ORM\Column(name: 'position', type: 'smallint')]
+    #[ORM\Column(name: 'position', type: 'smallint', nullable: false)]
     private int $position;
+
+    #[ORM\Column(name: 'points', type: 'smallint', nullable: false)]
+    private int $points;
 
     #[ORM\ManyToOne(targetEntity: UserSeasonRace::class, inversedBy: 'raceResults')]
     #[ORM\JoinColumn(name: 'race_id', nullable: false)]
@@ -37,9 +40,9 @@ class UserSeasonRaceResult
         return $this->position;
     }
 
-    public function setPosition(int $position): void
+    public function getPoints(): int
     {
-        $this->position = $position;
+        return $this->points;
     }
 
     public function getRace(): UserSeasonRace
@@ -62,10 +65,11 @@ class UserSeasonRaceResult
         $this->player = $player;
     }
 
-    public static function create(int $position, UserSeasonRace $race, UserSeasonPlayer $player): self
+    public static function create(int $position, int $points, UserSeasonRace $race, UserSeasonPlayer $player): self
     {
         $userSeasonRaceResult = new self();
         $userSeasonRaceResult->position = $position;
+        $userSeasonRaceResult->points = $points;
         $userSeasonRaceResult->race = $race;
         $userSeasonRaceResult->player = $player;
 

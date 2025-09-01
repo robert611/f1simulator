@@ -28,25 +28,10 @@ class UserSeasonPlayerTest extends TestCase
         $race3 = new UserSeasonRace();
         $race4 = new UserSeasonRace();
 
-        $raceResult1 = new UserSeasonRaceResult();
-        $raceResult1->setRace($race1);
-        $raceResult1->setPlayer($userSeasonPlayer);
-        $raceResult1->setPosition(1);
-
-        $raceResult2 = new UserSeasonRaceResult();
-        $raceResult2->setRace($race2);
-        $raceResult2->setPlayer($userSeasonPlayer);
-        $raceResult2->setPosition(2);
-
-        $raceResult3 = new UserSeasonRaceResult();
-        $raceResult3->setRace($race3);
-        $raceResult3->setPlayer($userSeasonPlayer);
-        $raceResult3->setPosition(4);
-
-        $raceResult4 = new UserSeasonRaceResult();
-        $raceResult4->setRace($race4);
-        $raceResult4->setPlayer($userSeasonPlayer);
-        $raceResult4->setPosition(1);
+        $raceResult1 = UserSeasonRaceResult::create(1, 25, $race1, $userSeasonPlayer);
+        $raceResult2 = UserSeasonRaceResult::create(2, 18, $race2, $userSeasonPlayer);
+        $raceResult3 = UserSeasonRaceResult::create(4, 12, $race3, $userSeasonPlayer);
+        $raceResult4 = UserSeasonRaceResult::create(1, 25, $race4, $userSeasonPlayer);
 
         $race1->addRaceResult($raceResult1);
         $race2->addRaceResult($raceResult2);
@@ -85,15 +70,8 @@ class UserSeasonPlayerTest extends TestCase
         $race1 = new UserSeasonRace();
         $race2 = new UserSeasonRace();
 
-        $raceResult1 = new UserSeasonRaceResult();
-        $raceResult1->setRace($race1);
-        $raceResult1->setPlayer($userSeasonPlayer);
-        $raceResult1->setPosition(8);
-
-        $raceResult2 = new UserSeasonRaceResult();
-        $raceResult2->setRace($race2);
-        $raceResult2->setPlayer($userSeasonPlayer);
-        $raceResult2->setPosition(5);
+        $raceResult1 = UserSeasonRaceResult::create(8, 4, $race1, $userSeasonPlayer);
+        $raceResult2 = UserSeasonRaceResult::create(5, 10, $race2, $userSeasonPlayer);
 
         $race1->addRaceResult($raceResult1);
         $race2->addRaceResult($raceResult2);
@@ -125,20 +103,9 @@ class UserSeasonPlayerTest extends TestCase
         $race2 = new UserSeasonRace();
         $race3 = new UserSeasonRace();
 
-        $raceResult1 = new UserSeasonRaceResult();
-        $raceResult1->setRace($race1);
-        $raceResult1->setPlayer($userSeasonPlayer);
-        $raceResult1->setPosition(9);
-
-        $raceResult2 = new UserSeasonRaceResult();
-        $raceResult2->setRace($race2);
-        $raceResult2->setPlayer($userSeasonPlayer);
-        $raceResult2->setPosition(2);
-
-        $raceResult3 = new UserSeasonRaceResult();
-        $raceResult3->setRace($race2);
-        $raceResult3->setPlayer($userSeasonPlayer);
-        $raceResult3->setPosition(5);
+        $raceResult1 = UserSeasonRaceResult::create(9, 2, $race1, $userSeasonPlayer);
+        $raceResult2 = UserSeasonRaceResult::create(2, 18, $race2, $userSeasonPlayer);
+        $raceResult3 = UserSeasonRaceResult::create(5, 10, $race2, $userSeasonPlayer);
 
         $race1->addRaceResult($raceResult1);
         $race2->addRaceResult($raceResult2);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Model\Configuration\RaceScoringSystem;
 use App\Repository\TrackRepository;
 use App\Repository\UserSeasonRepository;
 use App\Security\LeagueVoter;
@@ -16,7 +17,6 @@ use App\Entity\UserSeasonRace;
 use App\Entity\UserSeasonQualification;
 use App\Entity\UserSeasonRaceResult;
 use App\Entity\Driver;
-use App\Entity\Track;
 use App\Service\DrawDriverToReplace;
 use App\Service\GameSimulation\SimulateLeagueRace;
 use Symfony\Component\Routing\Attribute\Route;
@@ -99,7 +99,6 @@ class LeagueController extends BaseController
 
         [$qualificationsResults, $raceResults] = $this->simulateLeagueRace->getRaceResults($season->getPlayers());
 
-        /* Save qualifications results in database, element index is equivalent to its position */
         foreach ($qualificationsResults as $position => $player) {
             $qualification = new UserSeasonQualification();
             $qualification->setRace($race);
@@ -110,12 +109,10 @@ class LeagueController extends BaseController
             $this->entityManager->flush();
         }
 
-        /* Save race results in database */
         foreach ($raceResults as $position => $player) {
-            $raceResult = new UserSeasonRaceResult();
-            $raceResult->setRace($race);
-            $raceResult->setPlayer($player);
-            $raceResult->setPosition($position);
+            $points = RaceScoringSystem::getPositionScore($position);
+
+            $raceResult = UserSeasonRaceResult::create($position, $points, $race, $player);
 
             $this->entityManager->persist($raceResult);
             $this->entityManager->flush();

@@ -111,10 +111,14 @@ class UserSeasonController extends BaseController
         }
 
         if ($season->getRaces()->count() === 0) {
-            $classificationType = 'drivers';
+            $classificationType = ClassificationType::DRIVERS;
         }
 
         $raceId = $request->query->get('race_id');
+
+        if (is_numeric($raceId)) {
+            $raceId = (int) $raceId;
+        }
 
         $classification = $this->leagueClassification->getClassificationBasedOnType(
             $season,

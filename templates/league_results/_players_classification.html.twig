@@ -14,9 +14,9 @@
                 {% for i, player in classification %}
                     <tr>
                         <td>{{ i + 1 }}</td>
-                        <td>{{ player.getUser().getUsername() }}</td>
-                        <td>{{ player.getDriver().getTeam().getName() }}</td>
-                        <td><img class="f1-car-picture" src="/assets/cars/{{player.getDriver().getTeam().getPicture()}}"/></td>
+                        <td>{{ player.user.username }}</td>
+                        <td>{{ player.driver.team.name }}</td>
+                        <td><img class="f1-car-picture" src="/assets/cars/{{ player.driver.team.picture }}" alt="f1 car"/></td>
                         <td>{{ player.points }}</td>
                     </tr>
                 {% endfor %}

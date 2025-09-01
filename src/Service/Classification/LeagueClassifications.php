@@ -6,8 +6,6 @@ namespace App\Service\Classification;
 
 use App\Entity\UserSeason;
 use App\Entity\UserSeasonRace;
-use App\Entity\UserSeasonRaceResult;
-use App\Service\DriverStatistics\LeaguePlayerPoints;
 use Doctrine\Common\Collections\Collection;
 
 class LeagueClassifications 
@@ -18,7 +16,7 @@ class LeagueClassifications
         return match ($type) {
             ClassificationType::RACE => $this->getRaceClassification($league, $raceId),
             ClassificationType::PLAYERS => $this->getPlayersClassification($league),
-            default => $this->getQualificationsClassification($raceId), /* It matches the default option in HTML */
+            default => $this->getQualificationsClassification($league, $raceId), /* It matches the default option in HTML */
         };
     }
 
@@ -27,19 +25,14 @@ class LeagueClassifications
         // @TODO, race could be null, but it's not really handled, does this make sense?
         $race = $this->findRace($league, $raceId);
 
-        /* Set points to raceResults */
-        $race->getRaceResults()->map(function(UserSeasonRaceResult $result) {
-            $points = LeaguePlayerPoints::getPlayerPointsByResult($result);
-            // @TODO, I deleted this method omitting following occurrence
-            $result->setPoints($points);
-        });
-
         return $race->getRaceResults();
     }
 
     private function getPlayersClassification(UserSeason $league): array
     {
         $players = $league->getPlayers()->toArray();
+
+        // @TODO, currently players have no points assigned, sorting will not work
 
         /* Sort drivers according to possessed points */
         usort($players, function($a, $b) {
