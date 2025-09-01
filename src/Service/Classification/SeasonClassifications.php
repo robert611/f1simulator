@@ -80,8 +80,8 @@ class SeasonClassifications
     {
         $race = $this->findRace($this->raceId);
 
-        /* In default drivers have no assign points in a database, so it has to be done here */
-        foreach ($this->drivers as &$driver) {
+        /* By default, drivers have no assigned points in a database, so it has to be done here */
+        foreach ($this->drivers as $driver) {
             $points = $this->driverPoints->getDriverPointsByRace($driver, $race);
             $driver->setPoints($points);
         }
