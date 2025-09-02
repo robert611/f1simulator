@@ -88,7 +88,7 @@ class Team
 
     /**
      * @return UserSeasonPlayer[]
-     * There is no UserSeasonPlayers column in database
+     * There is no UserSeasonPlayers column in a database
      */
     public function getPlayers(): array
     {

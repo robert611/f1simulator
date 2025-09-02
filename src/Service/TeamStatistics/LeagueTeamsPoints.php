@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service\TeamStatistics;
 
-use App\Entity\Driver;
 use App\Entity\Team;
 use App\Entity\UserSeason;
 use App\Entity\UserSeasonPlayer;
@@ -23,8 +22,7 @@ class LeagueTeamsPoints
     {
         $players = $league->getPlayers();
 
-        $drivers = $this->getDrivers($players); /* Drivers who are replaced by players */
-        $teams = $this->getTeams($drivers); /* Get all teams involved in the league from which players are given */
+        $teams = $league->getLeagueTeams(); /* Get all teams involved in the league from which players are given */
 
         $teams = $this->getTeamsWithPlayers($teams, $players);
 
@@ -58,31 +56,5 @@ class LeagueTeamsPoints
         }
 
         return $teams;
-    }
-
-    /**
-     * @param Collection<Driver> $drivers
-     * @return Team[]
-     */
-    private function getTeams(Collection $drivers): array
-    {
-        $teamsIds = $drivers->map(function($driver) {
-            /** @var Driver $driver */
-            return $driver->getTeam()->getId();
-        })->toArray();
-
-        return $this->teamRepository->findBy(['id' => $teamsIds]);
-    }
-
-    /**
-     * @param Collection<UserSeasonPlayer> $players
-     * @return Collection<Driver>
-     */
-    private function getDrivers(Collection $players): Collection
-    {
-        return $players->map(function($player) {
-            /** @var UserSeasonPlayer $player */
-            return $player->getDriver();
-        });
     }
 }

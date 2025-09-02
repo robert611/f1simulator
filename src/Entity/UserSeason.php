@@ -202,4 +202,21 @@ class UserSeason
 
         return $leagueDrivers;
     }
+
+    /**
+     * @return Team[]
+     */
+    public function getLeagueTeams(): array
+    {
+        $leagueDrivers = $this->getLeagueDrivers();
+
+        $teams = [];
+
+        foreach ($leagueDrivers as $driver) {
+            $teams[$driver->getTeam()->getId()] = $driver->getTeam();
+        }
+
+        // Reindex array
+        return array_values($teams);
+    }
 }
