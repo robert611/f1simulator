@@ -24,7 +24,7 @@ class LeagueTeamsPoints
         $players = $league->getPlayers();
 
         $drivers = $this->getDrivers($players); /* Drivers who are replaced by players */
-        $teams = $this->getTeams($drivers); /* Get all teams involved in league from which players are given */
+        $teams = $this->getTeams($drivers); /* Get all teams involved in the league from which players are given */
 
         $teams = $this->getTeamsWithPlayers($teams, $players);
 
