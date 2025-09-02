@@ -5,7 +5,6 @@ namespace App\Service\Classification;
 use App\Entity\Driver;
 use App\Entity\Qualification;
 use App\Entity\Race;
-use App\Entity\Season;
 use App\Model\DriversClassification;
 use App\Repository\DriverRepository;
 use App\Service\DriverStatistics\DriverPoints;
@@ -15,8 +14,7 @@ class SeasonClassifications
 {
     /** @var Driver[] $drivers */
     public array $drivers;
-    public DriverPoints $driverPoints;
-    public ?object $season;
+    public object $season;
     public $raceId;
 
     public function __construct(
@@ -27,10 +25,9 @@ class SeasonClassifications
     /**
      * @param Driver[] $drivers
      */
-    public function setEntryData(array $drivers, ?object $season, $raceId): void
+    public function setEntryData(array $drivers, object $season, $raceId): void
     {
         $this->drivers = $drivers;
-        $this->driverPoints = new DriverPoints();
         $this->season = $season;
         $this->raceId = $raceId;
     }
@@ -68,8 +65,8 @@ class SeasonClassifications
     private function getDriversClassification()
     {
         /* In default drivers have no assign points got in current season in database, so it has to be done here */
-        foreach ($this->drivers as &$driver) {
-            $points = $this->driverPoints->getDriverPoints($driver, $this->season);
+        foreach ($this->drivers as $driver) {
+            $points = DriverPoints::getDriverPoints($driver, $this->season);
             $driver->setPoints($points);
         }
 
@@ -82,7 +79,7 @@ class SeasonClassifications
 
         /* By default, drivers have no assigned points in a database, so it has to be done here */
         foreach ($this->drivers as $driver) {
-            $points = $this->driverPoints->getDriverPointsByRace($driver, $race);
+            $points = DriverPoints::getDriverPointsByRace($driver, $race);
             $driver->setPoints($points);
         }
 

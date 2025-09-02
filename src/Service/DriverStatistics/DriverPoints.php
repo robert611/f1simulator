@@ -12,24 +12,24 @@ use App\Model\Configuration\RaceScoringSystem;
 
 class DriverPoints
 {
-    public static function getDriverPoints(Driver $driver, ?Season $season): int
+    public static function getDriverPoints(Driver $driver, Season $season): int
     {
-        if (null === $season) {
-            return 0;
-        }
-
         $points = 0;
 
-        foreach ($driver->getRaceResults() as $raceResult) {
-            if ($raceResult->getRace()->getSeason()->getId() === $season->getId()) {
-                $points += RaceScoringSystem::getPositionScore($raceResult->getPosition());
+        $races = $season->getRaces();
+
+        foreach ($races as $race) {
+            foreach ($race->getRaceResults() as $raceResult) {
+                if ($raceResult->getDriver()->getId() === $driver->getId()) {
+                    $points += RaceScoringSystem::getPositionScore($raceResult->getPosition());
+                }
             }
         }
 
         return $points;
     }
 
-    public function getDriverPointsByRace(Driver $driver, Race $race): int
+    public static function getDriverPointsByRace(Driver $driver, Race $race): int
     {
         $raceResult = $driver->getRaceResults()->filter(function (RaceResult $result) use ($race) {
             return $result->getRace()->getId() === $race->getId();

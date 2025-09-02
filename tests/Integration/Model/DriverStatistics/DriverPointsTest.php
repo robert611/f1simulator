@@ -1,55 +1,53 @@
-<?php 
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Integration\Model\DriverStatistics;
 
-use App\Entity\Driver;
-use App\Entity\Season;
-use App\Model\Configuration\RaceScoringSystem;
 use App\Service\DriverStatistics\DriverPoints;
+use App\Tests\Common\Fixtures;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class DriverPointsTest extends KernelTestCase 
 {
-    /**
-     * @var \Doctrine\ORM\EntityManager
-     */
-    private $entityManager;
-
-    public object $driverPoints;
+    private Fixtures $fixtures;
 
     public function setUp(): void
     {
-        $kernel = self::bootKernel();
-        $this->entityManager = $kernel->getContainer()
-            ->get('doctrine')
-            ->getManager();
-        $this->driverPoints = new DriverPoints();
+        $this->fixtures = self::getContainer()->get(Fixtures::class);
     }
 
-    public function test_if_get_driver_points_returns_driver_points()
+    public function test_if_get_driver_points_returns_correct_value(): void
     {
-        $driversRepository = $this->entityManager->getRepository(Driver::class);
-        $drivers = $driversRepository->findAll();
+        // given
+        $user = $this->fixtures->aUser();
+        $team = $this->fixtures->aTeam();
+        $driver1 = $this->fixtures->aDriver('John', 'Speed', $team, 55);
+        $driver2 = $this->fixtures->aDriver('Kyle', 'Walker', $team, 8);
 
-        $season = $this->entityManager->getRepository(Season::class)->findOneBy(['completed' => 1]);
+        // and given
+        $season = $this->fixtures->aSeason($user, $driver1);
 
-        $raceScoringSystem = RaceScoringSystem::getRaceScoringSystem();
+        // and given
+        $track1 = $this->fixtures->aTrack('silverstone', 'silverstone.png');
+        $track2 = $this->fixtures->aTrack('belgium', 'belgium.png');
+        $track3 = $this->fixtures->aTrack('china', 'china.png');
+        $race1 = $this->fixtures->aRace($track1, $season);
+        $race2 = $this->fixtures->aRace($track2, $season);
+        $race3 = $this->fixtures->aRace($track3, $season);
+        $this->fixtures->aRaceResult(6, $race1, $driver1);
+        $this->fixtures->aRaceResult(14, $race2, $driver1);
+        $this->fixtures->aRaceResult(9, $race3, $driver1);
+        $this->fixtures->aRaceResult(3, $race3, $driver2);
+        $this->fixtures->aRaceResult(6, $race3, $driver2);
+        $this->fixtures->aRaceResult(19, $race3, $driver2);
 
-        /* According to test database drivers order reflects driver position */
-        foreach ($drivers as $key => $driver) {
-            $points = $this->driverPoints->getDriverPoints($driver, $season);
+        // when
+        $firstDriverPoints = DriverPoints::getDriverPoints($driver1, $season);
+        $secondDriverPoints = DriverPoints::getDriverPoints($driver2, $season);
 
-            $expectedPoints = 6 * $raceScoringSystem[$key + 1];
-
-            $this->assertEquals($points, $expectedPoints);
-            
-        }
-
-        /* According to test database driver with first id always has first place in any race */
-        foreach ($season->getRaces() as $race) {
-            $pointsByRace = $this->driverPoints->getDriverPointsByRace($drivers[0], $race);
-
-            $this->assertEquals($pointsByRace, 25);
-        }
+        // then
+        self::assertEquals(10, $firstDriverPoints);
+        self::assertEquals(23, $secondDriverPoints);
     }
 }

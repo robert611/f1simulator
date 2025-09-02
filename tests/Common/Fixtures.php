@@ -164,6 +164,8 @@ class Fixtures
     {
         $race = Race::Create($track, $season);
 
+        $season->addRace($race);
+
         $this->entityManager->persist($race);
         $this->entityManager->flush();
 
@@ -175,6 +177,7 @@ class Fixtures
         $raceResult = RaceResult::create($position, $race, $driver);
 
         $driver->addRaceResult($raceResult);
+        $race->addRaceResult($raceResult);
 
         $this->entityManager->persist($raceResult);
         $this->entityManager->flush();

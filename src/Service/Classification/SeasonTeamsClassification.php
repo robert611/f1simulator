@@ -27,7 +27,7 @@ class SeasonTeamsClassification
 
         foreach ($teams as $team) {
             if ($season) {
-                $teamsPointsTable[$team->getId()] = (new TeamPoints())->getTeamPoints($team, $season);
+                $teamsPointsTable[$team->getId()] = TeamPoints::getTeamPoints($team, $season);
                 continue;
             }
 
