@@ -17,7 +17,6 @@ use App\Entity\UserSeasonPlayer;
 use App\Entity\UserSeasonRace;
 use App\Entity\UserSeasonQualification;
 use App\Entity\UserSeasonRaceResult;
-use App\Entity\Driver;
 use App\Service\DrawDriverToReplace;
 use App\Service\GameSimulation\SimulateLeagueRace;
 use Symfony\Component\Routing\Attribute\Route;
@@ -30,6 +29,7 @@ class LeagueController extends BaseController
         private readonly TrackRepository $trackRepository,
         private readonly SimulateLeagueRace $simulateLeagueRace,
         private readonly LeagueClassifications $leagueClassifications,
+        private readonly DrawDriverToReplace $drawDriverToReplace,
         private readonly EntityManagerInterface $entityManager,
     ) {
     }
@@ -42,9 +42,7 @@ class LeagueController extends BaseController
 
         $this->denyAccessUnlessGranted(LeagueVoter::JOIN, $league);
 
-        $drivers = $this->entityManager->getRepository(Driver::class)->findAll();
-
-        $driver = (new DrawDriverToReplace())->getDriverToReplaceInUserLeague($drivers, $league);
+        $driver = $this->drawDriverToReplace->getDriverToReplaceInUserLeague($league);
 
         $player = UserSeasonPlayer::create($league, $this->getUser(), $driver);
 

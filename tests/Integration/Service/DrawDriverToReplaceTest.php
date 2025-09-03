@@ -52,8 +52,7 @@ class DrawDriverToReplaceTest extends KernelTestCase
         $this->fixtures->aUserSeasonPlayer($userSeason, $user2, $driver3);
 
         // when
-        $allDrivers = [$driver1, $driver2, $driver3, $driver4];
-        $driverToReplace = $this->driverToReplace->getDriverToReplaceInUserLeague($allDrivers, $userSeason);
+        $driverToReplace = $this->driverToReplace->getDriverToReplaceInUserLeague($userSeason);
 
         // then
         self::assertEquals($driver4, $driverToReplace);
@@ -76,7 +75,7 @@ class DrawDriverToReplaceTest extends KernelTestCase
         );
 
         // when
-        $driverToReplace = $this->driverToReplace->getDriverToReplaceInUserLeague([], $userSeason);
+        $driverToReplace = $this->driverToReplace->getDriverToReplaceInUserLeague($userSeason);
 
         // then
         self::assertNull($driverToReplace);
@@ -108,7 +107,7 @@ class DrawDriverToReplaceTest extends KernelTestCase
         $this->fixtures->aUserSeasonPlayer($userSeason, $user1, $driver2);
 
         // when
-        $driverToReplace = $this->driverToReplace->getDriverToReplaceInUserLeague([$driver1, $driver2], $userSeason);
+        $driverToReplace = $this->driverToReplace->getDriverToReplaceInUserLeague($userSeason);
 
         // then
         self::assertNull($driverToReplace);

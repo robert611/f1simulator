@@ -6,14 +6,19 @@ namespace App\Service;
 
 use App\Entity\Driver;
 use App\Entity\UserSeason;
+use App\Repository\DriverRepository;
 
 class DrawDriverToReplace
 {
-    /**
-     * @param Driver[] $allDrivers
-     */
-    public function getDriverToReplaceInUserLeague(array $allDrivers, UserSeason $league): ?Driver
+    public function __construct(
+        private readonly DriverRepository $driverRepository,
+    ) {
+    }
+
+    public function getDriverToReplaceInUserLeague(UserSeason $league): ?Driver
     {
+        $allDrivers = $this->driverRepository->findAll();
+
         $takenDrivers = $league->getLeagueDrivers();
 
         $availableDrivers = array_udiff(
