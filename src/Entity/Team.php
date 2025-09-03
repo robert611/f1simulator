@@ -27,12 +27,6 @@ class Team
     #[ORM\OneToMany(targetEntity: Driver::class, mappedBy: 'team', orphanRemoval: true)]
     public Collection $drivers;
 
-    public int $points;
-
-    public int $position;
-
-    public array $players = [];
-
     public function __construct()
     {
         $this->drivers = new ArrayCollection();
@@ -84,46 +78,6 @@ class Team
         if ($this->drivers->contains($driver)) {
             $this->drivers->removeElement($driver);
         }
-    }
-
-    /**
-     * @return UserSeasonPlayer[]
-     * There is no UserSeasonPlayers column in a database
-     */
-    public function getPlayers(): array
-    {
-        return $this->players;
-    }
-
-    public function addPlayer(UserSeasonPlayer $player): void
-    {
-        foreach ($this->players as $existingPlayer) {
-            if ($existingPlayer->getId() === $player->getId()) {
-                return;
-            }
-        }
-
-        $this->players[] = $player;
-    }
-
-    public function getPoints(): int
-    {
-        return $this->points ?: 0;
-    }
-
-    public function setPoints(int $points): void
-    {
-        $this->points = $points;
-    }
-
-    public function getPosition(): int
-    {
-        return $this->position;
-    }
-
-    public function setPosition(int $position): void
-    {
-        $this->position = $position;
     }
 
     public static function create(string $name, string $picture): self
