@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Model\Configuration\RaceScoringSystem;
 use App\Model\DriverPodiumsDTO;
 use App\Repository\UserSeasonPlayersRepository;
 use App\Service\DriverStatistics\DriverPodiumsService;
