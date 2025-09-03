@@ -4,28 +4,57 @@ declare(strict_types=1);
 
 namespace App\Service\Classification;
 
+use App\Entity\Team;
 use App\Entity\UserSeason;
-use App\Service\TeamStatistics\LeagueTeamsPoints;
+use App\Entity\UserSeasonPlayer;
+use App\Model\TeamsClassification;
+use App\Model\TeamSeasonResult;
+use Doctrine\Common\Collections\Collection;
 
 class LeagueTeamsClassification 
 {
-    public function __construct(
-        public readonly LeagueTeamsPoints $leagueTeamsPoints,
-    ) {
+    public function getClassification(UserSeason $league): TeamsClassification
+    {
+        $teams = $league->getLeagueTeams();
+
+        $teamsPointsTable = [];
+
+        foreach ($teams as $team) {
+            $points = 0;
+
+            $players = $this->getTeamPlayers($team, $league->getPlayers());
+
+            foreach ($players as $player) {
+                $points += $player->getPoints();
+            }
+
+            $teamsPointsTable[$team->getId()] = $points;
+        }
+
+        // Sorts using descending order and preserves array keys
+        arsort($teamsPointsTable);
+
+        $teamSeasonResults = [];
+
+        foreach ($teams as $team) {
+            $keyPosition = array_search($team->getId(), array_keys($teamsPointsTable));
+            $position = $keyPosition + 1;
+            $teamSeasonResults[] = TeamSeasonResult::create($team, $teamsPointsTable[$team->getId()], $position);
+        }
+
+        return TeamsClassification::create($teamSeasonResults);
     }
 
-    public function getClassification(UserSeason $league): array
+    /**
+     * @param Collection<UserSeasonPlayer> $players
+     * @return UserSeasonPlayer[]
+     */
+    private function getTeamPlayers(Team $team, Collection $players): array
     {
-        /* This function takes the league and returns teams from that league with set points */
-        // @TODO Tutaj dodawane jest properties points w magiczny sposób do encji
-        // @TODO Trzeba to zrefaktoryzować
-        $teams = $this->leagueTeamsPoints->getTeamsPoints($league);
-
-        /* Sort teams according to their points */
-        usort($teams, function($a, $b) {
-            return $a->getPoints() < $b->getPoints();
-        });
-        
-        return $teams;
+        return $players
+            ->filter(function (UserSeasonPlayer $player) use ($team): bool {
+                return $player->getDriver()->getTeam()->getId() === $team->getId();
+            })
+            ->toArray();
     }
 }

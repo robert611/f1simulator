@@ -186,12 +186,12 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {% for i, team in teamsClassification %}
+                                                    {% for teamResult in teamsClassification.teamsSeasonResults %}
                                                         <tr>
-                                                            <td>{{ i + 1 }}</td>
-                                                            <td>{{ team.name }}</td>
-                                                            <td><img class="f1-car-picture" src="{{ asset('/assets/cars/'~team.picture) }}" /></td>
-                                                            <td>{{ team.points }}</td>
+                                                            <td>{{ teamResult.position }}</td>
+                                                            <td>{{ teamResult.team.name }}</td>
+                                                            <td><img class="f1-car-picture" src="{{ asset('/assets/cars/'~teamResult.team.picture) }}" alt="{{ teamResult.team.name }}"/></td>
+                                                            <td>{{ teamResult.points }}</td>
                                                         </tr>
                                                     {% endfor %}
                                                 </tbody>

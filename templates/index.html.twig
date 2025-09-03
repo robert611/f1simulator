@@ -157,7 +157,7 @@
                                             {% if currentDriverSeason %}
                                                 {% for teamResult in currentDriverSeason.teamsClassification.teamsSeasonResults %}
                                                     <tr>
-                                                        <td>{{ teamResult.position}}</td>
+                                                        <td>{{ teamResult.position }}</td>
                                                         <td>{{ teamResult.team.name }}</td>
                                                         <td><img alt="{{ teamResult.team.name }}-car" class="f1-car-picture" src="{{ asset('/assets/cars/'~teamResult.team.picture) }}" /></td>
                                                         <td>{{ teamResult.points }}</td>
