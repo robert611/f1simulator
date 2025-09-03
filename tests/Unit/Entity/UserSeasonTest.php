@@ -36,8 +36,8 @@ class UserSeasonTest extends TestCase
         $driver4 = Driver::create('Michael', 'Smith', $team2, 24);
         $driver5 = Driver::create('Greg', 'House', $team3, 31);
         $driver6 = Driver::create('John', 'Marcus', $team3, 50);
-        $driver7 = Driver::create('Thomas', 'Jackson', $team3, 50);
-        $driver8 = Driver::create('Taylor', 'Spears', $team3, 50);
+        $driver7 = Driver::create('Thomas', 'Jackson', $team4, 50);
+        $driver8 = Driver::create('Taylor', 'Spears', $team4, 50);
 
         // and given
         $team1->addDriver($driver1);

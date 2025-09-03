@@ -11,7 +11,7 @@ use App\Model\TeamsClassification;
 use App\Model\TeamSeasonResult;
 use Doctrine\Common\Collections\Collection;
 
-class LeagueTeamsClassification 
+class LeagueTeamsClassification
 {
     public function getClassification(UserSeason $league): TeamsClassification
     {

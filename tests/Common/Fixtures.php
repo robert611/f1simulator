@@ -13,6 +13,8 @@ use App\Entity\Track;
 use App\Entity\User;
 use App\Entity\UserSeason;
 use App\Entity\UserSeasonPlayer;
+use App\Entity\UserSeasonRace;
+use App\Entity\UserSeasonRaceResult;
 use Doctrine\ORM\EntityManagerInterface;
 
 class Fixtures
@@ -134,20 +136,44 @@ class Fixtures
         return $userSeason;
     }
 
-    public function aUserSeasonPlayer(UserSeason $userReason, User $user, Driver $driver): UserSeasonPlayer
+    public function aUserSeasonPlayer(UserSeason $userSeason, User $user, Driver $driver): UserSeasonPlayer
     {
         $userSeasonPlayer = UserSeasonPlayer::create(
-            $userReason,
+            $userSeason,
             $user,
             $driver,
         );
 
-        $userReason->addPlayer($userSeasonPlayer);
+        $userSeason->addPlayer($userSeasonPlayer);
 
         $this->entityManager->persist($userSeasonPlayer);
         $this->entityManager->flush();
 
         return $userSeasonPlayer;
+    }
+
+    public function aUserSeasonRace(Track $track, UserSeason $userSeason): UserSeasonRace
+    {
+        $userSeasonRace = UserSeasonRace::create($track, $userSeason);
+
+        $this->entityManager->persist($userSeasonRace);
+        $this->entityManager->flush();
+
+        return $userSeasonRace;
+    }
+
+    public function aUserSeasonRaceResult(
+        int $position,
+        int $points,
+        UserSeasonRace $race,
+        UserSeasonPlayer $player,
+    ): UserSeasonRaceResult {
+        $userSeasonRaceResult = UserSeasonRaceResult::create($position, $points, $race, $player);
+
+        $this->entityManager->persist($userSeasonRaceResult);
+        $this->entityManager->flush();
+
+        return $userSeasonRaceResult;
     }
 
     public function aTrack(string $name, string $picture): Track
