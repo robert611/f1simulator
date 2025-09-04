@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Repository\UserSeasonRacesRepository;
+use App\Repository\UserSeasonRaceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: UserSeasonRacesRepository::class)]
+#[ORM\Entity(repositoryClass: UserSeasonRaceRepository::class)]
 #[ORM\Table(name: 'user_season_race')]
 class UserSeasonRace
 {

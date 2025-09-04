@@ -12,7 +12,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method UserSeasonRace[]    findAll()
  * @method UserSeasonRace[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserSeasonRacesRepository extends ServiceEntityRepository
+class UserSeasonRaceRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

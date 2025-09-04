@@ -122,8 +122,8 @@ class UserSeasonController extends BaseController
 
         $classification = $this->leagueClassification->getClassificationBasedOnType(
             $season,
-            $raceId,
             $classificationType,
+            $raceId,
         );
 
         $teamsClassification = $this->leagueTeamsClassification->getClassification($season);
