@@ -9,7 +9,7 @@ use App\Tests\Common\Fixtures;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class DriverPointsTest extends KernelTestCase 
+class DriverPointsTest extends KernelTestCase
 {
     private Fixtures $fixtures;
 

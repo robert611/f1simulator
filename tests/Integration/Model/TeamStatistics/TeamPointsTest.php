@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
@@ -13,7 +13,7 @@ class TeamPointsTest extends KernelTestCase
 {
     private Fixtures $fixtures;
 
-    public function setUp(): void 
+    public function setUp(): void
     {
         $this->fixtures = self::getContainer()->get(Fixtures::class);
     }
