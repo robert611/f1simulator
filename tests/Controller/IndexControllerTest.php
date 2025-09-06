@@ -1,81 +1,67 @@
 <?php 
 
+declare(strict_types=1);
+
 namespace App\Tests\Controller;
 
+use App\Tests\Common\Fixtures;
+use PHPUnit\Framework\Attributes\DataProvider;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken;
-use Symfony\Component\BrowserKit\Cookie;
-use Symfony\Component\HttpFoundation\Response;
-use App\Entity\User;
 
 class IndexControllerTest extends WebTestCase
 {
-    public $client = null;
+    private KernelBrowser $client;
+    private Fixtures $fixtures;
 
     public function setUp(): void
     {
-        $this->client = static::createClient();
+        $this->client = self::createClient();
+        $this->fixtures = self::getContainer()->get(Fixtures::class);
     }
 
-    /**
-     * @dataProvider provideUrls
-     */
-    public function testIndex($url)
+    #[DataProvider('provideUrls')]
+    public function testIndex(string $url): void
     {
-        $this->logIn();
+        // given
+        $user = $this->fixtures->aUser();
+        $this->client->loginUser($user);
 
-        $this->client->request('GET', '/home');
+        // when
+        $this->client->request('GET', $url);
 
+        // then
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
     }
 
-    public function testIndexInCaseOfUnloggedUser()
+    #[DataProvider('provideUrls')]
+    public function testIndexInCaseOfUnloggedUser(string $url): void
     {
-        $this->client->request('GET', '/home');
+        $this->client->request('GET', $url);
 
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
     }
 
-    public function testRedirectToHome()
+    public function testRedirectToHome(): void
     {
-        $this->logIn();
+        // given
+        $user = $this->fixtures->aUser();
+        $this->client->loginUser($user);
 
+        // when
         $this->client->request('GET', '/');
 
+        // then
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
     }
 
-    public function provideUrls()
+    public static function provideUrls(): array
     {
         return [
             ['/home'],
-            ['/home/race'],
-            ['/home/drivers'],
-            ['home/qualifications'],
-            ['home/asdasdasd']
+            ['/home/RACE'],
+            ['/home/DRIVERS'],
+            ['/home/QUALIFICATIONS'],
         ];
-    }
-
-    private function logIn()
-    {
-        $session = self::$container->get('session');
-        $entityManager = self::$container->get('doctrine'); 
-
-        $user = $entityManager->getRepository(User::class)->findAll()[0];
-
-        $firewallName = 'main';
-        // if you don't define multiple connected firewalls, the context defaults to the firewall name
-        // See https://symfony.com/doc/current/reference/configuration/security.html#firewall-context
-        $firewallContext = 'guard_context';
-
-        // you may need to use a different token class depending on your application.
-        // for example, when using Guard authentication you must instantiate PostAuthenticationGuardToken
-        $token = new PostAuthenticationGuardToken($user, 'username', ['ROLE_USER']);
-        $session->set('_security_'.$firewallContext, serialize($token));
-        $session->save();
-
-        $cookie = new Cookie($session->getName(), $session->getId());
-        $this->client->getCookieJar()->set($cookie);
     }
 }

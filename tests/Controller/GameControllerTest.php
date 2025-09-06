@@ -68,7 +68,7 @@ class GameControllerTest extends WebTestCase
         // and then (User season was not created and is not in the database)
         self::assertEquals(0, $this->seasonRepository->count());
 
-        // and then (Flash message is set)
+        // and then (a Flash message is set)
         $errorFlashBags = $this->client->getRequest()->getSession()->getFlashBag()->get('error');
         self::assertCount(1, $errorFlashBags);
         self::assertEquals('Ten zespół nie posiada kierowców. Wybierz inny zespół.', $errorFlashBags[0]);
@@ -167,7 +167,7 @@ class GameControllerTest extends WebTestCase
     }
 
     #[DataProvider('provideUrls')]
-    public function testPagesInCaseOfUnloggedUser($url)
+    public function testPagesInCaseOfUnloggedUser(string $url): void
     {
         $this->client->request('GET', $url);
 
