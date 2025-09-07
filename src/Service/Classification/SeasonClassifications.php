@@ -5,6 +5,7 @@ namespace App\Service\Classification;
 use App\Entity\Driver;
 use App\Entity\Qualification;
 use App\Entity\Race;
+use App\Entity\Season;
 use App\Model\DriversClassification;
 use App\Repository\DriverRepository;
 use App\Service\DriverStatistics\DriverPoints;
@@ -12,41 +13,21 @@ use Doctrine\Common\Collections\Collection;
 
 class SeasonClassifications
 {
-    public object $season;
-    public $raceId;
-
     public function __construct(
        private readonly DriverRepository $driverRepository,
     ) {
     }
 
-    public function setEntryData(object $season, $raceId): void
-    {
-        $this->season = $season;
-        $this->raceId = $raceId;
-    }
-
-    public function getClassificationBasedOnType(ClassificationType $classificationType)
-    {
-        if (!$this->season) {
-            return $this->getDriversClassification();
-        }
-
-        switch ($classificationType) {
-            case ClassificationType::RACE:
-                $classification = $this->getRaceClassification(); // zwraca Driver[]
-                break;  
-            case ClassificationType::DRIVERS:
-                $classification = $this->getDriversClassification(); // zwraca Driver[]
-                break;
-            case ClassificationType::QUALIFICATIONS:
-                $classification = $this->getQualificationsClassification(); // zwraca Collection<Qualification>
-                break;
-            default: 
-                $classification = $this->getQualificationsClassification(); /* It matches the default option in html */
-        }
-
-        return $classification;
+    public function getClassificationBasedOnType(
+        Season $season,
+        ClassificationType $classificationType,
+        ?int $raceId,
+    ): Collection|array {
+        return match ($classificationType) {
+            ClassificationType::RACE => $this->getRaceClassification($season, $raceId),
+            ClassificationType::QUALIFICATIONS => $this->getQualificationsClassification($season, $raceId),
+            default => $this->getDriversClassification($season),
+        };
     }
 
     public function getDefaultDriversClassification(): DriversClassification
@@ -56,24 +37,24 @@ class SeasonClassifications
         return DriversClassification::createDefaultClassification($drivers);
     }
 
-    private function getDriversClassification(): array
+    private function getDriversClassification(Season $season): array
     {
         $drivers = $this->driverRepository->findAll();
 
         /* In default drivers have no assign points got in current season in database, so it has to be done here */
         foreach ($drivers as $driver) {
-            $points = DriverPoints::getDriverPoints($driver, $this->season);
+            $points = DriverPoints::getDriverPoints($driver, $season);
             $driver->setPoints($points);
         }
 
         return $this->setDriversPositions($drivers);
     }
 
-    private function getRaceClassification(): array
+    private function getRaceClassification(Season $season, ?int $raceId): array
     {
         $drivers = $this->driverRepository->findAll();
 
-        $race = $this->findRace($this->raceId);
+        $race = $this->findRace($season, $raceId);
 
         /* By default, drivers have no assigned points in a database, so it has to be done here */
         foreach ($drivers as $driver) {
@@ -81,28 +62,28 @@ class SeasonClassifications
             $driver->setPoints($points);
         }
 
-        return $this->setDriversPositions($this->drivers);
+        return $this->setDriversPositions($drivers);
     }
 
     /**
      * @return Collection<Qualification>
      */
-    private function getQualificationsClassification(): Collection
+    private function getQualificationsClassification(Season $season, ?int $raceId): Collection
     {
-        $race = $this->findRace($this->raceId);
+        $race = $this->findRace($season, $raceId);
 
         return $race->getQualifications();
     }
 
-    private function findRace($id): Race
+    private function findRace(Season $season, ?int $raceId): Race
     {
-        $race = $this->season->getRaces()->filter(function($race) use ($id) {
-            return $race->getId() == $id;
+        $race = $season->getRaces()->filter(function($race) use ($raceId) {
+            return $race->getId() == $raceId;
         })->first();
 
         /* If user typed un proper race id, it matches the default name in twig */
         if (!$race) {
-            $race = $this->season->getRaces()->first();
+            $race = $season->getRaces()->first();
         }
 
         return $race;
@@ -115,11 +96,11 @@ class SeasonClassifications
     private function setDriversPositions(array $drivers): array
     {
         /* Sort drivers according to possessed points */
-        usort ($drivers, function($a, $b) {
+        usort ($drivers, function(Driver $a, Driver $b) {
             return $a->getPoints() < $b->getPoints();
         });
 
-        foreach ($drivers as $key => &$driver) {
+        foreach ($drivers as $key => $driver) {
             $driver->setPosition($key + 1);
         }
 

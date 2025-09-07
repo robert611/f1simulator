@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Model\CurrentDriverSeason;
-use App\Repository\DriverRepository;
 use App\Repository\RaceRepository;
 use App\Repository\SeasonRepository;
 use App\Repository\TrackRepository;
@@ -19,7 +18,6 @@ class CurrentDriverSeasonService
     public function __construct(
         private readonly SeasonRepository $seasonRepository,
         private readonly TrackRepository $trackRepository,
-        private readonly DriverRepository $driverRepository,
         private readonly RaceRepository $raceRepository,
         private readonly SeasonClassifications $seasonClassifications,
         private readonly SeasonTeamsClassification $seasonTeamsClassification,
@@ -49,9 +47,11 @@ class CurrentDriverSeasonService
 
         $numberOfRacesInTheSeason = $this->trackRepository->count();
 
-        $this->seasonClassifications->setEntryData($season, $raceId);
-
-        $classification = $this->seasonClassifications->getClassificationBasedOnType($classificationType);
+        $classification = $this->seasonClassifications->getClassificationBasedOnType(
+            $season,
+            $classificationType,
+            $raceId,
+        );
 
         $teamsClassification = $this->seasonTeamsClassification->getClassification($userId);
 
