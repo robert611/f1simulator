@@ -24,7 +24,7 @@
 
                             <td>{{ driver.team.name }}</td>
                             <td><img alt="{{ driver.team.name }}-car" class="f1-car-picture" src="{{ asset('/assets/cars/'~driver.team.picture) }}"/></td>
-                            <td> {{ driver.points }} </td>
+                            <td>{{ driver.points }}</td>
                         </tr>
                     {% endfor %}
                 {% elseif defaultDriversClassification %}
@@ -37,7 +37,7 @@
                                 <img alt="{{ driverRaceResult.driver.team.name }}-car" class="f1-car-picture"
                                      src="{{ asset('/assets/cars/'~driverRaceResult.driver.team.picture) }}"/>
                             </td>
-                            <td> {{ driverRaceResult.points }} </td>
+                            <td>{{ driverRaceResult.points }}</td>
                         </tr>
                     {% endfor %}
                 {% endif %}
