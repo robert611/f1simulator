@@ -21,8 +21,9 @@ class IndexControllerTest extends WebTestCase
         $this->fixtures = self::getContainer()->get(Fixtures::class);
     }
 
+    #[Test]
     #[DataProvider('provideUrls')]
-    public function testIndex(string $url): void
+    public function it_checks_if_index_page_is_successful(string $url): void
     {
         // given
         $user = $this->fixtures->aUser();
@@ -32,7 +33,7 @@ class IndexControllerTest extends WebTestCase
         $this->client->request('GET', $url);
 
         // then
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        self::assertResponseIsSuccessful();
     }
 
     #[Test]
@@ -119,15 +120,17 @@ class IndexControllerTest extends WebTestCase
         $this->assertSelectorTextContains('body', $track6->getName());
     }
 
+    #[Test]
     #[DataProvider('provideUrls')]
-    public function testIndexInCaseOfUnloggedUser(string $url): void
+    public function it_checks_if_unlogged_user_will_be_redirected(string $url): void
     {
         $this->client->request('GET', $url);
 
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
     }
 
-    public function testRedirectToHome(): void
+    #[Test]
+    public function it_checks_if_empty_slash_will_redirect_to_homepage(): void
     {
         // given
         $user = $this->fixtures->aUser();
