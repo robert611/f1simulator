@@ -12,7 +12,6 @@ use App\Repository\TrackRepository;
 use App\Service\Classification\ClassificationType;
 use App\Service\Classification\SeasonClassifications;
 use App\Service\Classification\SeasonTeamsClassification;
-use App\Service\DriverStatistics\DriverPodiumsService;
 use App\Service\DriverStatistics\DriverPoints;
 
 class CurrentDriverSeasonService
@@ -42,8 +41,6 @@ class CurrentDriverSeasonService
 
         $driverPoints = DriverPoints::getDriverPoints($driver, $season);
 
-        $driverPodiums = DriverPodiumsService::getDriverPodiumsDTO($driver, $season);
-
         if ($season->getRaces()->last()) {
             $currentTrack = $this->trackRepository->getNextTrack($season->getRaces()->last()->getTrack()->getId());
         } else {
@@ -68,7 +65,7 @@ class CurrentDriverSeasonService
         return CurrentDriverSeason::create(
             $season,
             $driverPoints,
-            $driverPodiums,
+            $season->getDriverPodiumsDTO(),
             $currentTrack,
             $numberOfRacesInTheSeason,
             $classification,

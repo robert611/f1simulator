@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Model\DriverPodiumsDictionary;
+use App\Model\DriverPodiumsDTO;
 use App\Repository\SeasonRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -123,5 +125,34 @@ class Season
     public function endSeason(): void
     {
         $this->completed = true;
+    }
+
+    public function getDriverPodiumsDTO(): DriverPodiumsDTO
+    {
+        $races = $this->getRaces();
+
+        $podiumsTable = DriverPodiumsDictionary::getPodiumsTable();
+
+        foreach ($races as $race) {
+            $raceResultCollection = $this->driver->getRaceResults()->filter(function ($result) use ($race) {
+                return $result->getRace()->getId() === $race->getId();
+            });
+
+            if ($raceResultCollection->isEmpty()) {
+                continue;
+            }
+
+            $position = $raceResultCollection->first()->getPosition();
+
+            if ($position >= 1 && $position <= 3) {
+                $podiumsTable[$position] += 1;
+            }
+        }
+
+        return DriverPodiumsDTO::create(
+            $podiumsTable[1],
+            $podiumsTable[2],
+            $podiumsTable[3],
+        );
     }
 }

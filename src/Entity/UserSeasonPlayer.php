@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Model\DriverPodiumsDictionary;
 use App\Model\DriverPodiumsDTO;
 use App\Repository\UserSeasonPlayersRepository;
-use App\Service\DriverStatistics\DriverPodiumsService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -171,7 +171,7 @@ class UserSeasonPlayer
 
     public function getDriverPodiumsDTO(): DriverPodiumsDTO
     {
-        $podiumsTable = DriverPodiumsService::getPodiumsTable();
+        $podiumsTable = DriverPodiumsDictionary::getPodiumsTable();
 
         /** @var UserSeasonRaceResult[] $raceResults */
         $raceResults = $this->getRaceResults()->toArray();
