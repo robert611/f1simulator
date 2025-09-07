@@ -49,9 +49,7 @@ class CurrentDriverSeasonService
 
         $numberOfRacesInTheSeason = $this->trackRepository->count();
 
-        $drivers = $this->driverRepository->findAll();
-
-        $this->seasonClassifications->setEntryData($drivers, $season, $raceId);
+        $this->seasonClassifications->setEntryData($season, $raceId);
 
         $classification = $this->seasonClassifications->getClassificationBasedOnType($classificationType);
 

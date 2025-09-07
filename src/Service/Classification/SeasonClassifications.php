@@ -10,10 +10,8 @@ use App\Repository\DriverRepository;
 use App\Service\DriverStatistics\DriverPoints;
 use Doctrine\Common\Collections\Collection;
 
-class SeasonClassifications 
+class SeasonClassifications
 {
-    /** @var Driver[] $drivers */
-    public array $drivers;
     public object $season;
     public $raceId;
 
@@ -22,12 +20,8 @@ class SeasonClassifications
     ) {
     }
 
-    /**
-     * @param Driver[] $drivers
-     */
-    public function setEntryData(array $drivers, object $season, $raceId): void
+    public function setEntryData(object $season, $raceId): void
     {
-        $this->drivers = $drivers;
         $this->season = $season;
         $this->raceId = $raceId;
     }
@@ -62,23 +56,27 @@ class SeasonClassifications
         return DriversClassification::createDefaultClassification($drivers);
     }
 
-    private function getDriversClassification()
+    private function getDriversClassification(): array
     {
+        $drivers = $this->driverRepository->findAll();
+
         /* In default drivers have no assign points got in current season in database, so it has to be done here */
-        foreach ($this->drivers as $driver) {
+        foreach ($drivers as $driver) {
             $points = DriverPoints::getDriverPoints($driver, $this->season);
             $driver->setPoints($points);
         }
 
-        return $this->setDriversPositions($this->drivers);
+        return $this->setDriversPositions($drivers);
     }
 
     private function getRaceClassification(): array
     {
+        $drivers = $this->driverRepository->findAll();
+
         $race = $this->findRace($this->raceId);
 
         /* By default, drivers have no assigned points in a database, so it has to be done here */
-        foreach ($this->drivers as $driver) {
+        foreach ($drivers as $driver) {
             $points = DriverPoints::getDriverPointsByRace($driver, $race);
             $driver->setPoints($points);
         }
