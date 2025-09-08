@@ -7,6 +7,7 @@ namespace App\Service\Classification;
 use App\Entity\Driver;
 use App\Entity\Qualification;
 use App\Entity\Season;
+use App\Model\DriverRaceResult;
 use App\Model\DriversClassification;
 use App\Repository\DriverRepository;
 use App\Repository\RaceRepository;
@@ -25,7 +26,7 @@ class SeasonClassifications
         Season $season,
         ClassificationType $classificationType,
         ?int $raceId,
-    ): Collection|array {
+    ): Collection|array|DriversClassification {
         return match ($classificationType) {
             ClassificationType::RACE => $this->getRaceClassification($season, $raceId),
             ClassificationType::QUALIFICATIONS => $this->getQualificationsClassification($season, $raceId),
@@ -40,17 +41,21 @@ class SeasonClassifications
         return DriversClassification::createDefaultClassification($drivers);
     }
 
-    private function getDriversClassification(Season $season): array
+    private function getDriversClassification(Season $season): DriversClassification
     {
+        // @todo, write test for this function
         $drivers = $this->driverRepository->findAll();
 
-        /* In default drivers have no assign points got in current season in database, so it has to be done here */
+        $driverRaceResults = [];
+
         foreach ($drivers as $driver) {
             $points = DriverPoints::getDriverPoints($driver, $season);
-            $driver->setPoints($points);
+            $driverRaceResults[] = DriverRaceResult::create($driver, $points, 0);
         }
 
-        return $this->setDriversPositions($drivers);
+        $driverRaceResults = DriverRaceResult::calculatePositions($driverRaceResults);
+
+        return DriversClassification::create($driverRaceResults);
     }
 
     private function getRaceClassification(Season $season, int $raceId): array

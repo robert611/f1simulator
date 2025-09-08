@@ -29,10 +29,16 @@ class IndexController extends BaseController
     ): Response {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        $raceId = $request->query->get('raceId');
+
+        if (is_numeric($raceId)) {
+            $raceId = (int) $raceId;
+        }
+
         $currentDriverSeason = $this->currentDriverSeasonService->buildCurrentDriverSeasonData(
             $this->getUser()->getId(),
             $classificationType,
-            $request->query->get('raceId'),
+            $raceId,
         );
 
         if (null === $currentDriverSeason) {

@@ -36,4 +36,26 @@ class DriverRaceResult
 
         return $driverRaceResult;
     }
+
+    public function overwritePosition($position): void
+    {
+        $this->position = $position;
+    }
+
+    /**
+     * @param DriverRaceResult[] $driverRaceResults
+     * @return DriverRaceResult[]
+     */
+    public static function calculatePositions(array $driverRaceResults): array
+    {
+        usort($driverRaceResults, function (DriverRaceResult $a, DriverRaceResult $b) {
+            return $b->getPoints() <=> $a->getPoints();
+        });
+
+        foreach ($driverRaceResults as $index => $driverRaceResult) {
+            $driverRaceResult->overwritePosition($index + 1);
+        }
+
+        return $driverRaceResults;
+    }
 }

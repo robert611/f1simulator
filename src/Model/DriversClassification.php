@@ -41,4 +41,15 @@ class DriversClassification
 
         return $driversClassification;
     }
+
+    /**
+     * @param DriverRaceResult[] $driverRaceResults
+     */
+    public static function create(array $driverRaceResults): self
+    {
+        $driversClassification = new self();
+        $driversClassification->driversRaceResults = $driverRaceResults;
+
+        return $driversClassification;
+    }
 }

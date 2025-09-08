@@ -27,7 +27,7 @@ class CurrentDriverSeasonService
     public function buildCurrentDriverSeasonData(
         int $userId,
         ClassificationType $classificationType,
-        null|string|int $raceId,
+        ?int $raceId,
     ): ?CurrentDriverSeason {
         $season = $this->seasonRepository->findOneBy(['user' => $userId, 'completed' => 0]);
 

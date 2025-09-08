@@ -12,19 +12,19 @@
             </thead>
             <tbody>
                 {% if currentDriverSeason %}
-                    {% for driver in currentDriverSeason.classification %}
-                        <tr class={{ currentDriverSeason.season and currentDriverSeason.season.driver == driver ? 'highlight-driver'}}>
-                            <td>{{ driver.position }}</td>
+                    {% for driverRaceResult in currentDriverSeason.classification.driversRaceResults %}
+                        <tr class={{ currentDriverSeason.season and currentDriverSeason.season.driver == driverRaceResult.driver ? 'highlight-driver'}}>
+                            <td>{{ driverRaceResult.position }}</td>
 
-                            {% if currentDriverSeason.season and currentDriverSeason.season.driver == driver %}
+                            {% if currentDriverSeason.season and currentDriverSeason.season.driver == driverRaceResult.driver %}
                                 <td>{{ currentDriverSeason.season.user.username }}</td>
                             {% else %}
-                                <td>{{ driver.fullName }}</td>
+                                <td>{{ driverRaceResult.driver.fullName }}</td>
                             {% endif %}
 
-                            <td>{{ driver.team.name }}</td>
-                            <td><img alt="{{ driver.team.name }}-car" class="f1-car-picture" src="{{ asset('/assets/cars/'~driver.team.picture) }}"/></td>
-                            <td>{{ driver.points }}</td>
+                            <td>{{ driverRaceResult.driver.team.name }}</td>
+                            <td><img alt="{{ driverRaceResult.driver.team.name }}-car" class="f1-car-picture" src="{{ asset('/assets/cars/'~driverRaceResult.driver.team.picture) }}"/></td>
+                            <td>{{ driverRaceResult.points }}</td>
                         </tr>
                     {% endfor %}
                 {% elseif defaultDriversClassification %}
