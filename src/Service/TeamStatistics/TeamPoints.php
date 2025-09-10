@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
@@ -8,7 +8,7 @@ use App\Entity\Season;
 use App\Entity\Team;
 use App\Service\DriverStatistics\DriverPoints;
 
-class TeamPoints 
+class TeamPoints
 {
     public static function getTeamPoints(Team $team, Season $season): int
     {

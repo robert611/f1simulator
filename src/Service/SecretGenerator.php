@@ -1,8 +1,8 @@
-<?php 
+<?php
 
 namespace App\Service;
 
-class SecretGenerator 
+class SecretGenerator
 {
     public function getSecret(): string
     {

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Service\GameSimulation;
 
@@ -16,7 +16,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class SimulateRaceService
 {
-    /* Every team has it's strength which says how competitive team is, multiplier multiplies the strength of the teams by some value to make differences between them grater */
+    /* Every team has it's strength which says how competitive team is, multiplier multiplies the strength of the teams
+     by some value to make differences between them grater */
     public int $multiplier = 3;
 
     public function __construct(
@@ -104,7 +105,7 @@ class SimulateRaceService
         for ($i = 1; $i <= count($drivers); $i++) {
             do {
                 $driverId = $coupons[rand(0, count($coupons) - 1)];
-            } while(in_array($driverId, $results));
+            } while (in_array($driverId, $results));
 
             $results[$i] = $driverId;
         }
@@ -118,7 +119,7 @@ class SimulateRaceService
     public function getCoupons(array $qualificationsResults): array
     {
         $teams = TeamsStrength::getTeamsStrength();
-        $qualificationResultAdvantage = (new QualificationAdvantage)->getQualificationResultAdvantage();
+        $qualificationResultAdvantage = (new QualificationAdvantage())->getQualificationResultAdvantage();
 
         $coupons = [];
         $driversStrength = [];
@@ -136,10 +137,8 @@ class SimulateRaceService
         /* Mercedes is the strongest team, and the first index contains the driver who won qualifications */
         $highestPossibleStrength = ceil($teams['Mercedes'] + $qualificationResultAdvantage[1]);
 
-        for ($i = 1; $i <= $this->multiplier; $i++)
-        {
-            for ($j = 1; $j <= $highestPossibleStrength; $j++)
-            {
+        for ($i = 1; $i <= $this->multiplier; $i++) {
+            for ($j = 1; $j <= $highestPossibleStrength; $j++) {
                 foreach ($driversStrength as $driverId => $driverStrength) {
                     if ($j <= $driverStrength) {
                         $coupons[] = $driverId;
