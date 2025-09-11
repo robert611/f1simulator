@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Tests\Integration\Model\GameSimulation;
 
@@ -31,7 +31,7 @@ class SimulateRaceTest extends KernelTestCase
             ->getManager();
 
         $this->drivers = $this->entityManager->getRepository(Driver::class)->findAll();
-        $this->teams = $this->entityManager->getRepository(Team::class)->findAll();     
+        $this->teams = $this->entityManager->getRepository(Team::class)->findAll();
 
         $this->simulateRace = self::getContainer()->get(SimulateRaceService::class);
         $this->simulateQualifications = self::getContainer()->get(SimulateQualifications::class);
@@ -51,13 +51,14 @@ class SimulateRaceTest extends KernelTestCase
         }
     }
 
-    /* Coupons contain driverId, so although most of the code is similar to the one in getCoupons() method there always may be a problem with filling data */
+    /* Coupons contain driverId, so although most of the code is similar to the one in getCoupons()
+       method there always may be a problem with filling data */
     public function test_if_get_coupons_returns_correct_amount_of_coupons()
     {
         $expectedCoupons = 0;
 
         $teamsStrength = TeamsStrength::getTeamsStrength();
-        $qualificationResultAdvantage = (new QualificationAdvantage)->getQualificationResultAdvantage();
+        $qualificationResultAdvantage = (new QualificationAdvantage())->getQualificationResultAdvantage();
 
         /* Calculate Strength Of Drivers */
         foreach ($this->qualificationsResults as $position => $driver) {
@@ -73,14 +74,16 @@ class SimulateRaceTest extends KernelTestCase
 
         $this->assertEquals($expectedCoupons, count($this->simulateRace->getCoupons($this->qualificationsResults)));
     }
-    
-    public function getDriversOfTeamInResults($team, $results)
+
+    public function getDriversOfTeamInResults($team, $results): array
     {
         $drivers = array();
 
         foreach ($results as $driverId) {
             $driver = $this->entityManager->getRepository(Driver::class)->find($driverId);
-            if($driver->getTeam()->getId() == $team->getId()) $drivers[] = $driver;
+            if ($driver->getTeam()->getId() == $team->getId()) {
+                $drivers[] = $driver;
+            }
         }
 
         return $drivers;

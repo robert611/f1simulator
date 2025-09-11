@@ -103,6 +103,6 @@ class SeasonTest extends TestCase
         // then
         self::assertEquals(1, $driverPodiumsDTO->getFirstPlacePodiums());
         self::assertEquals(2, $driverPodiumsDTO->getSecondPlacePodiums());
-        self::assertEquals(1, $driverPodiumsDTO->getThirdPlacePodiums());;
+        self::assertEquals(1, $driverPodiumsDTO->getThirdPlacePodiums());
     }
 }

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Tests\Integration\Model\GameSimulation;
 
@@ -8,12 +8,11 @@ use App\Service\GameSimulation\SimulateLeagueRace;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-
 class SimulateLeagueRaceTest extends KernelTestCase
 {
     private EntityManagerInterface $entityManager;
     private SimulateLeagueRace $simulateLeagueRace;
-    
+
     public function setUp(): void
     {
         $kernel = self::bootKernel();

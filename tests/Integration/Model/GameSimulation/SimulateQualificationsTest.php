@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Tests\Integration\Model\GameSimulation;
 
@@ -27,7 +27,7 @@ class SimulateQualificationsTest extends KernelTestCase
             ->getManager();
 
         $this->drivers = $this->entityManager->getRepository(Driver::class)->findAll();
-        $this->teams = $this->entityManager->getRepository(Team::class)->findAll();     
+        $this->teams = $this->entityManager->getRepository(Team::class)->findAll();
 
         $this->simulateQualifications = self::getContainer()->get(SimulateQualifications::class);
     }
@@ -46,7 +46,8 @@ class SimulateQualificationsTest extends KernelTestCase
         }
     }
 
-    /* Coupons contain teamName, so altough most of the code is similar to the one in getCoupons() method there always may be a problem with filling data */
+    /* Coupons contain teamName, so altough most of the code is similar to the one in getCoupons()
+     method there always may be a problem with filling data */
     public function test_if_get_coupons_returns_correct_amount_of_coupons()
     {
         $expectedCoupons = 0;
@@ -75,19 +76,24 @@ class SimulateQualificationsTest extends KernelTestCase
     {
         $teamName = $this->teams[0]->getName();
 
-        $checkTrue = $this->simulateQualifications->checkIfBothDriversFromTeamAlreadyFinished($teamName, $this->drivers);
+        $checkTrue = $this->simulateQualifications->checkIfBothDriversFromTeamAlreadyFinished(
+            $teamName,
+            $this->drivers,
+        );
         $checkFalse = $this->simulateQualifications->checkIfBothDriversFromTeamAlreadyFinished($teamName, []);
 
         $this->assertTrue($checkTrue);
         $this->assertFalse($checkFalse);
     }
-    
+
     public function getDriversOfTeamInResults($team, $results)
     {
         $drivers = array();
 
         foreach ($results as $result) {
-            if($result->getTeam()->getId() == $team->getId()) $drivers[] = $result;
+            if ($result->getTeam()->getId() == $team->getId()) {
+                $drivers[] = $result;
+            }
         }
 
         return $drivers;
