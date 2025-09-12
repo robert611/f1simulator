@@ -65,7 +65,7 @@ class UserSeasonController extends BaseController
 
             $player = new UserSeasonPlayer();
             $player->setUser($this->getUser());
-            $player->setDriver((new DrawDriverToReplace)->getDriverToReplaceInUserLeague($drivers, $userSeason));
+            $player->setDriver((new DrawDriverToReplace())->getDriverToReplaceInUserLeague($drivers, $userSeason));
             $player->setSeason($userSeason);
     
             $this->entityManager->persist($userSeason);
@@ -127,7 +127,7 @@ class UserSeasonController extends BaseController
         );
 
         $teamsClassification = $this->leagueTeamsClassification->getClassification($season);
-        
+
         return $this->render('league/show_league.html.twig', [
             'league' => $season,
             'player' => $player,

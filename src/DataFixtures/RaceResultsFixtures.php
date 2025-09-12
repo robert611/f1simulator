@@ -31,8 +31,8 @@ class RaceResultsFixtures extends Fixture implements DependentFixtureInterface
 
     public function getDependencies(): array
     {
-        return array(
-            RaceFixtures::class
-        );
+        return [
+            RaceFixtures::class,
+        ];
     }
 }

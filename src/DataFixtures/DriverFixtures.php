@@ -20,7 +20,7 @@ class DriverFixtures extends Fixture implements DependentFixtureInterface
             $team = $this->getReference($data['team'], Team::class);
 
             $driver = Driver::create($data['name'], $data['surname'], $team, $data['car_number']);
-           
+
             $manager->persist($driver);
             $manager->flush();
 

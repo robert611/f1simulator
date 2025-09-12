@@ -24,7 +24,7 @@ class QualificationFixtures extends Fixture implements DependentFixtureInterface
                 $qualification->setPosition($j);
 
                 $manager->persist($qualification);
-                $manager->flush(); 
+                $manager->flush();
             }
         }
     }

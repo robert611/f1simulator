@@ -16,7 +16,7 @@ class UserSeasonPlayersFixtures extends Fixture implements DependentFixtureInter
 {
     public function load(ObjectManager $manager): void
     {
-        $players = $this->getPlayers(); 
+        $players = $this->getPlayers();
 
         foreach ($players as $key => $data) {
             $season = $this->getReference('userSeason.' . $data['season_id'], UserSeason::class);

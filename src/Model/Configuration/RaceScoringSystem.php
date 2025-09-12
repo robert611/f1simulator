@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
@@ -10,7 +10,7 @@ class RaceScoringSystem
     {
         return [
             '1' => 25,
-            '2' => 18, 
+            '2' => 18,
             '3' => 15,
             '4' => 12,
             '5' => 10,
@@ -26,7 +26,7 @@ class RaceScoringSystem
             '15' => 0,
             '16' => 0,
             '17' => 0,
-            '18' => 0, 
+            '18' => 0,
             '19' => 0,
             '20' => 0,
         ];

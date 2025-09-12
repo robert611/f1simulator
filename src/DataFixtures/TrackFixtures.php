@@ -27,12 +27,12 @@ class TrackFixtures extends Fixture
     public function getTracks(): array
     {
         return [
-            ['name' => "Australian Grand Prix", 'picture' => "australia.png"], 
-            ['name' => "Bahrain Grand Prix", 'picture' => "bahrain.png"], 
-            ['name' => "China Grand Prix", 'picture' => "chinese.png"], 
-            ['name' => "Azerbaijan Grand Prix", 'picture' => "azerbaijan.png"], 
-            ['name' => "Spain Grand Prix", 'picture' => "spanish.png"], 
-            ['name' => "Monaco Grand Prix", 'picture' => "monaco.png"]
+            ['name' => "Australian Grand Prix", 'picture' => "australia.png"],
+            ['name' => "Bahrain Grand Prix", 'picture' => "bahrain.png"],
+            ['name' => "China Grand Prix", 'picture' => "chinese.png"],
+            ['name' => "Azerbaijan Grand Prix", 'picture' => "azerbaijan.png"],
+            ['name' => "Spain Grand Prix", 'picture' => "spanish.png"],
+            ['name' => "Monaco Grand Prix", 'picture' => "monaco.png"],
         ];
     }
 }

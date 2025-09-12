@@ -15,11 +15,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 class LeagueVoter extends Voter
 {
-    const START = 'START';
-    const END = 'END';
-    const JOIN = 'JOIN';
-    const SHOW_SEASON = 'SHOW_SEASON';
-    const SIMULATE_RACE = 'SIMULATE_RACE';
+    public const START = 'START';
+    public const END = 'END';
+    public const JOIN = 'JOIN';
+    public const SHOW_SEASON = 'SHOW_SEASON';
+    public const SIMULATE_RACE = 'SIMULATE_RACE';
 
     public function __construct(
         private readonly TrackRepository $trackRepository,
@@ -70,7 +70,7 @@ class LeagueVoter extends Voter
         $enoughPlayers = $league->getPlayers()->count() >= UserSeason::MINIMUM_PLAYERS;
 
         if (false === $enoughPlayers) {
-            (new Session)->getFlashBag()->add('warning', 'Do rozpoczęcia ligi potrzebujesz przynajmniej dwóch użytkowników.');
+            (new Session())->getFlashBag()->add('warning', 'Do rozpoczęcia ligi potrzebujesz przynajmniej dwóch użytkowników.');
         }
 
         return $enoughPlayers;
@@ -84,12 +84,12 @@ class LeagueVoter extends Voter
     public function canShow(UserSeason $league, User $user): bool
     {
         /* This function checks if race, which results should be displayed in a page belongs to that league */
-        if(!$this->doesRaceBelongToLeague($league)) {
+        if (!$this->doesRaceBelongToLeague($league)) {
             return false;
         }
 
         /* To see given league, $user has to be on of the players */
-        $isPlayer = $league->getPlayers()->filter(function($player) use ($user) {
+        $isPlayer = $league->getPlayers()->filter(function ($player) use ($user) {
             return $player->getUser() == $user;
         });
 
@@ -120,7 +120,7 @@ class LeagueVoter extends Voter
         }
 
         if ($league->getRaces()->count() >= $this->trackRepository->count()) {
-            (new Session)->getFlashBag()->add('warning', 'Wszystkie wyścigi zostały już rozegrane.');
+            (new Session())->getFlashBag()->add('warning', 'Wszystkie wyścigi zostały już rozegrane.');
 
             return false;
         }
@@ -131,7 +131,7 @@ class LeagueVoter extends Voter
     private function isALeagueOwner(UserSeason $league, User $user): bool
     {
         if ($user !== $league->getOwner()) {
-            (new Session)->getFlashBag()->add('warning', 'Nie możesz wykonać tej operacji, ponieważ nie jesteś założycielem tej ligi.');
+            (new Sessio())->getFlashBag()->add('warning', 'Nie możesz wykonać tej operacji, ponieważ nie jesteś założycielem tej ligi.');
 
             return false;
         }
@@ -142,7 +142,7 @@ class LeagueVoter extends Voter
     private function leagueExists(?UserSeason $league): bool
     {
         if (null === $league) {
-            (new Session)->getFlashBag()->add('warning', 'Nie istnieje liga o takim kluczu.');
+            (new Session())->getFlashBag()->add('warning', 'Nie istnieje liga o takim kluczu.');
 
             return false;
         }
@@ -159,7 +159,7 @@ class LeagueVoter extends Voter
         $access = $alreadyIn->count() > 0;
 
         if ($access) {
-            (new Session)->getFlashBag()->add('warning', 'Należysz już do: '. $league->getName());
+            (new Session())->getFlashBag()->add('warning', 'Należysz już do: '. $league->getName());
         }
 
         return $access;
@@ -170,7 +170,7 @@ class LeagueVoter extends Voter
         $reached = count($league->getPlayers()) >= $league->getMaxPlayers();
 
         if ($reached) {
-            (new Session)->getFlashBag()->add('warning', 'Ta liga osiągnęła swoją maksymalną liczbę graczy');
+            (new Session())->getFlashBag()->add('warning', 'Ta liga osiągnęła swoją maksymalną liczbę graczy');
         }
         
         return $reached;
@@ -190,7 +190,7 @@ class LeagueVoter extends Voter
 
         $belongs = false;
 
-        $league->getRaces()->map(function($race) use (&$belongs, $raceId) {
+        $league->getRaces()->map(function ($race) use (&$belongs, $raceId) {
             if ($race->getId() === (int) $raceId) {
                 $belongs = true;
             }

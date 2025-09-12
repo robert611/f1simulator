@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
@@ -10,7 +10,7 @@ use App\Repository\UserSeasonRaceRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 
-class LeagueClassifications 
+class LeagueClassifications
 {
     public function __construct(
         private readonly UserSeasonRaceRepository $userSeasonRaceRepository,
@@ -23,7 +23,7 @@ class LeagueClassifications
         /** @var UserSeasonPlayer[] $leaguePlayers */
         $leaguePlayers = $league->getPlayers()->toArray();
 
-        usort($leaguePlayers, function(UserSeasonPlayer $a, UserSeasonPlayer $b) {
+        usort($leaguePlayers, function (UserSeasonPlayer $a, UserSeasonPlayer $b) {
             return $b->getPoints() <=> $a->getPoints();
         });
 
@@ -66,7 +66,7 @@ class LeagueClassifications
         $players = $league->getPlayers()->toArray();
 
         /* Sort drivers according to possessed points */
-        usort($players, function(UserSeasonPlayer $a, UserSeasonPlayer $b) {
+        usort($players, function (UserSeasonPlayer $a, UserSeasonPlayer $b) {
             return $a->getPoints() < $b->getPoints();
         });
 

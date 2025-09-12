@@ -15,7 +15,7 @@ class UserSeasonRacesFixtures extends Fixture implements DependentFixtureInterfa
 {
     public function load(ObjectManager $manager): void
     {
-        $races = $this->getRaces(); 
+        $races = $this->getRaces();
 
         foreach ($races as $key => $data) {
             $track = $this->getReference('track.' . $data['track_id'], Track::class);

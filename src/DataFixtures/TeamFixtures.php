@@ -27,7 +27,7 @@ class TeamFixtures extends Fixture
 
         foreach ($teams as $data) {
             $team = Team::create($data['name'], $data['picture']);
-            
+
             $manager->persist($team);
             $manager->flush();
 
