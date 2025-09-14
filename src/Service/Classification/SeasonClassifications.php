@@ -41,9 +41,8 @@ class SeasonClassifications
         return DriversClassification::createDefaultClassification($drivers);
     }
 
-    private function getDriversClassification(Season $season): DriversClassification
+    public function getDriversClassification(Season $season): DriversClassification
     {
-        // @todo, write test for this function
         $drivers = $this->driverRepository->findAll();
 
         $driverRaceResults = [];
