@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Integration\Model\DriverStatistics;
+namespace App\Tests\Integration\Service\DriverStatistics;
 
 use App\Service\DriverStatistics\DriverPoints;
 use App\Tests\Common\Fixtures;

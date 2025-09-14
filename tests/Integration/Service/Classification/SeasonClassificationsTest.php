@@ -1,6 +1,8 @@
 <?php 
 
-namespace App\Tests\Integration\Model\Classification;
+declare(strict_types=1);
+
+namespace App\Tests\Integration\Service\Classification;
 
 use App\Entity\Driver;
 use App\Entity\Qualification;

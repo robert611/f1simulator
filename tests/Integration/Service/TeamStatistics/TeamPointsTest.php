@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Integration\Model\TeamStatistics;
+namespace App\Tests\Integration\Service\TeamStatistics;
 
 use App\Service\TeamStatistics\TeamPoints;
 use App\Tests\Common\Fixtures;

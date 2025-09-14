@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Integration\Model\Classification;
+namespace App\Tests\Integration\Service\Classification;
 
 use App\Service\Classification\SeasonTeamsClassification;
 use App\Tests\Common\Fixtures;
