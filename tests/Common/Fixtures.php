@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Common;
 
 use App\Entity\Driver;
+use App\Entity\Qualification;
 use App\Entity\Race;
 use App\Entity\RaceResult;
 use App\Entity\Season;
@@ -209,5 +210,17 @@ class Fixtures
         $this->entityManager->flush();
 
         return $raceResult;
+    }
+
+    public function aQualification(Driver $driver, Race $race, int $position): Qualification
+    {
+        $qualification = Qualification::Create($driver, $race, $position);
+
+        $race->addQualification($qualification);
+
+        $this->entityManager->persist($qualification);
+        $this->entityManager->flush();
+
+        return $qualification;
     }
 }

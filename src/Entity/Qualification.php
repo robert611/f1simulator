@@ -61,4 +61,14 @@ class Qualification
     {
         $this->position = $position;
     }
+
+    public static function create(Driver $driver, Race $race, int $position): self
+    {
+        $qualification = new self();
+        $qualification->driver = $driver;
+        $qualification->race = $race;
+        $qualification->position = $position;
+
+        return $qualification;
+    }
 }
