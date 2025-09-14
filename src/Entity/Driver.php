@@ -37,10 +37,6 @@ class Driver
     #[ORM\OneToMany(targetEntity: RaceResult::class, mappedBy: 'driver')]
     private Collection $raceResults;
 
-    public int $points;
-
-    public int $position;
-
     public function __construct()
     {
         $this->raceResults = new ArrayCollection();
@@ -95,26 +91,6 @@ class Driver
     public function setCarNumber(int $carNumber): void
     {
         $this->carNumber = $carNumber;
-    }
-
-    public function getPoints(): int
-    {
-        return $this->points ?: 0;
-    }
-
-    public function setPoints(int $points): void
-    {
-        $this->points = $points;
-    }
-
-    public function getPosition(): int
-    {
-        return $this->position ?: 0;
-    }
-
-    public function setPosition(int $position): void
-    {
-        $this->position = $position;
     }
 
     /**

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service\Classification;
 
-use App\Entity\Driver;
 use App\Entity\Qualification;
 use App\Entity\Season;
 use App\Model\DriverRaceResult;
@@ -26,7 +25,7 @@ class SeasonClassifications
         Season $season,
         ClassificationType $classificationType,
         ?int $raceId,
-    ): Collection|array|DriversClassification {
+    ): Collection|DriversClassification {
         return match ($classificationType) {
             ClassificationType::RACE => $this->getRaceClassification($season, $raceId),
             ClassificationType::QUALIFICATIONS => $this->getQualificationsClassification($season, $raceId),
@@ -57,19 +56,22 @@ class SeasonClassifications
         return DriversClassification::create($driverRaceResults);
     }
 
-    private function getRaceClassification(Season $season, int $raceId): array
+    private function getRaceClassification(Season $season, int $raceId): DriversClassification
     {
         $drivers = $this->driverRepository->findAll();
 
         $race = $this->raceRepository->findOneBy(['id' => $raceId, 'season' => $season]);
 
-        /* By default, drivers have no assigned points in a database, so it has to be done here */
+        $driverRaceResults = [];
+
         foreach ($drivers as $driver) {
             $points = DriverPoints::getDriverPointsByRace($driver, $race);
-            $driver->setPoints($points);
+            $driverRaceResults[] = DriverRaceResult::create($driver, $points, 0);
         }
 
-        return $this->setDriversPositions($drivers);
+        $driverRaceResults = DriverRaceResult::calculatePositions($driverRaceResults);
+
+        return DriversClassification::create($driverRaceResults);
     }
 
     /**
@@ -80,23 +82,5 @@ class SeasonClassifications
         $race = $this->raceRepository->findOneBy(['id' => $raceId, 'season' => $season]);
 
         return $race->getQualifications();
-    }
-
-    /**
-     * @param Driver[] $drivers
-     * @return Driver[]
-     */
-    private function setDriversPositions(array $drivers): array
-    {
-        /* Sort drivers according to possessed points */
-        usort($drivers, function (Driver $a, Driver $b) {
-            return $a->getPoints() < $b->getPoints();
-        });
-
-        foreach ($drivers as $key => $driver) {
-            $driver->setPosition($key + 1);
-        }
-
-        return $drivers;
     }
 }
