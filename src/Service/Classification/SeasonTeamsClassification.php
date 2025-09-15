@@ -10,7 +10,7 @@ use App\Repository\SeasonRepository;
 use App\Repository\TeamRepository;
 use App\Service\TeamStatistics\TeamPoints;
 
-class SeasonTeamsClassification 
+class SeasonTeamsClassification
 {
     public function __construct(
         private readonly TeamRepository $teamRepository,

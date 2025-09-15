@@ -3,10 +3,8 @@
 namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken;
 use Symfony\Component\BrowserKit\Cookie;
-use Symfony\Component\HttpFoundation\Response;
 use App\Entity\User;
 
 class RegisterControllerTest extends WebTestCase
@@ -50,7 +48,7 @@ class RegisterControllerTest extends WebTestCase
     private function logIn()
     {
         $session = self::$container->get('session');
-        $entityManager = self::$container->get('doctrine'); 
+        $entityManager = self::$container->get('doctrine');
 
         $user = $entityManager->getRepository(User::class)->findAll()[0];
 
@@ -62,7 +60,7 @@ class RegisterControllerTest extends WebTestCase
         // you may need to use a different token class depending on your application.
         // for example, when using Guard authentication you must instantiate PostAuthenticationGuardToken
         $token = new PostAuthenticationGuardToken($user, 'username', ['ROLE_USER']);
-        $session->set('_security_'.$firewallContext, serialize($token));
+        $session->set('_security_' . $firewallContext, serialize($token));
         $session->save();
 
         $cookie = new Cookie($session->getName(), $session->getId());

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
@@ -107,7 +107,7 @@ class LeagueClassificationsTest extends KernelTestCase
     public function test_if_can_get_race_classification(): void
     {
         $classification = $this->leagueClassifications->getClassificationBasedOnType('race');
-       
+
         foreach ($classification as $key => $result) {
             $this->assertTrue($result instanceof UserSeasonRaceResult);
             $this->assertTrue($result->getPoints() > 0);
@@ -118,16 +118,15 @@ class LeagueClassificationsTest extends KernelTestCase
     public function test_if_can_get_players_classification(): void
     {
         $classification = $this->leagueClassifications->getClassificationBasedOnType('players');
-        
+
         $this->assertTrue($classification[0] instanceof UserSeasonPlayer);
         $this->assertTrue($classification[0]->getPoints() > 0);
-
     }
 
     public function test_if_can_get_qualifications_classification(): void
     {
         $classification = $this->leagueClassifications->getClassificationBasedOnType('qualifications');
-        
+
         $this->assertTrue($classification[0] instanceof UserSeasonQualification);
     }
 

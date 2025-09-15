@@ -1,11 +1,10 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
 namespace App\Tests\Integration\Service\Classification;
 
 use App\Entity\Qualification;
-use App\Model\Configuration\RaceScoringSystem;
 use App\Model\DriversClassification;
 use App\Service\Classification\ClassificationType;
 use App\Service\Classification\SeasonClassifications;
@@ -14,7 +13,7 @@ use Doctrine\Common\Collections\Collection;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class SeasonClassificationsTest extends KernelTestCase 
+class SeasonClassificationsTest extends KernelTestCase
 {
     private Fixtures $fixtures;
     private SeasonClassifications $seasonClassifications;
@@ -211,7 +210,7 @@ class SeasonClassificationsTest extends KernelTestCase
     public function it_checks_if_get_qualifications_classification_returns_correct_results(): void
     {
         $classification = $this->seasonClassifications->getClassificationBasedOnType('qualifications');
-      
+
         foreach ($classification as $result) {
             $this->assertTrue(in_array($result->getPosition(), range(1, 20)));
             $this->assertTrue($result instanceof Qualification);

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Service\GameSimulation;
 
@@ -33,7 +33,7 @@ class SimulateQualifications
             /* If both drivers from given team are already drawn, check function will return true and draw will be repeat until $team with only one or zero drivers finished will be drawn */
             do {
                 $teamName = $coupons[rand(1, count($coupons))];
-            } while($this->checkIfBothDriversFromTeamAlreadyFinished($teamName, $results));
+            } while ($this->checkIfBothDriversFromTeamAlreadyFinished($teamName, $results));
 
             /* At this point team from which a driver will be draw is drawn, not the driver per se so now draw one of the drivers from that team and put him in finished drivers */
             $driver = $this->drawDriverFromTeam($teamName, $drivers, $results);
@@ -84,9 +84,8 @@ class SimulateQualifications
     {
         $teams = TeamsStrength::getTeamsStrength();
         $coupons = array();
-        
-        for ($i = 1; $i <= $this->multiplier; $i++)
-        {
+
+        for ($i = 1; $i <= $this->multiplier; $i++) {
             foreach ($teams as $team => $strength) {
                 $lastIndex = count($coupons);
 

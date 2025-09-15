@@ -146,7 +146,7 @@ class SimulateRaceService
                 }
             }
         }
-    
+
         return $coupons;
     }
 }
