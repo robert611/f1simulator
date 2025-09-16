@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Driver;
 use App\Entity\UserSeason;
 use App\Entity\UserSeasonPlayer;
 use App\Form\UserSeasonType;
@@ -27,6 +26,7 @@ class UserSeasonController extends BaseController
         private readonly EntityManagerInterface $entityManager,
         private readonly LeagueTeamsClassification $leagueTeamsClassification,
         private readonly LeagueClassifications $leagueClassification,
+        private readonly DrawDriverToReplace $drawDriverToReplace,
         private readonly TrackRepository $trackRepository,
     ) {
     }
@@ -61,11 +61,9 @@ class UserSeasonController extends BaseController
             $userSeason->setCompleted(false);
             $userSeason->setStarted(false);
 
-            $drivers = $this->entityManager->getRepository(Driver::class)->findAll();
-
             $player = new UserSeasonPlayer();
             $player->setUser($this->getUser());
-            $player->setDriver((new DrawDriverToReplace())->getDriverToReplaceInUserLeague($drivers, $userSeason));
+            $player->setDriver($this->drawDriverToReplace->getDriverToReplaceInUserLeague($userSeason));
             $player->setSeason($userSeason);
 
             $this->entityManager->persist($userSeason);
