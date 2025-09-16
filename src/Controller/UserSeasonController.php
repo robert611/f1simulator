@@ -57,7 +57,7 @@ class UserSeasonController extends BaseController
             $userSeason = $form->getData();
 
             $userSeason->setOwner($this->getUser());
-            $userSeason->setSecret((new SecretGenerator)->getSecret());
+            $userSeason->setSecret((new SecretGenerator())->getSecret());
             $userSeason->setCompleted(false);
             $userSeason->setStarted(false);
 
@@ -67,11 +67,11 @@ class UserSeasonController extends BaseController
             $player->setUser($this->getUser());
             $player->setDriver((new DrawDriverToReplace())->getDriverToReplaceInUserLeague($drivers, $userSeason));
             $player->setSeason($userSeason);
-    
+
             $this->entityManager->persist($userSeason);
             $this->entityManager->persist($player);
             $this->entityManager->flush();
-            
+
             $this->addFlash('success', 'Liga została stworzona');
 
             return $this->redirectToRoute('multiplayer_index');
@@ -84,7 +84,7 @@ class UserSeasonController extends BaseController
         foreach ($this->getUser()->getUserSeasonPlayers() as $player) {
             $leagues[] = $player->getSeason();
         }
-        
+
         return $this->render('league/index.html.twig', [
             'form' => $form->createView(),
             'userLeagues' => $userLeagues,
@@ -100,7 +100,10 @@ class UserSeasonController extends BaseController
     ): Response {
         $this->denyAccessUnlessGranted(LeagueVoter::SHOW_SEASON, $season);
 
-        $player = $this->entityManager->getRepository(UserSeasonPlayer::class)->findOneBy(['season' => $season, 'user' => $this->getUser()]);
+        $player = $this->entityManager->getRepository(UserSeasonPlayer::class)->findOneBy([
+            'season' => $season,
+            'user' => $this->getUser(),
+        ]);
 
         $numberOfRacesInSeason = $this->trackRepository->count();
 

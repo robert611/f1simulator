@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
@@ -131,7 +131,7 @@ class LeagueVoter extends Voter
     private function isALeagueOwner(UserSeason $league, User $user): bool
     {
         if ($user !== $league->getOwner()) {
-            (new Sessio())->getFlashBag()->add('warning', 'Nie możesz wykonać tej operacji, ponieważ nie jesteś założycielem tej ligi.');
+            (new Session())->getFlashBag()->add('warning', 'Nie możesz wykonać tej operacji, ponieważ nie jesteś założycielem tej ligi.');
 
             return false;
         }
@@ -146,7 +146,7 @@ class LeagueVoter extends Voter
 
             return false;
         }
-        
+
         return true;
     }
 
@@ -159,7 +159,7 @@ class LeagueVoter extends Voter
         $access = $alreadyIn->count() > 0;
 
         if ($access) {
-            (new Session())->getFlashBag()->add('warning', 'Należysz już do: '. $league->getName());
+            (new Session())->getFlashBag()->add('warning', 'Należysz już do: ' . $league->getName());
         }
 
         return $access;
@@ -172,7 +172,7 @@ class LeagueVoter extends Voter
         if ($reached) {
             (new Session())->getFlashBag()->add('warning', 'Ta liga osiągnęła swoją maksymalną liczbę graczy');
         }
-        
+
         return $reached;
     }
 

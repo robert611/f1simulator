@@ -24,7 +24,7 @@ class RaceResultsFixtures extends Fixture implements DependentFixtureInterface
                 $raceResults->setPosition($j);
 
                 $manager->persist($raceResults);
-                $manager->flush(); 
+                $manager->flush();
             }
         }
     }

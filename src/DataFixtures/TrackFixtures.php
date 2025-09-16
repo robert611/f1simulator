@@ -20,7 +20,7 @@ class TrackFixtures extends Fixture
             $manager->persist($track);
             $manager->flush();
 
-            $this->addReference('track.'. ($key + 1), $track);
+            $this->addReference('track.' . ($key + 1), $track);
         }
     }
 

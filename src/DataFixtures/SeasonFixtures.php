@@ -18,7 +18,7 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
         $seasons = $this->getSeasons();
 
         foreach ($seasons as $key => $data) {
-            $user = $this->getReference('user.' . $data['user_id'],User::class);
+            $user = $this->getReference('user.' . $data['user_id'], User::class);
             $driver = $this->getReference('driver.' . $data['driver_id'], Driver::class);
 
             $season = Season::create($user, $driver);
@@ -32,7 +32,7 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
 
             $this->addReference('season.' . ($key + 1), $season);
         }
-      
+
     }
 
     public function getDependencies(): array

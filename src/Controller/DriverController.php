@@ -77,7 +77,7 @@ class DriverController extends BaseController
     #[Route('/{id}', name: 'driver_delete', methods: ["DELETE"])]
     public function delete(Request $request, Driver $driver): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$driver->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $driver->getId(), $request->request->get('_token'))) {
             $this->entityManager->remove($driver);
             $this->entityManager->flush();
         }
