@@ -207,14 +207,69 @@ class SeasonClassificationsTest extends KernelTestCase
     }
 
     #[Test]
-    public function it_checks_if_get_qualifications_classification_returns_correct_results(): void
+    public function it_checks_if_qualifications_classification_returns_correct_results(): void
     {
-        $classification = $this->seasonClassifications->getClassificationBasedOnType('qualifications');
+        // given
+        $user = $this->fixtures->aUser();
 
-        foreach ($classification as $result) {
-            $this->assertTrue(in_array($result->getPosition(), range(1, 20)));
-            $this->assertTrue($result instanceof Qualification);
-        }
+        // and given
+        $team1 = $this->fixtures->aTeamWithName('ferrari');
+        $team2 = $this->fixtures->aTeamWithName('mercedes');
+        $team3 = $this->fixtures->aTeamWithName('haas');
+        $team4 = $this->fixtures->aTeamWithName('mclaren');
+
+        // and given
+        $driver1 = $this->fixtures->aDriver('Lewis', 'Hamilton', $team1, 33);
+        $driver2 = $this->fixtures->aDriver('Yuki', 'Spider', $team1, 5);
+        $driver3 = $this->fixtures->aDriver('Mike', 'Ross', $team2, 9);
+        $driver4 = $this->fixtures->aDriver('Michael', 'Smith', $team2, 24);
+        $driver5 = $this->fixtures->aDriver('Greg', 'House', $team3, 31);
+        $driver6 = $this->fixtures->aDriver('John', 'Marcus', $team3, 50);
+        $driver7 = $this->fixtures->aDriver('Thomas', 'Jackson', $team4, 63);
+        $driver8 = $this->fixtures->aDriver('Taylor', 'Spears', $team4, 25);
+
+        // and given
+        $season = $this->fixtures->aSeason($user, $driver1);
+
+        // and given
+        $track1 = $this->fixtures->aTrack('silverstone', 'silverstone.png');
+        $track2 = $this->fixtures->aTrack('belgium', 'belgium.png');
+        $race1 = $this->fixtures->aRace($track1, $season);
+        $race2 = $this->fixtures->aRace($track2, $season);
+
+        // and given
+        $this->fixtures->aQualification($driver1, $race1, 1);
+        $this->fixtures->aQualification($driver2, $race1, 2);
+        $this->fixtures->aQualification($driver3, $race1, 3);
+        $this->fixtures->aQualification($driver4, $race1, 4);
+        $this->fixtures->aQualification($driver5, $race1, 5);
+        $this->fixtures->aQualification($driver6, $race1, 6);
+        $this->fixtures->aQualification($driver7, $race1, 7);
+        $this->fixtures->aQualification($driver8, $race1, 8);
+
+        // and given
+        $this->fixtures->aQualification($driver1, $race2, 8);
+        $this->fixtures->aQualification($driver2, $race2, 7);
+        $this->fixtures->aQualification($driver3, $race2, 6);
+        $this->fixtures->aQualification($driver4, $race2, 5);
+        $this->fixtures->aQualification($driver5, $race2, 4);
+        $this->fixtures->aQualification($driver6, $race2, 3);
+        $this->fixtures->aQualification($driver7, $race2, 2);
+        $this->fixtures->aQualification($driver8, $race2, 1);
+
+        // when
+        $classification = $this->seasonClassifications->getQualificationsClassification($season, $race2->getId());
+
+        // then
+        self::assertEquals(8, count($classification));
+        self::assertEquals($driver8, $classification[0]->getDriver());
+        self::assertEquals($driver7, $classification[1]->getDriver());
+        self::assertEquals($driver6, $classification[2]->getDriver());
+        self::assertEquals($driver5, $classification[3]->getDriver());
+        self::assertEquals($driver4, $classification[4]->getDriver());
+        self::assertEquals($driver3, $classification[5]->getDriver());
+        self::assertEquals($driver2, $classification[6]->getDriver());
+        self::assertEquals($driver1, $classification[7]->getDriver());
     }
 
     #[Test]

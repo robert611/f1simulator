@@ -9,15 +9,16 @@ use App\Entity\Season;
 use App\Model\DriverRaceResult;
 use App\Model\DriversClassification;
 use App\Repository\DriverRepository;
+use App\Repository\QualificationRepository;
 use App\Repository\RaceRepository;
 use App\Service\DriverStatistics\DriverPoints;
-use Doctrine\Common\Collections\Collection;
 
 class SeasonClassifications
 {
     public function __construct(
         private readonly DriverRepository $driverRepository,
         private readonly RaceRepository $raceRepository,
+        private readonly QualificationRepository $qualificationRepository,
     ) {
     }
 
@@ -25,7 +26,7 @@ class SeasonClassifications
         Season $season,
         ClassificationType $classificationType,
         ?int $raceId,
-    ): Collection|DriversClassification {
+    ): array|DriversClassification {
         return match ($classificationType) {
             ClassificationType::RACE => $this->getRaceClassification($season, $raceId),
             ClassificationType::QUALIFICATIONS => $this->getQualificationsClassification($season, $raceId),
@@ -76,12 +77,12 @@ class SeasonClassifications
     }
 
     /**
-     * @return Collection<Qualification>
+     * @return Qualification[]
      */
-    private function getQualificationsClassification(Season $season, int $raceId): Collection
+    public function getQualificationsClassification(Season $season, int $raceId): array
     {
         $race = $this->raceRepository->findOneBy(['id' => $raceId, 'season' => $season]);
 
-        return $race->getQualifications();
+        return $this->qualificationRepository->getSortedRaceQualifications($race->getId());
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\Qualification;
@@ -17,5 +19,19 @@ class QualificationRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Qualification::class);
+    }
+
+    /**
+     * @return Qualification[]
+     */
+    public function getSortedRaceQualifications(int $raceId): array
+    {
+        return $this->createQueryBuilder('q')
+            ->select('q')
+            ->andWhere('q.race = :raceId')
+            ->setParameter('raceId', $raceId)
+            ->orderBy('q.position', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 }
