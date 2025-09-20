@@ -1,69 +1,46 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Controller;
 
+use App\Tests\Common\Fixtures;
+use PHPUnit\Framework\Attributes\Test;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken;
-use Symfony\Component\BrowserKit\Cookie;
-use App\Entity\User;
 
 class RegisterControllerTest extends WebTestCase
 {
-    private $client = null;
+    private KernelBrowser $client;
+    private Fixtures $fixtures;
 
     public function setUp(): void
     {
         $this->client = static::createClient();
+        $this->fixtures = self::getContainer()->get(Fixtures::class);
     }
 
-    /**
-     * @dataProvider provideUrls
-     */
-    public function testBehaviorInCaseOfUnloggedUser($url)
+    #[Test]
+    public function it_checks_if_unlogged_user_will_reach_login_page(): void
     {
+        // when
         $this->client->request('GET', '/login');
 
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        // then
+        self::assertResponseIsSuccessful();
     }
 
-    /**
-     * @dataProvider provideUrls
-     */
-    public function testBehaviorInCaseOfLoggedUser($url)
+    #[Test]
+    public function it_checks_if_logged_user_cannot_access_register_page(): void
     {
-        $this->logIn();
+        // given
+        $user = $this->fixtures->aUser();
+        $this->client->loginUser($user);
 
-        $this->client->request('GET', $url);
+        // when
+        $this->client->request('GET', '/register');
 
+        // then
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
-    }
-
-    public function provideUrls()
-    {
-        return [
-            ['/register']
-        ];
-    }
-
-    private function logIn()
-    {
-        $session = self::$container->get('session');
-        $entityManager = self::$container->get('doctrine');
-
-        $user = $entityManager->getRepository(User::class)->findAll()[0];
-
-        $firewallName = 'main';
-        // if you don't define multiple connected firewalls, the context defaults to the firewall name
-        // See https://symfony.com/doc/current/reference/configuration/security.html#firewall-context
-        $firewallContext = 'guard_context';
-
-        // you may need to use a different token class depending on your application.
-        // for example, when using Guard authentication you must instantiate PostAuthenticationGuardToken
-        $token = new PostAuthenticationGuardToken($user, 'username', ['ROLE_USER']);
-        $session->set('_security_' . $firewallContext, serialize($token));
-        $session->save();
-
-        $cookie = new Cookie($session->getName(), $session->getId());
-        $this->client->getCookieJar()->set($cookie);
     }
 }
