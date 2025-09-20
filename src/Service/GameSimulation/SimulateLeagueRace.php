@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
@@ -27,7 +27,7 @@ class SimulateLeagueRace
         $qualificationsResults = $this->simulateQualifications->getLeagueQualificationsResults($drivers);
 
         $raceResults = $this->simulateRaceService->getLeagueRaceResults($drivers, $qualificationsResults);
-    
+
         return [
             $this->setQualificationsResultsToPlayers($qualificationsResults, $players),
             $this->setRaceResultsToPlayers($raceResults, $players)
@@ -38,25 +38,25 @@ class SimulateLeagueRace
     {
         /* So now result holds a driver object, it will be change to player who is represented by given driver */
         foreach ($qualificationsResults as $key => $result) {
-            $player = $players->filter(function($player) use ($result) {
+            $player = $players->filter(function ($player) use ($result) {
                 return $player->getDriver() == $result;
             })->first();
             $qualificationsResults[$key] = $player;
         }
 
-       return $qualificationsResults;
+        return $qualificationsResults;
     }
 
     private function setRaceResultsToPlayers($raceResults, $players): array
     {
         foreach ($raceResults as $key => $result) {
-            $player = $players->filter(function($player) use ($result) {
+            $player = $players->filter(function ($player) use ($result) {
                 return $player->getDriver()->getId() == $result;
             })->first();
             $raceResults[$key] = $player;
         }
 
-       return $raceResults;
+        return $raceResults;
     }
 
     /**
@@ -66,7 +66,7 @@ class SimulateLeagueRace
      */
     private function getDrivers(Collection $players): array
     {
-        $drivers = $players->map(function(UserSeasonPlayer $player) {
+        $drivers = $players->map(function (UserSeasonPlayer $player) {
             return $player->getDriver();
         });
 

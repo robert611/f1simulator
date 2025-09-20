@@ -19,6 +19,9 @@
     </rule>
 
     <exclude-pattern>tests/bootstrap.php</exclude-pattern>
+    <exclude-pattern>public/index.php</exclude-pattern>
+    <exclude-pattern>config/preload.php</exclude-pattern>
+    <exclude-pattern>config/bootstrap.php</exclude-pattern>
 
     <file>bin/</file>
     <file>config/</file>

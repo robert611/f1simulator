@@ -94,9 +94,9 @@ class SimulateQualifications
                 }
             }
         }
-        
+
         return $coupons;
-    }   
+    }
 
     public function drawDriverFromTeam($teamName, $drivers, $results)
     {
@@ -106,7 +106,9 @@ class SimulateQualifications
 
         /* Get drivers from given team */
         foreach ($drivers as $key => $driver) {
-            if($driver->getTeam()->getName() == $teamName) $teamDrivers[] = $driver;
+            if ($driver->getTeam()->getName() == $teamName) {
+                $teamDrivers[] = $driver;
+            }
         }
 
         /* In this case it's called by league qualifications, and there may not be two drivers in a team */
@@ -117,11 +119,11 @@ class SimulateQualifications
 
             return null;
         }
-       
+
         /* If one of the drivers already finished race then return the second one */
         if (in_array($teamDrivers[0], $results)) {
             return $teamDrivers[1];
-        } else if (in_array($teamDrivers[1], $results)) {
+        } elseif (in_array($teamDrivers[1], $results)) {
             return $teamDrivers[0];
         }
 

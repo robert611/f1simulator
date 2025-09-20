@@ -32,7 +32,6 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
 
             $this->addReference('season.' . ($key + 1), $season);
         }
-
     }
 
     public function getDependencies(): array
