@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service\GameSimulation;
 
 use App\Entity\UserSeasonPlayer;
+use App\Model\GameSimulation\LeagueRaceResultsDTO;
 use Doctrine\Common\Collections\Collection;
 
 class SimulateLeagueRace
@@ -18,19 +19,19 @@ class SimulateLeagueRace
     /**
      * @param Collection<UserSeasonPlayer> $players
      */
-    public function getRaceResults(Collection $players): array
+    public function getRaceResults(Collection $players): LeagueRaceResultsDTO
     {
-        /* Drivers who players replace */
         $drivers = UserSeasonPlayer::getPlayersDrivers($players);
 
         $qualificationsResults = $this->simulateQualifications->getLeagueQualificationsResults($drivers);
 
         $raceResults = $this->simulateRaceService->getLeagueRaceResults($drivers, $qualificationsResults);
 
-        return [
-            $this->setQualificationsResultsToPlayers($qualificationsResults, $players),
-            $this->setRaceResultsToPlayers($raceResults, $players)
-        ];
+        $preparedQualificationsResults = $this->setQualificationsResultsToPlayers($qualificationsResults, $players);
+
+        $preparedRaceResults = $this->setRaceResultsToPlayers($raceResults, $players);
+
+        return LeagueRaceResultsDTO::create($preparedQualificationsResults, $preparedRaceResults);
     }
 
     private function setQualificationsResultsToPlayers($qualificationsResults, $players): array

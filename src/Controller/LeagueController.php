@@ -97,7 +97,9 @@ class LeagueController extends BaseController
         $this->entityManager->persist($race);
         $this->entityManager->flush();
 
-        [$qualificationsResults, $raceResults] = $this->simulateLeagueRace->getRaceResults($userSeason->getPlayers());
+        $leagueRaceResultsDTO = $this->simulateLeagueRace->getRaceResults($userSeason->getPlayers());
+
+        $qualificationsResults = $leagueRaceResultsDTO->getQualificationsResults();
 
         foreach ($qualificationsResults as $position => $player) {
             $qualification = new UserSeasonQualification();
@@ -108,6 +110,8 @@ class LeagueController extends BaseController
             $this->entityManager->persist($qualification);
             $this->entityManager->flush();
         }
+
+        $raceResults = $leagueRaceResultsDTO->getRaceResults();
 
         /** @var UserSeasonPlayer $player */
         foreach ($raceResults as $position => $player) {
