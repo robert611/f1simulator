@@ -9,7 +9,6 @@ use App\Model\DriversClassification;
 use App\Service\Classification\ClassificationType;
 use App\Service\Classification\SeasonClassifications;
 use App\Tests\Common\Fixtures;
-use Doctrine\Common\Collections\Collection;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -50,8 +49,8 @@ class SeasonClassificationsTest extends KernelTestCase
         );
 
         // then
-        $this->assertCount(2, $classification);
-        $this->assertIsArray($classification);
+        $this->assertInstanceOf(DriversClassification::class, $classification);
+        $this->assertCount(2, $classification->getDriversRaceResults());
     }
 
     #[Test]
@@ -82,8 +81,10 @@ class SeasonClassificationsTest extends KernelTestCase
         );
 
         // then
-        $this->assertInstanceOf(Collection::class, $classification);
-        $this->assertEquals(2, $classification->count());
+        $this->assertIsArray($classification);
+        $this->assertCount(2, $classification);
+        $this->assertInstanceOf(Qualification::class, $classification[0]);
+        $this->assertInstanceOf(Qualification::class, $classification[1]);
     }
 
     #[Test]
@@ -114,6 +115,44 @@ class SeasonClassificationsTest extends KernelTestCase
         // then
         $this->assertInstanceOf(DriversClassification::class, $classification);
         $this->assertCount(2, $classification->getDriversRaceResults());
+    }
+
+    #[Test]
+    public function it_checks_if_default_drivers_classification_will_be_returned(): void
+    {
+        // and given
+        $team1 = $this->fixtures->aTeamWithName('ferrari');
+        $team2 = $this->fixtures->aTeamWithName('mercedes');
+
+        // and given
+        $driver1 = $this->fixtures->aDriver('John', 'Speed', $team1, 55);
+        $driver2 = $this->fixtures->aDriver('Mike', 'Ross', $team1, 80);
+        $driver3 = $this->fixtures->aDriver('John', 'Speed', $team2, 23);
+        $driver4 = $this->fixtures->aDriver('Mike', 'Ross', $team2, 37);
+
+        // when
+        $classification = $this->seasonClassifications->getDefaultDriversClassification();
+
+        // then
+        $this->assertInstanceOf(DriversClassification::class, $classification);
+        $this->assertCount(4, $classification->getDriversRaceResults());
+
+        // and then
+        $this->assertEquals($driver1->getId(), $classification->getDriversRaceResults()[0]->getDriver()->getId());
+        $this->assertEquals(1, $classification->getDriversRaceResults()[0]->getPosition());
+        $this->assertEquals(0, $classification->getDriversRaceResults()[0]->getPoints());
+
+        $this->assertEquals($driver2->getId(), $classification->getDriversRaceResults()[1]->getDriver()->getId());
+        $this->assertEquals(2, $classification->getDriversRaceResults()[1]->getPosition());
+        $this->assertEquals(0, $classification->getDriversRaceResults()[1]->getPoints());
+
+        $this->assertEquals($driver3->getId(), $classification->getDriversRaceResults()[2]->getDriver()->getId());
+        $this->assertEquals(3, $classification->getDriversRaceResults()[2]->getPosition());
+        $this->assertEquals(0, $classification->getDriversRaceResults()[2]->getPoints());
+
+        $this->assertEquals($driver4->getId(), $classification->getDriversRaceResults()[3]->getDriver()->getId());
+        $this->assertEquals(4, $classification->getDriversRaceResults()[3]->getPosition());
+        $this->assertEquals(0, $classification->getDriversRaceResults()[3]->getPoints());
     }
 
     #[Test]
