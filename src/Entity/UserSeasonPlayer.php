@@ -190,4 +190,18 @@ class UserSeasonPlayer
             $podiumsTable[3],
         );
     }
+
+    /**
+     * @param Collection<UserSeasonPlayer> $players
+     *
+     * @return Driver[]
+     */
+    public static function getPlayersDrivers(Collection $players): array
+    {
+        $drivers = $players->map(function (UserSeasonPlayer $player) {
+            return $player->getDriver();
+        });
+
+        return $drivers->toArray();
+    }
 }

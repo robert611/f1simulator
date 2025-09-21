@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Entity;
 
+use App\Entity\Driver;
+use App\Entity\Team;
+use App\Entity\User;
 use App\Entity\UserSeason;
 use App\Entity\UserSeasonPlayer;
 use App\Entity\UserSeasonRace;
 use App\Entity\UserSeasonRaceResult;
+use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
@@ -55,5 +59,49 @@ class UserSeasonPlayerTest extends TestCase
         self::assertEquals(2, $driverPodiumsDTO->getFirstPlacePodiums());
         self::assertEquals(1, $driverPodiumsDTO->getSecondPlacePodiums());
         self::assertEquals(0, $driverPodiumsDTO->getThirdPlacePodiums());
+    }
+
+    #[Test]
+    public function it_checks_if_players_drivers_can_be_derived(): void
+    {
+        // given
+        $user1 = new User();
+        $user2 = new User();
+        $user3 = new User();
+        $user4 = new User();
+
+        // given
+        $team1 = new Team();
+        $team2 = new Team();
+
+        // and given
+        $driver1 = Driver::create('John', 'Doe', $team1, 10);
+        $driver2 = Driver::create('Marta', 'Croft', $team1, 24);
+        $driver3 = Driver::create('Filip', 'Masa', $team2, 9);
+        $driver4 = Driver::create('Liam', 'Lawson', $team2, 98);
+
+        // and given
+        $userSeason = new UserSeason();
+
+        // and given
+        $userSeasonPlayer1 = UserSeasonPlayer::create($userSeason, $user1, $driver1);
+        $userSeasonPlayer2 = UserSeasonPlayer::create($userSeason, $user2, $driver2);
+        $userSeasonPlayer3 = UserSeasonPlayer::create($userSeason, $user3, $driver3);
+        $userSeasonPlayer4 = UserSeasonPlayer::create($userSeason, $user4, $driver4);
+
+        // when
+        $drivers = UserSeasonPlayer::getPlayersDrivers(new ArrayCollection([
+            $userSeasonPlayer1,
+            $userSeasonPlayer2,
+            $userSeasonPlayer3,
+            $userSeasonPlayer4,
+        ]));
+
+        // then
+        self::assertCount(4, $drivers);
+        self::assertEquals($driver1, $drivers[0]);
+        self::assertEquals($driver2, $drivers[1]);
+        self::assertEquals($driver3, $drivers[2]);
+        self::assertEquals($driver4, $drivers[3]);
     }
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service\GameSimulation;
 
-use App\Entity\Driver;
 use App\Entity\UserSeasonPlayer;
 use Doctrine\Common\Collections\Collection;
 
@@ -22,7 +21,7 @@ class SimulateLeagueRace
     public function getRaceResults(Collection $players): array
     {
         /* Drivers who players replace */
-        $drivers = $this->getDrivers($players);
+        $drivers = UserSeasonPlayer::getPlayersDrivers($players);
 
         $qualificationsResults = $this->simulateQualifications->getLeagueQualificationsResults($drivers);
 
@@ -57,19 +56,5 @@ class SimulateLeagueRace
         }
 
         return $raceResults;
-    }
-
-    /**
-     * @param Collection<UserSeasonPlayer> $players
-     *
-     * @return Driver[]
-     */
-    private function getDrivers(Collection $players): array
-    {
-        $drivers = $players->map(function (UserSeasonPlayer $player) {
-            return $player->getDriver();
-        });
-
-        return $drivers->toArray();
     }
 }
