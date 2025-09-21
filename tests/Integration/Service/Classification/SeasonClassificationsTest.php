@@ -28,18 +28,29 @@ class SeasonClassificationsTest extends KernelTestCase
     {
         // given
         $user = $this->fixtures->aUser();
-        $team = $this->fixtures->aTeam();
-        $driver1 = $this->fixtures->aDriver('John', 'Speed', $team, 55);
-        $driver2 = $this->fixtures->aDriver('Mike', 'Ross', $team, 80);
+
+        // and given
+        $team1 = $this->fixtures->aTeamWithName('ferrari');
+        $team2 = $this->fixtures->aTeamWithName('mercedes');
+
+        // and given
+        $driver1 = $this->fixtures->aDriver('John', 'Speed', $team1, 55);
+        $driver2 = $this->fixtures->aDriver('Mike', 'Ross', $team1, 80);
+        $driver3 = $this->fixtures->aDriver('John', 'Speed', $team2, 23);
+        $driver4 = $this->fixtures->aDriver('Mike', 'Ross', $team2, 37);
 
         // and given
         $season = $this->fixtures->aSeason($user, $driver1);
 
         // and given
         $track1 = $this->fixtures->aTrack('silverstone', 'silverstone.png');
+        $track2 = $this->fixtures->aTrack('belgium', 'belgium.png');
         $race1 = $this->fixtures->aRace($track1, $season);
+        $race2 = $this->fixtures->aRace($track2, $season);
         $this->fixtures->aRaceResult(5, $race1, $driver1);
         $this->fixtures->aRaceResult(9, $race1, $driver2);
+        $this->fixtures->aRaceResult(1, $race2, $driver3);
+        $this->fixtures->aRaceResult(3, $race2, $driver4);
 
         // when
         $classification = $this->seasonClassifications->getClassificationBasedOnType(
