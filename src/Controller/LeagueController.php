@@ -97,7 +97,7 @@ class LeagueController extends BaseController
         $this->entityManager->persist($race);
         $this->entityManager->flush();
 
-        $leagueRaceResultsDTO = $this->simulateLeagueRace->getRaceResults($userSeason->getPlayers());
+        $leagueRaceResultsDTO = $this->simulateLeagueRace->simulateRaceResults($userSeason);
 
         $qualificationsResults = $leagueRaceResultsDTO->getQualificationsResults();
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service\GameSimulation;
 
+use App\Entity\Driver;
+use App\Entity\UserSeason;
 use App\Entity\UserSeasonPlayer;
 use App\Model\GameSimulation\LeagueRaceResultsDTO;
 use Doctrine\Common\Collections\Collection;
@@ -16,11 +18,10 @@ class SimulateLeagueRace
     ) {
     }
 
-    /**
-     * @param Collection<UserSeasonPlayer> $players
-     */
-    public function getRaceResults(Collection $players): LeagueRaceResultsDTO
+    public function simulateRaceResults(UserSeason $userSeason): LeagueRaceResultsDTO
     {
+        $players = $userSeason->getPlayers();
+
         $drivers = UserSeasonPlayer::getPlayersDrivers($players);
 
         $qualificationsResults = $this->simulateQualifications->getLeagueQualificationsResults($drivers);
@@ -34,12 +35,15 @@ class SimulateLeagueRace
         return LeagueRaceResultsDTO::create($preparedQualificationsResults, $preparedRaceResults);
     }
 
-    private function setQualificationsResultsToPlayers($qualificationsResults, $players): array
+    /**
+     * @param Driver[] $qualificationsResults
+     * @param Collection<UserSeasonPlayer> $players
+     */
+    private function setQualificationsResultsToPlayers(array $qualificationsResults, Collection $players): array
     {
-        /* So now result holds a driver object, it will be change to player who is represented by given driver */
-        foreach ($qualificationsResults as $key => $result) {
-            $player = $players->filter(function ($player) use ($result) {
-                return $player->getDriver() == $result;
+        foreach ($qualificationsResults as $key => $driver) {
+            $player = $players->filter(function (UserSeasonPlayer $player) use ($driver) {
+                return $player->getDriver()->getId() === $driver->getId();
             })->first();
             $qualificationsResults[$key] = $player;
         }
@@ -47,11 +51,15 @@ class SimulateLeagueRace
         return $qualificationsResults;
     }
 
-    private function setRaceResultsToPlayers($raceResults, $players): array
+    /**
+     * @param int[] $raceResults
+     * @param Collection<UserSeasonPlayer> $players
+     */
+    private function setRaceResultsToPlayers(array $raceResults, Collection $players): array
     {
-        foreach ($raceResults as $key => $result) {
-            $player = $players->filter(function ($player) use ($result) {
-                return $player->getDriver()->getId() == $result;
+        foreach ($raceResults as $key => $driverId) {
+            $player = $players->filter(function (UserSeasonPlayer $player) use ($driverId) {
+                return $player->getDriver()->getId() === $driverId;
             })->first();
             $raceResults[$key] = $player;
         }
