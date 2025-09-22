@@ -3,7 +3,11 @@
 namespace App\Service\GameSimulation;
 
 use App\Entity\Driver;
+use App\Entity\UserSeason;
+use App\Entity\UserSeasonPlayer;
 use App\Model\Configuration\TeamsStrength;
+use App\Model\GameSimulation\LeagueQualificationResult;
+use App\Model\GameSimulation\LeagueQualificationResultsCollection;
 use App\Model\GameSimulation\QualificationResult;
 use App\Model\GameSimulation\QualificationResultsCollection;
 use App\Repository\DriverRepository;
@@ -18,14 +22,16 @@ class SimulateQualifications
     ) {
     }
 
-    /**
-     * @param Driver[] $drivers
-     *
-     * @return Driver[]
-     */
-    public function getLeagueQualificationsResults(array $drivers): array
+    public function getLeagueQualificationsResults(UserSeason $userSeason): LeagueQualificationResultsCollection
     {
-        $results = [];
+        // @TODO, write tests
+        $players = $userSeason->getPlayers();
+
+        $drivers = UserSeasonPlayer::getPlayersDrivers($players);
+
+        $result = LeagueQualificationResultsCollection::create();
+
+        $driversInResults = [];
 
         $coupons = $this->getCoupons();
 
@@ -33,16 +39,23 @@ class SimulateQualifications
             /* If both drivers from given team are already drawn, check function will return true and draw will be repeat until $team with only one or zero drivers finished will be drawn */
             do {
                 $teamName = $coupons[rand(1, count($coupons))];
-            } while ($this->checkIfBothDriversFromTeamAlreadyFinished($teamName, $results));
+            } while ($this->checkIfBothDriversFromTeamAlreadyFinished($teamName, $driversInResults));
 
             /* At this point team from which a driver will be draw is drawn, not the driver per se so now draw one of the drivers from that team and put him in finished drivers */
-            $driver = $this->drawDriverFromTeam($teamName, $drivers, $results);
+            $driver = $this->drawDriverFromTeam($teamName, $drivers, $driversInResults);
 
             /* If there is no drawn driver, then iterate once again */
-            $driver ? $results[$i] = $driver : $i--;
+            if ($driver) {
+                $userSeasonPlayer = UserSeasonPlayer::getPlayerByDriverId($players, $driver->getId());
+                $qualificationResult = LeagueQualificationResult::create($userSeasonPlayer, $i);
+                $result->addQualificationResult($qualificationResult);
+                $driversInResults[] = $driver;
+            } else {
+                $i = $i - 1;
+            }
         }
 
-        return $results;
+        return $result;
     }
 
     public function getQualificationsResults(): QualificationResultsCollection

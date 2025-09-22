@@ -24,31 +24,13 @@ class SimulateLeagueRace
 
         $drivers = UserSeasonPlayer::getPlayersDrivers($players);
 
-        $qualificationsResults = $this->simulateQualifications->getLeagueQualificationsResults($drivers);
+        $qualificationsResults = $this->simulateQualifications->getLeagueQualificationsResults($userSeason);
 
         $raceResults = $this->simulateRaceService->getLeagueRaceResults($drivers, $qualificationsResults);
 
-        $preparedQualificationsResults = $this->setQualificationsResultsToPlayers($qualificationsResults, $players);
-
         $preparedRaceResults = $this->setRaceResultsToPlayers($raceResults, $players);
 
-        return LeagueRaceResultsDTO::create($preparedQualificationsResults, $preparedRaceResults);
-    }
-
-    /**
-     * @param Driver[] $qualificationsResults
-     * @param Collection<UserSeasonPlayer> $players
-     *
-     * @return UserSeasonPlayer[]
-     */
-    private function setQualificationsResultsToPlayers(array $qualificationsResults, Collection $players): array
-    {
-        foreach ($qualificationsResults as $key => $driver) {
-            $player = UserSeasonPlayer::getPlayerByDriverId($players, $driver->getId());
-            $qualificationsResults[$key] = $player;
-        }
-
-        return $qualificationsResults;
+        return LeagueRaceResultsDTO::create($qualificationsResults, $preparedRaceResults);
     }
 
     /**

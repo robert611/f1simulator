@@ -101,11 +101,11 @@ class LeagueController extends BaseController
 
         $qualificationsResults = $leagueRaceResultsDTO->getQualificationsResults();
 
-        foreach ($qualificationsResults as $position => $player) {
+        foreach ($qualificationsResults->getQualificationResults() as $result) {
             $qualification = new UserSeasonQualification();
             $qualification->setRace($race);
-            $qualification->setPlayer($player);
-            $qualification->setPosition($position);
+            $qualification->setPlayer($result->getUserSeasonPlayer());
+            $qualification->setPosition($result->getPosition());
 
             $this->entityManager->persist($qualification);
             $this->entityManager->flush();

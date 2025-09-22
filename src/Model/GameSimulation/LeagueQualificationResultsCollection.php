@@ -1,0 +1,48 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Model\GameSimulation;
+
+use App\Entity\Driver;
+
+class LeagueQualificationResultsCollection
+{
+    /** @var LeagueQualificationResult[] */
+    private array $leagueQualificationResults;
+
+    /**
+     * @return LeagueQualificationResult[]
+     */
+    public function getQualificationResults(): array
+    {
+        return $this->leagueQualificationResults;
+    }
+
+    public function addQualificationResult(LeagueQualificationResult $qualificationResult): void
+    {
+        $this->leagueQualificationResults[] = $qualificationResult;
+    }
+
+    /**
+     * @return array{int, Driver}
+     */
+    public function toPlainArray(): array
+    {
+        $plainArray = [];
+
+        foreach ($this->leagueQualificationResults as $qualificationResult) {
+            $plainArray[$qualificationResult->getPosition()] = $qualificationResult->getUserSeasonPlayer()->getDriver();
+        }
+
+        return $plainArray;
+    }
+
+    public static function create(array $qualificationResults = []): self
+    {
+        $leagueQualificationResultsCollection = new self();
+        $leagueQualificationResultsCollection->leagueQualificationResults = $qualificationResults;
+
+        return $leagueQualificationResultsCollection;
+    }
+}

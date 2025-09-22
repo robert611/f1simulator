@@ -6,11 +6,11 @@ namespace App\Model\GameSimulation;
 
 class LeagueRaceResultsDTO
 {
-    private array $qualificationsResults;
+    private LeagueQualificationResultsCollection $qualificationsResults;
 
     private array $raceResults;
 
-    public function getQualificationsResults(): array
+    public function getQualificationsResults(): LeagueQualificationResultsCollection
     {
         return $this->qualificationsResults;
     }
@@ -20,7 +20,7 @@ class LeagueRaceResultsDTO
         return $this->raceResults;
     }
 
-    public static function create(array $qualificationsResults, array $raceResults): self
+    public static function create(LeagueQualificationResultsCollection $qualificationsResults, array $raceResults): self
     {
         $leagueRaceResultsDTO = new self();
         $leagueRaceResultsDTO->qualificationsResults = $qualificationsResults;

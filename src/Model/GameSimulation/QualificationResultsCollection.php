@@ -11,9 +11,17 @@ class QualificationResultsCollection
     /** @var QualificationResult[] */
     private array $qualificationResults;
 
+    /**
+     * @return QualificationResult[]
+     */
     public function getQualificationResults(): array
     {
         return $this->qualificationResults;
+    }
+
+    public function addQualificationResult(QualificationResult $qualificationResult): void
+    {
+        $this->qualificationResults[] = $qualificationResult;
     }
 
     /**
@@ -28,11 +36,6 @@ class QualificationResultsCollection
         }
 
         return $plainArray;
-    }
-
-    public function addQualificationResult(QualificationResult $qualificationResult): void
-    {
-        $this->qualificationResults[] = $qualificationResult;
     }
 
     /**

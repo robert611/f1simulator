@@ -9,6 +9,7 @@ use App\Entity\RaceResult;
 use App\Entity\Season;
 use App\Model\Configuration\QualificationAdvantage;
 use App\Model\Configuration\TeamsStrength;
+use App\Model\GameSimulation\LeagueQualificationResultsCollection;
 use App\Model\GameSimulation\QualificationResultsCollection;
 use App\Repository\DriverRepository;
 use App\Repository\TrackRepository;
@@ -92,15 +93,16 @@ class SimulateRaceService
 
     /**
      * @param Driver[] $drivers
-     * @param Driver[] $qualificationsResults
      *
      * @return int[]
      */
-    public function getLeagueRaceResults(array $drivers, array $qualificationsResults): array
-    {
+    public function getLeagueRaceResults(
+        array $drivers,
+        LeagueQualificationResultsCollection $qualificationsResults,
+    ): array {
         $results = [];
 
-        $coupons = $this->getCoupons($qualificationsResults);
+        $coupons = $this->getCoupons($qualificationsResults->toPlainArray());
 
         for ($i = 1; $i <= count($drivers); $i++) {
             do {
