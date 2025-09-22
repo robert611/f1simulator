@@ -98,14 +98,18 @@ class SimulateQualifications
         return $coupons;
     }
 
-    public function drawDriverFromTeam($teamName, $drivers, $results)
+    /**
+     * @param Driver[] $drivers
+     * @param Driver[] $results
+     */
+    public function drawDriverFromTeam(string $teamName, array $drivers, array $results): ?Driver
     {
         $teamDrivers = array();
 
         shuffle($drivers);
 
         /* Get drivers from given team */
-        foreach ($drivers as $key => $driver) {
+        foreach ($drivers as $driver) {
             if ($driver->getTeam()->getName() == $teamName) {
                 $teamDrivers[] = $driver;
             }
@@ -131,17 +135,20 @@ class SimulateQualifications
         return $teamDrivers[rand(0, 1)];
     }
 
+    /**
+     * @param Driver[] $results
+     */
     public function checkIfBothDriversFromTeamAlreadyFinished(string $teamName, array $results): bool
     {
         $driversWhoFinished = 0;
 
         foreach ($results as $driver) {
-            if ($driver->getTeam()->getName() == $teamName) {
+            if ($driver->getTeam()->getName() === $teamName) {
                 $driversWhoFinished++;
             }
         }
 
-        if ($driversWhoFinished == 2) {
+        if ($driversWhoFinished === 2) {
             return true;
         }
 
