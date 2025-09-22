@@ -204,4 +204,14 @@ class UserSeasonPlayer
 
         return $drivers->toArray();
     }
+
+    /**
+     * @param Collection<UserSeasonPlayer> $players
+     */
+    public static function getPlayerByDriverId(Collection $players, int $driverId): ?UserSeasonPlayer
+    {
+        return $players->filter(function (UserSeasonPlayer $player) use ($driverId) {
+            return $player->getDriver()->getId() === $driverId;
+        })->first();
+    }
 }

@@ -38,13 +38,13 @@ class SimulateLeagueRace
     /**
      * @param Driver[] $qualificationsResults
      * @param Collection<UserSeasonPlayer> $players
+     *
+     * @return UserSeasonPlayer[]
      */
     private function setQualificationsResultsToPlayers(array $qualificationsResults, Collection $players): array
     {
         foreach ($qualificationsResults as $key => $driver) {
-            $player = $players->filter(function (UserSeasonPlayer $player) use ($driver) {
-                return $player->getDriver()->getId() === $driver->getId();
-            })->first();
+            $player = UserSeasonPlayer::getPlayerByDriverId($players, $driver->getId());
             $qualificationsResults[$key] = $player;
         }
 
@@ -54,13 +54,13 @@ class SimulateLeagueRace
     /**
      * @param int[] $raceResults
      * @param Collection<UserSeasonPlayer> $players
+     *
+     * @return UserSeasonPlayer[]
      */
     private function setRaceResultsToPlayers(array $raceResults, Collection $players): array
     {
         foreach ($raceResults as $key => $driverId) {
-            $player = $players->filter(function (UserSeasonPlayer $player) use ($driverId) {
-                return $player->getDriver()->getId() === $driverId;
-            })->first();
+            $player = UserSeasonPlayer::getPlayerByDriverId($players, $driverId);
             $raceResults[$key] = $player;
         }
 
