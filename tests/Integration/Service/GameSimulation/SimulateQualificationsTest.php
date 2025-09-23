@@ -67,7 +67,7 @@ class SimulateQualificationsTest extends KernelTestCase
     {
         $teamName = $this->teams[0]->getName();
 
-        $driver = $this->simulateQualifications->drawDriverFromTeam($teamName, $this->drivers, []);
+        $driver = $this->simulateQualifications->drawDriverFromATeam($teamName, $this->drivers, []);
 
         $this->assertEquals($driver->getTeam()->getName(), $teamName);
     }
@@ -76,11 +76,11 @@ class SimulateQualificationsTest extends KernelTestCase
     {
         $teamName = $this->teams[0]->getName();
 
-        $checkTrue = $this->simulateQualifications->checkIfBothDriversFromTeamAlreadyFinished(
+        $checkTrue = $this->simulateQualifications->checkIfBothDriversFromATeamAlreadyFinished(
             $teamName,
             $this->drivers,
         );
-        $checkFalse = $this->simulateQualifications->checkIfBothDriversFromTeamAlreadyFinished($teamName, []);
+        $checkFalse = $this->simulateQualifications->checkIfBothDriversFromATeamAlreadyFinished($teamName, []);
 
         $this->assertTrue($checkTrue);
         $this->assertFalse($checkFalse);

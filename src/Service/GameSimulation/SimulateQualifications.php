@@ -39,10 +39,10 @@ class SimulateQualifications
             /* If both drivers from given team are already drawn, check function will return true and draw will be repeat until $team with only one or zero drivers finished will be drawn */
             do {
                 $teamName = $coupons[rand(1, count($coupons))];
-            } while ($this->checkIfBothDriversFromTeamAlreadyFinished($teamName, $driversInResults));
+            } while ($this->checkIfBothDriversFromATeamAlreadyFinished($teamName, $driversInResults));
 
             /* At this point team from which a driver will be draw is drawn, not the driver per se so now draw one of the drivers from that team and put him in finished drivers */
-            $driver = $this->drawDriverFromTeam($teamName, $drivers, $driversInResults);
+            $driver = $this->drawDriverFromATeam($teamName, $drivers, $driversInResults);
 
             /* If there is no drawn driver, then iterate once again */
             if ($driver) {
@@ -70,10 +70,10 @@ class SimulateQualifications
             /* If both driver from given team will be already drawn, check function will return true and draw will be repeat until $team with only one or zero drivers finished will be drawn */
             do {
                 $teamName = $coupons[rand(1, count($coupons))];
-            } while ($this->checkIfBothDriversFromTeamAlreadyFinished($teamName, $result->toPlainArray()));
+            } while ($this->checkIfBothDriversFromATeamAlreadyFinished($teamName, $result->toPlainArray()));
 
             /* At this point team from which driver will be draw is drawn, not the driver per se so now draw one of the drivers from that team and put him in finished drivers */
-            $driver = $this->drawDriverFromTeam($teamName, $drivers, $result->toPlainArray());
+            $driver = $this->drawDriverFromATeam($teamName, $drivers, $result->toPlainArray());
 
             if ($driver) {
                 $qualificationResult = QualificationResult::create($driver, $position);
@@ -115,7 +115,7 @@ class SimulateQualifications
      * @param Driver[] $drivers
      * @param Driver[] $results
      */
-    public function drawDriverFromTeam(string $teamName, array $drivers, array $results): ?Driver
+    public function drawDriverFromATeam(string $teamName, array $drivers, array $results): ?Driver
     {
         $teamDrivers = array();
 
@@ -151,7 +151,7 @@ class SimulateQualifications
     /**
      * @param Driver[] $results
      */
-    public function checkIfBothDriversFromTeamAlreadyFinished(string $teamName, array $results): bool
+    public function checkIfBothDriversFromATeamAlreadyFinished(string $teamName, array $results): bool
     {
         $driversWhoFinished = 0;
 
