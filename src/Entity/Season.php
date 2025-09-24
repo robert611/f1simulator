@@ -87,7 +87,7 @@ class Season
         }
     }
 
-    public function addRace(race $race): void
+    public function addRace(Race $race): void
     {
         if (!$this->races->contains($race)) {
             $this->races[] = $race;
@@ -95,7 +95,7 @@ class Season
         }
     }
 
-    public function removeRace(race $race): void
+    public function removeRace(Race $race): void
     {
         if ($this->races->contains($race)) {
             $this->races->removeElement($race);

@@ -25,7 +25,7 @@ class LeagueQualificationResultsCollection
     }
 
     /**
-     * @return array{int, Driver}
+     * @return array<int, Driver>
      */
     public function toPlainArray(): array
     {

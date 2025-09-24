@@ -53,12 +53,12 @@ class Race
         $this->track = $track;
     }
 
-    public function getSeason(): season
+    public function getSeason(): Season
     {
         return $this->season;
     }
 
-    public function setSeason(season $season): void
+    public function setSeason(Season $season): void
     {
         $this->season = $season;
     }

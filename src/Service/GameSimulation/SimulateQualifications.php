@@ -89,7 +89,7 @@ class SimulateQualifications
     }
 
     /**
-     * @return array{int, string}
+     * @return array<int, string>
      *
      * For instance [1 => "Mercedes", 2 => "Mercedes", 3 => "Red Bull"]
      */
