@@ -82,31 +82,20 @@ class SimulateLeagueQualifications
     }
 
     /**
-     * @param Driver[] $drivers
+     * @param Driver[] $leagueDrivers
      * @param Driver[] $results
      */
-    public function drawDriverFromATeam(string $teamName, array $drivers, array $results): ?Driver
+    public function drawDriverFromATeam(string $teamName, array $leagueDrivers, array $results): ?Driver
     {
-        // @TODO, więc ta funkcja jest wywoływana do losowania kierowcy zarówno dla zwykłych kwalifikacji i kwalifikacji
-        // Ligi
-        // Ciekawe jest, że na wejściu otrzymujemy $teamName bo w funkcjach wywołujących tą funkcję tylko taką mamy
-        // informację, więc trzeba też przekazywać tablicę z kierowcami i szukać po niej, którzy kierowcy
-        // pasują do zespołu, fajnie byłoby ten argument z kierowcami usunąć
-        // Liga tu może utrudniać zadanie, czy przy jej zasadach kierowcy mogą migrować pomiędzy zespołami? Chyba nie
-        // W każdym bądź razie na pewno zespół może nie mieć żadnych kierowców w lidze...
-
-        // @TODO, chyba trzeba rozbić tą funkcję dla zwykłego sezonu i ligi
-
         $teamDrivers = [];
 
-        shuffle($drivers);
-
-        /* Get drivers from given team */
-        foreach ($drivers as $driver) {
-            if ($driver->getTeam()->getName() == $teamName) {
+        foreach ($leagueDrivers as $driver) {
+            if (strtolower($driver->getTeam()->getName()) === strtolower($teamName)) {
                 $teamDrivers[] = $driver;
             }
         }
+
+        shuffle($teamDrivers);
 
         if (count($teamDrivers) === 0) {
             return null;
@@ -116,6 +105,8 @@ class SimulateLeagueQualifications
             if (false === in_array($teamDrivers[0], $results)) {
                 return $teamDrivers[0];
             }
+
+            return null;
         }
 
         $unFinishedTeamDrivers = [];
