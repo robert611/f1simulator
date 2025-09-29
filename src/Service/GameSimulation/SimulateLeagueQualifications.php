@@ -10,17 +10,11 @@ use App\Entity\UserSeasonPlayer;
 use App\Model\Configuration\TeamsStrength;
 use App\Model\GameSimulation\LeagueQualificationResult;
 use App\Model\GameSimulation\LeagueQualificationResultsCollection;
-use App\Repository\DriverRepository;
 
 class SimulateLeagueQualifications
 {
     /* Every team has it's strength which says how competitive team is, multiplier multiplies strength of the teams by some value to make diffrences beetwen them greater */
     public int $multiplier = 3;
-
-    public function __construct(
-        private readonly DriverRepository $driverRepository,
-    ) {
-    }
 
     public function getLeagueQualificationsResults(UserSeason $userSeason): LeagueQualificationResultsCollection
     {
@@ -38,7 +32,7 @@ class SimulateLeagueQualifications
         for ($i = 1, $j = count($drivers); $i <= $j; $i++) {
             /* If both drivers from given team are already drawn, check function will return true and draw will be repeat until $team with only one or zero drivers finished will be drawn */
             do {
-                $teamName = $coupons[rand(1, count($coupons))];
+                $teamName = $coupons[array_rand($coupons)];
             } while ($this->checkIfBothDriversFromATeamAlreadyFinished($teamName, $driversInResults));
 
             /* At this point team from which a driver will be draw is drawn, not the driver per se so now draw one of the drivers from that team and put him in finished drivers */
@@ -61,7 +55,7 @@ class SimulateLeagueQualifications
     /**
      * @return array<int, string>
      *
-     * For instance [1 => "Mercedes", 2 => "Mercedes", 3 => "Red Bull"]
+     * For instance [0 => "Mercedes", 1 => "Mercedes", 2 => "Red Bull"]
      */
     public function getCoupons(): array
     {
@@ -70,10 +64,8 @@ class SimulateLeagueQualifications
 
         for ($i = 1; $i <= $this->multiplier; $i++) {
             foreach ($teams as $team => $strength) {
-                $lastIndex = count($coupons);
-
                 for ($j = 1; $j <= ceil($strength); $j++) {
-                    $coupons[$lastIndex + $j] = $team;
+                    $coupons[] = $team;
                 }
             }
         }
@@ -134,7 +126,7 @@ class SimulateLeagueQualifications
         $driversWhoFinished = 0;
 
         foreach ($results as $driver) {
-            if ($driver->getTeam()->getName() === $teamName) {
+            if (strtolower($driver->getTeam()->getName()) === strtolower($teamName)) {
                 $driversWhoFinished++;
             }
         }
