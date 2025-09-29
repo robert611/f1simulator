@@ -66,7 +66,7 @@ class SimulateLeagueQualifications
     public function getCoupons(): array
     {
         $teams = TeamsStrength::getTeamsStrength();
-        $coupons = array();
+        $coupons = [];
 
         for ($i = 1; $i <= $this->multiplier; $i++) {
             foreach ($teams as $team => $strength) {
@@ -108,26 +108,31 @@ class SimulateLeagueQualifications
             }
         }
 
-        /* In this case it's called by league qualifications, and there may not be two drivers in a team */
-        if (count($teamDrivers) < 2) {
-            if (isset($teamDrivers[0]) && !in_array($teamDrivers[0], $results)) {
-                return $teamDrivers[0];
-            }
-
+        if (count($teamDrivers) === 0) {
             return null;
         }
 
-        // @TODO, czy tu nie ma buga? Co jeśli $teamDrivers[0] jest już w wynikach ale $teamDrivers[1] również?
-        // @TODO, okej to jest akurat sprawdzane w funkcji wywołującej tą funkcję ale ja i tak bym tu dodał zabezpieczenie
-        /* If one of the drivers already finished race then return the second one */
-        if (in_array($teamDrivers[0], $results)) {
-            return $teamDrivers[1];
-        } elseif (in_array($teamDrivers[1], $results)) {
-            return $teamDrivers[0];
+        if (count($teamDrivers) === 1) {
+            if (false === in_array($teamDrivers[0], $results)) {
+                return $teamDrivers[0];
+            }
         }
 
-        /* If none of the drivers finished then draw one of them */
-        return $teamDrivers[rand(0, 1)];
+        $unFinishedTeamDrivers = [];
+
+        if (false === in_array($teamDrivers[0], $results)) {
+            $unFinishedTeamDrivers[] = $teamDrivers[0];
+        }
+
+        if (false === in_array($teamDrivers[1], $results)) {
+            $unFinishedTeamDrivers[] = $teamDrivers[1];
+        }
+
+        if (count($unFinishedTeamDrivers) === 0) {
+            return null;
+        }
+
+        return $unFinishedTeamDrivers[array_rand($unFinishedTeamDrivers)];
     }
 
     /**
