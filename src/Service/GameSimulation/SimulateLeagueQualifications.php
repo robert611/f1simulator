@@ -1,14 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service\GameSimulation;
 
 use App\Entity\Driver;
+use App\Entity\UserSeason;
+use App\Entity\UserSeasonPlayer;
 use App\Model\Configuration\TeamsStrength;
-use App\Model\GameSimulation\QualificationResult;
-use App\Model\GameSimulation\QualificationResultsCollection;
+use App\Model\GameSimulation\LeagueQualificationResult;
+use App\Model\GameSimulation\LeagueQualificationResultsCollection;
 use App\Repository\DriverRepository;
 
-class SimulateQualifications
+class SimulateLeagueQualifications
 {
     /* Every team has it's strength which says how competitive team is, multiplier multiplies strength of the teams by some value to make diffrences beetwen them greater */
     public int $multiplier = 3;
@@ -18,31 +22,37 @@ class SimulateQualifications
     ) {
     }
 
-    public function getQualificationsResults(): QualificationResultsCollection
+    public function getLeagueQualificationsResults(UserSeason $userSeason): LeagueQualificationResultsCollection
     {
-        $drivers = $this->driverRepository->findAll();
+        // @TODO, write tests
+        $players = $userSeason->getPlayers();
 
-        $result = QualificationResultsCollection::create();
+        $drivers = UserSeasonPlayer::getPlayersDrivers($players);
+
+        $result = LeagueQualificationResultsCollection::create();
+
+        $driversInResults = [];
 
         $coupons = $this->getCoupons();
 
-        for ($position = 1; $position <= count($drivers); $position++) {
-            /* If both driver from given team will be already drawn, check function will return true and draw will be repeat until $team with only one or zero drivers finished will be drawn */
+        for ($i = 1, $j = count($drivers); $i <= $j; $i++) {
+            /* If both drivers from given team are already drawn, check function will return true and draw will be repeat until $team with only one or zero drivers finished will be drawn */
             do {
                 $teamName = $coupons[rand(1, count($coupons))];
-            } while ($this->checkIfBothDriversFromATeamAlreadyFinished($teamName, $result->toPlainArray()));
+            } while ($this->checkIfBothDriversFromATeamAlreadyFinished($teamName, $driversInResults));
 
-            /* At this point team from which driver will be draw is drawn, not the driver per se so now draw one of the drivers from that team and put him in finished drivers */
-            $driver = $this->drawDriverFromATeam($teamName, $drivers, $result->toPlainArray());
-
-            if ($driver) {
-                $qualificationResult = QualificationResult::create($driver, $position);
-                $result->addQualificationResult($qualificationResult);
-                continue;
-            }
+            /* At this point team from which a driver will be draw is drawn, not the driver per se so now draw one of the drivers from that team and put him in finished drivers */
+            $driver = $this->drawDriverFromATeam($teamName, $drivers, $driversInResults);
 
             /* If there is no drawn driver, then iterate once again */
-            $position -= 1;
+            if ($driver) {
+                $userSeasonPlayer = UserSeasonPlayer::getPlayerByDriverId($players, $driver->getId());
+                $qualificationResult = LeagueQualificationResult::create($userSeasonPlayer, $i);
+                $result->addQualificationResult($qualificationResult);
+                $driversInResults[] = $driver;
+            } else {
+                $i = $i - 1;
+            }
         }
 
         return $result;
@@ -77,7 +87,17 @@ class SimulateQualifications
      */
     public function drawDriverFromATeam(string $teamName, array $drivers, array $results): ?Driver
     {
-        $teamDrivers = array();
+        // @TODO, więc ta funkcja jest wywoływana do losowania kierowcy zarówno dla zwykłych kwalifikacji i kwalifikacji
+        // Ligi
+        // Ciekawe jest, że na wejściu otrzymujemy $teamName bo w funkcjach wywołujących tą funkcję tylko taką mamy
+        // informację, więc trzeba też przekazywać tablicę z kierowcami i szukać po niej, którzy kierowcy
+        // pasują do zespołu, fajnie byłoby ten argument z kierowcami usunąć
+        // Liga tu może utrudniać zadanie, czy przy jej zasadach kierowcy mogą migrować pomiędzy zespołami? Chyba nie
+        // W każdym bądź razie na pewno zespół może nie mieć żadnych kierowców w lidze...
+
+        // @TODO, chyba trzeba rozbić tą funkcję dla zwykłego sezonu i ligi
+
+        $teamDrivers = [];
 
         shuffle($drivers);
 
@@ -97,6 +117,8 @@ class SimulateQualifications
             return null;
         }
 
+        // @TODO, czy tu nie ma buga? Co jeśli $teamDrivers[0] jest już w wynikach ale $teamDrivers[1] również?
+        // @TODO, okej to jest akurat sprawdzane w funkcji wywołującej tą funkcję ale ja i tak bym tu dodał zabezpieczenie
         /* If one of the drivers already finished race then return the second one */
         if (in_array($teamDrivers[0], $results)) {
             return $teamDrivers[1];
