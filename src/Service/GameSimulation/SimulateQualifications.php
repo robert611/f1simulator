@@ -29,7 +29,7 @@ class SimulateQualifications
         for ($position = 1; $position <= count($drivers); $position++) {
             /* If both driver from given team will be already drawn, check function will return true and draw will be repeat until $team with only one or zero drivers finished will be drawn */
             do {
-                $teamName = $coupons[rand(1, count($coupons))];
+                $teamName = $coupons[array_rand($coupons)];
             } while ($this->checkIfBothDriversFromATeamAlreadyFinished($teamName, $result->toPlainArray()));
 
             /* At this point team from which driver will be draw is drawn, not the driver per se so now draw one of the drivers from that team and put him in finished drivers */
@@ -51,19 +51,17 @@ class SimulateQualifications
     /**
      * @return array<int, string>
      *
-     * For instance [1 => "Mercedes", 2 => "Mercedes", 3 => "Red Bull"]
+     * For instance [0 => "Mercedes", 1 => "Mercedes", 2 => "Red Bull"]
      */
     public function getCoupons(): array
     {
         $teams = TeamsStrength::getTeamsStrength();
-        $coupons = array();
+        $coupons = [];
 
         for ($i = 1; $i <= $this->multiplier; $i++) {
             foreach ($teams as $team => $strength) {
-                $lastIndex = count($coupons);
-
                 for ($j = 1; $j <= ceil($strength); $j++) {
-                    $coupons[$lastIndex + $j] = $team;
+                    $coupons[] = $team;
                 }
             }
         }
@@ -116,7 +114,7 @@ class SimulateQualifications
         $driversWhoFinished = 0;
 
         foreach ($results as $driver) {
-            if ($driver->getTeam()->getName() === $teamName) {
+            if (strtolower($driver->getTeam()->getName()) === strtolower($teamName)) {
                 $driversWhoFinished++;
             }
         }
