@@ -3,18 +3,15 @@
 namespace App\Service\GameSimulation;
 
 use App\Entity\Driver;
-use App\Model\Configuration\TeamsStrength;
 use App\Model\GameSimulation\QualificationResult;
 use App\Model\GameSimulation\QualificationResultsCollection;
 use App\Repository\DriverRepository;
 
 class SimulateQualifications
 {
-    /* Every team has it's strength which says how competitive team is, multiplier multiplies strength of the teams by some value to make diffrences beetwen them greater */
-    public int $multiplier = 3;
-
     public function __construct(
         private readonly DriverRepository $driverRepository,
+        private readonly QualificationsHelperService $helperService,
     ) {
     }
 
@@ -24,13 +21,13 @@ class SimulateQualifications
 
         $result = QualificationResultsCollection::create();
 
-        $coupons = $this->getCoupons();
+        $coupons = $this->helperService->getCoupons();
 
         for ($position = 1; $position <= count($drivers); $position++) {
             /* If both driver from given team will be already drawn, check function will return true and draw will be repeat until $team with only one or zero drivers finished will be drawn */
             do {
                 $teamName = $coupons[array_rand($coupons)];
-            } while ($this->checkIfBothDriversFromATeamAlreadyFinished($teamName, $result->toPlainArray()));
+            } while ($this->helperService->checkIfBothDriversFromATeamAlreadyFinished($teamName, $result->toPlainArray()));
 
             /* At this point team from which driver will be draw is drawn, not the driver per se so now draw one of the drivers from that team and put him in finished drivers */
             $driver = $this->drawDriverFromATeam($teamName, $drivers, $result->toPlainArray());
@@ -46,27 +43,6 @@ class SimulateQualifications
         }
 
         return $result;
-    }
-
-    /**
-     * @return array<int, string>
-     *
-     * For instance [0 => "Mercedes", 1 => "Mercedes", 2 => "Red Bull"]
-     */
-    public function getCoupons(): array
-    {
-        $teams = TeamsStrength::getTeamsStrength();
-        $coupons = [];
-
-        for ($i = 1; $i <= $this->multiplier; $i++) {
-            foreach ($teams as $team => $strength) {
-                for ($j = 1; $j <= ceil($strength); $j++) {
-                    $coupons[] = $team;
-                }
-            }
-        }
-
-        return $coupons;
     }
 
     /**
@@ -104,25 +80,5 @@ class SimulateQualifications
 
         /* If none of the drivers finished then draw one of them */
         return $teamDrivers[rand(0, 1)];
-    }
-
-    /**
-     * @param Driver[] $results
-     */
-    public function checkIfBothDriversFromATeamAlreadyFinished(string $teamName, array $results): bool
-    {
-        $driversWhoFinished = 0;
-
-        foreach ($results as $driver) {
-            if (strtolower($driver->getTeam()->getName()) === strtolower($teamName)) {
-                $driversWhoFinished++;
-            }
-        }
-
-        if ($driversWhoFinished === 2) {
-            return true;
-        }
-
-        return false;
     }
 }
