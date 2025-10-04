@@ -21,7 +21,7 @@ class SimulateQualifications
 
         $result = QualificationResultsCollection::create();
 
-        $coupons = $this->helperService->getCoupons();
+        $coupons = $this->helperService->generateCoupons();
 
         for ($position = 1; $position <= count($drivers); $position++) {
             /* If both driver from given team will be already drawn, check function will return true and draw will be repeat until $team with only one or zero drivers finished will be drawn */

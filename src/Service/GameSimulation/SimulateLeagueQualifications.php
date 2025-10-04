@@ -28,7 +28,7 @@ class SimulateLeagueQualifications
 
         $driversInResults = [];
 
-        $coupons = $this->helperService->getCoupons();
+        $coupons = $this->helperService->generateCoupons();
 
         for ($i = 1, $j = count($drivers); $i <= $j; $i++) {
             /* If both drivers from given team are already drawn, check function will return true and draw will be repeat until $team with only one or zero drivers finished will be drawn */

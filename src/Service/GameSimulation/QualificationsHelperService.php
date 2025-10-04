@@ -17,7 +17,7 @@ class QualificationsHelperService
      *
      * For instance [0 => "Mercedes", 1 => "Mercedes", 2 => "Red Bull"]
      */
-    public function getCoupons(): array
+    public function generateCoupons(): array
     {
         $teams = TeamsStrength::getTeamsStrength();
         $coupons = [];
