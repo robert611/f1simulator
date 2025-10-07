@@ -38,5 +38,6 @@ class QualificationsHelperServiceTest extends KernelTestCase
         // and then
         $countedValues = array_count_values($coupons);
         self::assertTrue($countedValues['mercedes'] >= $teamsStrength['mercedes']);
+        self::assertEqualsCanonicalizing(array_keys($teamsStrength), array_keys($countedValues));
     }
 }
