@@ -40,4 +40,53 @@ class QualificationsHelperServiceTest extends KernelTestCase
         self::assertTrue($countedValues['mercedes'] >= $teamsStrength['mercedes']);
         self::assertEqualsCanonicalizing(array_keys($teamsStrength), array_keys($countedValues));
     }
+
+    #[Test]
+    public function it_returns_true_when_both_drivers_from_team_finished(): void
+    {
+        // given
+        $team = $this->fixtures->aTeamWithName('ferrari');
+        $driver1 = $this->fixtures->aDriver('Joe', 'Doe', $team, 55);
+        $driver2 = $this->fixtures->aDriver('John', 'Done', $team,30);
+
+        // and given
+        $team->addDriver($driver1);
+        $team->addDriver($driver2);
+
+        // when
+        $result = $this->qualificationsHelperService->checkIfBothDriversFromATeamAlreadyFinished(
+            'ferrari',
+            [$driver1, $driver2],
+        );
+
+        // then
+        self::assertTrue($result);
+    }
+
+    #[Test]
+    public function it_returns_false_when_less_than_two_drivers_from_team_finished(): void
+    {
+        // given
+        $team = $this->fixtures->aTeamWithName('ferrari');
+        $driver1 = $this->fixtures->aDriver('Joe', 'Doe', $team, 55);
+        $driver2 = $this->fixtures->aDriver('John', 'Done', $team,30);
+
+        // and given
+        $team->addDriver($driver1);
+        $team->addDriver($driver2);
+
+        // when
+        $resultNone = $this->qualificationsHelperService->checkIfBothDriversFromATeamAlreadyFinished(
+            $team->getName(),
+            [],
+        );
+        $resultOne = $this->qualificationsHelperService->checkIfBothDriversFromATeamAlreadyFinished(
+            $team->getName(),
+            [$driver1]
+        );
+
+        // then
+        self::assertFalse($resultNone);
+        self::assertFalse($resultOne);
+    }
 }
