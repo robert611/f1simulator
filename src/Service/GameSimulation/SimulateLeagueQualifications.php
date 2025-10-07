@@ -63,40 +63,28 @@ class SimulateLeagueQualifications
     {
         $teamDrivers = [];
 
+        $normalizedTeamName = strtolower($teamName);
+
         foreach ($leagueDrivers as $driver) {
-            if (strtolower($driver->getTeam()->getName()) === strtolower($teamName)) {
+            if (strtolower($driver->getTeam()->getName()) === $normalizedTeamName) {
                 $teamDrivers[] = $driver;
             }
         }
 
-        shuffle($teamDrivers);
-
         if (count($teamDrivers) === 0) {
             return null;
         }
-
-        if (count($teamDrivers) === 1) {
-            if (false === in_array($teamDrivers[0], $results)) {
-                return $teamDrivers[0];
-            }
-
+    
+        // unfinished team drivers
+        $unfinishedDrivers = array_values(array_filter(
+            $teamDrivers,
+            static fn(Driver $driver) => false === in_array($driver, $results, true),
+        ));
+    
+        if (count($unfinishedDrivers) === 0) {
             return null;
         }
-
-        $unFinishedTeamDrivers = [];
-
-        if (false === in_array($teamDrivers[0], $results)) {
-            $unFinishedTeamDrivers[] = $teamDrivers[0];
-        }
-
-        if (false === in_array($teamDrivers[1], $results)) {
-            $unFinishedTeamDrivers[] = $teamDrivers[1];
-        }
-
-        if (count($unFinishedTeamDrivers) === 0) {
-            return null;
-        }
-
-        return $unFinishedTeamDrivers[array_rand($unFinishedTeamDrivers)];
+    
+        return $unfinishedDrivers[array_rand($unfinishedDrivers)];
     }
 }
