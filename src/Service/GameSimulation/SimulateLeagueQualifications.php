@@ -30,23 +30,25 @@ class SimulateLeagueQualifications
 
         $coupons = $this->helperService->generateCoupons();
 
-        for ($i = 1, $j = count($drivers); $i <= $j; $i++) {
-            /* If both drivers from given team are already drawn, check function will return true and draw will be repeat until $team with only one or zero drivers finished will be drawn */
+        $totalDrivers = count($drivers);
+
+        for ($position = 1; $position <= $totalDrivers; $position++) {
+            // If both drivers from a given team are already drawn, repeat the draw until a team with < 2 finished drivers is picked
             do {
                 $teamName = $coupons[array_rand($coupons)];
             } while ($this->helperService->checkIfBothDriversFromATeamAlreadyFinished($teamName, $driversInResults));
 
-            /* At this point team from which a driver will be draw is drawn, not the driver per se so now draw one of the drivers from that team and put him in finished drivers */
+            // Draw one of the remaining drivers from the selected team
             $driver = $this->drawDriverFromATeam($teamName, $drivers, $driversInResults);
 
-            /* If there is no drawn driver, then iterate once again */
+            // If there is no driver (e.g. team not in league or all finished), retry this position
             if ($driver) {
                 $userSeasonPlayer = UserSeasonPlayer::getPlayerByDriverId($players, $driver->getId());
-                $qualificationResult = LeagueQualificationResult::create($userSeasonPlayer, $i);
+                $qualificationResult = LeagueQualificationResult::create($userSeasonPlayer, $position);
                 $result->addQualificationResult($qualificationResult);
                 $driversInResults[] = $driver;
             } else {
-                $i = $i - 1;
+                $position = $position - 1;
             }
         }
 
