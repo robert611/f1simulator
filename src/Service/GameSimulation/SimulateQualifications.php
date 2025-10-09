@@ -51,34 +51,33 @@ class SimulateQualifications
      */
     public function drawDriverFromATeam(string $teamName, array $drivers, array $results): ?Driver
     {
-        $teamDrivers = array();
+        $teamDrivers = [];
 
-        shuffle($drivers);
+        $normalizedTeamName = strtolower($teamName);
 
-        /* Get drivers from given team */
+        /* Get drivers from a given team */
         foreach ($drivers as $driver) {
-            if ($driver->getTeam()->getName() == $teamName) {
+            if (strtolower($driver->getTeam()->getName()) === $normalizedTeamName) {
                 $teamDrivers[] = $driver;
             }
         }
 
-        /* In this case it's called by league qualifications, and there may not be two drivers in a team */
-        if (count($teamDrivers) < 2) {
-            if (isset($teamDrivers[0]) && !in_array($teamDrivers[0], $results)) {
-                return $teamDrivers[0];
-            }
+        $finishedDriverIds = [];
+        foreach ($results as $finishedDriver) {
+            $finishedDriverIds[$finishedDriver->getId()] = true;
+        }
 
+        $unfinishedDrivers = array_values(array_filter(
+            $teamDrivers,
+            static function (Driver $driver) use ($finishedDriverIds): bool {
+                return !isset($finishedDriverIds[$driver->getId()]);
+            },
+        ));
+
+        if (count($unfinishedDrivers) === 0) {
             return null;
         }
 
-        /* If one of the drivers already finished race then return the second one */
-        if (in_array($teamDrivers[0], $results)) {
-            return $teamDrivers[1];
-        } elseif (in_array($teamDrivers[1], $results)) {
-            return $teamDrivers[0];
-        }
-
-        /* If none of the drivers finished then draw one of them */
-        return $teamDrivers[rand(0, 1)];
+        return $unfinishedDrivers[array_rand($unfinishedDrivers)];
     }
 }
