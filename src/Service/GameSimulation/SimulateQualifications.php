@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service\GameSimulation;
 
 use App\Entity\Driver;
@@ -24,12 +26,12 @@ class SimulateQualifications
         $coupons = $this->helperService->generateCoupons();
 
         for ($position = 1; $position <= count($drivers); $position++) {
-            /* If both driver from given team will be already drawn, check function will return true and draw will be repeat until $team with only one or zero drivers finished will be drawn */
+            // Draw a team that has unfinished driver
             do {
                 $teamName = $coupons[array_rand($coupons)];
             } while ($this->helperService->checkIfBothDriversFromATeamAlreadyFinished($teamName, $result->toPlainArray()));
 
-            /* At this point team from which driver will be draw is drawn, not the driver per se so now draw one of the drivers from that team and put him in finished drivers */
+            // Draw a driver from the selected team
             $driver = $this->drawDriverFromATeam($teamName, $drivers, $result->toPlainArray());
 
             if ($driver) {
@@ -38,7 +40,7 @@ class SimulateQualifications
                 continue;
             }
 
-            /* If there is no drawn driver, then iterate once again */
+            // Retry this position if no driver was drawn
             $position -= 1;
         }
 
