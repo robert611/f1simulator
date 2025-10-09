@@ -19,7 +19,6 @@ class SimulateLeagueQualifications
 
     public function getLeagueQualificationsResults(UserSeason $userSeason): LeagueQualificationResultsCollection
     {
-        // @TODO, write tests
         $players = $userSeason->getPlayers();
 
         $drivers = UserSeasonPlayer::getPlayersDrivers($players);

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Model\GameSimulation;
 
 use App\Entity\Driver;
+use App\Entity\UserSeasonPlayer;
 
 class LeagueQualificationResultsCollection
 {
@@ -25,9 +26,23 @@ class LeagueQualificationResultsCollection
     }
 
     /**
-     * @return array<int, Driver>
+     * @return array<int, UserSeasonPlayer>
      */
     public function toPlainArray(): array
+    {
+        $plainArray = [];
+
+        foreach ($this->leagueQualificationResults as $qualificationResult) {
+            $plainArray[$qualificationResult->getPosition()] = $qualificationResult->getUserSeasonPlayer();
+        }
+
+        return $plainArray;
+    }
+
+    /**
+     * @return array<int, Driver>
+     */
+    public function toPlainDriverArray(): array
     {
         $plainArray = [];
 
