@@ -74,17 +74,23 @@ class SimulateLeagueQualifications
         if (count($teamDrivers) === 0) {
             return null;
         }
-    
-        // unfinished team drivers
+
+        $finishedDriverIds = [];
+        foreach ($results as $finishedDriver) {
+            $finishedDriverIds[$finishedDriver->getId()] = true;
+        }
+
         $unfinishedDrivers = array_values(array_filter(
             $teamDrivers,
-            static fn(Driver $driver) => false === in_array($driver, $results, true),
+            static function (Driver $driver) use ($finishedDriverIds): bool {
+                return !isset($finishedDriverIds[$driver->getId()]);
+            },
         ));
-    
+
         if (count($unfinishedDrivers) === 0) {
             return null;
         }
-    
+
         return $unfinishedDrivers[array_rand($unfinishedDrivers)];
     }
 }
