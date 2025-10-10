@@ -1,101 +1,96 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Integration\Service\GameSimulation;
 
 use App\Entity\Driver;
-use App\Entity\Team;
-use App\Model\Configuration\TeamsStrength;
 use App\Service\GameSimulation\SimulateQualifications;
+use App\Tests\Common\Fixtures;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class SimulateQualificationsTest extends KernelTestCase
 {
-    /**
-     * @var \Doctrine\ORM\EntityManager
-     */
-    private $entityManager;
-
+    private Fixtures $fixtures;
     private SimulateQualifications $simulateQualifications;
-    private array $drivers;
-    private array $teams;
 
     public function setUp(): void
     {
-        $kernel = self::bootKernel();
-        $this->entityManager = $kernel->getContainer()
-            ->get('doctrine')
-            ->getManager();
-
-        $this->drivers = $this->entityManager->getRepository(Driver::class)->findAll();
-        $this->teams = $this->entityManager->getRepository(Team::class)->findAll();
-
+        $this->fixtures = self::getContainer()->get(Fixtures::class);
         $this->simulateQualifications = self::getContainer()->get(SimulateQualifications::class);
     }
 
-    public function test_if_get_qualification_results_returns_correct_results()
+    #[Test]
+    public function it_returns_empty_results_when_no_drivers_exist(): void
     {
-        $results = $this->simulateQualifications->getLeagueQualificationsResults($this->drivers);
+        // given (no drivers in database)
 
-        /* Array indexes start from 1 */
-        $this->assertTrue(count($results) == count($this->drivers));
-        $this->assertTrue($results[1] instanceof Driver);
+        // when
+        $results = $this->simulateQualifications->getQualificationsResults();
 
-        /* Check if in results there are exactly two drivers of every team */
-        foreach ($this->teams as $team) {
-            $this->assertTrue(count($this->getDriversOfTeamInResults($team, $results)) == 2);
-        }
+        // then
+        self::assertEmpty($results->getQualificationResults());
+        self::assertEmpty($results->toPlainArray());
     }
 
-    /* Coupons contain teamName, so altough most of the code is similar to the one in getCoupons()
-     method there always may be a problem with filling data */
-    public function test_if_get_coupons_returns_correct_amount_of_coupons()
+    #[Test]
+    public function it_checks_if_returned_positions_for_all_drivers_are_unique(): void
     {
-        $expectedCoupons = 0;
+        // given (Build 3 teams with 6 drivers total)
+        $teamFerrari = $this->fixtures->aTeamWithName('Ferrari');
+        $teamRedBull = $this->fixtures->aTeamWithName('Red Bull');
+        $teamMercedes = $this->fixtures->aTeamWithName('Mercedes');
 
-        $teamsStrength = TeamsStrength::getTeamsStrength();
+        $driver1 = $this->fixtures->aDriver('Charles', 'Leclerc', $teamFerrari, 16);
+        $driver2 = $this->fixtures->aDriver('Carlos', 'Sainz', $teamFerrari, 55);
+        $driver3 = $this->fixtures->aDriver('Max', 'Verstappen', $teamRedBull, 33);
+        $driver4 = $this->fixtures->aDriver('Sergio', 'Perez', $teamRedBull, 11);
+        $driver5 = $this->fixtures->aDriver('Lewis', 'Hamilton', $teamMercedes, 44);
+        $driver6 = $this->fixtures->aDriver('George', 'Russell', $teamMercedes, 63);
 
-        foreach ($teamsStrength as $strength) {
-            $expectedCoupons += ceil($strength);
-        }
+        $driversIds = [
+            $driver1->getId(),
+            $driver2->getId(),
+            $driver3->getId(),
+            $driver4->getId(),
+            $driver5->getId(),
+            $driver6->getId(),
+        ];
 
-        $expectedCoupons *= $this->simulateQualifications->multiplier;
+        // when
+        $collection = $this->simulateQualifications->getQualificationsResults();
 
-        $this->assertEquals($expectedCoupons, count($this->simulateQualifications->getCoupons()));
-    }
+        // then
+        self::assertCount(6, $collection->getQualificationResults());
 
-    public function test_if_draw_driver_from_team_draws_correct_driver()
-    {
-        $teamName = $this->teams[0]->getName();
+        // and then (Positions are 1...6 and unique)
+        self::assertEqualsCanonicalizing([1, 2, 3, 4, 5, 6], array_keys($collection->toPlainArray()));
 
-        $driver = $this->simulateQualifications->drawDriverFromATeam($teamName, $this->drivers, []);
-
-        $this->assertEquals($driver->getTeam()->getName(), $teamName);
-    }
-
-    public function test_if_check_if_both_drivers_from_team_already_finished_works_correctly()
-    {
-        $teamName = $this->teams[0]->getName();
-
-        $checkTrue = $this->simulateQualifications->checkIfBothDriversFromATeamAlreadyFinished(
-            $teamName,
-            $this->drivers,
+        // and then (Each driver appears exactly once)
+        $resultDriverIds = array_map(
+            static fn(Driver $driver) => $driver->getId(),
+            $collection->toPlainArray(),
         );
-        $checkFalse = $this->simulateQualifications->checkIfBothDriversFromATeamAlreadyFinished($teamName, []);
-
-        $this->assertTrue($checkTrue);
-        $this->assertFalse($checkFalse);
+        self::assertCount(6, array_unique($resultDriverIds));
+        foreach ($resultDriverIds as $driverId) {
+            self::assertTrue(in_array($driverId, $driversIds));
+        }
     }
 
-    public function getDriversOfTeamInResults($team, $results)
+    #[Test]
+    public function it_handles_single_driver_correctly(): void
     {
-        $drivers = array();
+        // given (Build 1 team with 1 driver)
+        $teamFerrari = $this->fixtures->aTeamWithName('Ferrari');
+        $driver = $this->fixtures->aDriver('Charles', 'Leclerc', $teamFerrari, 16);
 
-        foreach ($results as $result) {
-            if ($result->getTeam()->getId() == $team->getId()) {
-                $drivers[] = $result;
-            }
-        }
+        // when
+        $collection = $this->simulateQualifications->getQualificationsResults();
 
-        return $drivers;
+        // then
+        self::assertCount(1, $collection->getQualificationResults());
+        self::assertEquals(1, $collection->getQualificationResults()[0]->getPosition());
+        self::assertEquals($driver->getId(), $collection->getQualificationResults()[0]->getDriver()->getId());
     }
 }

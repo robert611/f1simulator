@@ -102,7 +102,7 @@ class SimulateRaceService
     ): array {
         $results = [];
 
-        $coupons = $this->getCoupons($qualificationsResults->toPlainArray());
+        $coupons = $this->getCoupons($qualificationsResults->toPlainDriverArray());
 
         for ($i = 1; $i <= count($drivers); $i++) {
             do {

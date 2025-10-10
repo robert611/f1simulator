@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service\GameSimulation;
 
-use App\Entity\Driver;
 use App\Entity\UserSeason;
 use App\Entity\UserSeasonPlayer;
 use App\Model\GameSimulation\LeagueRaceResultsDTO;
@@ -13,7 +12,7 @@ use Doctrine\Common\Collections\Collection;
 class SimulateLeagueRace
 {
     public function __construct(
-        private readonly SimulateQualifications $simulateQualifications,
+        private readonly SimulateLeagueQualifications $simulateLeagueQualifications,
         private readonly SimulateRaceService $simulateRaceService,
     ) {
     }
@@ -24,7 +23,7 @@ class SimulateLeagueRace
 
         $drivers = UserSeasonPlayer::getPlayersDrivers($players);
 
-        $qualificationsResults = $this->simulateQualifications->getLeagueQualificationsResults($userSeason);
+        $qualificationsResults = $this->simulateLeagueQualifications->getLeagueQualificationsResults($userSeason);
 
         $raceResults = $this->simulateRaceService->getLeagueRaceResults($drivers, $qualificationsResults);
 
