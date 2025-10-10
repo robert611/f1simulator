@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service\GameSimulation;
 
-use App\Entity\Driver;
 use App\Entity\UserSeason;
 use App\Entity\UserSeasonPlayer;
 use App\Model\GameSimulation\LeagueQualificationResult;
@@ -38,9 +37,9 @@ class SimulateLeagueQualifications
             } while ($this->helperService->checkIfBothDriversFromATeamAlreadyFinished($teamName, $driversInResults));
 
             // Draw one of the remaining drivers from the selected team
-            $driver = $this->drawDriverFromATeam($teamName, $drivers, $driversInResults);
+            $driver = $this->helperService->drawDriverFromATeam($teamName, $drivers, $driversInResults);
 
-            // If there is no driver (e.g. team not in league or all finished), retry this position
+            // If there is no driver (e.g., team not in league or all finished), retry this position
             if ($driver) {
                 $userSeasonPlayer = UserSeasonPlayer::getPlayerByDriverId($players, $driver->getId());
                 $qualificationResult = LeagueQualificationResult::create($userSeasonPlayer, $position);
@@ -52,46 +51,5 @@ class SimulateLeagueQualifications
         }
 
         return $result;
-    }
-
-
-
-    /**
-     * @param Driver[] $leagueDrivers
-     * @param Driver[] $results
-     */
-    public function drawDriverFromATeam(string $teamName, array $leagueDrivers, array $results): ?Driver
-    {
-        $teamDrivers = [];
-
-        $normalizedTeamName = strtolower($teamName);
-
-        foreach ($leagueDrivers as $driver) {
-            if (strtolower($driver->getTeam()->getName()) === $normalizedTeamName) {
-                $teamDrivers[] = $driver;
-            }
-        }
-
-        if (count($teamDrivers) === 0) {
-            return null;
-        }
-
-        $finishedDriverIds = [];
-        foreach ($results as $finishedDriver) {
-            $finishedDriverIds[$finishedDriver->getId()] = true;
-        }
-
-        $unfinishedDrivers = array_values(array_filter(
-            $teamDrivers,
-            static function (Driver $driver) use ($finishedDriverIds): bool {
-                return !isset($finishedDriverIds[$driver->getId()]);
-            },
-        ));
-
-        if (count($unfinishedDrivers) === 0) {
-            return null;
-        }
-
-        return $unfinishedDrivers[array_rand($unfinishedDrivers)];
     }
 }

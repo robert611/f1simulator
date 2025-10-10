@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service\GameSimulation;
 
-use App\Entity\Driver;
 use App\Model\GameSimulation\QualificationResult;
 use App\Model\GameSimulation\QualificationResultsCollection;
 use App\Repository\DriverRepository;
@@ -32,7 +31,7 @@ class SimulateQualifications
             } while ($this->helperService->checkIfBothDriversFromATeamAlreadyFinished($teamName, $result->toPlainArray()));
 
             // Draw a driver from the selected team
-            $driver = $this->drawDriverFromATeam($teamName, $drivers, $result->toPlainArray());
+            $driver = $this->helperService->drawDriverFromATeam($teamName, $drivers, $result->toPlainArray());
 
             if ($driver) {
                 $qualificationResult = QualificationResult::create($driver, $position);
@@ -45,41 +44,5 @@ class SimulateQualifications
         }
 
         return $result;
-    }
-
-    /**
-     * @param Driver[] $drivers
-     * @param Driver[] $results
-     */
-    public function drawDriverFromATeam(string $teamName, array $drivers, array $results): ?Driver
-    {
-        $teamDrivers = [];
-
-        $normalizedTeamName = strtolower($teamName);
-
-        /* Get drivers from a given team */
-        foreach ($drivers as $driver) {
-            if (strtolower($driver->getTeam()->getName()) === $normalizedTeamName) {
-                $teamDrivers[] = $driver;
-            }
-        }
-
-        $finishedDriverIds = [];
-        foreach ($results as $finishedDriver) {
-            $finishedDriverIds[$finishedDriver->getId()] = true;
-        }
-
-        $unfinishedDrivers = array_values(array_filter(
-            $teamDrivers,
-            static function (Driver $driver) use ($finishedDriverIds): bool {
-                return !isset($finishedDriverIds[$driver->getId()]);
-            },
-        ));
-
-        if (count($unfinishedDrivers) === 0) {
-            return null;
-        }
-
-        return $unfinishedDrivers[array_rand($unfinishedDrivers)];
     }
 }

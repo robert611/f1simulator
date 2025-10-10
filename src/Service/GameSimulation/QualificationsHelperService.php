@@ -52,4 +52,44 @@ class QualificationsHelperService
 
         return false;
     }
+
+    /**
+     * @param Driver[] $drivers
+     * @param Driver[] $results
+     */
+    public function drawDriverFromATeam(string $teamName, array $drivers, array $results): ?Driver
+    {
+        $teamDrivers = [];
+
+        $normalizedTeamName = strtolower($teamName);
+
+        /* Get drivers from a given team */
+        foreach ($drivers as $driver) {
+            if (strtolower($driver->getTeam()->getName()) === $normalizedTeamName) {
+                $teamDrivers[] = $driver;
+            }
+        }
+
+        if (count($teamDrivers) === 0) {
+            return null;
+        }
+
+        $finishedDriverIds = [];
+        foreach ($results as $finishedDriver) {
+            $finishedDriverIds[$finishedDriver->getId()] = true;
+        }
+
+        $unfinishedDrivers = array_values(array_filter(
+            $teamDrivers,
+            static function (Driver $driver) use ($finishedDriverIds): bool {
+                return !isset($finishedDriverIds[$driver->getId()]);
+            },
+        ));
+
+        if (count($unfinishedDrivers) === 0) {
+            return null;
+        }
+
+        return $unfinishedDrivers[array_rand($unfinishedDrivers)];
+    }
 }
