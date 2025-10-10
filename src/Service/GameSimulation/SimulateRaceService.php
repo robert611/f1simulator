@@ -78,7 +78,7 @@ class SimulateRaceService
 
         $results = [];
 
-        $coupons = $this->getCoupons($qualificationResults->toPlainArray());
+        $coupons = $this->generateCoupons($qualificationResults->toPlainArray());
 
         for ($position = 1; $position <= count($drivers); $position++) {
             do {
@@ -102,7 +102,7 @@ class SimulateRaceService
     ): array {
         $results = [];
 
-        $coupons = $this->getCoupons($qualificationsResults->toPlainDriverArray());
+        $coupons = $this->generateCoupons($qualificationsResults->toPlainDriverArray());
 
         for ($i = 1; $i <= count($drivers); $i++) {
             do {
@@ -118,7 +118,7 @@ class SimulateRaceService
     /**
      * @param Driver[] $qualificationsResults
      */
-    public function getCoupons(array $qualificationsResults): array
+    public function generateCoupons(array $qualificationsResults): array
     {
         $teams = TeamsStrength::getTeamsStrength();
         $qualificationResultAdvantage = QualificationAdvantage::getQualificationResultAdvantage();
