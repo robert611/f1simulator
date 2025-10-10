@@ -58,7 +58,7 @@ class SimulateRaceTest extends KernelTestCase
         $expectedCoupons = 0;
 
         $teamsStrength = TeamsStrength::getTeamsStrength();
-        $qualificationResultAdvantage = (new QualificationAdvantage())->getQualificationResultAdvantage();
+        $qualificationResultAdvantage = QualificationAdvantage::getQualificationResultAdvantage();
 
         /* Calculate Strength Of Drivers */
         foreach ($this->qualificationsResults as $position => $driver) {

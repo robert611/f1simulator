@@ -121,7 +121,7 @@ class SimulateRaceService
     public function getCoupons(array $qualificationsResults): array
     {
         $teams = TeamsStrength::getTeamsStrength();
-        $qualificationResultAdvantage = (new QualificationAdvantage())->getQualificationResultAdvantage();
+        $qualificationResultAdvantage = QualificationAdvantage::getQualificationResultAdvantage();
 
         $coupons = [];
         $driversStrength = [];
