@@ -124,27 +124,17 @@ class SimulateRaceService
         $qualificationResultAdvantage = QualificationAdvantage::getQualificationResultAdvantage();
 
         $coupons = [];
-        $driversStrength = [];
 
-        /* Calculate the strength of drivers */
+        // Calculate driver strength and create weighted coupons directly
         foreach ($qualificationsResults as $position => $driver) {
             $driverTeamStrength = $teams[$driver->getTeam()->getName()];
             $driverQualificationAdvantage = $qualificationResultAdvantage[$position];
-
             $strength = ceil($driverTeamStrength + $driverQualificationAdvantage);
 
-            $driversStrength[$driver->getId()] = $strength;
-        }
-
-        /* Mercedes is the strongest team, and the first index contains the driver who won qualifications */
-        $highestPossibleStrength = ceil($teams['Mercedes'] + $qualificationResultAdvantage[1]);
-
-        for ($i = 1; $i <= $this->multiplier; $i++) {
-            for ($j = 1; $j <= $highestPossibleStrength; $j++) {
-                foreach ($driversStrength as $driverId => $driverStrength) {
-                    if ($j <= $driverStrength) {
-                        $coupons[] = $driverId;
-                    }
+            // Add driver ID to coupons based on their strength, repeated for multiplier
+            for ($i = 0; $i < $this->multiplier; $i++) {
+                for ($j = 0; $j < $strength; $j++) {
+                    $coupons[] = $driver->getId();
                 }
             }
         }
