@@ -48,7 +48,7 @@ class SimulateRaceService
 
         $raceResults = $this->getRaceResults($qualificationResultsCollection);
 
-        /* Save qualifications results in database */
+        /* Save qualification results in a database */
         foreach ($qualificationResultsCollection->getQualificationResults() as $qualificationResult) {
             $qualification = new Qualification();
             $qualification->setRace($race);
@@ -58,7 +58,7 @@ class SimulateRaceService
             $this->entityManager->persist($qualification);
         }
 
-        /* Save race results in database */
+        /* Save race results in a database */
         foreach ($raceResults as $position => $driverId) {
             $raceResult = new RaceResult();
 
