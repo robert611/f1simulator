@@ -1,91 +1,198 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Integration\Service\GameSimulation;
 
-use App\Entity\Driver;
-use App\Entity\Team;
 use App\Model\Configuration\QualificationAdvantage;
 use App\Model\Configuration\TeamsStrength;
-use App\Service\GameSimulation\SimulateQualifications;
 use App\Service\GameSimulation\SimulateRaceService;
+use App\Tests\Common\Fixtures;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class SimulateRaceTest extends KernelTestCase
 {
-    /**
-     * @var \Doctrine\ORM\EntityManager
-     */
-    private $entityManager;
+    private Fixtures $fixtures;
 
-    private SimulateRaceService $simulateRace;
-    private SimulateQualifications $simulateQualifications;
-    private array $drivers;
-    private array $teams;
-    private array $qualificationsResults;
+    private SimulateRaceService $simulateRaceService;
 
     public function setUp(): void
     {
-        $kernel = self::bootKernel();
-        $this->entityManager = $kernel->getContainer()
-            ->get('doctrine')
-            ->getManager();
-
-        $this->drivers = $this->entityManager->getRepository(Driver::class)->findAll();
-        $this->teams = $this->entityManager->getRepository(Team::class)->findAll();
-
-        $this->simulateRace = self::getContainer()->get(SimulateRaceService::class);
-        $this->simulateQualifications = self::getContainer()->get(SimulateQualifications::class);
-
-        $this->qualificationsResults = $this->simulateQualifications->getLeagueQualificationsResults($this->drivers);
+        $this->fixtures = self::getContainer()->get(Fixtures::class);
+        $this->simulateRaceService = self::getContainer()->get(SimulateRaceService::class);
     }
 
-    public function test_if_get_race_results_returns_correct_results()
+    #[Test]
+    public function it_returns_empty_coupons_when_no_qualification_results_provided(): void
     {
-        $raceResults = $this->simulateRace->getLeagueRaceResults($this->drivers, $this->qualificationsResults);
+        // given (empty qualification results array)
+        $qualificationResults = [];
 
-        $this->assertTrue(count($raceResults) == count($this->drivers));
+        // when
+        $coupons = $this->simulateRaceService->generateCoupons($qualificationResults);
 
-        /* Check if in results there are exactly two drivers of every team */
-        foreach ($this->teams as $team) {
-            $this->assertTrue(count($this->getDriversOfTeamInResults($team, $raceResults)) == 2);
+        // then
+        self::assertEmpty($coupons);
+    }
+
+    #[Test]
+    public function it_generates_coupons_based_on_driver_strength_and_qualification_position(): void
+    {
+        // given (Create teams and drivers with known strengths)
+        $teamMercedes = $this->fixtures->aTeamWithName('Mercedes');
+        $teamFerrari = $this->fixtures->aTeamWithName('Ferrari');
+        $teamRedBull = $this->fixtures->aTeamWithName('Red Bull');
+
+        $driver1 = $this->fixtures->aDriver('Lewis', 'Hamilton', $teamMercedes, 44);
+        $driver2 = $this->fixtures->aDriver('Charles', 'Leclerc', $teamFerrari, 16);
+        $driver3 = $this->fixtures->aDriver('Max', 'Verstappen', $teamRedBull, 33);
+
+        // Create a qualification results array: position => driver
+        $qualificationResults = [
+            1 => $driver1, // Mercedes driver in P1 (the highest strength)
+            2 => $driver2, // Ferrari driver in P2
+            3 => $driver3, // Red Bull driver in P3
+        ];
+
+        // when
+        $coupons = $this->simulateRaceService->generateCoupons($qualificationResults);
+
+        // then
+        self::assertNotEmpty($coupons);
+        self::assertIsArray($coupons);
+
+        // and then (Verify all coupons contain valid driver IDs)
+        $expectedDriverIds = [$driver1->getId(), $driver2->getId(), $driver3->getId()];
+        foreach ($coupons as $coupon) {
+            self::assertTrue(in_array($coupon, $expectedDriverIds));
         }
     }
 
-    /* Coupons contain driverId, so although most of the code is similar to the one in getCoupons()
-       method there always may be a problem with filling data */
-    public function test_if_get_coupons_returns_correct_amount_of_coupons()
+    #[Test]
+    public function it_generates_more_coupons_for_higher_strength_drivers(): void
     {
-        $expectedCoupons = 0;
+        // given (Create drivers with different team strengths)
+        $teamMercedes = $this->fixtures->aTeamWithName('Mercedes'); // Strength: 23
+        $teamWilliams = $this->fixtures->aTeamWithName('Williams'); // Strength: 0.6
 
+        $mercedesDriver = $this->fixtures->aDriver('Lewis', 'Hamilton', $teamMercedes, 44);
+        $williamsDriver = $this->fixtures->aDriver('George', 'Russell', $teamWilliams, 63);
+
+        $qualificationResults = [
+            1 => $mercedesDriver, // P1 with Mercedes strength
+            2 => $williamsDriver, // P2 with Williams strength
+        ];
+
+        // when
+        $coupons = $this->simulateRaceService->generateCoupons($qualificationResults);
+
+        // then
+        $mercedesCoupons = array_filter($coupons, fn($id) => $id === $mercedesDriver->getId());
+        $williamsCoupons = array_filter($coupons, fn($id) => $id === $williamsDriver->getId());
+
+        // Mercedes driver should have significantly more coupons due to higher team strength
+        self::assertGreaterThan(count($williamsCoupons), count($mercedesCoupons));
+    }
+
+    #[Test]
+    public function it_respects_multiplier_in_coupon_generation(): void
+    {
+        // given (Create a single driver for predictable results)
+        $teamFerrari = $this->fixtures->aTeamWithName('Ferrari');
+        $driver = $this->fixtures->aDriver('Charles', 'Leclerc', $teamFerrari, 16);
+
+        $qualificationResults = [1 => $driver];
+
+        // Calculate the expected coupon count
         $teamsStrength = TeamsStrength::getTeamsStrength();
-        $qualificationResultAdvantage = QualificationAdvantage::getQualificationResultAdvantage();
+        $qualificationAdvantage = QualificationAdvantage::getQualificationResultAdvantage();
+        $expectedStrength = ceil($teamsStrength['Ferrari'] + $qualificationAdvantage[1]);
+        $expectedCouponCount = (int) ($expectedStrength * $this->simulateRaceService->multiplier);
 
-        /* Calculate Strength Of Drivers */
-        foreach ($this->qualificationsResults as $position => $driver) {
-            $driverTeamStrength = $teamsStrength[$driver->getTeam()->getName()];
-            $driverQualificationAdvantage = $qualificationResultAdvantage[$position];
+        // when
+        $coupons = $this->simulateRaceService->generateCoupons($qualificationResults);
 
-            $strength = ceil($driverTeamStrength + $driverQualificationAdvantage);
+        // then
+        self::assertCount($expectedCouponCount, $coupons);
 
-            $expectedCoupons += $strength;
+        // All coupons should be for the same driver
+        foreach ($coupons as $coupon) {
+            self::assertEquals($driver->getId(), $coupon);
         }
-
-        $expectedCoupons *= $this->simulateRace->multiplier;
-
-        $this->assertEquals($expectedCoupons, count($this->simulateRace->getCoupons($this->qualificationsResults)));
     }
 
-    public function getDriversOfTeamInResults($team, $results): array
+    #[Test]
+    public function it_handles_qualification_position_advantages_correctly(): void
     {
-        $drivers = array();
+        // given (Create two drivers from the same team but different positions)
+        $teamFerrari = $this->fixtures->aTeamWithName('Ferrari');
+        $driver1 = $this->fixtures->aDriver('Charles', 'Leclerc', $teamFerrari, 16);
+        $driver2 = $this->fixtures->aDriver('Carlos', 'Sainz', $teamFerrari, 55);
 
-        foreach ($results as $driverId) {
-            $driver = $this->entityManager->getRepository(Driver::class)->find($driverId);
-            if ($driver->getTeam()->getId() == $team->getId()) {
-                $drivers[] = $driver;
-            }
+        $qualificationResults = [
+            1 => $driver1, // P1 gets highest qualification advantage
+            2 => $driver2, // P2 gets lower qualification advantage
+        ];
+
+        // when
+        $coupons = $this->simulateRaceService->generateCoupons($qualificationResults);
+
+        // then
+        $driver1Coupons = array_filter($coupons, fn($id) => $id === $driver1->getId());
+        $driver2Coupons = array_filter($coupons, fn($id) => $id === $driver2->getId());
+
+        // P1 driver should have more coupons due to qualification advantage
+        self::assertGreaterThan(count($driver2Coupons), count($driver1Coupons));
+    }
+
+    #[Test]
+    public function it_generates_coupons_for_all_qualification_positions(): void
+    {
+        // given (Create drivers for multiple positions)
+        $teamMercedes = $this->fixtures->aTeamWithName('Mercedes');
+        $teamFerrari = $this->fixtures->aTeamWithName('Ferrari');
+        $teamRedBull = $this->fixtures->aTeamWithName('Red Bull');
+
+        $driver1 = $this->fixtures->aDriver('Lewis', 'Hamilton', $teamMercedes, 44);
+        $driver2 = $this->fixtures->aDriver('Charles', 'Leclerc', $teamFerrari, 16);
+        $driver3 = $this->fixtures->aDriver('Max', 'Verstappen', $teamRedBull, 33);
+
+        $qualificationResults = [
+            1 => $driver1,
+            2 => $driver2,
+            3 => $driver3,
+        ];
+
+        // when
+        $coupons = $this->simulateRaceService->generateCoupons($qualificationResults);
+
+        // then
+        $driverIds = array_unique($coupons);
+        self::assertCount(3, $driverIds);
+        self::assertContains($driver1->getId(), $driverIds);
+        self::assertContains($driver2->getId(), $driverIds);
+        self::assertContains($driver3->getId(), $driverIds);
+    }
+
+    #[Test]
+    public function it_handles_single_driver_qualification_results(): void
+    {
+        // given (A single driver in qualification)
+        $teamFerrari = $this->fixtures->aTeamWithName('Ferrari');
+        $driver = $this->fixtures->aDriver('Charles', 'Leclerc', $teamFerrari, 16);
+
+        $qualificationResults = [1 => $driver];
+
+        // when
+        $coupons = $this->simulateRaceService->generateCoupons($qualificationResults);
+
+        // then
+        self::assertNotEmpty($coupons);
+
+        // All coupons should be for the same driver
+        foreach ($coupons as $coupon) {
+            self::assertEquals($driver->getId(), $coupon);
         }
-
-        return $drivers;
     }
 }
