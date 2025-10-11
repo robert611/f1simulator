@@ -104,12 +104,12 @@ class SimulateRaceService
 
         $coupons = $this->generateCoupons($qualificationsResults->toPlainDriverArray());
 
-        for ($i = 1; $i <= count($drivers); $i++) {
+        for ($position = 1; $position <= count($drivers); $position++) {
             do {
-                $driverId = $coupons[rand(0, count($coupons) - 1)];
+                $driverId = $coupons[array_rand($coupons)];
             } while (in_array($driverId, $results));
 
-            $results[$i] = $driverId;
+            $results[$position] = $driverId;
         }
 
         return $results;
@@ -117,6 +117,8 @@ class SimulateRaceService
 
     /**
      * @param Driver[] $qualificationsResults
+     *
+     * @return int[]
      */
     public function generateCoupons(array $qualificationsResults): array
     {
