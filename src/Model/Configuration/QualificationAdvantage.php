@@ -6,7 +6,7 @@ namespace App\Model\Configuration;
 
 class QualificationAdvantage
 {
-    public function getQualificationResultAdvantage(): array
+    public static function getQualificationResultAdvantage(): array
     {
         return [
             1 => 21,

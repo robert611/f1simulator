@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service\GameSimulation;
 
 use App\Entity\Driver;
@@ -48,23 +50,21 @@ class SimulateRaceService
 
         $raceResults = $this->getRaceResults($qualificationResultsCollection);
 
-        /* Save qualifications results in database */
+        /* Save qualification results in a database */
         foreach ($qualificationResultsCollection->getQualificationResults() as $qualificationResult) {
-            $qualification = new Qualification();
-            $qualification->setRace($race);
-            $qualification->setDriver($qualificationResult->getDriver());
-            $qualification->setPosition($qualificationResult->getPosition());
+            $qualification = Qualification::create(
+                $qualificationResult->getDriver(),
+                $race,
+                $qualificationResult->getPosition(),
+            );
 
             $this->entityManager->persist($qualification);
         }
 
-        /* Save race results in database */
+        /* Save race results in a database */
         foreach ($raceResults as $position => $driverId) {
-            $raceResult = new RaceResult();
-
-            $raceResult->setRace($race);
-            $raceResult->setDriver($this->driverRepository->find($driverId));
-            $raceResult->setPosition($position);
+            $driver = $this->driverRepository->find($driverId);
+            $raceResult = RaceResult::create($position, $race, $driver);
 
             $this->entityManager->persist($raceResult);
         }
@@ -78,7 +78,7 @@ class SimulateRaceService
 
         $results = [];
 
-        $coupons = $this->getCoupons($qualificationResults->toPlainArray());
+        $coupons = $this->generateCoupons($qualificationResults->toPlainArray());
 
         for ($position = 1; $position <= count($drivers); $position++) {
             do {
@@ -102,14 +102,14 @@ class SimulateRaceService
     ): array {
         $results = [];
 
-        $coupons = $this->getCoupons($qualificationsResults->toPlainDriverArray());
+        $coupons = $this->generateCoupons($qualificationsResults->toPlainDriverArray());
 
-        for ($i = 1; $i <= count($drivers); $i++) {
+        for ($position = 1; $position <= count($drivers); $position++) {
             do {
-                $driverId = $coupons[rand(0, count($coupons) - 1)];
+                $driverId = $coupons[array_rand($coupons)];
             } while (in_array($driverId, $results));
 
-            $results[$i] = $driverId;
+            $results[$position] = $driverId;
         }
 
         return $results;
@@ -117,34 +117,26 @@ class SimulateRaceService
 
     /**
      * @param Driver[] $qualificationsResults
+     *
+     * @return int[]
      */
-    public function getCoupons(array $qualificationsResults): array
+    public function generateCoupons(array $qualificationsResults): array
     {
         $teams = TeamsStrength::getTeamsStrength();
-        $qualificationResultAdvantage = (new QualificationAdvantage())->getQualificationResultAdvantage();
+        $qualificationResultAdvantage = QualificationAdvantage::getQualificationResultAdvantage();
 
         $coupons = [];
-        $driversStrength = [];
 
-        /* Calculate the strength of drivers */
+        // Calculate driver strength and create weighted coupons directly
         foreach ($qualificationsResults as $position => $driver) {
             $driverTeamStrength = $teams[$driver->getTeam()->getName()];
             $driverQualificationAdvantage = $qualificationResultAdvantage[$position];
-
             $strength = ceil($driverTeamStrength + $driverQualificationAdvantage);
 
-            $driversStrength[$driver->getId()] = $strength;
-        }
-
-        /* Mercedes is the strongest team, and the first index contains the driver who won qualifications */
-        $highestPossibleStrength = ceil($teams['Mercedes'] + $qualificationResultAdvantage[1]);
-
-        for ($i = 1; $i <= $this->multiplier; $i++) {
-            for ($j = 1; $j <= $highestPossibleStrength; $j++) {
-                foreach ($driversStrength as $driverId => $driverStrength) {
-                    if ($j <= $driverStrength) {
-                        $coupons[] = $driverId;
-                    }
+            // Add driver ID to coupons based on their strength, repeated for multiplier
+            for ($i = 0; $i < $this->multiplier; $i++) {
+                for ($j = 0; $j < $strength; $j++) {
+                    $coupons[] = $driver->getId();
                 }
             }
         }
