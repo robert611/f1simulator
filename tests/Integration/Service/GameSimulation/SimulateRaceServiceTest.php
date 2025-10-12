@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Service\GameSimulation;
 
+use App\Entity\Race;
 use App\Model\Configuration\QualificationAdvantage;
 use App\Model\Configuration\TeamsStrength;
 use App\Model\GameSimulation\LeagueQualificationResult;
@@ -25,6 +26,166 @@ class SimulateRaceServiceTest extends KernelTestCase
     {
         $this->fixtures = self::getContainer()->get(Fixtures::class);
         $this->simulateRaceService = self::getContainer()->get(SimulateRaceService::class);
+    }
+
+    #[Test]
+    public function it_correctly_simulates_first_race_of_the_season(): void
+    {
+        // given (A season with no previous races)
+        $user = $this->fixtures->aCustomUser('user', 'user@example.com');
+        $team = $this->fixtures->aTeamWithName('Ferrari');
+        $driver = $this->fixtures->aDriver('Charles', 'Leclerc', $team, 16);
+        $season = $this->fixtures->aSeason($user, $driver);
+
+        // and given
+        $track1 = $this->fixtures->aTrack('Monaco', 'monaco.png');
+        $this->fixtures->aTrack('Silverstone', 'silverstone.png');
+
+        // when
+        $this->simulateRaceService->simulateRace($season);
+
+        // then (Verify race was created with first track)
+        self::assertCount(1, $season->getRaces());
+
+        self::assertNotNull($season->getLastRace());
+        self::assertEquals($track1->getId(), $season->getLastRace()->getTrack()->getId());
+        self::assertEquals($season->getId(), $season->getLastRace()->getSeason()->getId());
+    }
+
+    #[Test]
+    public function it_correctly_simulates_subsequent_race_of_season(): void
+    {
+        // given
+        $user = $this->fixtures->aCustomUser('user', 'user@example.com');
+        $team = $this->fixtures->aTeamWithName('Ferrari');
+        $driver = $this->fixtures->aDriver('Charles', 'Leclerc', $team, 16);
+        $season = $this->fixtures->aSeason($user, $driver);
+
+        // and given
+        $track1 = $this->fixtures->aTrack('Monaco', 'monaco.png');
+        $track2 = $this->fixtures->aTrack('Silverstone', 'silverstone.png');
+
+        // and given
+        $firstRace = Race::create($track1, $season);
+        $season->addRace($firstRace);
+
+        // when
+        $this->simulateRaceService->simulateRace($season);
+
+        // then
+        self::assertCount(2, $season->getRaces());
+
+        self::assertNotNull($season->getLastRace());
+        self::assertEquals($track2->getId(), $season->getLastRace()->getTrack()->getId());
+        self::assertEquals($season->getId(), $season->getLastRace()->getSeason()->getId());
+    }
+
+    #[Test]
+    public function it_correctly_creates_qualification_results_for_all_drivers(): void
+    {
+        // given
+        $user = $this->fixtures->aCustomUser('user', 'user@example.com');
+        $team = $this->fixtures->aTeamWithName('Ferrari');
+        $driver1 = $this->fixtures->aDriver('Charles', 'Leclerc', $team, 16);
+        $season = $this->fixtures->aSeason($user, $driver1);
+
+        // and given
+        $mercedes = $this->fixtures->aTeamWithName('Mercedes');
+        $redBull = $this->fixtures->aTeamWithName('Red Bull');
+        $driver2 = $this->fixtures->aDriver('Lewis', 'Hamilton', $mercedes, 44);
+        $driver3 = $this->fixtures->aDriver('Max', 'Verstappen', $redBull, 33);
+
+        // and given
+        $this->fixtures->aTrack('Monaco', 'monaco.png');
+
+        // when
+        $this->simulateRaceService->simulateRace($season);
+
+        // then
+        $race = $season->getRaces()->first();
+        $qualifications = $race->getQualifications();
+
+        self::assertCount(3, $qualifications);
+
+        // and then (All drivers have a qualification result)
+        $qualificationDrivers = [];
+        foreach ($qualifications as $qualification) {
+            $qualificationDrivers[] = $qualification->getDriver()->getId();
+        }
+
+        self::assertContains($driver1->getId(), $qualificationDrivers);
+        self::assertContains($driver2->getId(), $qualificationDrivers);
+        self::assertContains($driver3->getId(), $qualificationDrivers);
+    }
+
+    #[Test]
+    public function it_correctly_creates_race_results_for_all_drivers(): void
+    {
+        // given
+        $user = $this->fixtures->aCustomUser('user', 'user@example.com');
+        $team = $this->fixtures->aTeamWithName('Ferrari');
+        $driver1 = $this->fixtures->aDriver('Charles', 'Leclerc', $team, 16);
+        $season = $this->fixtures->aSeason($user, $driver1);
+
+        // and given
+        $mercedes = $this->fixtures->aTeamWithName('Mercedes');
+        $redBull = $this->fixtures->aTeamWithName('Red Bull');
+        $driver2 = $this->fixtures->aDriver('Lewis', 'Hamilton', $mercedes, 44);
+        $driver3 = $this->fixtures->aDriver('Max', 'Verstappen', $redBull, 33);
+
+        // and given
+        $this->fixtures->aTrack('Monaco', 'monaco.png');
+
+        // when
+        $this->simulateRaceService->simulateRace($season);
+
+        // then (Verify race results were created)
+        $race = $season->getRaces()->first();
+        $raceResults = $race->getRaceResults();
+
+        self::assertCount(3, $raceResults);
+
+        // and then (All drivers have race results)
+        $raceResultDrivers = [];
+        $positions = [];
+        foreach ($raceResults as $raceResult) {
+            $raceResultDrivers[] = $raceResult->getDriver()->getId();
+            $positions[] = $raceResult->getPosition();
+        }
+
+        self::assertContains($driver1->getId(), $raceResultDrivers);
+        self::assertContains($driver2->getId(), $raceResultDrivers);
+        self::assertContains($driver3->getId(), $raceResultDrivers);
+
+        // and then (Positions are unique and sequential)
+        self::assertEqualsCanonicalizing([1, 2, 3], $positions);
+    }
+
+    #[Test]
+    public function it_uses_correct_track_selection_logic(): void
+    {
+        // given
+        $user = $this->fixtures->aCustomUser('user', 'user@example.com');
+        $team = $this->fixtures->aTeamWithName('Ferrari');
+        $driver1 = $this->fixtures->aDriver('Charles', 'Leclerc', $team, 16);
+        $season = $this->fixtures->aSeason($user, $driver1);
+
+        // and given
+        $track1 = $this->fixtures->aTrack('Monaco', 'monaco.png');
+        $track2 = $this->fixtures->aTrack('Silverstone', 'silverstone.png');
+        $this->fixtures->aTrack('Spa', 'spa.png');
+
+        // when
+        $this->simulateRaceService->simulateRace($season);
+        $firstRace = $season->getLastRace();
+
+        // and when (Simulate second race)
+        $this->simulateRaceService->simulateRace($season);
+        $secondRace = $season->getLastRace();
+
+        // then (Verify track selection)
+        self::assertEquals($track1->getId(), $firstRace->getTrack()->getId());
+        self::assertEquals($track2->getId(), $secondRace->getTrack()->getId());
     }
 
     #[Test]

@@ -72,6 +72,11 @@ class Season
         return $this->races;
     }
 
+    public function getLastRace(): ?Race
+    {
+        return $this->races->last();
+    }
+
     public function addRaces(Race $races): void
     {
         if (!$this->races->contains($races)) {
