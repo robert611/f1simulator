@@ -15,7 +15,7 @@ use App\Tests\Common\Fixtures;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class SimulateRaceTest extends KernelTestCase
+class SimulateRaceServiceTest extends KernelTestCase
 {
     private Fixtures $fixtures;
 
