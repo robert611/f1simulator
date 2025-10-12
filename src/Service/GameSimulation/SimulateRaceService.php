@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service\GameSimulation;
 
 use App\Entity\Driver;
@@ -50,21 +52,19 @@ class SimulateRaceService
 
         /* Save qualification results in a database */
         foreach ($qualificationResultsCollection->getQualificationResults() as $qualificationResult) {
-            $qualification = new Qualification();
-            $qualification->setRace($race);
-            $qualification->setDriver($qualificationResult->getDriver());
-            $qualification->setPosition($qualificationResult->getPosition());
+            $qualification = Qualification::create(
+                $qualificationResult->getDriver(),
+                $race,
+                $qualificationResult->getPosition(),
+            );
 
             $this->entityManager->persist($qualification);
         }
 
         /* Save race results in a database */
         foreach ($raceResults as $position => $driverId) {
-            $raceResult = new RaceResult();
-
-            $raceResult->setRace($race);
-            $raceResult->setDriver($this->driverRepository->find($driverId));
-            $raceResult->setPosition($position);
+            $driver = $this->driverRepository->find($driverId);
+            $raceResult = RaceResult::create($position, $race, $driver);
 
             $this->entityManager->persist($raceResult);
         }
