@@ -42,6 +42,7 @@ class SimulateRaceService
         }
 
         $race = Race::create($track, $season);
+        $season->addRace($race);
 
         $this->entityManager->persist($race);
         $this->entityManager->flush();
@@ -57,6 +58,7 @@ class SimulateRaceService
                 $race,
                 $qualificationResult->getPosition(),
             );
+            $race->addQualification($qualification);
 
             $this->entityManager->persist($qualification);
         }
@@ -65,6 +67,7 @@ class SimulateRaceService
         foreach ($raceResults as $position => $driverId) {
             $driver = $this->driverRepository->find($driverId);
             $raceResult = RaceResult::create($position, $race, $driver);
+            $race->addRaceResult($raceResult);
 
             $this->entityManager->persist($raceResult);
         }

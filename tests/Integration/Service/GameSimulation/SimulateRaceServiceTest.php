@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Service\GameSimulation;
 
-use App\Entity\Race;
 use App\Model\Configuration\QualificationAdvantage;
 use App\Model\Configuration\TeamsStrength;
 use App\Model\GameSimulation\LeagueQualificationResult;
@@ -66,7 +65,7 @@ class SimulateRaceServiceTest extends KernelTestCase
         $track2 = $this->fixtures->aTrack('Silverstone', 'silverstone.png');
 
         // and given
-        $firstRace = Race::create($track1, $season);
+        $firstRace = $this->fixtures->aRace($track1, $season);
         $season->addRace($firstRace);
 
         // when
