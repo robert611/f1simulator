@@ -14,6 +14,7 @@ use App\Entity\Track;
 use App\Entity\User;
 use App\Entity\UserSeason;
 use App\Entity\UserSeasonPlayer;
+use App\Entity\UserSeasonQualification;
 use App\Entity\UserSeasonRace;
 use App\Entity\UserSeasonRaceResult;
 use Doctrine\ORM\EntityManagerInterface;
@@ -171,10 +172,27 @@ class Fixtures
     ): UserSeasonRaceResult {
         $userSeasonRaceResult = UserSeasonRaceResult::create($position, $points, $race, $player);
 
+        $race->addRaceResult($userSeasonRaceResult);
+
         $this->entityManager->persist($userSeasonRaceResult);
         $this->entityManager->flush();
 
         return $userSeasonRaceResult;
+    }
+
+    public function aUserSeasonQualification(
+        UserSeasonPlayer $player,
+        UserSeasonRace $race,
+        int $position,
+    ): UserSeasonQualification {
+        $userSeasonQualification = UserSeasonQualification::create($player, $race, $position);
+
+        $race->addQualification($userSeasonQualification);
+
+        $this->entityManager->persist($userSeasonQualification);
+        $this->entityManager->flush();
+
+        return $userSeasonQualification;
     }
 
     public function aTrack(string $name, string $picture): Track

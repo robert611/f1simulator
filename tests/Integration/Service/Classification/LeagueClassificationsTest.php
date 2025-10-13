@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Service\Classification;
 
-use App\Entity\UserSeasonPlayer;
 use App\Entity\UserSeasonQualification;
 use App\Entity\UserSeasonRaceResult;
+use App\Service\Classification\ClassificationType;
 use App\Service\Classification\LeagueClassifications;
 use App\Tests\Common\Fixtures;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -95,48 +95,109 @@ class LeagueClassificationsTest extends KernelTestCase
         self::assertEquals(4, $userSeasonPlayer5->getPosition());
     }
 
-    #[DataProvider('provideClassificationTypes')]
     #[Test]
-    public function it_checks_if_can_get_classification_based_on_type(string $type): void
+    public function it_returns_players_classification_for_players_type(): void
     {
-        $classification = $this->leagueClassifications->getClassificationBasedOnType($type);
+        // given
+        $owner = $this->fixtures->aCustomUser('owner', 'owner@example.com');
+        $user1 = $this->fixtures->aCustomUser('user1', 'user1@example.com');
+        $user2 = $this->fixtures->aCustomUser('user2', 'user2@example.com');
 
-        $this->assertTrue(is_array($classification) || is_object($classification));
+        $team = $this->fixtures->aTeamWithName('alpha tauri');
+        $driver1 = $this->fixtures->aDriver('John', 'Hamilton', $team, 11);
+        $driver2 = $this->fixtures->aDriver('Clark', 'Magnussen', $team, 12);
+
+        $userSeason = $this->fixtures->aUserSeason('League First', 10, $owner, 'Test League', false, true);
+
+        $player1 = $this->fixtures->aUserSeasonPlayer($userSeason, $user1, $driver1);
+        $player2 = $this->fixtures->aUserSeasonPlayer($userSeason, $user2, $driver2);
+
+        $player1->assignClassificationProperties(25, 1);
+        $player2->assignClassificationProperties(10, 2);
+
+        // when
+        $result = $this->leagueClassifications->getClassificationBasedOnType(
+            $userSeason,
+            ClassificationType::PLAYERS,
+            null,
+        );
+
+        // then
+        self::assertIsArray($result);
+        self::assertCount(2, $result);
+        self::assertEquals($player1, $result[0]);
+        self::assertEquals($player2, $result[1]);
     }
 
-    public function test_if_can_get_race_classification(): void
+    #[Test]
+    public function it_returns_race_classification_for_race_type(): void
     {
-        $classification = $this->leagueClassifications->getClassificationBasedOnType('race');
+        // given
+        $owner = $this->fixtures->aCustomUser('owner', 'owner@example.com');
+        $user1 = $this->fixtures->aCustomUser('user1', 'user1@example.com');
+        $user2 = $this->fixtures->aCustomUser('user2', 'user2@example.com');
 
-        foreach ($classification as $key => $result) {
-            $this->assertTrue($result instanceof UserSeasonRaceResult);
-            $this->assertTrue($result->getPoints() > 0);
-            $this->assertTrue($result->getPosition() == ($key + 1));
-        }
+        $team = $this->fixtures->aTeamWithName('alpha tauri');
+        $driver1 = $this->fixtures->aDriver('Mike', 'Ross', $team, 21);
+        $driver2 = $this->fixtures->aDriver('John', 'MacQuire', $team, 22);
+
+        $userSeason = $this->fixtures->aUserSeason('League 2', 10, $owner, 'Race League', false, true);
+        $player1 = $this->fixtures->aUserSeasonPlayer($userSeason, $user1, $driver1);
+        $player2 = $this->fixtures->aUserSeasonPlayer($userSeason, $user2, $driver2);
+
+        $track = $this->fixtures->aTrack('Monza', 'monza.png');
+        $race = $this->fixtures->aUserSeasonRace($track, $userSeason);
+
+        $this->fixtures->aUserSeasonRaceResult(1, 25, $race, $player1);
+        $this->fixtures->aUserSeasonRaceResult(2, 18, $race, $player2);
+
+        // when
+        $result = $this->leagueClassifications->getClassificationBasedOnType(
+            $userSeason,
+            ClassificationType::RACE,
+            $race->getId(),
+        );
+
+        // then
+        self::assertInstanceOf(Collection::class, $result);
+        self::assertContainsOnlyInstancesOf(UserSeasonRaceResult::class, $result->toArray());
+        self::assertEquals($player1, $result->toArray()[0]->getPlayer());
+        self::assertEquals($player2, $result->toArray()[1]->getPlayer());
     }
 
-    public function test_if_can_get_players_classification(): void
+    #[Test]
+    public function it_returns_qualifications_for_qualifications_type(): void
     {
-        $classification = $this->leagueClassifications->getClassificationBasedOnType('players');
+        // given
+        $owner = $this->fixtures->aCustomUser('owner', 'owner@example.com');
+        $user1 = $this->fixtures->aCustomUser('user1', 'user1@example.com');
+        $user2 = $this->fixtures->aCustomUser('user2', 'user2@example.com');
 
-        $this->assertTrue($classification[0] instanceof UserSeasonPlayer);
-        $this->assertTrue($classification[0]->getPoints() > 0);
-    }
+        $team = $this->fixtures->aTeamWithName('Ferrari');
+        $driver1 = $this->fixtures->aDriver('Mikael', 'Smith', $team, 31);
+        $driver2 = $this->fixtures->aDriver('Mark', 'Lock', $team, 32);
 
-    public function test_if_can_get_qualifications_classification(): void
-    {
-        $classification = $this->leagueClassifications->getClassificationBasedOnType('qualifications');
+        $league = $this->fixtures->aUserSeason('League 3', 10, $owner, 'Qual League', false, true);
+        $player1 = $this->fixtures->aUserSeasonPlayer($league, $user1, $driver1);
+        $player2 = $this->fixtures->aUserSeasonPlayer($league, $user2, $driver2);
 
-        $this->assertTrue($classification[0] instanceof UserSeasonQualification);
-    }
+        $track = $this->fixtures->aTrack('Spa', 'spa.png');
+        $race = $this->fixtures->aUserSeasonRace($track, $league);
 
-    public static function provideClassificationTypes(): array
-    {
-        return [
-            ['race'],
-            ['players'],
-            ['qualifications'],
-            ['notExistingOne']
-        ];
+        $qualification1 = $this->fixtures->aUserSeasonQualification($player1, $race, 1);
+        $qualification2 = $this->fixtures->aUserSeasonQualification($player2, $race, 2);
+
+        $this->entityManager->persist($qualification1);
+        $this->entityManager->persist($qualification2);
+        $this->entityManager->flush();
+
+        // when
+        $result = $this->leagueClassifications->getClassificationBasedOnType($league, ClassificationType::QUALIFICATIONS, $race->getId());
+
+        // then
+        self::assertInstanceOf(Collection::class, $result);
+        self::assertContainsOnlyInstancesOf(UserSeasonQualification::class, $result->toArray());
+        self::assertEquals($player1, $result->toArray()[0]->getPlayer());
+        self::assertEquals($player2, $result->toArray()[1]->getPlayer());
     }
 }
