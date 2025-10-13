@@ -1,37 +1,63 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Integration\Service\GameSimulation;
 
-use App\Entity\UserSeason;
-use App\Entity\UserSeasonPlayer;
 use App\Service\GameSimulation\SimulateLeagueRace;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Tests\Common\Fixtures;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class SimulateLeagueRaceTest extends KernelTestCase
 {
-    private EntityManagerInterface $entityManager;
+    private Fixtures $fixtures;
     private SimulateLeagueRace $simulateLeagueRace;
 
     public function setUp(): void
     {
-        $kernel = self::bootKernel();
-        $this->entityManager = $kernel->getContainer()->get('doctrine')->getManager();
+        $this->fixtures = self::getContainer()->get(Fixtures::class);
         $this->simulateLeagueRace = self::getContainer()->get(SimulateLeagueRace::class);
     }
 
-    public function test_if_can_get_race_results()
+    #[Test]
+    public function it_simulates_league_race(): void
     {
-        $players = $this->entityManager->getRepository(UserSeason::class)->findOneBy(['completed' => 1])->getPlayers();
+        // given
+        $userSeasonOwner = $this->fixtures->aCustomUser("marcin", "marcin@gmail.com");
+        $user1 = $this->fixtures->aCustomUser('johnXT', 'johnxt@gmail.com');
+        $user2 = $this->fixtures->aCustomUser('maria212', 'maria212@gmail.com');
 
-        [$qualificationsResults, $raceResults] = $this->simulateLeagueRace->getRaceResults($players);
+        // and given
+        $ferrari = $this->fixtures->aTeamWithName('ferrari');
+        $driver1 = $this->fixtures->aDriver("John", "Smith", $ferrari, 44);
+        $driver2 = $this->fixtures->aDriver("Alex", "Apollo", $ferrari, 45);
 
-        $this->assertTrue(count($qualificationsResults) == count($players));
-        $this->assertTrue(count($raceResults) == count($players));
+        // and given
+        $redBull = $this->fixtures->aTeamWithName('red bull');
+        $driver3 = $this->fixtures->aDriver("Yuki", "Grieg", $redBull, 46);
 
-        for ($i = 1, $j = count($qualificationsResults); $i <= $j; $i++) {
-            $this->assertTrue($qualificationsResults[$i] instanceof UserSeasonPlayer);
-            $this->assertTrue($raceResults[$i] instanceof UserSeasonPlayer);
-        }
+        // and given
+        $secret = "J783NMS092C";
+        $userSeason = $this->fixtures->aUserSeason(
+            $secret,
+            10,
+            $userSeasonOwner,
+            "Liga szybkich kierowców",
+            false,
+            false,
+        );
+
+        // and given
+        $this->fixtures->aUserSeasonPlayer($userSeason, $userSeasonOwner, $driver1);
+        $this->fixtures->aUserSeasonPlayer($userSeason, $user1, $driver2);
+        $this->fixtures->aUserSeasonPlayer($userSeason, $user2, $driver3);
+
+        // when
+        $result = $this->simulateLeagueRace->simulateRaceResults($userSeason);
+
+        // then
+        self::assertCount(3, $result->getQualificationsResults()->toPlainArray());
+        self::assertCount(3, $result->getRaceResults());
     }
 }
