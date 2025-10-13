@@ -11,6 +11,7 @@ use App\Model\DriversClassification;
 use App\Repository\DriverRepository;
 use App\Repository\QualificationRepository;
 use App\Repository\RaceRepository;
+use App\Repository\RaceResultRepository;
 use App\Service\DriverStatistics\DriverPoints;
 
 class SeasonClassifications
@@ -18,6 +19,7 @@ class SeasonClassifications
     public function __construct(
         private readonly DriverRepository $driverRepository,
         private readonly RaceRepository $raceRepository,
+        private readonly RaceResultRepository $raceResultRepository,
         private readonly QualificationRepository $qualificationRepository,
     ) {
     }
@@ -59,15 +61,13 @@ class SeasonClassifications
 
     public function getRaceClassification(Season $season, int $raceId): DriversClassification
     {
-        $drivers = $this->driverRepository->findAll();
-
-        $race = $this->raceRepository->findOneBy(['id' => $raceId, 'season' => $season]);
+        $raceResults = $this->raceResultRepository->findBy(['race' => $raceId]);
 
         $driverRaceResults = [];
 
-        foreach ($drivers as $driver) {
-            $points = DriverPoints::getDriverPointsByRace($driver, $race);
-            $driverRaceResults[] = DriverRaceResult::create($driver, $points, 0);
+        foreach ($raceResults as $raceResult) {
+            $points = DriverPoints::getDriverPointsByRace($raceResult);
+            $driverRaceResults[] = DriverRaceResult::create($raceResult->getDriver(), $points, 0);
         }
 
         $driverRaceResults = DriverRaceResult::calculatePositions($driverRaceResults);

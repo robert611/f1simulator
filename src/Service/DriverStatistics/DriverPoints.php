@@ -29,17 +29,9 @@ class DriverPoints
         return $points;
     }
 
-    public static function getDriverPointsByRace(Driver $driver, Race $race): int
+    public static function getDriverPointsByRace(RaceResult $raceResult): int
     {
-        $raceResult = $driver->getRaceResults()->filter(function (RaceResult $result) use ($race) {
-            return $result->getRace()->getId() === $race->getId();
-        });
-
-        if ($raceResult->isEmpty()) {
-            return 0;
-        }
-
-        $position = $raceResult->first()->getPosition();
+        $position = $raceResult->getPosition();
 
         return RaceScoringSystem::getPositionScore($position);
     }

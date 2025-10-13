@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Repository\RaceResultsRepository;
+use App\Repository\RaceResultRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: RaceResultsRepository::class)]
+#[ORM\Entity(repositoryClass: RaceResultRepository::class)]
 #[ORM\Table(name: 'race_result')]
 class RaceResult
 {
