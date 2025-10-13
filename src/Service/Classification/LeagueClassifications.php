@@ -68,7 +68,7 @@ class LeagueClassifications
 
         /* Sort drivers according to possessed points */
         usort($players, function (UserSeasonPlayer $a, UserSeasonPlayer $b) {
-            return $a->getPoints() < $b->getPoints();
+            return $b->getPoints() <=> $a->getPoints();
         });
 
         return $players;
