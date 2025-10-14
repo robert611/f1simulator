@@ -4,8 +4,24 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Repository\UserSeasonRepository;
+
 class SecretGenerator
 {
+    public function __construct(
+        private readonly UserSeasonRepository $userSeasonRepository,
+    ) {
+    }
+
+    public function getLeagueUniqueSecret(): string
+    {
+        do {
+            $secret = self::getSecret();
+        } while ($this->userSeasonRepository->findOneBy(['secret' => $secret]));
+
+        return $secret;
+    }
+
     public static function getSecret(): string
     {
         $alphabet = range('A', 'Z');

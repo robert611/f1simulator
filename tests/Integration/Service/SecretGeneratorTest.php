@@ -21,6 +21,29 @@ class SecretGeneratorTest extends KernelTestCase
     }
 
     #[Test]
+    public function it_checks_if_league_secret_will_be_unique(): void
+    {
+        // given
+        $owner = $this->fixtures->aCustomUser("marcin", "marcin@gmail.com");
+
+        // and given
+        $userSeason = $this->fixtures->aUserSeason(
+            "J783NMS092C",
+            10,
+            $owner,
+            "Liga szybkich kierowców",
+            false,
+            false,
+        );
+
+        // when
+        $secret = $this->secretGenerator->getLeagueUniqueSecret();
+
+        // then
+        self::assertNotEquals($userSeason->getSecret(), $secret);
+    }
+
+    #[Test]
     public function it_checks_if_secret_is_generated_according_to_rules(): void
     {
         // when

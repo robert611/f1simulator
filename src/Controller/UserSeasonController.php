@@ -28,6 +28,7 @@ class UserSeasonController extends BaseController
         private readonly LeagueClassifications $leagueClassification,
         private readonly DrawDriverToReplace $drawDriverToReplace,
         private readonly TrackRepository $trackRepository,
+        private readonly SecretGenerator $secretGenerator,
     ) {
     }
 
@@ -56,7 +57,7 @@ class UserSeasonController extends BaseController
             /** @var UserSeason $userSeason */
             $userSeason = $form->getData();
             $userSeason->setOwner($this->getUser());
-            $userSeason->setSecret(SecretGenerator::getSecret());
+            $userSeason->setSecret($this->secretGenerator->getLeagueUniqueSecret());
             $userSeason->setCompleted(false);
             $userSeason->setStarted(false);
 
