@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 class SecretGenerator
 {
-    public function getSecret(): string
+    public static function getSecret(): string
     {
         $alphabet = range('A', 'Z');
 

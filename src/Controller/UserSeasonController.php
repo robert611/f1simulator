@@ -55,9 +55,8 @@ class UserSeasonController extends BaseController
 
             /** @var UserSeason $userSeason */
             $userSeason = $form->getData();
-
             $userSeason->setOwner($this->getUser());
-            $userSeason->setSecret((new SecretGenerator())->getSecret());
+            $userSeason->setSecret(SecretGenerator::getSecret());
             $userSeason->setCompleted(false);
             $userSeason->setStarted(false);
 
