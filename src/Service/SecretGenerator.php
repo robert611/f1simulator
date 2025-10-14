@@ -13,8 +13,8 @@ class SecretGenerator
         $secret = null;
 
         for ($i = 1; $i <= 12; $i++) {
-            $character = ceil(rand(0, 1));
-            $secret .= $character == 1 ? $alphabet[rand(0, count($alphabet) - 1)] : ceil(rand(0, 8));
+            $character = rand(0, 1);
+            $secret .= $character === 1 ? $alphabet[array_rand($alphabet)] : rand(0, 9);
         }
 
         return $secret;
