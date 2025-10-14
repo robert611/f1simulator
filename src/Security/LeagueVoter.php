@@ -70,6 +70,7 @@ class LeagueVoter extends Voter
         $enoughPlayers = $league->getPlayers()->count() >= UserSeason::MINIMUM_PLAYERS;
 
         if (false === $enoughPlayers) {
+            // phpcs:ignore
             (new Session())->getFlashBag()->add('warning', 'Do rozpoczęcia ligi potrzebujesz przynajmniej dwóch użytkowników.');
         }
 
@@ -131,6 +132,7 @@ class LeagueVoter extends Voter
     private function isALeagueOwner(UserSeason $league, User $user): bool
     {
         if ($user !== $league->getOwner()) {
+            // phpcs:ignore
             (new Session())->getFlashBag()->add('warning', 'Nie możesz wykonać tej operacji, ponieważ nie jesteś założycielem tej ligi.');
 
             return false;

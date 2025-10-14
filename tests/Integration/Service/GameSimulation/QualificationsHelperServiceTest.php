@@ -47,7 +47,7 @@ class QualificationsHelperServiceTest extends KernelTestCase
         // given
         $team = $this->fixtures->aTeamWithName('ferrari');
         $driver1 = $this->fixtures->aDriver('Joe', 'Doe', $team, 55);
-        $driver2 = $this->fixtures->aDriver('John', 'Done', $team,30);
+        $driver2 = $this->fixtures->aDriver('John', 'Done', $team, 30);
 
         // and given
         $team->addDriver($driver1);
@@ -69,7 +69,7 @@ class QualificationsHelperServiceTest extends KernelTestCase
         // given
         $team = $this->fixtures->aTeamWithName('ferrari');
         $driver1 = $this->fixtures->aDriver('Joe', 'Doe', $team, 55);
-        $driver2 = $this->fixtures->aDriver('John', 'Done', $team,30);
+        $driver2 = $this->fixtures->aDriver('John', 'Done', $team, 30);
 
         // and given
         $team->addDriver($driver1);

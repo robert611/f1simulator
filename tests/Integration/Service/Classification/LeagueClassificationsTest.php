@@ -192,7 +192,11 @@ class LeagueClassificationsTest extends KernelTestCase
         $this->entityManager->flush();
 
         // when
-        $result = $this->leagueClassifications->getClassificationBasedOnType($league, ClassificationType::QUALIFICATIONS, $race->getId());
+        $result = $this->leagueClassifications->getClassificationBasedOnType(
+            $league,
+            ClassificationType::QUALIFICATIONS,
+            $race->getId(),
+        );
 
         // then
         self::assertInstanceOf(Collection::class, $result);

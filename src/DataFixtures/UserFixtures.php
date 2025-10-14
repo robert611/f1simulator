@@ -45,8 +45,8 @@ class UserFixtures extends Fixture
             ['username' => 'Johny', 'roles' => ['ROLE_USER'], 'password' => 'password', 'email' => 'email@interia.pl'],
             ['username' => 'Tomy', 'roles' => ['ROLE_USER'], 'password' => 'password', 'email' => 'email@wp.pl'],
             ['username' => 'Vicky', 'roles' => ['ROLE_USER'], 'password' => 'password', 'email' => 'email@example.pl'],
-            ['username' => 'Julia', 'roles' => ['ROLE_USER'], 'password' => 'password', 'email' => 'testemail@example.pl'],
-            ['username' => 'Michael', 'roles' => ['ROLE_USER'], 'password' => 'password', 'email' => 'testbox@example.pl']
+            ['username' => 'Julia', 'roles' => ['ROLE_USER'], 'password' => 'password', 'email' => 'test2@example.pl'],
+            ['username' => 'Michael', 'roles' => ['ROLE_USER'], 'password' => 'password', 'email' => 'box@example.pl'],
         ];
     }
 }

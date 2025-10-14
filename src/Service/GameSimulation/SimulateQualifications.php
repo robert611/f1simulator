@@ -28,7 +28,9 @@ class SimulateQualifications
             // Draw a team that has unfinished driver
             do {
                 $teamName = $coupons[array_rand($coupons)];
-            } while ($this->helperService->checkIfBothDriversFromATeamAlreadyFinished($teamName, $result->toPlainArray()));
+            } while (
+                $this->helperService->checkIfBothDriversFromATeamAlreadyFinished($teamName, $result->toPlainArray())
+            );
 
             // Draw a driver from the selected team
             $driver = $this->helperService->drawDriverFromATeam($teamName, $drivers, $result->toPlainArray());

@@ -83,6 +83,7 @@ class GameController extends BaseController
         $tracksCount = $this->trackRepository->count();
 
         if ($season->getRaces()->count() === $tracksCount) {
+            /* phpcs:ignore */
             $session->getFlashBag()->add('error', 'Wystąpił problem z rozegraniem wyścigu, ze względu bezpieczeństwa danych twój sezon został zakończony.');
 
             $season->endSeason();

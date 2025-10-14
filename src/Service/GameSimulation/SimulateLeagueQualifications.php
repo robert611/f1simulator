@@ -31,7 +31,8 @@ class SimulateLeagueQualifications
         $totalDrivers = count($drivers);
 
         for ($position = 1; $position <= $totalDrivers; $position++) {
-            // If both drivers from a given team are already drawn, repeat the draw until a team with < 2 finished drivers is picked
+            // If both drivers from a given team are already drawn,
+            // repeat the draw until a team with < 2 finished drivers is picked
             do {
                 $teamName = $coupons[array_rand($coupons)];
             } while ($this->helperService->checkIfBothDriversFromATeamAlreadyFinished($teamName, $driversInResults));

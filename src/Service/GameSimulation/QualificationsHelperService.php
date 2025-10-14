@@ -9,7 +9,7 @@ use App\Model\Configuration\TeamsStrength;
 
 class QualificationsHelperService
 {
-    /* Every team has it's strength which says how competitive team is, multiplier multiplies strength of the teams by some value to make diffrences beetwen them greater */
+    // Used to multiply differences between teams
     public int $multiplier = 3;
 
     /**

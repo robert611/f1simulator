@@ -46,10 +46,12 @@ class UserSeasonFixtures extends Fixture implements DependentFixtureInterface
 
     public function getSeasons(): array
     {
+        // phpcs:disable
         return [
             ['owner_id' => 1, 'secret' => 'FH42H78XO1S1', 'max_players' => 15, 'name' => 'Liga Brunatnych kapust', 'completed' => true, 'started' => true],
             ['owner_id' => 2, 'secret' => 'HJRTY1B5X99A', 'max_players' => 20, 'name' => 'Rocket League', 'completed' => false, 'started' => true],
-            ['owner_id' => 3, 'secret' => 'B32X8FOP01XX', 'max_players' => 2, 'name' => 'Liga Jabłek Brzoskwiniowych', 'completed' => false, 'started' => false]
+            ['owner_id' => 3, 'secret' => 'B32X8FOP01XX', 'max_players' => 2, 'name' => 'Liga Jabłek Brzoskwiniowych', 'completed' => false, 'started' => false],
         ];
+        // phpcs:enable
     }
 }
