@@ -29,12 +29,12 @@ class SimulateLeagueRaceTest extends KernelTestCase
         $user2 = $this->fixtures->aCustomUser('maria212', 'maria212@gmail.com');
 
         // and given
-        $ferrari = $this->fixtures->aTeamWithName('ferrari');
+        $ferrari = $this->fixtures->aTeamWithName('Ferrari');
         $driver1 = $this->fixtures->aDriver("John", "Smith", $ferrari, 44);
         $driver2 = $this->fixtures->aDriver("Alex", "Apollo", $ferrari, 45);
 
         // and given
-        $redBull = $this->fixtures->aTeamWithName('red bull');
+        $redBull = $this->fixtures->aTeamWithName('Red Bull');
         $driver3 = $this->fixtures->aDriver("Yuki", "Grieg", $redBull, 46);
 
         // and given

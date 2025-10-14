@@ -42,17 +42,17 @@ class LeagueClassificationsTest extends KernelTestCase
         $user4 = $this->fixtures->aCustomUser('mikey354', 'mikey354@gmail.com');
 
         // and given
-        $ferrari = $this->fixtures->aTeamWithName('ferrari');
+        $ferrari = $this->fixtures->aTeamWithName('Ferrari');
         $driver1 = $this->fixtures->aDriver("John", "Smith", $ferrari, 44);
         $driver2 = $this->fixtures->aDriver("Alex", "Apollo", $ferrari, 45);
 
         // and given
-        $redBull = $this->fixtures->aTeamWithName('red bull');
+        $redBull = $this->fixtures->aTeamWithName('Red Bull');
         $driver3 = $this->fixtures->aDriver("Yuki", "Grieg", $redBull, 46);
         $driver4 = $this->fixtures->aDriver("Michael", "Connor", $redBull, 47);
 
         // and given
-        $hass = $this->fixtures->aTeamWithName('hass');
+        $hass = $this->fixtures->aTeamWithName('Hass');
         $driver5 = $this->fixtures->aDriver("Fernando", "Alonso", $hass, 48);
 
         // and given
@@ -103,7 +103,7 @@ class LeagueClassificationsTest extends KernelTestCase
         $user1 = $this->fixtures->aCustomUser('user1', 'user1@example.com');
         $user2 = $this->fixtures->aCustomUser('user2', 'user2@example.com');
 
-        $team = $this->fixtures->aTeamWithName('alpha tauri');
+        $team = $this->fixtures->aTeamWithName('Alpha Tauri');
         $driver1 = $this->fixtures->aDriver('John', 'Hamilton', $team, 11);
         $driver2 = $this->fixtures->aDriver('Clark', 'Magnussen', $team, 12);
 
@@ -137,7 +137,7 @@ class LeagueClassificationsTest extends KernelTestCase
         $user1 = $this->fixtures->aCustomUser('user1', 'user1@example.com');
         $user2 = $this->fixtures->aCustomUser('user2', 'user2@example.com');
 
-        $team = $this->fixtures->aTeamWithName('alpha tauri');
+        $team = $this->fixtures->aTeamWithName('Alpha Tauri');
         $driver1 = $this->fixtures->aDriver('Mike', 'Ross', $team, 21);
         $driver2 = $this->fixtures->aDriver('John', 'MacQuire', $team, 22);
 

@@ -29,11 +29,11 @@ class DrawDriverToReplaceTest extends KernelTestCase
         $user2 = $this->fixtures->aCustomUser('john2', 'john2@gmail.com');
 
         // and given
-        $ferrari = $this->fixtures->aTeamWithName('ferrari');
+        $ferrari = $this->fixtures->aTeamWithName('Ferrari');
         $driver1 = $this->fixtures->aDriver("John", "Smith", $ferrari, 44);
         $driver2 = $this->fixtures->aDriver("Alex", "Apollo", $ferrari, 45);
 
-        $toroRosso = $this->fixtures->aTeamWithName('toroRosso');
+        $toroRosso = $this->fixtures->aTeamWithName('Toro Rosso');
         $driver3 = $this->fixtures->aDriver("Mika", "Haki", $toroRosso, 46);
         $driver4 = $this->fixtures->aDriver("Michael", "Stewart", $toroRosso, 47);
 
@@ -89,7 +89,7 @@ class DrawDriverToReplaceTest extends KernelTestCase
         $user1 = $this->fixtures->aCustomUser('john1', 'john1@gmail.com');
 
         // and given
-        $ferrari = $this->fixtures->aTeamWithName('ferrari');
+        $ferrari = $this->fixtures->aTeamWithName('Ferrari');
         $driver1 = $this->fixtures->aDriver("John", "Smith", $ferrari, 44);
         $driver2 = $this->fixtures->aDriver("Alex", "Apollo", $ferrari, 45);
 

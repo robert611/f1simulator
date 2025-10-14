@@ -52,7 +52,7 @@ class IndexControllerTest extends WebTestCase
         $track6 = $this->fixtures->aTrack('Monaco Grand Prix', 'monaco.png');
 
         // and given
-        $ferrari = $this->fixtures->aTeamWithName('ferrari');
+        $ferrari = $this->fixtures->aTeamWithName('Ferrari');
         $alfaRomeo = $this->fixtures->aTeamWithName('Alfa Romeo');
         $haas = $this->fixtures->aTeamWithName('Haas');
         $mclaren = $this->fixtures->aTeamWithName('Mclaren');

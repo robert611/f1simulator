@@ -37,7 +37,7 @@ class QualificationsHelperServiceTest extends KernelTestCase
 
         // and then
         $countedValues = array_count_values($coupons);
-        self::assertTrue($countedValues['mercedes'] >= $teamsStrength['mercedes']);
+        self::assertTrue($countedValues['Mercedes'] >= $teamsStrength['Mercedes']);
         self::assertEqualsCanonicalizing(array_keys($teamsStrength), array_keys($countedValues));
     }
 
@@ -45,7 +45,7 @@ class QualificationsHelperServiceTest extends KernelTestCase
     public function it_returns_true_when_both_drivers_from_team_finished(): void
     {
         // given
-        $team = $this->fixtures->aTeamWithName('ferrari');
+        $team = $this->fixtures->aTeamWithName('Ferrari');
         $driver1 = $this->fixtures->aDriver('Joe', 'Doe', $team, 55);
         $driver2 = $this->fixtures->aDriver('John', 'Done', $team, 30);
 
@@ -67,7 +67,7 @@ class QualificationsHelperServiceTest extends KernelTestCase
     public function it_returns_false_when_less_than_two_drivers_from_team_finished(): void
     {
         // given
-        $team = $this->fixtures->aTeamWithName('ferrari');
+        $team = $this->fixtures->aTeamWithName('Ferrari');
         $driver1 = $this->fixtures->aDriver('Joe', 'Doe', $team, 55);
         $driver2 = $this->fixtures->aDriver('John', 'Done', $team, 30);
 
@@ -137,7 +137,7 @@ class QualificationsHelperServiceTest extends KernelTestCase
     public function it_checks_if_drawing_driver_returns_one_of_drivers_when_both_unfinished(): void
     {
         // given
-        $team = $this->fixtures->aTeamWithName('McLaren');
+        $team = $this->fixtures->aTeamWithName('Mclaren');
         $driver1 = $this->fixtures->aDriver('Lando', 'Norris', $team, 4);
         $driver2 = $this->fixtures->aDriver('Oscar', 'Piastri', $team, 81);
 

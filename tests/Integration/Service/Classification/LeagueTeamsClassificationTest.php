@@ -31,11 +31,11 @@ class LeagueTeamsClassificationTest extends KernelTestCase
         $user4 = $this->fixtures->aCustomUser("paul", "paul@gmail.com");
 
         // and given
-        $team1 = $this->fixtures->aTeamWithName('ferrari');
-        $team2 = $this->fixtures->aTeamWithName('mercedes');
-        $team3 = $this->fixtures->aTeamWithName('haas');
-        $team4 = $this->fixtures->aTeamWithName('mclaren');
-        $this->fixtures->aTeamWithName('aston martin');
+        $team1 = $this->fixtures->aTeamWithName('Ferrari');
+        $team2 = $this->fixtures->aTeamWithName('Mercedes');
+        $team3 = $this->fixtures->aTeamWithName('Haas');
+        $team4 = $this->fixtures->aTeamWithName('Mclaren');
+        $this->fixtures->aTeamWithName('Aston Martin');
 
         // and given
         $driver1 = $this->fixtures->aDriver('Lewis', 'Hamilton', $team1, 33);

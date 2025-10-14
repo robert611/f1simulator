@@ -30,8 +30,8 @@ class SeasonClassificationsTest extends KernelTestCase
         $user = $this->fixtures->aUser();
 
         // and given
-        $team1 = $this->fixtures->aTeamWithName('ferrari');
-        $team2 = $this->fixtures->aTeamWithName('mercedes');
+        $team1 = $this->fixtures->aTeamWithName('Ferrari');
+        $team2 = $this->fixtures->aTeamWithName('Mercedes');
 
         // and given
         $driver1 = $this->fixtures->aDriver('John', 'Speed', $team1, 55);
@@ -132,8 +132,8 @@ class SeasonClassificationsTest extends KernelTestCase
     public function it_checks_if_default_drivers_classification_will_be_returned(): void
     {
         // and given
-        $team1 = $this->fixtures->aTeamWithName('ferrari');
-        $team2 = $this->fixtures->aTeamWithName('mercedes');
+        $team1 = $this->fixtures->aTeamWithName('Ferrari');
+        $team2 = $this->fixtures->aTeamWithName('Mercedes');
 
         // and given
         $driver1 = $this->fixtures->aDriver('John', 'Speed', $team1, 55);
@@ -173,10 +173,10 @@ class SeasonClassificationsTest extends KernelTestCase
         $user = $this->fixtures->aUser();
 
         // and given
-        $team1 = $this->fixtures->aTeamWithName('ferrari');
-        $team2 = $this->fixtures->aTeamWithName('mercedes');
-        $team3 = $this->fixtures->aTeamWithName('haas');
-        $team4 = $this->fixtures->aTeamWithName('mclaren');
+        $team1 = $this->fixtures->aTeamWithName('Ferrari');
+        $team2 = $this->fixtures->aTeamWithName('Mercedes');
+        $team3 = $this->fixtures->aTeamWithName('Haas');
+        $team4 = $this->fixtures->aTeamWithName('Mclaren');
 
         // and given
         $driver1 = $this->fixtures->aDriver('Lewis', 'Hamilton', $team1, 33);
@@ -263,10 +263,10 @@ class SeasonClassificationsTest extends KernelTestCase
         $user = $this->fixtures->aUser();
 
         // and given
-        $team1 = $this->fixtures->aTeamWithName('ferrari');
-        $team2 = $this->fixtures->aTeamWithName('mercedes');
-        $team3 = $this->fixtures->aTeamWithName('haas');
-        $team4 = $this->fixtures->aTeamWithName('mclaren');
+        $team1 = $this->fixtures->aTeamWithName('Ferrari');
+        $team2 = $this->fixtures->aTeamWithName('Mercedes');
+        $team3 = $this->fixtures->aTeamWithName('Haas');
+        $team4 = $this->fixtures->aTeamWithName('Mclaren');
 
         // and given
         $driver1 = $this->fixtures->aDriver('Lewis', 'Hamilton', $team1, 33);
@@ -329,10 +329,10 @@ class SeasonClassificationsTest extends KernelTestCase
         $user = $this->fixtures->aUser();
 
         // and given
-        $team1 = $this->fixtures->aTeamWithName('ferrari');
-        $team2 = $this->fixtures->aTeamWithName('mercedes');
-        $team3 = $this->fixtures->aTeamWithName('haas');
-        $team4 = $this->fixtures->aTeamWithName('mclaren');
+        $team1 = $this->fixtures->aTeamWithName('Ferrari');
+        $team2 = $this->fixtures->aTeamWithName('Mercedes');
+        $team3 = $this->fixtures->aTeamWithName('Haas');
+        $team4 = $this->fixtures->aTeamWithName('Mclaren');
 
         // and given
         $driver1 = $this->fixtures->aDriver('Lewis', 'Hamilton', $team1, 33);
