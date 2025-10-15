@@ -1,5 +1,6 @@
 parameters:
-    level: 0
+    level: 1
+    treatPhpDocTypesAsCertain: false
     paths:
         - src/
         - tests/
@@ -10,3 +11,5 @@ parameters:
     ignoreErrors:
         -
           message: '#Property App\\Entity\\.*::\$id is never written, only read.#'
+        -
+          message: '#Call to an undefined method Symfony\\Component\\HttpFoundation\\Session\\SessionInterface::getFlashBag#'

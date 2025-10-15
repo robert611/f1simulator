@@ -28,7 +28,6 @@ class LeagueClassifications
         });
 
         // Reindex table
-        /** @phpstan-ignore-next-line */
         $leaguePlayers = array_values($leaguePlayers);
 
         foreach ($leaguePlayers as $index => $player) {

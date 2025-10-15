@@ -32,7 +32,6 @@ class QualificationsHelperServiceTest extends KernelTestCase
         $coupons = $this->qualificationsHelperService->generateCoupons();
 
         // then
-        self::assertIsArray($coupons);
         self::assertIsString($coupons[0]);
 
         // and then

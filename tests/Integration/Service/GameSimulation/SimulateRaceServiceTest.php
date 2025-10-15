@@ -469,7 +469,6 @@ class SimulateRaceServiceTest extends KernelTestCase
 
         // then
         self::assertNotEmpty($coupons);
-        self::assertIsArray($coupons);
 
         // and then (Verify all coupons contain valid driver IDs)
         $expectedDriverIds = [$driver1->getId(), $driver2->getId(), $driver3->getId()];
