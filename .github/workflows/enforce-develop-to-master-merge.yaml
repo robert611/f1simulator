@@ -10,8 +10,10 @@ jobs:
     steps:
       -   name: Fail if source branch is not develop
           run: |
+            echo "Base branch: ${{ github.base_ref }}"
             echo "Source branch: ${{ github.head_ref }}"
-            if [[ "${{ github.head_ref }}" != "develop" ]]; then
+            
+            if [ "${{ github.base_ref }}" = "master" ] && [ "${{ github.head_ref }}" != "develop" ]; then
                 echo "❌ Only 'develop' branch can be merged into 'master'."
                 exit 1
             fi
