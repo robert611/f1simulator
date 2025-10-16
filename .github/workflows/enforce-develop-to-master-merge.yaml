@@ -5,7 +5,7 @@ on:
     branches: [master]
 
 jobs:
-  enforce-branch-origin:
+  enforce-develop-to-master-only:
     runs-on: ubuntu-latest
     steps:
       -   name: Fail if source branch is not develop
