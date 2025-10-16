@@ -88,7 +88,7 @@ class GameController extends BaseController
 
             $season->endSeason();
 
-            $this->entityManager->flush();
+            $this->entityManager->flush(); //test
 
             return $this->redirectToRoute('app_index');
         }
