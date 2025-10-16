@@ -22,6 +22,7 @@ class Teams extends React.Component {
             formTeamInput.value = teamId;
     
             form.submit();
+            // some change
         }
 
         if (Array.isArray(this.state.teams)) {
