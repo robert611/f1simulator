@@ -10,6 +10,14 @@
 {% block body %}
     <div class="auth-container">
         <div class="container">
+            {% if app.session.flashBag.has('auth_success') %}
+                {% for msg in app.session.flashBag.get('auth_success') %}
+                    <div class="auth-alert auth-alert-success mb-5">
+                        {{ msg }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
             <div class="row justify-content-center align-items-center">
                 <div class="col-lg-6 col-md-8 col-sm-10">
                     <div class="auth-card">
