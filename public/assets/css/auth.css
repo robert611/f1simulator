@@ -1,4 +1,4 @@
-.registration-container {
+.auth-container {
     min-height: 100vh;
     background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
     position: relative;
@@ -6,7 +6,7 @@
     padding-top: 100px;
 }
 
-.registration-card {
+.auth-card {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     border-radius: 20px;
@@ -16,7 +16,7 @@
     z-index: 1;
 }
 
-.registration-header {
+.auth-header {
     background: linear-gradient(135deg, #b71c1c 0%, #d32f2f 50%, #b71c1c 100%);
     color: white;
     border-radius: 18px 18px 0 0;
@@ -26,7 +26,7 @@
     overflow: hidden;
 }
 
-.registration-title {
+.auth-title {
     font-size: 2.5rem;
     font-weight: bold;
     margin: 0;
@@ -35,7 +35,7 @@
     z-index: 1;
 }
 
-.registration-subtitle {
+.auth-subtitle {
     font-size: 1.1rem;
     opacity: 0.9;
     margin-top: 0.5rem;
@@ -43,16 +43,16 @@
     z-index: 1;
 }
 
-.form-container {
+.auth-form-container {
     padding: 3rem;
 }
 
-.form-group {
+.auth-form-group {
     margin-bottom: 2rem;
     position: relative;
 }
 
-.form-label {
+.auth-form-label {
     display: block;
     font-weight: 600;
     color: #333;
@@ -60,29 +60,29 @@
     font-size: 1.1rem;
 }
 
-.form-control {
+.auth-form-control {
     width: 100%;
-    padding: 1rem 1.5rem;
+    padding: 0.8rem 1rem;
     border: 2px solid #e0e0e0;
     border-radius: 12px;
-    font-size: 1.1rem;
+    font-size: 1rem;
     transition: all 0.3s ease;
     background: #fafafa;
 }
 
-.form-control:focus {
+.auth-form-control:focus {
     outline: none;
     border-color: #b71c1c;
     box-shadow: 0 0 0 3px rgba(183, 28, 28, 0.1);
     background: white;
 }
 
-.form-control:hover {
+.auth-form-control:hover {
     border-color: #d32f2f;
     background: white;
 }
 
-.btn-register {
+.auth-btn {
     background: linear-gradient(135deg, #b71c1c 0%, #d32f2f 100%);
     color: white;
     border: none;
@@ -117,33 +117,33 @@
     text-decoration: underline;
 }
 
-.form-error {
+.auth-form-error {
     color: #d32f2f;
     font-size: 1rem;
     display: block;
 }
 
 /* Login specific styles */
-.alert {
+.auth-alert {
     border-radius: 12px;
     border: none;
     padding: 1rem 1.5rem;
     font-weight: 500;
 }
 
-.alert-danger {
+.auth-alert-danger {
     background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
     color: #c62828;
     border-left: 4px solid #d32f2f;
 }
 
-.alert-success {
+.auth-alert-success {
     background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
     color: #2e7d32;
     border-left: 4px solid #4caf50;
 }
 
-.alert i {
+.auth-alert i {
     margin-right: 0.5rem;
 }
 
@@ -166,20 +166,20 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    .registration-card {
+    .auth-card {
         margin: 1rem;
         border-radius: 15px;
     }
 
-    .form-container {
+    .auth-form-container {
         padding: 2rem 1.5rem;
     }
 
-    .registration-title {
+    .auth-title {
         font-size: 2rem;
     }
     
-    .alert {
+    .auth-alert {
         padding: 0.8rem 1rem;
         font-size: 0.9rem;
     }
