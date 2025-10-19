@@ -1,24 +1,91 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}F1Simulator{% endblock %}
+{% block title %}F1Simulator - Rejestracja{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/auth.css') }}">
+{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <div class="card mt-5">
-            <div class="card-body">
-                <h3 class="text-center mb-5">Rejestracja</h3>
-                {{ form_start(registrationForm) }}
-                    <div class="form-group">
-                        {{ form_row(registrationForm.username, {'attr': {'class': 'form-control'}}) }}
+    <div class="auth-container">
+        <div class="container">
+            {% if app.session.flashBag.has('auth_success') %}
+                {% for msg in app.session.flashBag.get('auth_success') %}
+                    <div class="auth-alert auth-alert-success mb-5">
+                        {{ msg }}
                     </div>
-                    <div class="form-group">
-                        {{ form_row(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
+                {% endfor %}
+            {% endif %}
+
+            <div class="row justify-content-center align-items-center">
+                <div class="col-lg-6 col-md-8 col-sm-10">
+                    <div class="auth-card">
+                        <div class="auth-header">
+                            <h1 class="auth-title">
+                                <i class="fas fa-flag-checkered"></i> Rejestracja
+                            </h1>
+                            <p class="auth-subtitle">Dołącz do F1 Simulator i rozpocznij swoją przygodę!</p>
+                        </div>
+
+                        <div class="auth-form-container">
+                            {{ form_start(registrationForm) }}
+                            <div class="auth-form-group">
+                                <label class="auth-form-label" for="{{ registrationForm.username.vars.id }}">
+                                    <i class="fas fa-user"></i> Nazwa użytkownika
+                                </label>
+                                {{ form_widget(registrationForm.username, {
+                                    'attr': {
+                                        'class': 'auth-form-control',
+                                        'placeholder': 'Wprowadź nazwę użytkownika'
+                                    }
+                                }) }}
+                                <div class="auth-form-error text-sm mt-2">
+                                    {{ form_errors(registrationForm.username) }}
+                                </div>
+                            </div>
+
+                            <div class="auth-form-group">
+                                <label class="auth-form-label" for="{{ registrationForm.email.vars.id }}">
+                                    <i class="fas fa-envelope"></i> Adres email
+                                </label>
+                                {{ form_widget(registrationForm.email, {
+                                    'attr': {
+                                        'class': 'auth-form-control',
+                                        'placeholder': 'Wprowadź adres email'
+                                    }
+                                }) }}
+                                <div class="auth-form-error text-sm mt-2">
+                                    {{ form_errors(registrationForm.email) }}
+                                </div>
+                            </div>
+
+                            <div class="auth-form-group">
+                                <label class="auth-form-label" for="{{ registrationForm.plainPassword.vars.id }}">
+                                    <i class="fas fa-lock"></i> Hasło
+                                </label>
+                                {{ form_widget(registrationForm.plainPassword, {
+                                    'attr': {
+                                        'class': 'auth-form-control',
+                                        'placeholder': 'Wprowadź hasło (minimum 6 znaków)'
+                                    }
+                                }) }}
+                                <div class="auth-form-error text-sm mt-2">
+                                    {{ form_errors(registrationForm.plainPassword) }}
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn auth-btn">
+                                <i class="fas fa-flag-checkered"></i> Zarejestruj się
+                            </button>
+                            {{ form_end(registrationForm) }}
+
+                            <div class="login-link">
+                                <p>Masz już konto? <a href="{{ path('app_login') }}">Zaloguj się</a></p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        {{ form_row(registrationForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                    <button class="btn btn-outline-success">Register</button>
-                {{ form_end(registrationForm) }}
+                </div>
             </div>
         </div>
     </div>

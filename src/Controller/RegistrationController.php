@@ -43,9 +43,9 @@ class RegistrationController extends BaseController
 
             // do anything else you need here, like send an email
             $session = new Session();
-            $session->getFlashBag()->add('success', 'Rejestracja przebiegła pomyślnie');
+            $session->getFlashBag()->add('auth_success', 'Rejestracja przebiegła pomyślnie');
 
-            return $this->redirectToRoute('app_index');
+            return $this->redirectToRoute('app_register');
         }
 
         return $this->render('registration/register.html.twig', [
