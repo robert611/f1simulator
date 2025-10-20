@@ -22,7 +22,7 @@ security:
                 enable_csrf: true
             logout:
                 path: app_logout
-            access_denied_handler: App\Security\AccessDeniedHandler
+            access_denied_handler: Security\AccessDeniedHandler
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

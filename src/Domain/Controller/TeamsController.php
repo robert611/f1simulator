@@ -2,9 +2,9 @@
 
 namespace Domain\Controller;
 
-use App\Controller\BaseController;
-use Domain\Entity\Team;
 use Doctrine\ORM\EntityManagerInterface;
+use Domain\Entity\Team;
+use Shared\Controller\BaseController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 

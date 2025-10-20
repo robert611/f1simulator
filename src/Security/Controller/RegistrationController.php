@@ -2,10 +2,10 @@
 
 namespace Security\Controller;
 
-use App\Controller\BaseController;
 use Doctrine\ORM\EntityManagerInterface;
 use Security\Entity\User;
 use Security\Form\RegistrationFormType;
+use Shared\Controller\BaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;

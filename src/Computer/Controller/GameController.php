@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Computer\Controller;
 
-use App\Controller\BaseController;
 use App\Service\GameSimulation\SimulateRaceService;
 use Computer\Entity\Season;
 use Computer\Repository\SeasonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Domain\Repository\TeamRepository;
 use Domain\Repository\TrackRepository;
+use Shared\Controller\BaseController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;

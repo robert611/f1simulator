@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Computer\Controller;
 
-use App\Controller\BaseController;
 use App\Service\Classification\ClassificationType;
 use App\Service\Classification\SeasonClassifications;
 use App\Service\Classification\SeasonTeamsClassification;
 use App\Service\CurrentDriverSeasonService;
+use Shared\Controller\BaseController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

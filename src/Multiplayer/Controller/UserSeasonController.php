@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Multiplayer\Controller;
 
-use App\Controller\BaseController;
 use App\Form\UserSeasonType;
 use App\Service\Classification\ClassificationType;
 use App\Service\Classification\LeagueClassifications;
@@ -16,6 +15,7 @@ use Domain\Repository\TrackRepository;
 use Multiplayer\Entity\UserSeason;
 use Multiplayer\Entity\UserSeasonPlayer;
 use Multiplayer\Security\LeagueVoter;
+use Shared\Controller\BaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;

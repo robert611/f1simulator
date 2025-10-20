@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace Shared\Controller;
 
 use Security\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
