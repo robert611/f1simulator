@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repository;
+namespace Multiplayer\Repository;
 
-use App\Entity\UserSeasonRaceResult;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Multiplayer\Entity\UserSeasonRaceResult;
 
 /**
  * @method UserSeasonRaceResult|null find($id, $lockMode = null, $lockVersion = null)

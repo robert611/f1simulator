@@ -9,3 +9,7 @@ domain:
 computer:
     resource: '../src/Computer/Controller'
     type: attribute
+
+multiplayer:
+    resource: '../src/Multiplayer/Controller'
+    type: attribute

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Service\Classification;
 
-use App\Entity\UserSeason;
-use App\Entity\UserSeasonPlayer;
-use App\Repository\UserSeasonRaceRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
+use Multiplayer\Entity\UserSeason;
+use Multiplayer\Entity\UserSeasonPlayer;
+use Multiplayer\Repository\UserSeasonRaceRepository;
 
 class LeagueClassifications
 {

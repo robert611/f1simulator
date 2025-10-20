@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace Multiplayer\Entity;
 
-use Domain\Entity\Track;
-use App\Repository\UserSeasonRaceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Domain\Entity\Track;
+use Multiplayer\Repository\UserSeasonRaceRepository;
 
 #[ORM\Entity(repositoryClass: UserSeasonRaceRepository::class)]
 #[ORM\Table(name: 'user_season_race')]

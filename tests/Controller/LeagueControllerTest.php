@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
-use App\Repository\UserSeasonPlayersRepository;
 use App\Tests\Common\Fixtures;
+use Multiplayer\Repository\UserSeasonPlayersRepository;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;

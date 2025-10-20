@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace Multiplayer\Entity;
 
-use App\Repository\UserSeasonQualificationsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Multiplayer\Repository\UserSeasonQualificationsRepository;
 
 #[ORM\Entity(repositoryClass: UserSeasonQualificationsRepository::class)]
 #[ORM\Table(name: 'user_season_qualification')]

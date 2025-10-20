@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace Multiplayer\Entity;
 
-use Domain\Entity\Driver;
+use App\Entity\User;
 use App\Model\DriverPodiumsDictionary;
 use App\Model\DriverPodiumsDTO;
-use App\Repository\UserSeasonPlayersRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Domain\Entity\Driver;
+use Multiplayer\Repository\UserSeasonPlayersRepository;
 
 #[ORM\Entity(repositoryClass: UserSeasonPlayersRepository::class)]
 #[ORM\Table('user_season_player')]

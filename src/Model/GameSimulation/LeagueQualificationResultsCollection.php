@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Model\GameSimulation;
 
 use Domain\Entity\Driver;
-use App\Entity\UserSeasonPlayer;
+use Multiplayer\Entity\UserSeasonPlayer;
 
 class LeagueQualificationResultsCollection
 {

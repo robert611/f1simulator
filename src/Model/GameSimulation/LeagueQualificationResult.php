@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model\GameSimulation;
 
-use App\Entity\UserSeasonPlayer;
+use Multiplayer\Entity\UserSeasonPlayer;
 
 class LeagueQualificationResult
 {

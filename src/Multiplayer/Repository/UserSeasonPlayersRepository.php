@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repository;
+namespace Multiplayer\Repository;
 
-use App\Entity\UserSeasonPlayer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Multiplayer\Entity\UserSeasonPlayer;
 
 /**
  * @method UserSeasonPlayer|null find($id, $lockMode = null, $lockVersion = null)

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Security;
+namespace Multiplayer\Security;
 
-use Domain\Repository\TrackRepository;
 use App\Entity\User;
-use App\Entity\UserSeason;
+use Domain\Repository\TrackRepository;
 use LogicException;
+use Multiplayer\Entity\UserSeason;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;

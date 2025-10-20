@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Service\Classification;
 
-use Domain\Entity\Team;
-use App\Entity\UserSeason;
-use App\Entity\UserSeasonPlayer;
 use App\Model\TeamsClassification;
 use App\Model\TeamSeasonResult;
 use Doctrine\Common\Collections\Collection;
+use Domain\Entity\Team;
+use Multiplayer\Entity\UserSeason;
+use Multiplayer\Entity\UserSeasonPlayer;
 
 class LeagueTeamsClassification
 {

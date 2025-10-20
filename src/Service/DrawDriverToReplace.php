@@ -6,7 +6,7 @@ namespace App\Service;
 
 use Domain\Entity\Driver;
 use Domain\Repository\DriverRepository;
-use App\Entity\UserSeason;
+use Multiplayer\Entity\UserSeason;
 
 class DrawDriverToReplace
 {

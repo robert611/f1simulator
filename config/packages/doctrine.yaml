@@ -28,3 +28,8 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Computer/Entity'
                 prefix: 'Computer\Entity'
                 alias: Domain
+            Multiplayer:
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Multiplayer/Entity'
+                prefix: 'Multiplayer\Entity'
+                alias: Domain

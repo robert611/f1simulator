@@ -2,14 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace Multiplayer\Entity;
 
-use Domain\Entity\Driver;
-use Domain\Entity\Team;
-use App\Repository\UserSeasonRepository;
+use App\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Domain\Entity\Driver;
+use Domain\Entity\Team;
+use Multiplayer\Repository\UserSeasonRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 

@@ -30,6 +30,11 @@ services:
         exclude:
             - '../src/Computer/Entity/'
 
+    Multiplayer\:
+        resource: '../src/Multiplayer/*'
+        exclude:
+            - '../src/Multiplayer/Entity/'
+
     Domain\Controller\:
         resource: '../src/Domain/Controller/'
         tags: ['controller.service_arguments']
@@ -37,6 +42,10 @@ services:
     Computer\Controller\:
         resource: '../src/Computer/Controller/'
         tags: ['controller.service_arguments']
+
+    Multiplayer\Controller\:
+        resource: '../src/Multiplayer/Controller/'
+        tags: [ 'controller.service_arguments' ]
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

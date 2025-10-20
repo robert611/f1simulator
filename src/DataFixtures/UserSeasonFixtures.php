@@ -6,9 +6,9 @@ namespace App\DataFixtures;
 
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
-use App\Entity\UserSeason;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Persistence\ObjectManager;
+use Multiplayer\Entity\UserSeason;
 
 class UserSeasonFixtures extends Fixture implements DependentFixtureInterface
 {
