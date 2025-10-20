@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use Domain\Repository\TrackRepository;
 use App\Model\CurrentDriverSeason;
-use App\Repository\RaceRepository;
-use App\Repository\SeasonRepository;
 use App\Service\Classification\ClassificationType;
 use App\Service\Classification\SeasonClassifications;
 use App\Service\Classification\SeasonTeamsClassification;
 use App\Service\DriverStatistics\DriverPoints;
+use Computer\Repository\RaceRepository;
+use Computer\Repository\SeasonRepository;
+use Domain\Repository\TrackRepository;
 
 class CurrentDriverSeasonService
 {

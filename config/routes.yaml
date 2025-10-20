@@ -5,3 +5,7 @@ controllers:
 domain:
     resource: '../src/Domain/Controller'
     type: attribute
+
+computer:
+    resource: '../src/Computer/Controller'
+    type: attribute

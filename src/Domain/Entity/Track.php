@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Domain\Entity;
 
-use Domain\Repository\TrackRepository;
-use App\Entity\Race;
+use Computer\Entity\Race;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Domain\Repository\TrackRepository;
 
 #[ORM\Entity(repositoryClass: TrackRepository::class)]
 #[ORM\Table(name: 'track')]

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace Computer\Repository;
 
-use App\Entity\RaceResult;
+use Computer\Entity\RaceResult;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

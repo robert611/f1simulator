@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Service\DriverStatistics;
 
-use Domain\Entity\Driver;
-use App\Entity\RaceResult;
-use App\Entity\Season;
 use App\Model\Configuration\RaceScoringSystem;
+use Computer\Entity\RaceResult;
+use Computer\Entity\Season;
+use Domain\Entity\Driver;
 
 class DriverPoints
 {

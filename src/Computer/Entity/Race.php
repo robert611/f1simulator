@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace Computer\Entity;
 
-use Domain\Entity\Track;
-use App\Repository\RaceRepository;
+use Computer\Repository\RaceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Domain\Entity\Track;
 
 #[ORM\Entity(repositoryClass: RaceRepository::class)]
 #[ORM\Table(name: 'race')]

@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Service\Classification;
 
-use Domain\Repository\DriverRepository;
-use App\Entity\Qualification;
-use App\Entity\Season;
 use App\Model\DriverRaceResult;
 use App\Model\DriversClassification;
-use App\Repository\QualificationRepository;
-use App\Repository\RaceRepository;
-use App\Repository\RaceResultRepository;
 use App\Service\DriverStatistics\DriverPoints;
+use Computer\Entity\Qualification;
+use Computer\Entity\Season;
+use Computer\Repository\QualificationRepository;
+use Computer\Repository\RaceRepository;
+use Computer\Repository\RaceResultRepository;
+use Domain\Repository\DriverRepository;
 
 class SeasonClassifications
 {

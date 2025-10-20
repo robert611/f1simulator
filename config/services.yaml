@@ -25,10 +25,18 @@ services:
         exclude:
             - '../src/Domain/Entity/'
 
+    Computer\:
+        resource: '../src/Computer/*'
+        exclude:
+            - '../src/Computer/Entity/'
+
     Domain\Controller\:
         resource: '../src/Domain/Controller/'
         tags: ['controller.service_arguments']
 
+    Computer\Controller\:
+        resource: '../src/Computer/Controller/'
+        tags: ['controller.service_arguments']
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

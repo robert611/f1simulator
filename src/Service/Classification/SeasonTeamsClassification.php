@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Service\Classification;
 
-use Domain\Repository\TeamRepository;
 use App\Model\TeamsClassification;
 use App\Model\TeamSeasonResult;
-use App\Repository\SeasonRepository;
 use App\Service\TeamStatistics\TeamPoints;
+use Computer\Repository\SeasonRepository;
+use Domain\Repository\TeamRepository;
 
 class SeasonTeamsClassification
 {

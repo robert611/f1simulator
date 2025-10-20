@@ -23,3 +23,8 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Domain/Entity'
                 prefix: 'Domain\Entity'
                 alias: Domain
+            Computer:
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Computer/Entity'
+                prefix: 'Computer\Entity'
+                alias: Domain

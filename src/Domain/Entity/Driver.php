@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Domain\Entity;
 
-use Domain\Repository\DriverRepository;
-use App\Entity\Qualification;
-use App\Entity\RaceResult;
+use Computer\Entity\Qualification;
+use Computer\Entity\RaceResult;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Domain\Repository\DriverRepository;
 
 #[ORM\Entity(repositoryClass: DriverRepository::class)]
 #[ORM\Table(name: 'driver')]

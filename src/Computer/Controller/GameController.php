@@ -2,14 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace Computer\Controller;
 
+use App\Controller\BaseController;
+use App\Service\GameSimulation\SimulateRaceService;
+use Computer\Entity\Season;
+use Computer\Repository\SeasonRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Domain\Repository\TeamRepository;
 use Domain\Repository\TrackRepository;
-use App\Entity\Season;
-use App\Repository\SeasonRepository;
-use App\Service\GameSimulation\SimulateRaceService;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;

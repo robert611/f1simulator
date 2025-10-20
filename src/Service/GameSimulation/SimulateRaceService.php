@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Service\GameSimulation;
 
-use Domain\Entity\Driver;
-use Domain\Repository\DriverRepository;
-use Domain\Repository\TrackRepository;
-use App\Entity\Qualification;
-use App\Entity\Race;
-use App\Entity\RaceResult;
-use App\Entity\Season;
 use App\Model\Configuration\QualificationAdvantage;
 use App\Model\Configuration\TeamsStrength;
 use App\Model\GameSimulation\LeagueQualificationResultsCollection;
 use App\Model\GameSimulation\QualificationResultsCollection;
+use Computer\Entity\Qualification;
+use Computer\Entity\Race;
+use Computer\Entity\RaceResult;
+use Computer\Entity\Season;
 use Doctrine\ORM\EntityManagerInterface;
+use Domain\Entity\Driver;
+use Domain\Repository\DriverRepository;
+use Domain\Repository\TrackRepository;
 
 class SimulateRaceService
 {

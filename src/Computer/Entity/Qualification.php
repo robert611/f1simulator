@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace Computer\Entity;
 
-use Domain\Entity\Driver;
-use App\Repository\QualificationRepository;
+use Computer\Repository\QualificationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Domain\Entity\Driver;
 
 #[ORM\Entity(repositoryClass: QualificationRepository::class)]
 #[ORM\Table(name: 'qualification')]

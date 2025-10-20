@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace Computer\Repository;
 
-use App\Entity\Season;
+use Computer\Entity\Season;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
