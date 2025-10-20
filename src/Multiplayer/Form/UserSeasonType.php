@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Form;
+namespace Multiplayer\Form;
 
 use Multiplayer\Entity\UserSeason;
 use Symfony\Component\Form\AbstractType;
