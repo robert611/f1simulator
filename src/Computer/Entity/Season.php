@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Computer\Entity;
 
-use App\Entity\User;
 use App\Model\DriverPodiumsDictionary;
 use App\Model\DriverPodiumsDTO;
 use Computer\Repository\SeasonRepository;
@@ -12,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Domain\Entity\Driver;
+use Security\Entity\User;
 
 #[ORM\Entity(repositoryClass: SeasonRepository::class)]
 #[ORM\Table(name: 'season')]

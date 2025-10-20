@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace Security\Entity;
 
 use Computer\Entity\Season;
 use Doctrine\Common\Collections\ArrayCollection;

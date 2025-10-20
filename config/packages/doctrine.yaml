@@ -12,12 +12,6 @@ doctrine:
         controller_resolver:
             auto_mapping: false
         mappings:
-            App:
-                is_bundle: false
-                type: attribute
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App
             Domain:
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/Domain/Entity'
@@ -33,3 +27,8 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Multiplayer/Entity'
                 prefix: 'Multiplayer\Entity'
                 alias: Domain
+            Security:
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Security/Entity'
+                prefix: 'Security\Entity'
+                alias: Security

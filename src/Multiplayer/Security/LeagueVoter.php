@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Multiplayer\Security;
 
-use App\Entity\User;
 use Domain\Repository\TrackRepository;
 use LogicException;
 use Multiplayer\Entity\UserSeason;
+use Security\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;

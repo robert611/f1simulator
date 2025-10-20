@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Controller;
+namespace Security\Controller;
 
+use App\Controller\BaseController;
 use LogicException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;

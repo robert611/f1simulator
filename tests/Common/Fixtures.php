@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Common;
 
-use App\Entity\User;
 use Computer\Entity\Qualification;
 use Computer\Entity\Race;
 use Computer\Entity\RaceResult;
@@ -18,6 +17,7 @@ use Multiplayer\Entity\UserSeasonPlayer;
 use Multiplayer\Entity\UserSeasonQualification;
 use Multiplayer\Entity\UserSeasonRace;
 use Multiplayer\Entity\UserSeasonRaceResult;
+use Security\Entity\User;
 
 class Fixtures
 {

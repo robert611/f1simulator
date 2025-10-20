@@ -13,28 +13,6 @@ services:
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
-    App\:
-        resource: '../src/'
-        exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'
-
-    Domain\:
-        resource: '../src/Domain/*'
-        exclude:
-            - '../src/Domain/Entity/'
-
-    Computer\:
-        resource: '../src/Computer/*'
-        exclude:
-            - '../src/Computer/Entity/'
-
-    Multiplayer\:
-        resource: '../src/Multiplayer/*'
-        exclude:
-            - '../src/Multiplayer/Entity/'
-
     Domain\Controller\:
         resource: '../src/Domain/Controller/'
         tags: ['controller.service_arguments']
@@ -45,7 +23,11 @@ services:
 
     Multiplayer\Controller\:
         resource: '../src/Multiplayer/Controller/'
-        tags: [ 'controller.service_arguments' ]
+        tags: ['controller.service_arguments']
+
+    Security\Controller\:
+        resource: '../src/Security/Controller/'
+        tags: ['controller.service_arguments']
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

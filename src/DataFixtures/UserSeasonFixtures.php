@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Multiplayer\Entity\UserSeason;
+use Security\Entity\User;
 
 class UserSeasonFixtures extends Fixture implements DependentFixtureInterface
 {

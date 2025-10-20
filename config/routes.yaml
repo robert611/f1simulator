@@ -13,3 +13,7 @@ computer:
 multiplayer:
     resource: '../src/Multiplayer/Controller'
     type: attribute
+
+security:
+    resource: '../src/Security/Controller'
+    type: attribute
