@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-use App\Entity\Driver;
+use Domain\Entity\Driver;
 
 class DriversClassification
 {

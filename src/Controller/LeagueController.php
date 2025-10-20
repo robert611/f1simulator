@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Domain\Repository\TrackRepository;
+use App\Entity\UserSeason;
+use App\Entity\UserSeasonPlayer;
+use App\Entity\UserSeasonQualification;
+use App\Entity\UserSeasonRace;
+use App\Entity\UserSeasonRaceResult;
 use App\Model\Configuration\RaceScoringSystem;
-use App\Repository\TrackRepository;
 use App\Repository\UserSeasonRepository;
 use App\Security\LeagueVoter;
 use App\Service\Classification\LeagueClassifications;
+use App\Service\DrawDriverToReplace;
+use App\Service\GameSimulation\SimulateLeagueRace;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\UserSeason;
-use App\Entity\UserSeasonPlayer;
-use App\Entity\UserSeasonRace;
-use App\Entity\UserSeasonQualification;
-use App\Entity\UserSeasonRaceResult;
-use App\Service\DrawDriverToReplace;
-use App\Service\GameSimulation\SimulateLeagueRace;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/league')]

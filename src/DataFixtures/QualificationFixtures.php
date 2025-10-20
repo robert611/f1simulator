@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\Entity\Driver;
+use Domain\Entity\Driver;
+use App\Entity\Qualification;
 use App\Entity\Race;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use App\Entity\Qualification;
+use Doctrine\Persistence\ObjectManager;
 
 class QualificationFixtures extends Fixture implements DependentFixtureInterface
 {

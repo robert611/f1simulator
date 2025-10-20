@@ -20,6 +20,15 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    Domain\:
+        resource: '../src/Domain/*'
+        exclude:
+            - '../src/Domain/Entity/'
+
+    Domain\Controller\:
+        resource: '../src/Domain/Controller/'
+        tags: ['controller.service_arguments']
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

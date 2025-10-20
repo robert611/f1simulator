@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\Entity\Driver;
+use Domain\Entity\Driver;
 use App\Entity\User;
 use App\Entity\UserSeason;
+use App\Entity\UserSeasonPlayer;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use App\Entity\UserSeasonPlayer;
 use Doctrine\Persistence\ObjectManager;
 
 class UserSeasonPlayersFixtures extends Fixture implements DependentFixtureInterface

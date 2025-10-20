@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Domain\Entity\Driver;
 use App\Model\DriverPodiumsDictionary;
 use App\Model\DriverPodiumsDTO;
 use App\Repository\SeasonRepository;

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\Entity\Driver;
+use Domain\Entity\Driver;
 use App\Entity\Race;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use App\Entity\RaceResult;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Persistence\ObjectManager;
 
 class RaceResultsFixtures extends Fixture implements DependentFixtureInterface
 {

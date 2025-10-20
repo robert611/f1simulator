@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Repository;
 
-use App\Repository\TrackRepository;
+use Domain\Repository\TrackRepository;
 use App\Tests\Common\Fixtures;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;

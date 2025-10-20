@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Model;
 
+use Domain\Entity\Track;
 use App\Entity\Race;
 use App\Entity\Season;
-use App\Entity\Track;
 
 class CurrentDriverSeason
 {

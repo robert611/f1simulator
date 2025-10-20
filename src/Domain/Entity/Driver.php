@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace Domain\Entity;
 
-use App\Repository\DriverRepository;
+use Domain\Repository\DriverRepository;
+use App\Entity\Qualification;
+use App\Entity\RaceResult;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;

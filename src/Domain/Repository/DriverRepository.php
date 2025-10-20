@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace Domain\Repository;
 
-use App\Entity\Driver;
+use Domain\Entity\Driver;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

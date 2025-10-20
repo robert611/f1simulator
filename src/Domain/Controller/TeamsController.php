@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Controller;
+namespace Domain\Controller;
 
+use App\Controller\BaseController;
+use Domain\Entity\Team;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Entity\Team;
 use Symfony\Component\Routing\Attribute\Route;
 
 class TeamsController extends BaseController

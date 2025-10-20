@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Common;
 
-use App\Entity\Driver;
+use Domain\Entity\Driver;
+use Domain\Entity\Team;
+use Domain\Entity\Track;
 use App\Entity\Qualification;
 use App\Entity\Race;
 use App\Entity\RaceResult;
 use App\Entity\Season;
-use App\Entity\Team;
-use App\Entity\Track;
 use App\Entity\User;
 use App\Entity\UserSeason;
 use App\Entity\UserSeasonPlayer;

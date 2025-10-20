@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Domain\Repository\TeamRepository;
+use Domain\Repository\TrackRepository;
+use App\Entity\Season;
 use App\Repository\SeasonRepository;
-use App\Repository\TeamRepository;
-use App\Repository\TrackRepository;
+use App\Service\GameSimulation\SimulateRaceService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use App\Service\GameSimulation\SimulateRaceService;
 use Symfony\Component\HttpFoundation\Session\Session;
-use App\Entity\Season;
 use Symfony\Component\Routing\Attribute\Route;
 
 class GameController extends BaseController

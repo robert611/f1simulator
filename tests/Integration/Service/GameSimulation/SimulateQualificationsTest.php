@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Service\GameSimulation;
 
-use App\Entity\Driver;
+use Domain\Entity\Driver;
 use App\Service\GameSimulation\SimulateQualifications;
 use App\Tests\Common\Fixtures;
 use PHPUnit\Framework\Attributes\Test;

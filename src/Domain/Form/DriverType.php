@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Form;
+namespace Domain\Form;
 
-use App\Entity\Driver;
-use App\Entity\Team;
+use Domain\Entity\Driver;
+use Domain\Entity\Team;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;

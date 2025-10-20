@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace Domain\Controller;
 
-use App\Entity\Driver;
-use App\Form\DriverType;
-use App\Repository\DriverRepository;
+use App\Controller\BaseController;
+use Domain\Entity\Driver;
+use Domain\Form\DriverType;
+use Domain\Repository\DriverRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

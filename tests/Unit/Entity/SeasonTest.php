@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Entity;
 
-use App\Entity\Driver;
+use Domain\Entity\Driver;
+use Domain\Entity\Team;
+use Domain\Entity\Track;
 use App\Entity\Race;
 use App\Entity\RaceResult;
 use App\Entity\Season;
-use App\Entity\Team;
-use App\Entity\Track;
 use App\Entity\User;
 use App\Tests\Common\PrivateProperty;
 use PHPUnit\Framework\Attributes\Test;

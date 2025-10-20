@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Domain\Entity\Driver;
 use App\Repository\RaceResultRepository;
 use Doctrine\ORM\Mapping as ORM;
 

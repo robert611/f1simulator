@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Classification;
 
-use App\Entity\Team;
+use Domain\Entity\Team;
 use App\Entity\UserSeason;
 use App\Entity\UserSeasonPlayer;
 use App\Model\TeamsClassification;

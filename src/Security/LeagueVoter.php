@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Security;
 
-use App\Entity\UserSeason;
+use Domain\Repository\TrackRepository;
 use App\Entity\User;
+use App\Entity\UserSeason;
 use LogicException;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use Symfony\Component\HttpFoundation\Session\Session;
-use App\Repository\TrackRepository;
-use Symfony\Component\HttpFoundation\Request;
 
 class LeagueVoter extends Voter
 {

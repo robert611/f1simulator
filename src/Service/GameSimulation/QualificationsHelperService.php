@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\GameSimulation;
 
-use App\Entity\Driver;
+use Domain\Entity\Driver;
 use App\Model\Configuration\TeamsStrength;
 
 class QualificationsHelperService

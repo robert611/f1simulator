@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
+use Domain\Entity\Driver;
+use Domain\Entity\Team;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use App\Entity\Driver;
-use App\Entity\Team;
 use Doctrine\Persistence\ObjectManager;
 
 class DriverFixtures extends Fixture implements DependentFixtureInterface

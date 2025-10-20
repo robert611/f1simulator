@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
+use Domain\Entity\Track;
+use App\Entity\Race;
 use App\Entity\Season;
-use App\Entity\Track;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use App\Entity\Race;
 use Doctrine\Persistence\ObjectManager;
 
 class RaceFixtures extends Fixture implements DependentFixtureInterface

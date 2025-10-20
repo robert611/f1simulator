@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Entity\Driver;
+use Domain\Entity\Driver;
+use Domain\Repository\DriverRepository;
 use App\Entity\UserSeason;
-use App\Repository\DriverRepository;
 
 class DrawDriverToReplace
 {

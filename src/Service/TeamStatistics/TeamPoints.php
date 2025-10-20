@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service\TeamStatistics;
 
+use Domain\Entity\Team;
 use App\Entity\Season;
-use App\Entity\Team;
 use App\Service\DriverStatistics\DriverPoints;
 
 class TeamPoints

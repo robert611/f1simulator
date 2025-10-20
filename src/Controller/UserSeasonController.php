@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Domain\Repository\TrackRepository;
 use App\Entity\UserSeason;
 use App\Entity\UserSeasonPlayer;
 use App\Form\UserSeasonType;
-use App\Repository\TrackRepository;
 use App\Security\LeagueVoter;
 use App\Service\Classification\ClassificationType;
 use App\Service\Classification\LeagueClassifications;
