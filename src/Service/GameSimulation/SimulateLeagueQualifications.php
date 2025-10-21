@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Service\GameSimulation;
 
-use App\Model\GameSimulation\LeagueQualificationResult;
-use App\Model\GameSimulation\LeagueQualificationResultsCollection;
 use Multiplayer\Entity\UserSeason;
 use Multiplayer\Entity\UserSeasonPlayer;
+use Multiplayer\Model\GameSimulation\LeagueQualificationResult;
+use Multiplayer\Model\GameSimulation\LeagueQualificationResultsCollection;
 
 class SimulateLeagueQualifications
 {

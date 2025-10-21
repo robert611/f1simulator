@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Service\GameSimulation;
 
-use App\Model\GameSimulation\LeagueRaceResultsDTO;
 use Doctrine\Common\Collections\Collection;
 use Multiplayer\Entity\UserSeason;
 use Multiplayer\Entity\UserSeasonPlayer;
+use Multiplayer\Model\GameSimulation\LeagueRaceResultsDTO;
 
 class SimulateLeagueRace
 {

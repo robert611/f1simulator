@@ -6,7 +6,6 @@ namespace App\Service\GameSimulation;
 
 use App\Model\Configuration\QualificationAdvantage;
 use App\Model\Configuration\TeamsStrength;
-use App\Model\GameSimulation\LeagueQualificationResultsCollection;
 use App\Model\GameSimulation\QualificationResultsCollection;
 use Computer\Entity\Qualification;
 use Computer\Entity\Race;
@@ -16,6 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Domain\Entity\Driver;
 use Domain\Repository\DriverRepository;
 use Domain\Repository\TrackRepository;
+use Multiplayer\Model\GameSimulation\LeagueQualificationResultsCollection;
 
 class SimulateRaceService
 {

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Service\Classification;
 
-use App\Model\DriversClassification;
 use App\Service\Classification\ClassificationType;
 use App\Service\Classification\SeasonClassifications;
 use App\Tests\Common\Fixtures;
 use Computer\Entity\Qualification;
+use Computer\Model\DriversClassification;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 

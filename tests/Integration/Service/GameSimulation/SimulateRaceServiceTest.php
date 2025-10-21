@@ -6,12 +6,12 @@ namespace App\Tests\Integration\Service\GameSimulation;
 
 use App\Model\Configuration\QualificationAdvantage;
 use App\Model\Configuration\TeamsStrength;
-use App\Model\GameSimulation\LeagueQualificationResult;
-use App\Model\GameSimulation\LeagueQualificationResultsCollection;
 use App\Model\GameSimulation\QualificationResult;
 use App\Model\GameSimulation\QualificationResultsCollection;
 use App\Service\GameSimulation\SimulateRaceService;
 use App\Tests\Common\Fixtures;
+use Multiplayer\Model\GameSimulation\LeagueQualificationResult;
+use Multiplayer\Model\GameSimulation\LeagueQualificationResultsCollection;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 

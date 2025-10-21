@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Service\Classification;
 
-use App\Model\DriverRaceResult;
-use App\Model\DriversClassification;
 use App\Service\DriverStatistics\DriverPoints;
 use Computer\Entity\Qualification;
 use Computer\Entity\Season;
+use Computer\Model\DriverRaceResult;
+use Computer\Model\DriversClassification;
 use Computer\Repository\QualificationRepository;
 use Computer\Repository\RaceRepository;
 use Computer\Repository\RaceResultRepository;

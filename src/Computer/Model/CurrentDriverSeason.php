@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Model;
+namespace Computer\Model;
 
+use App\Model\TeamsClassification;
 use Computer\Entity\Race;
 use Computer\Entity\Season;
 use Domain\Entity\Track;
+use Domain\Model\DriverPodiumsDTO;
 
 class CurrentDriverSeason
 {

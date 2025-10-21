@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\GameSimulation;
+namespace Multiplayer\Model\GameSimulation;
 
 use Domain\Entity\Driver;
 use Multiplayer\Entity\UserSeasonPlayer;
