@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Classification;
+namespace Computer\Service;
 
 use App\Model\TeamsClassification;
 use App\Model\TeamSeasonResult;
-use App\Service\TeamStatistics\TeamPoints;
 use Computer\Repository\SeasonRepository;
+use Computer\Service\TeamStatistics\TeamPoints;
 use Domain\Repository\TeamRepository;
 
 class SeasonTeamsClassification

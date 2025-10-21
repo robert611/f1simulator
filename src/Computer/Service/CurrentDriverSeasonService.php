@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace Computer\Service;
 
 use App\Service\Classification\ClassificationType;
-use App\Service\Classification\SeasonClassifications;
-use App\Service\Classification\SeasonTeamsClassification;
 use App\Service\DriverStatistics\DriverPoints;
 use Computer\Model\CurrentDriverSeason;
 use Computer\Repository\RaceRepository;

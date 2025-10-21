@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Computer\Controller;
 
 use App\Service\Classification\ClassificationType;
-use App\Service\Classification\SeasonClassifications;
-use App\Service\Classification\SeasonTeamsClassification;
-use App\Service\CurrentDriverSeasonService;
+use Computer\Service\CurrentDriverSeasonService;
+use Computer\Service\SeasonClassifications;
+use Computer\Service\SeasonTeamsClassification;
 use Shared\Controller\BaseController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;

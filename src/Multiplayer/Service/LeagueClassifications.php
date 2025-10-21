@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Classification;
+namespace Multiplayer\Service;
 
+use App\Service\Classification\ClassificationType;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Multiplayer\Entity\UserSeason;

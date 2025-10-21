@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Service\Classification;
 
-use App\Service\Classification\LeagueTeamsClassification;
 use App\Tests\Common\Fixtures;
+use Multiplayer\Service\LeagueTeamsClassification;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 

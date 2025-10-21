@@ -13,6 +13,7 @@ class DriverPoints
 {
     public static function getDriverPoints(Driver $driver, Season $season): int
     {
+        // @TODO, this function should be moved to Computer model as it's using season Entity
         $points = 0;
 
         $races = $season->getRaces();
@@ -30,6 +31,7 @@ class DriverPoints
 
     public static function getDriverPointsByRace(RaceResult $raceResult): int
     {
+        // @TODO, this function could be moved to RaceResult entity itself
         $position = $raceResult->getPosition();
 
         return RaceScoringSystem::getPositionScore($position);

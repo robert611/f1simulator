@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Classification;
+namespace Computer\Service;
 
+use App\Service\Classification\ClassificationType;
 use App\Service\DriverStatistics\DriverPoints;
 use Computer\Entity\Qualification;
 use Computer\Entity\Season;

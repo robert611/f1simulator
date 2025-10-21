@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\TeamStatistics;
+namespace Computer\Service\TeamStatistics;
 
 use App\Service\DriverStatistics\DriverPoints;
 use Computer\Entity\Season;

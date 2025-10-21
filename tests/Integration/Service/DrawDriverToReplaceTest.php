@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Service;
 
-use App\Service\DrawDriverToReplace;
 use App\Tests\Common\Fixtures;
+use Multiplayer\Security\DrawDriverToReplace;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 

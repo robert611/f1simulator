@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace Multiplayer\Security;
 
 use Domain\Entity\Driver;
 use Domain\Repository\DriverRepository;

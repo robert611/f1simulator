@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Service\Classification;
 
-use App\Service\Classification\SeasonTeamsClassification;
 use App\Tests\Common\Fixtures;
+use Computer\Service\SeasonTeamsClassification;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class SeasonTeamsClassificationTest extends KernelTestCase

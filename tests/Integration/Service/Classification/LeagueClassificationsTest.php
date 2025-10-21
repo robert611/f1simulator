@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Tests\Integration\Service\Classification;
 
 use App\Service\Classification\ClassificationType;
-use App\Service\Classification\LeagueClassifications;
 use App\Tests\Common\Fixtures;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Multiplayer\Entity\UserSeasonQualification;
 use Multiplayer\Entity\UserSeasonRaceResult;
+use Multiplayer\Service\LeagueClassifications;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
