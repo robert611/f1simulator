@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Computer\Service;
 
-use App\Service\Classification\ClassificationType;
+use Computer\Service\ClassificationType;
 use App\Service\DriverStatistics\DriverPoints;
 use Computer\Model\CurrentDriverSeason;
 use Computer\Repository\RaceRepository;

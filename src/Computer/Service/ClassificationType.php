@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Classification;
+namespace Computer\Service;
 
 enum ClassificationType: string
 {
     case DRIVERS = 'DRIVERS';
     case RACE = 'RACE';
-    case PLAYERS = 'PLAYERS';
     case QUALIFICATIONS = 'QUALIFICATIONS';
 }

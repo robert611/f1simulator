@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Service\Classification;
 
-use App\Service\Classification\ClassificationType;
+use Computer\Service\ClassificationType;
 use App\Tests\Common\Fixtures;
 use Computer\Entity\Qualification;
 use Computer\Model\DriversClassification;

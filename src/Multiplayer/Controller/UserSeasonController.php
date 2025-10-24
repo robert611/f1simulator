@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Multiplayer\Controller;
 
-use App\Service\Classification\ClassificationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Domain\Repository\TrackRepository;
 use Multiplayer\Entity\UserSeason;
@@ -13,6 +12,7 @@ use Multiplayer\Form\UserSeasonType;
 use Multiplayer\Security\DrawDriverToReplace;
 use Multiplayer\Security\LeagueVoter;
 use Multiplayer\Security\SecretGenerator;
+use Multiplayer\Service\ClassificationType;
 use Multiplayer\Service\LeagueClassifications;
 use Multiplayer\Service\LeagueTeamsClassification;
 use Shared\Controller\BaseController;
@@ -113,7 +113,7 @@ class UserSeasonController extends BaseController
         }
 
         if ($season->getRaces()->count() === 0) {
-            $classificationType = ClassificationType::DRIVERS;
+            $classificationType = ClassificationType::PLAYERS;
         }
 
         $raceId = $request->query->get('race_id');

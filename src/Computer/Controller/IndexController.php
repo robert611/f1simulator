@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Computer\Controller;
 
-use App\Service\Classification\ClassificationType;
+use Computer\Service\ClassificationType;
 use Computer\Service\CurrentDriverSeasonService;
 use Computer\Service\SeasonClassifications;
 use Computer\Service\SeasonTeamsClassification;
