@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Computer\Service;
 
-use Computer\Service\ClassificationType;
-use App\Service\DriverStatistics\DriverPoints;
 use Computer\Entity\Qualification;
 use Computer\Entity\Season;
 use Computer\Model\DriverRaceResult;
@@ -13,6 +11,7 @@ use Computer\Model\DriversClassification;
 use Computer\Repository\QualificationRepository;
 use Computer\Repository\RaceRepository;
 use Computer\Repository\RaceResultRepository;
+use Computer\Service\DriverStatistics\DriverPoints;
 use Domain\Repository\DriverRepository;
 
 class SeasonClassifications

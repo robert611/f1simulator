@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Computer\Service;
 
-use Computer\Service\ClassificationType;
-use App\Service\DriverStatistics\DriverPoints;
 use Computer\Model\CurrentDriverSeason;
 use Computer\Repository\RaceRepository;
 use Computer\Repository\SeasonRepository;
+use Computer\Service\DriverStatistics\DriverPoints;
 use Domain\Repository\TrackRepository;
 
 class CurrentDriverSeasonService
