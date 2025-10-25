@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Domain\Service\GameSimulation;
 
-use App\Model\Configuration\QualificationAdvantage;
-use App\Model\Configuration\TeamsStrength;
+use Domain\Model\Configuration\QualificationAdvantage;
+use Domain\Model\Configuration\TeamsStrength;
 use Domain\Entity\Driver;
 
 class CouponsGenerator

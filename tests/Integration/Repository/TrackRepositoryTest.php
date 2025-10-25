@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Integration\Repository;
+namespace Tests\Integration\Repository;
 
 use Domain\Repository\TrackRepository;
-use App\Tests\Common\Fixtures;
+use Tests\Common\Fixtures;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 

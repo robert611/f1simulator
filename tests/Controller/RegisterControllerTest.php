@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Controller;
+namespace Tests\Controller;
 
-use App\Tests\Common\Fixtures;
+use Tests\Common\Fixtures;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;

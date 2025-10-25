@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Entity;
+namespace Tests\Unit\Entity;
 
-use App\Tests\Common\PrivateProperty;
+use Tests\Common\PrivateProperty;
 use Computer\Entity\Race;
 use Computer\Entity\RaceResult;
 use Computer\Entity\Season;

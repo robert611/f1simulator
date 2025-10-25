@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Integration\Service\GameSimulation;
+namespace Tests\Integration\Service\GameSimulation;
 
-use App\Tests\Common\Fixtures;
+use Tests\Common\Fixtures;
 use Multiplayer\Entity\UserSeasonPlayer;
 use Multiplayer\Service\GameSimulation\SimulateLeagueQualifications;
 use PHPUnit\Framework\Attributes\Test;

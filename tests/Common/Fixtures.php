@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Common;
+namespace Tests\Common;
 
 use Computer\Entity\Qualification;
 use Computer\Entity\Race;

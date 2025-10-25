@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Integration\Service\GameSimulation;
+namespace Tests\Integration\Service\GameSimulation;
 
-use App\Model\Configuration\TeamsStrength;
-use App\Tests\Common\Fixtures;
+use Domain\Model\Configuration\TeamsStrength;
+use Tests\Common\Fixtures;
 use Domain\Service\GameSimulation\QualificationsHelperService;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;

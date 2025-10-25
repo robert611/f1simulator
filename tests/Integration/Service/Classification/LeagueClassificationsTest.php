@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Integration\Service\Classification;
+namespace Tests\Integration\Service\Classification;
 
-use App\Tests\Common\Fixtures;
+use Tests\Common\Fixtures;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;

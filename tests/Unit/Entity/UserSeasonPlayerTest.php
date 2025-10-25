@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Entity;
+namespace Tests\Unit\Entity;
 
-use App\Tests\Common\PrivateProperty;
+use Tests\Common\PrivateProperty;
 use Doctrine\Common\Collections\ArrayCollection;
 use Domain\Entity\Driver;
 use Domain\Entity\Team;

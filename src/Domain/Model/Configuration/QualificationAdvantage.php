@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\Configuration;
+namespace Domain\Model\Configuration;
 
 class QualificationAdvantage
 {

@@ -10,6 +10,8 @@ parameters:
         - tests/bootstrap.php
     ignoreErrors:
         -
-          message: '#Property App\\Entity\\.*::\$id is never written, only read.#'
+            message: '#Property .*\\Entity\\.*::\$id is never written, only read.#'
         -
-          message: '#Call to an undefined method Symfony\\Component\\HttpFoundation\\Session\\SessionInterface::getFlashBag#'
+            message: '#Call to an undefined method Symfony\\Component\\HttpFoundation\\Session\\SessionInterface::getFlashBag#'
+        -
+            message: '#Each class must be in a namespace of at least one level (a top-level vendor name)#'

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Multiplayer\Controller;
 
-use App\Model\Configuration\RaceScoringSystem;
+use Domain\Model\Configuration\RaceScoringSystem;
 use Doctrine\ORM\EntityManagerInterface;
 use Domain\Repository\TrackRepository;
 use Multiplayer\Entity\UserSeason;
@@ -13,7 +13,7 @@ use Multiplayer\Entity\UserSeasonQualification;
 use Multiplayer\Entity\UserSeasonRace;
 use Multiplayer\Entity\UserSeasonRaceResult;
 use Multiplayer\Repository\UserSeasonRepository;
-use Multiplayer\Security\DrawDriverToReplace;
+use Multiplayer\Service\DrawDriverToReplace;
 use Multiplayer\Security\LeagueVoter;
 use Multiplayer\Service\GameSimulation\SimulateLeagueRace;
 use Multiplayer\Service\LeagueClassifications;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Computer\Service\DriverStatistics;
 
-use App\Model\Configuration\RaceScoringSystem;
+use Domain\Model\Configuration\RaceScoringSystem;
 use Computer\Entity\RaceResult;
 use Computer\Entity\Season;
 use Domain\Entity\Driver;

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Integration\Service\DriverStatistics;
+namespace Tests\Integration\Service\DriverStatistics;
 
-use App\Tests\Common\Fixtures;
+use Tests\Common\Fixtures;
 use Computer\Service\DriverStatistics\DriverPoints;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;

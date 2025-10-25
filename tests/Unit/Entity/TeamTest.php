@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Entity;
+namespace Tests\Unit\Entity;
 
 use Domain\Entity\Driver;
 use Domain\Entity\Team;

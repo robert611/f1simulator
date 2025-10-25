@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Integration\Service\GameSimulation;
+namespace Tests\Integration\Service\GameSimulation;
 
-use App\Tests\Common\Fixtures;
+use Tests\Common\Fixtures;
 use Computer\Service\GameSimulation\SimulateQualifications;
 use Domain\Entity\Driver;
 use PHPUnit\Framework\Attributes\Test;

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Integration\Service\Classification;
+namespace Tests\Integration\Service\Classification;
 
 use Computer\Service\ClassificationType;
-use App\Tests\Common\Fixtures;
+use Tests\Common\Fixtures;
 use Computer\Entity\Qualification;
 use Computer\Model\DriversClassification;
 use Computer\Service\SeasonClassifications;
