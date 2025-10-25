@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Computer\Service;
 
-use App\Model\TeamsClassification;
-use App\Model\TeamSeasonResult;
+use Computer\Model\TeamsClassification;
+use Computer\Model\TeamSeasonResult;
 use Computer\Repository\SeasonRepository;
 use Computer\Service\TeamStatistics\TeamPoints;
 use Domain\Repository\TeamRepository;

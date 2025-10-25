@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Multiplayer\Service;
 
-use App\Model\TeamsClassification;
-use App\Model\TeamSeasonResult;
+use Multiplayer\Model\TeamsClassification;
+use Multiplayer\Model\TeamLeagueResult;
 use Doctrine\Common\Collections\Collection;
 use Domain\Entity\Team;
 use Multiplayer\Entity\UserSeason;
@@ -39,7 +39,7 @@ class LeagueTeamsClassification
         foreach ($teams as $team) {
             $keyPosition = array_search($team->getId(), array_keys($teamsPointsTable));
             $position = $keyPosition + 1;
-            $teamSeasonResults[] = TeamSeasonResult::create($team, $teamsPointsTable[$team->getId()], $position);
+            $teamSeasonResults[] = TeamLeagueResult::create($team, $teamsPointsTable[$team->getId()], $position);
         }
 
         return TeamsClassification::create($teamSeasonResults);

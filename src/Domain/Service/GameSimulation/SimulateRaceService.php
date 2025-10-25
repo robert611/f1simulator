@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Domain\Service\GameSimulation;
 
-use App\Model\GameSimulation\QualificationResultsCollection;
 use Computer\Entity\Qualification;
 use Computer\Entity\Race;
 use Computer\Entity\RaceResult;
 use Computer\Entity\Season;
+use Computer\Model\GameSimulation\QualificationResultsCollection;
 use Computer\Service\GameSimulation\SimulateQualifications;
 use Doctrine\ORM\EntityManagerInterface;
 use Domain\Repository\DriverRepository;

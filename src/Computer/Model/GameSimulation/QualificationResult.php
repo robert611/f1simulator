@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\GameSimulation;
+namespace Computer\Model\GameSimulation;
 
 use Domain\Entity\Driver;
 

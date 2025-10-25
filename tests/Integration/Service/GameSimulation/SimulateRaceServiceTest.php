@@ -6,9 +6,9 @@ namespace App\Tests\Integration\Service\GameSimulation;
 
 use App\Model\Configuration\QualificationAdvantage;
 use App\Model\Configuration\TeamsStrength;
-use App\Model\GameSimulation\QualificationResult;
-use App\Model\GameSimulation\QualificationResultsCollection;
 use App\Tests\Common\Fixtures;
+use Computer\Model\GameSimulation\QualificationResult;
+use Computer\Model\GameSimulation\QualificationResultsCollection;
 use Domain\Service\GameSimulation\SimulateRaceService;
 use Multiplayer\Model\GameSimulation\LeagueQualificationResult;
 use Multiplayer\Model\GameSimulation\LeagueQualificationResultsCollection;

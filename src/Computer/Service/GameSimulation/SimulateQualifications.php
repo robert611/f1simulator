@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Computer\Service\GameSimulation;
 
-use App\Model\GameSimulation\QualificationResult;
-use App\Model\GameSimulation\QualificationResultsCollection;
+use Computer\Model\GameSimulation\QualificationResult;
+use Computer\Model\GameSimulation\QualificationResultsCollection;
 use Domain\Repository\DriverRepository;
 use Domain\Service\GameSimulation\QualificationsHelperService;
 

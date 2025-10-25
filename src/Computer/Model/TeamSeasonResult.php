@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model;
+namespace Computer\Model;
 
 use Domain\Entity\Team;
 

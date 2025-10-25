@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Model;
+namespace Multiplayer\Model;
 
 use Domain\Entity\Team;
 
 class TeamsClassification
 {
-    /** @var TeamSeasonResult[] $teamsSeasonResults */
+    /** @var TeamLeagueResult[] $teamsSeasonResults */
     private array $teamsSeasonResults;
 
     /**
-     * @return TeamSeasonResult[]
+     * @return TeamLeagueResult[]
      */
     public function getTeamsSeasonResults(): array
     {
@@ -32,7 +32,7 @@ class TeamsClassification
         $position = 1;
 
         foreach ($teams as $team) {
-            $teamsSeasonResults[] = TeamSeasonResult::create($team, 0, $position);
+            $teamsSeasonResults[] = TeamLeagueResult::create($team, 0, $position);
             $position += 1;
         }
 
@@ -43,11 +43,11 @@ class TeamsClassification
     }
 
     /**
-     * @param TeamSeasonResult[] $teamsSeasonResults
+     * @param TeamLeagueResult[] $teamsSeasonResults
      */
     public static function create(array $teamsSeasonResults): self
     {
-        usort($teamsSeasonResults, function (TeamSeasonResult $a, TeamSeasonResult $b): int {
+        usort($teamsSeasonResults, function (TeamLeagueResult $a, TeamLeagueResult $b): int {
             return $a->getPosition() <=> $b->getPosition();
         });
 
