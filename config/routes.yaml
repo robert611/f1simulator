@@ -1,7 +1,3 @@
-controllers:
-    resource: ../src/Controller/
-    type: attribute
-
 domain:
     resource: '../src/Domain/Controller'
     type: attribute
@@ -16,4 +12,8 @@ multiplayer:
 
 security:
     resource: '../src/Security/Controller'
+    type: attribute
+
+shared:
+    resource: '../src/Shared/Controller'
     type: attribute

@@ -113,21 +113,21 @@
                             </div>
                         </div>
                         <div class="card mb-2">
-                            {% if classificationType == enum('App\\Service\\Classification\\ClassificationType').DRIVERS %}
+                            {% if classificationType == enum('Computer\\Service\\ClassificationType').DRIVERS %}
                                 <div class="card-header">
                                     <h4 class="text-center">Klasyfikacja kierowców</h4>
                                 </div>
                                 <div class="card-body">
                                     {% include 'season_results/_classification.html.twig' %}
                                 </div>
-                            {% elseif classificationType == enum('App\\Service\\Classification\\ClassificationType').RACE %}
+                            {% elseif classificationType == enum('Computer\\Service\\ClassificationType').RACE %}
                                 <div class="card-header">
                                     <h4 class="text-center">Klasyfikacja - {{ currentDriverSeason ? currentDriverSeason.classificationRace.track.name }}</h4>
                                 </div>
                                 <div class="card-body">
                                     {% include 'season_results/_classification.html.twig' %}
                                 </div>
-                            {% elseif classificationType == enum('App\\Service\\Classification\\ClassificationType').QUALIFICATIONS %}
+                            {% elseif classificationType == enum('Computer\\Service\\ClassificationType').QUALIFICATIONS %}
                                 <div class="card-header">
                                     <h4 class="text-center">Wyniki kwalifikacji - {{ currentDriverSeason ? currentDriverSeason.classificationRace.track.name }} </h4>
                                 </div>
