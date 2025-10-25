@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\Entity\UserSeasonPlayer;
-use App\Entity\UserSeasonRace;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use App\Entity\UserSeasonQualification;
+use Doctrine\Persistence\ObjectManager;
+use Multiplayer\Entity\UserSeasonPlayer;
+use Multiplayer\Entity\UserSeasonQualification;
+use Multiplayer\Entity\UserSeasonRace;
 
 class UserSeasonQualificationsFixtures extends Fixture implements DependentFixtureInterface
 {

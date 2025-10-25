@@ -99,25 +99,24 @@
                             </div>
                         </div>
                         <div class="midlle-section-dropdown-content">
-                           
-                            
+
                         </div>
                         <div class="card mt-3 mb-2">
-                            {% if classificationType == enum('App\\Service\\Classification\\ClassificationType').PLAYERS %}
+                            {% if classificationType == enum('Multiplayer\\Service\\ClassificationType').PLAYERS %}
                                 <div class="card-header">
                                     <h4 class="text-center">Klasyfikacja kierowców</h4>
                                 </div>
                                 <div class="card-body">
                                     {% include 'league_results/_players_classification.html.twig' %}
                                 </div>
-                            {% elseif classificationType == enum('App\\Service\\Classification\\ClassificationType').RACE %}
+                            {% elseif classificationType == enum('Multiplayer\\Service\\ClassificationType').RACE %}
                                 <div class="card-header">
                                     <h4 class="text-center">Klasyfikacja {{ classification ? classification.getOwner().getTrack().getName() }}</h4>
                                 </div>
                                 <div class="card-body">
                                     {% include 'league_results/_race_classification.html.twig' %}
                                 </div>
-                            {% elseif classificationType == enum('App\\Service\\Classification\\ClassificationType').QUALIFICATIONS %}
+                            {% elseif classificationType == enum('Multiplayer\\Service\\ClassificationType').QUALIFICATIONS %}
                                 <div class="card-header">
                                     <h4 class="text-center">Wyniki kwalifikacji - {{ classification ? classification.getOwner().getTrack().getName() }}</h4>
                                 </div>

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Integration\Service\Classification;
+namespace Tests\Integration\Service\Classification;
 
-use App\Entity\Qualification;
-use App\Model\DriversClassification;
-use App\Service\Classification\ClassificationType;
-use App\Service\Classification\SeasonClassifications;
-use App\Tests\Common\Fixtures;
+use Computer\Service\ClassificationType;
+use Tests\Common\Fixtures;
+use Computer\Entity\Qualification;
+use Computer\Model\DriversClassification;
+use Computer\Service\SeasonClassifications;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 

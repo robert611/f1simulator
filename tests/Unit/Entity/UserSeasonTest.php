@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Entity;
+namespace Tests\Unit\Entity;
 
-use App\Entity\Driver;
-use App\Entity\Team;
-use App\Entity\User;
-use App\Entity\UserSeason;
-use App\Entity\UserSeasonPlayer;
-use App\Tests\Common\PrivateProperty;
+use Tests\Common\PrivateProperty;
+use Domain\Entity\Driver;
+use Domain\Entity\Team;
+use Multiplayer\Entity\UserSeason;
+use Multiplayer\Entity\UserSeasonPlayer;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use Security\Entity\User;
 
 class UserSeasonTest extends TestCase
 {
