@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Service\GameSimulation;
+namespace Computer\Service\GameSimulation;
 
-use Domain\Repository\DriverRepository;
 use App\Model\GameSimulation\QualificationResult;
 use App\Model\GameSimulation\QualificationResultsCollection;
+use Domain\Repository\DriverRepository;
+use Domain\Service\GameSimulation\QualificationsHelperService;
 
 class SimulateQualifications
 {

@@ -2,30 +2,24 @@
 
 declare(strict_types=1);
 
-namespace App\Service\GameSimulation;
+namespace Domain\Service\GameSimulation;
 
-use App\Model\Configuration\QualificationAdvantage;
-use App\Model\Configuration\TeamsStrength;
 use App\Model\GameSimulation\QualificationResultsCollection;
 use Computer\Entity\Qualification;
 use Computer\Entity\Race;
 use Computer\Entity\RaceResult;
 use Computer\Entity\Season;
+use Computer\Service\GameSimulation\SimulateQualifications;
 use Doctrine\ORM\EntityManagerInterface;
-use Domain\Entity\Driver;
 use Domain\Repository\DriverRepository;
 use Domain\Repository\TrackRepository;
-use Multiplayer\Model\GameSimulation\LeagueQualificationResultsCollection;
 
 class SimulateRaceService
 {
-    /* Every team has it's strength which says how competitive team is, multiplier multiplies the strength of the teams
-     by some value to make differences between them grater */
-    public int $multiplier = 3;
-
     public function __construct(
         private readonly DriverRepository $driverRepository,
         private readonly SimulateQualifications $simulateQualifications,
+        private readonly CouponsGenerator $couponsGenerator,
         private readonly TrackRepository $trackRepository,
         private readonly EntityManagerInterface $entityManager,
     ) {
@@ -81,7 +75,7 @@ class SimulateRaceService
 
         $results = [];
 
-        $coupons = $this->generateCoupons($qualificationResults->toPlainArray());
+        $coupons = $this->couponsGenerator->generateCoupons($qualificationResults->toPlainArray());
 
         for ($position = 1; $position <= count($drivers); $position++) {
             do {
@@ -92,58 +86,5 @@ class SimulateRaceService
         }
 
         return $results;
-    }
-
-    /**
-     * @param Driver[] $drivers
-     *
-     * @return int[]
-     */
-    public function getLeagueRaceResults(
-        array $drivers,
-        LeagueQualificationResultsCollection $qualificationsResults,
-    ): array {
-        $results = [];
-
-        $coupons = $this->generateCoupons($qualificationsResults->toPlainDriverArray());
-
-        for ($position = 1; $position <= count($drivers); $position++) {
-            do {
-                $driverId = $coupons[array_rand($coupons)];
-            } while (in_array($driverId, $results));
-
-            $results[$position] = $driverId;
-        }
-
-        return $results;
-    }
-
-    /**
-     * @param Driver[] $qualificationsResults
-     *
-     * @return int[]
-     */
-    public function generateCoupons(array $qualificationsResults): array
-    {
-        $teams = TeamsStrength::getTeamsStrength();
-        $qualificationResultAdvantage = QualificationAdvantage::getQualificationResultAdvantage();
-
-        $coupons = [];
-
-        // Calculate driver strength and create weighted coupons directly
-        foreach ($qualificationsResults as $position => $driver) {
-            $driverTeamStrength = $teams[$driver->getTeam()->getName()];
-            $driverQualificationAdvantage = $qualificationResultAdvantage[$position];
-            $strength = ceil($driverTeamStrength + $driverQualificationAdvantage);
-
-            // Add driver ID to coupons based on their strength, repeated for multiplier
-            for ($i = 0; $i < $this->multiplier; $i++) {
-                for ($j = 0; $j < $strength; $j++) {
-                    $coupons[] = $driver->getId();
-                }
-            }
-        }
-
-        return $coupons;
     }
 }

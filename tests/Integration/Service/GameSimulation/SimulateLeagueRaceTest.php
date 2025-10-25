@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Service\GameSimulation;
 
-use App\Service\GameSimulation\SimulateLeagueRace;
 use App\Tests\Common\Fixtures;
+use Multiplayer\Service\GameSimulation\SimulateLeagueRace;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 

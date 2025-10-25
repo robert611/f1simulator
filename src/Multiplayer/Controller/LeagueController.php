@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Multiplayer\Controller;
 
 use App\Model\Configuration\RaceScoringSystem;
-use App\Service\GameSimulation\SimulateLeagueRace;
 use Doctrine\ORM\EntityManagerInterface;
 use Domain\Repository\TrackRepository;
 use Multiplayer\Entity\UserSeason;
@@ -16,6 +15,7 @@ use Multiplayer\Entity\UserSeasonRaceResult;
 use Multiplayer\Repository\UserSeasonRepository;
 use Multiplayer\Security\DrawDriverToReplace;
 use Multiplayer\Security\LeagueVoter;
+use Multiplayer\Service\GameSimulation\SimulateLeagueRace;
 use Multiplayer\Service\LeagueClassifications;
 use Shared\Controller\BaseController;
 use Symfony\Component\HttpFoundation\RedirectResponse;

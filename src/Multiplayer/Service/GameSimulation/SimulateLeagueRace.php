@@ -2,18 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\Service\GameSimulation;
+namespace Multiplayer\Service\GameSimulation;
 
 use Doctrine\Common\Collections\Collection;
+use Domain\Entity\Driver;
+use Domain\Service\GameSimulation\CouponsGenerator;
 use Multiplayer\Entity\UserSeason;
 use Multiplayer\Entity\UserSeasonPlayer;
+use Multiplayer\Model\GameSimulation\LeagueQualificationResultsCollection;
 use Multiplayer\Model\GameSimulation\LeagueRaceResultsDTO;
 
 class SimulateLeagueRace
 {
     public function __construct(
         private readonly SimulateLeagueQualifications $simulateLeagueQualifications,
-        private readonly SimulateRaceService $simulateRaceService,
+        private readonly CouponsGenerator $couponsGenerator,
     ) {
     }
 
@@ -25,11 +28,35 @@ class SimulateLeagueRace
 
         $qualificationsResults = $this->simulateLeagueQualifications->getLeagueQualificationsResults($userSeason);
 
-        $raceResults = $this->simulateRaceService->getLeagueRaceResults($drivers, $qualificationsResults);
+        $raceResults = $this->getLeagueRaceResults($drivers, $qualificationsResults);
 
         $preparedRaceResults = $this->setRaceResultsToPlayers($raceResults, $players);
 
         return LeagueRaceResultsDTO::create($qualificationsResults, $preparedRaceResults);
+    }
+
+    /**
+     * @param Driver[] $drivers
+     *
+     * @return int[]
+     */
+    public function getLeagueRaceResults(
+        array $drivers,
+        LeagueQualificationResultsCollection $qualificationsResults,
+    ): array {
+        $results = [];
+
+        $coupons = $this->couponsGenerator->generateCoupons($qualificationsResults->toPlainDriverArray());
+
+        for ($position = 1; $position <= count($drivers); $position++) {
+            do {
+                $driverId = $coupons[array_rand($coupons)];
+            } while (in_array($driverId, $results));
+
+            $results[$position] = $driverId;
+        }
+
+        return $results;
     }
 
     /**

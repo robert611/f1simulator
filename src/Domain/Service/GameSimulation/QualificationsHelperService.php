@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Service\GameSimulation;
+namespace Domain\Service\GameSimulation;
 
-use Domain\Entity\Driver;
 use App\Model\Configuration\TeamsStrength;
+use Domain\Entity\Driver;
 
 class QualificationsHelperService
 {

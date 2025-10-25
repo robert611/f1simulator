@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Service\GameSimulation;
+namespace Multiplayer\Service\GameSimulation;
 
+use Domain\Service\GameSimulation\QualificationsHelperService;
 use Multiplayer\Entity\UserSeason;
 use Multiplayer\Entity\UserSeasonPlayer;
 use Multiplayer\Model\GameSimulation\LeagueQualificationResult;
