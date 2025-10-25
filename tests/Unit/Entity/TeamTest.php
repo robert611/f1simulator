@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Entity;
+namespace Tests\Unit\Entity;
 
-use App\Entity\Driver;
-use App\Entity\Team;
+use Domain\Entity\Driver;
+use Domain\Entity\Team;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 

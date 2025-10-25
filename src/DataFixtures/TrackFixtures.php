@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
+use Domain\Entity\Track;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use App\Entity\Track;
 
 class TrackFixtures extends Fixture
 {

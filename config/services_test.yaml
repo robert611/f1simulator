@@ -3,8 +3,8 @@ services:
         autowire: true
         autoconfigure: true
 
-    App\Tests\Common\Fixtures:
+    Tests\Common\Fixtures:
         public: true
 
-    App\Service\SecretGenerator:
+    Multiplayer\Service\SecretGenerator:
         public: true

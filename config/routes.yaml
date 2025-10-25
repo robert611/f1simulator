@@ -1,3 +1,19 @@
-controllers:
-    resource: ../src/Controller/
+domain:
+    resource: '../src/Domain/Controller'
+    type: attribute
+
+computer:
+    resource: '../src/Computer/Controller'
+    type: attribute
+
+multiplayer:
+    resource: '../src/Multiplayer/Controller'
+    type: attribute
+
+security:
+    resource: '../src/Security/Controller'
+    type: attribute
+
+shared:
+    resource: '../src/Shared/Controller'
     type: attribute

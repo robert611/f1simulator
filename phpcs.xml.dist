@@ -22,6 +22,7 @@
     <exclude-pattern>public/index.php</exclude-pattern>
     <exclude-pattern>config/preload.php</exclude-pattern>
     <exclude-pattern>config/bootstrap.php</exclude-pattern>
+    <exclude-pattern>src/Kernel.php</exclude-pattern>
 
     <file>bin/</file>
     <file>config/</file>

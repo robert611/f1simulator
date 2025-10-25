@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Integration\Service;
+namespace Tests\Integration\Service;
 
-use App\Service\SecretGenerator;
-use App\Tests\Common\Fixtures;
+use Tests\Common\Fixtures;
+use Multiplayer\Service\SecretGenerator;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
