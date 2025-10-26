@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Domain\Service\GameSimulation;
+namespace Computer\Service\GameSimulation;
 
 use Computer\Entity\Qualification;
 use Computer\Entity\Race;
 use Computer\Entity\RaceResult;
 use Computer\Entity\Season;
 use Computer\Model\GameSimulation\QualificationResultsCollection;
-use Computer\Service\GameSimulation\SimulateQualifications;
 use Doctrine\ORM\EntityManagerInterface;
 use Domain\Repository\DriverRepository;
 use Domain\Repository\TrackRepository;
+use Domain\Service\GameSimulation\CouponsGenerator;
 
 class SimulateRaceService
 {

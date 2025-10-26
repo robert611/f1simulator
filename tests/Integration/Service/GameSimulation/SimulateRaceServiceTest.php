@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Integration\Service\GameSimulation;
 
-use Tests\Common\Fixtures;
 use Computer\Model\GameSimulation\QualificationResult;
 use Computer\Model\GameSimulation\QualificationResultsCollection;
-use Domain\Service\GameSimulation\SimulateRaceService;
+use Computer\Service\GameSimulation\SimulateRaceService;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Tests\Common\Fixtures;
 
 class SimulateRaceServiceTest extends KernelTestCase
 {
