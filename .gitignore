@@ -28,3 +28,7 @@ phpstan.neon
 ###< squizlabs/php_codesniffer ###
 
 .idea/
+
+###> deptrac/deptrac ###
+/.deptrac.cache
+###< deptrac/deptrac ###

@@ -1,0 +1,20 @@
+deptrac:
+    paths:
+        - ./src
+    exclude_files:
+        - '#.*test.*#'
+    layers:
+        - name: Computer
+          collectors:
+              - type: bool
+                must:
+                    - { type: class, value: ^Computer\\.* }
+                must_not:
+                    - { type: layer, value: Computer_Allowed }
+        - name: Computer_Allowed
+          collectors:
+              - { type: class, value: ^Computer\\Contract\\.* }
+
+    ruleset:
+        Computer:
+            - Computer_Allowed
