@@ -15,6 +15,20 @@ deptrac:
           collectors:
               - { type: class, value: ^Computer\\Contract\\.* }
 
+        - name: Multiplayer
+          collectors:
+              - type: bool
+                must:
+                    - { type: class, value: ^Multiplayer\\.* }
+                must_not:
+                    - { type: layer, value: Multiplayer_Allowed }
+        - name: Multiplayer_Allowed
+          collectors:
+              - { type: class, value: ^Multiplayer\\Contract\\.* }
+
     ruleset:
         Computer:
             - Computer_Allowed
+
+        Multiplayer:
+            - Multiplayer_Allowed
