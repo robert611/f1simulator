@@ -1,6 +1,6 @@
 <?php
 
-namespace Multiplayer\Repository;
+namespace Security\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;

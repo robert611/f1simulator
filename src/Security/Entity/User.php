@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace Security\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Multiplayer\Entity\UserSeasonPlayer;
-use Multiplayer\Repository\UserRepository;
+use Security\Repository\UserRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
