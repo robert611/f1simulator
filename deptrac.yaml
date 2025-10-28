@@ -35,7 +35,7 @@ deptrac:
                     - { type: layer, value: Security_Allowed }
         - name: Security_Allowed
           collectors:
-              - { type: class, value: ^Security\\Entity\\User.php }
+              - { type: class, value: ^Security\\Entity\\User }
 
         - name: Shared
           collectors:
