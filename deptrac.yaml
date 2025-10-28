@@ -26,6 +26,17 @@ deptrac:
           collectors:
               - { type: class, value: ^Multiplayer\\Contract\\.* }
 
+        - name: Security
+          collectors:
+              - type: bool
+                must:
+                    - { type: class, value: ^Security\\.* }
+                must_not:
+                    - { type: layer, value: Security_Allowed }
+        - name: Security_Allowed
+          collectors:
+              - { type: class, value: ^Security\\Entity\\User.php }
+
         - name: Shared
           collectors:
             - type: bool
@@ -36,8 +47,16 @@ deptrac:
     ruleset:
         Computer:
             - Computer_Allowed
+            - Security_Allowed
             - Shared
 
         Multiplayer:
             - Multiplayer_Allowed
+            - Security_Allowed
             - Shared
+
+        Security:
+            - Shared
+
+        Shared:
+            - Security_Allowed
