@@ -41,7 +41,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        $this->userSeasons = new ArrayCollection();
         $this->userSeasonPlayers = new ArrayCollection();
     }
 

@@ -9,6 +9,7 @@ use Domain\Repository\TrackRepository;
 use Multiplayer\Entity\UserSeason;
 use Multiplayer\Entity\UserSeasonPlayer;
 use Multiplayer\Form\UserSeasonType;
+use Multiplayer\Repository\UserSeasonRepository;
 use Multiplayer\Service\DrawDriverToReplace;
 use Multiplayer\Security\LeagueVoter;
 use Multiplayer\Service\ClassificationType;
@@ -29,6 +30,7 @@ class UserSeasonController extends BaseController
         private readonly LeagueClassifications $leagueClassification,
         private readonly DrawDriverToReplace $drawDriverToReplace,
         private readonly TrackRepository $trackRepository,
+        private readonly UserSeasonRepository $userSeasonRepository,
         private readonly SecretGenerator $secretGenerator,
     ) {
     }
@@ -78,11 +80,7 @@ class UserSeasonController extends BaseController
 
         $leagueRepository = $this->entityManager->getRepository(UserSeason::class);
         $userLeagues = $leagueRepository->findBy(['owner' => $this->getUser()]);
-        $leagues = [];
-
-        foreach ($this->getUser()->getUserSeasonPlayers() as $player) {
-            $leagues[] = $player->getSeason();
-        }
+        $leagues[] = $this->userSeasonRepository->getUserSeasons($this->getUser()->getId());
 
         return $this->render('league/index.html.twig', [
             'form' => $form->createView(),

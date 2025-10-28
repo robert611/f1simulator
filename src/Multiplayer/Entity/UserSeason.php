@@ -37,7 +37,7 @@ class UserSeason
     )]
     private int $maxPlayers;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'userSeasons')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'owner_id', nullable: false)]
     private User $owner;
 
