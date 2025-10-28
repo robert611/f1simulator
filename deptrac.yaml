@@ -26,9 +26,18 @@ deptrac:
           collectors:
               - { type: class, value: ^Multiplayer\\Contract\\.* }
 
+        - name: Shared
+          collectors:
+            - type: bool
+              must:
+                  - { type: class, value: ^Shared\\.* }
+
+
     ruleset:
         Computer:
             - Computer_Allowed
+            - Shared
 
         Multiplayer:
             - Multiplayer_Allowed
+            - Shared
