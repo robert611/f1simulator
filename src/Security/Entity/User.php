@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Security\Entity;
 
-use Computer\Entity\Season;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -38,9 +37,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(name: 'password', type: 'string', nullable: false)]
     private string $password;
 
-    #[ORM\OneToMany(targetEntity: Season::class, mappedBy: 'user', orphanRemoval: true)]
-    private Collection $seasons;
-
     #[ORM\OneToMany(targetEntity: UserSeason::class, mappedBy: 'owner')]
     private Collection $userSeasons;
 
@@ -49,7 +45,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        $this->seasons = new ArrayCollection();
         $this->userSeasons = new ArrayCollection();
         $this->userSeasonPlayers = new ArrayCollection();
     }
@@ -129,29 +124,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    /**
-     * @return Collection<Season>
-     */
-    public function getSeasons(): Collection
-    {
-        return $this->seasons;
-    }
-
-    public function addSeason(Season $season): void
-    {
-        if (!$this->seasons->contains($season)) {
-            $this->seasons[] = $season;
-            $season->setUser($this);
-        }
-    }
-
-    public function removeSeason(Season $season): void
-    {
-        if ($this->seasons->contains($season)) {
-            $this->seasons->removeElement($season);
-        }
     }
 
     /**
