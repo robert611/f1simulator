@@ -36,14 +36,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(name: 'password', type: 'string', nullable: false)]
     private string $password;
 
-    #[ORM\OneToMany(targetEntity: UserSeasonPlayer::class, mappedBy: 'user', orphanRemoval: true)]
-    private Collection $userSeasonPlayers;
-
-    public function __construct()
-    {
-        $this->userSeasonPlayers = new ArrayCollection();
-    }
-
     public function getId(): int
     {
         return $this->id;
@@ -119,29 +111,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    /**
-     * @return Collection<UserSeasonPlayer>
-     */
-    public function getUserSeasonPlayers(): Collection
-    {
-        return $this->userSeasonPlayers;
-    }
-
-    public function addUserSeasonPlayer(UserSeasonPlayer $userSeasonPlayer): void
-    {
-        if (!$this->userSeasonPlayers->contains($userSeasonPlayer)) {
-            $this->userSeasonPlayers[] = $userSeasonPlayer;
-            $userSeasonPlayer->setUser($this);
-        }
-    }
-
-    public function removeUserSeasonPlayer(UserSeasonPlayer $userSeasonPlayer): void
-    {
-        if ($this->userSeasonPlayers->contains($userSeasonPlayer)) {
-            $this->userSeasonPlayers->removeElement($userSeasonPlayer);
-        }
     }
 
     public function getUserIdentifier(): string

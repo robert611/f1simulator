@@ -26,7 +26,7 @@ class UserSeasonPlayer
     #[ORM\JoinColumn(name: 'season_id', nullable: false)]
     private UserSeason $season;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'userSeasonPlayers')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'user_id', nullable: false)]
     private User $user;
 
