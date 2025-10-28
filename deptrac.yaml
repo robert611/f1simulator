@@ -56,7 +56,10 @@ deptrac:
             - Shared
 
         Security:
+            - Security_Allowed
             - Shared
+        Security_Allowed:
+            - Security
 
         Shared:
             - Security_Allowed
