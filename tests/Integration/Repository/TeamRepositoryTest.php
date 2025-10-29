@@ -21,7 +21,7 @@ class TeamRepositoryTest extends KernelTestCase
     }
 
     #[Test]
-    public function it_checks_if_first_track_will_be_returned(): void
+    public function it_checks_if_teams_will_be_returned_based_on_drivers_ids(): void
     {
         // given
         $mercedes = $this->fixtures->aTeamWithName('Mercedes');

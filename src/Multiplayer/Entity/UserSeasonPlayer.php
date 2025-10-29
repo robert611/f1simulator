@@ -196,15 +196,15 @@ class UserSeasonPlayer
     /**
      * @param Collection<UserSeasonPlayer> $players
      *
-     * @return Driver[]
+     * @return int[]
      */
-    public static function getPlayersDrivers(Collection $players): array
+    public static function getPlayersDriversIds(Collection $players): array
     {
-        $drivers = $players->map(function (UserSeasonPlayer $player) {
-            return $player->getDriver();
+        $driversIds = $players->map(function (UserSeasonPlayer $player) {
+            return $player->getDriver()->getId();
         });
 
-        return $drivers->toArray();
+        return $driversIds->toArray();
     }
 
     /**

@@ -11,7 +11,7 @@ class DriverDTO
     private int $id;
     private string $name;
     private string $surname;
-    private TeamDTO $teamDTO;
+    private TeamDTO $team;
     private int $carNumber;
 
     public function getId(): int
@@ -19,9 +19,9 @@ class DriverDTO
         return $this->id;
     }
 
-    public function getTeamDTO(): TeamDTO
+    public function getTeam(): TeamDTO
     {
-        return $this->teamDTO;
+        return $this->team;
     }
 
     public function getSurname(): string
@@ -45,9 +45,25 @@ class DriverDTO
         $driverDTO->id = $driver->getId();
         $driverDTO->name = $driver->getName();
         $driverDTO->surname = $driver->getSurname();
-        $driverDTO->teamDTO = TeamDTO::fromEntity($driver->getTeam());
+        $driverDTO->team = TeamDTO::fromEntity($driver->getTeam());
         $driverDTO->carNumber = $driver->getCarNumber();
 
         return $driverDTO;
+    }
+
+    /**
+     * @param Driver[] $drivers
+     *
+     * @return DriverDTO[]
+     */
+    public static function fromEntityCollection(array $drivers): array
+    {
+        $driversDTO = [];
+
+        foreach ($drivers as $driver) {
+            $driversDTO[] = DriverDTO::fromEntity($driver);
+        }
+
+        return $driversDTO;
     }
 }

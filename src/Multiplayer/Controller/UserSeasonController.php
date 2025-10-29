@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Multiplayer\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Domain\Entity\Driver;
 use Domain\Repository\TrackRepository;
 use Multiplayer\Entity\UserSeason;
 use Multiplayer\Entity\UserSeasonPlayer;
@@ -64,9 +65,11 @@ class UserSeasonController extends BaseController
             $userSeason->setCompleted(false);
             $userSeason->setStarted(false);
 
+            $driver = $this->drawDriverToReplace->getDriverToReplaceInUserLeague($userSeason);
+
             $player = new UserSeasonPlayer();
             $player->setUser($this->getUser());
-            $player->setDriver($this->drawDriverToReplace->getDriverToReplaceInUserLeague($userSeason));
+            $player->setDriver($this->entityManager->getReference(Driver::class, $driver->getId()));
             $player->setSeason($userSeason);
 
             $this->entityManager->persist($userSeason);
