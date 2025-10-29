@@ -36,4 +36,20 @@ class TeamDTO
 
         return $teamDTO;
     }
+
+    /**
+     * @param $teams Team[]
+     *
+     * @return TeamDTO[]
+     */
+    public static function fromEntityCollection(array $teams): array
+    {
+        $teamsDTO = [];
+
+        foreach ($teams as $team) {
+            $teamsDTO[] = TeamDTO::fromEntity($team);
+        }
+
+        return $teamsDTO;
+    }
 }

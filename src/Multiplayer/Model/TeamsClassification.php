@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Multiplayer\Model;
 
-use Domain\Entity\Team;
+use Domain\Contract\DTO\TeamDTO;
 
 class TeamsClassification
 {
@@ -23,7 +23,7 @@ class TeamsClassification
      * This classification is shown if there is no active user season
      * All teams have zero points and are displayed in random order
      *
-     * @param Team[] $teams
+     * @param TeamDTO[] $teams
      */
     public static function createDefaultClassification(array $teams): self
     {

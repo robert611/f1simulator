@@ -16,7 +16,7 @@ use Security\Entity\User;
 class UserSeasonTest extends TestCase
 {
     #[Test]
-    public function it_checks_if_league_teams_will_be_correctly_returned(): void
+    public function it_checks_if_league_drivers_ids_will_be_correctly_returned(): void
     {
         // given
         $team1 = Team::create("Mercedes", "mercedes.png");
@@ -38,6 +38,15 @@ class UserSeasonTest extends TestCase
         $driver6 = Driver::create('John', 'Marcus', $team3, 50);
         $driver7 = Driver::create('Thomas', 'Jackson', $team4, 50);
         $driver8 = Driver::create('Taylor', 'Spears', $team4, 50);
+
+        PrivateProperty::set($driver1, 'id', 1);
+        PrivateProperty::set($driver2, 'id', 2);
+        PrivateProperty::set($driver3, 'id', 3);
+        PrivateProperty::set($driver4, 'id', 4);
+        PrivateProperty::set($driver5, 'id', 5);
+        PrivateProperty::set($driver6, 'id', 6);
+        PrivateProperty::set($driver7, 'id', 7);
+        PrivateProperty::set($driver8, 'id', 8);
 
         // and given
         $team1->addDriver($driver1);
@@ -75,9 +84,17 @@ class UserSeasonTest extends TestCase
         $userSeason->addPlayer($userSeasonPlayer4);
 
         // when
-        $userSeasonTeams = $userSeason->getLeagueTeams();
+        $userSeasonTeams = $userSeason->getLeagueDriversIds();
 
         // then
-        self::assertEquals([$team1, $team2, $team3], $userSeasonTeams);
+        self::assertEquals(
+            [
+                $driver1->getId(),
+                $driver2->getId(),
+                $driver4->getId(),
+                $driver6->getId()
+            ],
+            $userSeasonTeams,
+        );
     }
 }

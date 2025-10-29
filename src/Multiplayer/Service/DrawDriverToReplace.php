@@ -19,7 +19,7 @@ class DrawDriverToReplace
     {
         $allDrivers = $this->driverRepository->findAll();
 
-        $takenDrivers = $league->getLeagueDrivers();
+        $takenDrivers = $league->getLeagueDriversIds();
 
         $availableDrivers = array_udiff(
             $allDrivers,

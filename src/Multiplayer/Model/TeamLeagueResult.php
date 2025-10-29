@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Multiplayer\Model;
 
-use Domain\Entity\Team;
+use Domain\Contract\DTO\TeamDTO;
 
 class TeamLeagueResult
 {
-    private Team $team;
+    private TeamDTO $team;
     private int $points;
     private int $position;
 
-    public function getTeam(): Team
+    public function getTeam(): TeamDTO
     {
         return $this->team;
     }
@@ -27,7 +27,7 @@ class TeamLeagueResult
         return $this->points;
     }
 
-    public static function create(Team $team, int $points, int $position): self
+    public static function create(TeamDTO $team, int $points, int $position): self
     {
         $teamSeasonResult = new self();
         $teamSeasonResult->team = $team;

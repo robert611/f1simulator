@@ -4,18 +4,26 @@ declare(strict_types=1);
 
 namespace Multiplayer\Service;
 
+use Domain\Contract\DTO\TeamDTO;
+use Domain\DomainFacadeInterface;
 use Multiplayer\Model\TeamsClassification;
 use Multiplayer\Model\TeamLeagueResult;
 use Doctrine\Common\Collections\Collection;
-use Domain\Entity\Team;
 use Multiplayer\Entity\UserSeason;
 use Multiplayer\Entity\UserSeasonPlayer;
 
 class LeagueTeamsClassification
 {
+    public function __construct(
+        private readonly DomainFacadeInterface $domainFacade,
+    ) {
+    }
+
     public function getClassification(UserSeason $league): TeamsClassification
     {
-        $teams = $league->getLeagueTeams();
+        $driversIds = $league->getLeagueDriversIds();
+
+        $teams = $this->domainFacade->getTeamsByDriversIds($driversIds);
 
         $teamsPointsTable = [];
 
@@ -49,7 +57,7 @@ class LeagueTeamsClassification
      * @param Collection<UserSeasonPlayer> $players
      * @return UserSeasonPlayer[]
      */
-    private function getTeamPlayers(Team $team, Collection $players): array
+    private function getTeamPlayers(TeamDTO $team, Collection $players): array
     {
         return $players
             ->filter(function (UserSeasonPlayer $player) use ($team): bool {
