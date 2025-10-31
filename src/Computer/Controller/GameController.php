@@ -6,10 +6,10 @@ namespace Computer\Controller;
 
 use Computer\Entity\Season;
 use Computer\Repository\SeasonRepository;
+use Computer\Service\GameSimulation\SimulateRaceService;
 use Doctrine\ORM\EntityManagerInterface;
 use Domain\Repository\TeamRepository;
 use Domain\Repository\TrackRepository;
-use Domain\Service\GameSimulation\SimulateRaceService;
 use Shared\Controller\BaseController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;

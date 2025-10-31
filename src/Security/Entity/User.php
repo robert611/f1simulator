@@ -4,13 +4,8 @@ declare(strict_types=1);
 
 namespace Security\Entity;
 
-use Computer\Entity\Season;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Multiplayer\Entity\UserSeason;
-use Multiplayer\Entity\UserSeasonPlayer;
-use Multiplayer\Repository\UserRepository;
+use Security\Repository\UserRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -37,22 +32,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(name: 'password', type: 'string', nullable: false)]
     private string $password;
-
-    #[ORM\OneToMany(targetEntity: Season::class, mappedBy: 'user', orphanRemoval: true)]
-    private Collection $seasons;
-
-    #[ORM\OneToMany(targetEntity: UserSeason::class, mappedBy: 'owner')]
-    private Collection $userSeasons;
-
-    #[ORM\OneToMany(targetEntity: UserSeasonPlayer::class, mappedBy: 'user', orphanRemoval: true)]
-    private Collection $userSeasonPlayers;
-
-    public function __construct()
-    {
-        $this->seasons = new ArrayCollection();
-        $this->userSeasons = new ArrayCollection();
-        $this->userSeasonPlayers = new ArrayCollection();
-    }
 
     public function getId(): int
     {
@@ -129,75 +108,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    /**
-     * @return Collection<Season>
-     */
-    public function getSeasons(): Collection
-    {
-        return $this->seasons;
-    }
-
-    public function addSeason(Season $season): void
-    {
-        if (!$this->seasons->contains($season)) {
-            $this->seasons[] = $season;
-            $season->setUser($this);
-        }
-    }
-
-    public function removeSeason(Season $season): void
-    {
-        if ($this->seasons->contains($season)) {
-            $this->seasons->removeElement($season);
-        }
-    }
-
-    /**
-     * @return Collection<UserSeason>
-     */
-    public function getUsersSeasons(): Collection
-    {
-        return $this->userSeasons;
-    }
-
-    public function addUsersSeason(UserSeason $userSeason): void
-    {
-        if (!$this->userSeasons->contains($userSeason)) {
-            $this->userSeasons[] = $userSeason;
-            $userSeason->setOwner($this);
-        }
-    }
-
-    public function removeUsersSeason(UserSeason $userSeason): void
-    {
-        if ($this->userSeasons->contains($userSeason)) {
-            $this->userSeasons->removeElement($userSeason);
-        }
-    }
-
-    /**
-     * @return Collection<UserSeasonPlayer>
-     */
-    public function getUserSeasonPlayers(): Collection
-    {
-        return $this->userSeasonPlayers;
-    }
-
-    public function addUserSeasonPlayer(UserSeasonPlayer $userSeasonPlayer): void
-    {
-        if (!$this->userSeasonPlayers->contains($userSeasonPlayer)) {
-            $this->userSeasonPlayers[] = $userSeasonPlayer;
-            $userSeasonPlayer->setUser($this);
-        }
-    }
-
-    public function removeUserSeasonPlayer(UserSeasonPlayer $userSeasonPlayer): void
-    {
-        if ($this->userSeasonPlayers->contains($userSeasonPlayer)) {
-            $this->userSeasonPlayers->removeElement($userSeasonPlayer);
-        }
     }
 
     public function getUserIdentifier(): string

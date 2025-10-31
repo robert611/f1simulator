@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Multiplayer\Controller;
 
+use Domain\Entity\Driver;
 use Domain\Model\Configuration\RaceScoringSystem;
 use Doctrine\ORM\EntityManagerInterface;
 use Domain\Repository\TrackRepository;
@@ -44,6 +45,8 @@ class LeagueController extends BaseController
         $this->denyAccessUnlessGranted(LeagueVoter::JOIN, $league);
 
         $driver = $this->drawDriverToReplace->getDriverToReplaceInUserLeague($league);
+
+        $driver = $this->entityManager->getReference(Driver::class, $driver->getId());
 
         $player = UserSeasonPlayer::create($league, $this->getUser(), $driver);
 

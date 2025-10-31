@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Computer\Model\GameSimulation;
 
-use Domain\Entity\Driver;
+use Domain\Contract\DTO\DriverDTO;
 
 class QualificationResultsCollection
 {
@@ -25,7 +25,7 @@ class QualificationResultsCollection
     }
 
     /**
-     * @return array<int, Driver>
+     * @return array<int, DriverDTO>
      */
     public function toPlainArray(): array
     {

@@ -7,8 +7,6 @@ namespace Multiplayer\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Domain\Entity\Driver;
-use Domain\Entity\Team;
 use Multiplayer\Repository\UserSeasonRepository;
 use Security\Entity\User;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -37,7 +35,7 @@ class UserSeason
     )]
     private int $maxPlayers;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'userSeasons')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'owner_id', nullable: false)]
     private User $owner;
 
@@ -193,33 +191,16 @@ class UserSeason
     }
 
     /**
-     * @return Driver[]
+     * @return int[]
      */
-    public function getLeagueDrivers(): array
+    public function getLeagueDriversIds(): array
     {
-        $leagueDrivers = [];
+        $leagueDriversIds = [];
 
         foreach ($this->getPlayers() as $player) {
-            $leagueDrivers[] = $player->getDriver();
+            $leagueDriversIds[] = $player->getDriver()->getId();
         }
 
-        return $leagueDrivers;
-    }
-
-    /**
-     * @return Team[]
-     */
-    public function getLeagueTeams(): array
-    {
-        $leagueDrivers = $this->getLeagueDrivers();
-
-        $teams = [];
-
-        foreach ($leagueDrivers as $driver) {
-            $teams[$driver->getTeam()->getId()] = $driver->getTeam();
-        }
-
-        // Reindex array
-        return array_values($teams);
+        return $leagueDriversIds;
     }
 }

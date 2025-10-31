@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\Service\Classification;
 
+use Domain\Contract\DTO\TeamDTO;
 use Tests\Common\Fixtures;
 use Multiplayer\Service\LeagueTeamsClassification;
 use PHPUnit\Framework\Attributes\Test;
@@ -108,16 +109,16 @@ class LeagueTeamsClassificationTest extends KernelTestCase
         // and then (team1, ferrari is first)
         self::assertEquals(1, $classification->getTeamsSeasonResults()[0]->getPosition());
         self::assertEquals(129, $classification->getTeamsSeasonResults()[0]->getPoints());
-        self::assertEquals($team1, $classification->getTeamsSeasonResults()[0]->getTeam());
+        self::assertEquals(TeamDTO::fromEntity($team1), $classification->getTeamsSeasonResults()[0]->getTeam());
 
         // and then (team2, mercedes is second)
         self::assertEquals(2, $classification->getTeamsSeasonResults()[1]->getPosition());
         self::assertEquals(81, $classification->getTeamsSeasonResults()[1]->getPoints());
-        self::assertEquals($team2, $classification->getTeamsSeasonResults()[1]->getTeam());
+        self::assertEquals(TeamDTO::fromEntity($team2), $classification->getTeamsSeasonResults()[1]->getTeam());
 
         // and then (team3, hass is third)
         self::assertEquals(3, $classification->getTeamsSeasonResults()[2]->getPosition());
         self::assertEquals(30, $classification->getTeamsSeasonResults()[2]->getPoints());
-        self::assertEquals($team3, $classification->getTeamsSeasonResults()[2]->getTeam());
+        self::assertEquals(TeamDTO::fromEntity($team3), $classification->getTeamsSeasonResults()[2]->getTeam());
     }
 }

@@ -63,7 +63,7 @@ class UserSeasonPlayerTest extends TestCase
     }
 
     #[Test]
-    public function it_checks_if_players_drivers_can_be_derived(): void
+    public function it_checks_if_players_drivers_ids_can_be_derived(): void
     {
         // given
         $user1 = new User();
@@ -81,6 +81,11 @@ class UserSeasonPlayerTest extends TestCase
         $driver3 = Driver::create('Filip', 'Masa', $team2, 9);
         $driver4 = Driver::create('Liam', 'Lawson', $team2, 98);
 
+        PrivateProperty::set($driver1, 'id', 1);
+        PrivateProperty::set($driver2, 'id', 2);
+        PrivateProperty::set($driver3, 'id', 3);
+        PrivateProperty::set($driver4, 'id', 4);
+
         // and given
         $userSeason = new UserSeason();
 
@@ -91,7 +96,7 @@ class UserSeasonPlayerTest extends TestCase
         $userSeasonPlayer4 = UserSeasonPlayer::create($userSeason, $user4, $driver4);
 
         // when
-        $drivers = UserSeasonPlayer::getPlayersDrivers(new ArrayCollection([
+        $driversIds = UserSeasonPlayer::getPlayersDriversIds(new ArrayCollection([
             $userSeasonPlayer1,
             $userSeasonPlayer2,
             $userSeasonPlayer3,
@@ -99,11 +104,11 @@ class UserSeasonPlayerTest extends TestCase
         ]));
 
         // then
-        self::assertCount(4, $drivers);
-        self::assertEquals($driver1, $drivers[0]);
-        self::assertEquals($driver2, $drivers[1]);
-        self::assertEquals($driver3, $drivers[2]);
-        self::assertEquals($driver4, $drivers[3]);
+        self::assertCount(4, $driversIds);
+        self::assertEquals($driver1->getId(), $driversIds[0]);
+        self::assertEquals($driver2->getId(), $driversIds[1]);
+        self::assertEquals($driver3->getId(), $driversIds[2]);
+        self::assertEquals($driver4->getId(), $driversIds[3]);
     }
 
     #[Test]

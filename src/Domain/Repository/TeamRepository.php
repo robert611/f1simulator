@@ -2,6 +2,7 @@
 
 namespace Domain\Repository;
 
+use Domain\Entity\Driver;
 use Domain\Entity\Team;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -17,5 +18,22 @@ class TeamRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Team::class);
+    }
+
+    /**
+     * @param int[] $driversIds
+     *
+     * @return Team[]
+     */
+    public function getTeamsByDriversIds(array $driversIds): array
+    {
+        return $this->createQueryBuilder('t')
+            ->select('t')
+            ->innerJoin(Driver::class, 'd', 'WITH', 'd.team = t.id')
+            ->where('d.id in (:driversIds)')
+            ->setParameter('driversIds', $driversIds)
+            ->orderBy('t.id', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 }
