@@ -7,6 +7,7 @@ namespace Tests\Integration\Service\GameSimulation;
 use Computer\Model\GameSimulation\QualificationResult;
 use Computer\Model\GameSimulation\QualificationResultsCollection;
 use Computer\Service\GameSimulation\SimulateRaceService;
+use Domain\Contract\DTO\DriverDTO;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Tests\Common\Fixtures;
@@ -208,6 +209,10 @@ class SimulateRaceServiceTest extends KernelTestCase
         $driver2 = $this->fixtures->aDriver('Lewis', 'Hamilton', $teamMercedes, 44);
         $driver3 = $this->fixtures->aDriver('Max', 'Verstappen', $teamRedBull, 33);
 
+        $driver1 = DriverDTO::fromEntity($driver1);
+        $driver2 = DriverDTO::fromEntity($driver2);
+        $driver3 = DriverDTO::fromEntity($driver3);
+
         // Create qualification results
         $qualificationResult1 = QualificationResult::create($driver1, 1);
         $qualificationResult2 = QualificationResult::create($driver2, 2);
@@ -247,6 +252,11 @@ class SimulateRaceServiceTest extends KernelTestCase
         $driver3 = $this->fixtures->aDriver('Max', 'Verstappen', $teamRedBull, 33);
         $driver4 = $this->fixtures->aDriver('Lando', 'Norris', $teamMcLaren, 4);
 
+        $driver1 = DriverDTO::fromEntity($driver1);
+        $driver2 = DriverDTO::fromEntity($driver2);
+        $driver3 = DriverDTO::fromEntity($driver3);
+        $driver4 = DriverDTO::fromEntity($driver4);
+
         // and given
         $qualificationResult1 = QualificationResult::create($driver1, 1);
         $qualificationResult2 = QualificationResult::create($driver2, 2);
@@ -282,7 +292,7 @@ class SimulateRaceServiceTest extends KernelTestCase
         $driver = $this->fixtures->aDriver('Charles', 'Leclerc', $teamFerrari, 16);
 
         // and given
-        $qualificationResult = QualificationResult::create($driver, 1);
+        $qualificationResult = QualificationResult::create(DriverDTO::fromEntity($driver), 1);
         $qualificationResults = QualificationResultsCollection::create([$qualificationResult]);
 
         // when

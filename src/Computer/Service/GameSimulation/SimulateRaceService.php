@@ -10,6 +10,7 @@ use Computer\Entity\RaceResult;
 use Computer\Entity\Season;
 use Computer\Model\GameSimulation\QualificationResultsCollection;
 use Doctrine\ORM\EntityManagerInterface;
+use Domain\Entity\Driver;
 use Domain\Repository\DriverRepository;
 use Domain\Repository\TrackRepository;
 use Domain\Service\GameSimulation\CouponsGenerator;
@@ -48,7 +49,7 @@ class SimulateRaceService
         /* Save qualification results in a database */
         foreach ($qualificationResultsCollection->getQualificationResults() as $qualificationResult) {
             $qualification = Qualification::create(
-                $qualificationResult->getDriver(),
+                $this->entityManager->getReference(Driver::class, $qualificationResult->getDriver()->getId()),
                 $race,
                 $qualificationResult->getPosition(),
             );

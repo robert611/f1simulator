@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\Service;
 
+use Domain\Contract\DTO\DriverDTO;
 use Tests\Common\Fixtures;
 use Multiplayer\Service\DrawDriverToReplace;
 use PHPUnit\Framework\Attributes\Test;
@@ -55,7 +56,7 @@ class DrawDriverToReplaceTest extends KernelTestCase
         $driverToReplace = $this->driverToReplace->getDriverToReplaceInUserLeague($userSeason);
 
         // then
-        self::assertEquals($driver4, $driverToReplace);
+        self::assertEquals(DriverDTO::fromEntity($driver4), $driverToReplace);
     }
 
     #[Test]

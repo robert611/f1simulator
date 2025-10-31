@@ -6,20 +6,20 @@ namespace Computer\Service\GameSimulation;
 
 use Computer\Model\GameSimulation\QualificationResult;
 use Computer\Model\GameSimulation\QualificationResultsCollection;
-use Domain\Repository\DriverRepository;
+use Domain\DomainFacadeInterface;
 use Domain\Service\GameSimulation\QualificationsHelperService;
 
 class SimulateQualifications
 {
     public function __construct(
-        private readonly DriverRepository $driverRepository,
         private readonly QualificationsHelperService $helperService,
+        private readonly DomainFacadeInterface $domainFacade,
     ) {
     }
 
     public function getQualificationsResults(): QualificationResultsCollection
     {
-        $drivers = $this->driverRepository->findAll();
+        $drivers = $this->domainFacade->getAllDrivers();
 
         $result = QualificationResultsCollection::create();
 

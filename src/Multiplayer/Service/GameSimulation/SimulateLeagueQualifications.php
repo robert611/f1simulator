@@ -48,7 +48,7 @@ class SimulateLeagueQualifications
             // If there is no driver (e.g., team not in league or all finished), retry this position
             if ($driver) {
                 $userSeasonPlayer = UserSeasonPlayer::getPlayerByDriverId($players, $driver->getId());
-                $qualificationResult = LeagueQualificationResult::create($userSeasonPlayer, $position);
+                $qualificationResult = LeagueQualificationResult::create($userSeasonPlayer, $driver, $position);
                 $result->addQualificationResult($qualificationResult);
                 $driversInResults[] = $driver;
             } else {

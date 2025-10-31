@@ -40,7 +40,11 @@ class TeamRepositoryTest extends KernelTestCase
         $driver8 = $this->fixtures->aDriver('Jake', 'Lawson', $alphaTauri, 90);
 
         // when
-        $result = $this->teamRepository->getTeamsByDriversIds([$driver1->getId(), $driver2->getId(), $driver8->getId()]);
+        $result = $this->teamRepository->getTeamsByDriversIds([
+            $driver1->getId(),
+            $driver2->getId(),
+            $driver8->getId(),
+        ]);
 
         // then
         self::assertEquals([$mercedes, $alphaTauri], $result);

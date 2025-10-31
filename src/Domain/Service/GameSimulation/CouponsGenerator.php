@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Domain\Service\GameSimulation;
 
+use Domain\Contract\DTO\DriverDTO;
 use Domain\Model\Configuration\QualificationAdvantage;
 use Domain\Model\Configuration\TeamsStrength;
 use Domain\Entity\Driver;
@@ -15,7 +16,7 @@ class CouponsGenerator
     public int $multiplier = 3;
 
     /**
-     * @param Driver[] $qualificationsResults
+     * @param DriverDTO[] $qualificationsResults
      *
      * @return int[]
      */

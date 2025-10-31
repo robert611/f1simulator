@@ -6,7 +6,6 @@ namespace Domain\Service\GameSimulation;
 
 use Domain\Contract\DTO\DriverDTO;
 use Domain\Model\Configuration\TeamsStrength;
-use Domain\Entity\Driver;
 
 class QualificationsHelperService
 {
@@ -35,7 +34,7 @@ class QualificationsHelperService
     }
 
     /**
-     * @param Driver[] $results
+     * @param DriverDTO[] $results
      */
     public function checkIfBothDriversFromATeamAlreadyFinished(string $teamName, array $results): bool
     {
