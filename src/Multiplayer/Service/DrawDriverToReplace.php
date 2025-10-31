@@ -4,27 +4,29 @@ declare(strict_types=1);
 
 namespace Multiplayer\Service;
 
-use Domain\Entity\Driver;
-use Domain\Repository\DriverRepository;
+use Domain\Contract\DTO\DriverDTO;
+use Domain\DomainFacadeInterface;
 use Multiplayer\Entity\UserSeason;
 
 class DrawDriverToReplace
 {
     public function __construct(
-        private readonly DriverRepository $driverRepository,
+        private readonly DomainFacadeInterface $domainFacade,
     ) {
     }
 
-    public function getDriverToReplaceInUserLeague(UserSeason $league): ?Driver
+    public function getDriverToReplaceInUserLeague(UserSeason $league): ?DriverDTO
     {
-        $allDrivers = $this->driverRepository->findAll();
+        $allDrivers = $this->domainFacade->getAllDrivers();
 
-        $takenDrivers = $league->getLeagueDrivers();
+        $takenDriversIds = $league->getLeagueDriversIds();
+
+        $takenDrivers = $this->domainFacade->getDriversByIds($takenDriversIds);
 
         $availableDrivers = array_udiff(
             $allDrivers,
             $takenDrivers,
-            fn(Driver $a, Driver $b) => $a->getId() <=> $b->getId(),
+            fn (DriverDTO $a, DriverDTO $b) => $a->getId() <=> $b->getId(),
         );
 
         // Reindex array to make sure it starts from 0

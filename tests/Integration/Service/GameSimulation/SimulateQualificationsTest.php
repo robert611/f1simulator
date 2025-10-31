@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\Service\GameSimulation;
 
+use Domain\Contract\DTO\DriverDTO;
 use Tests\Common\Fixtures;
 use Computer\Service\GameSimulation\SimulateQualifications;
 use Domain\Entity\Driver;
@@ -69,7 +70,7 @@ class SimulateQualificationsTest extends KernelTestCase
 
         // and then (Each driver appears exactly once)
         $resultDriverIds = array_map(
-            static fn(Driver $driver) => $driver->getId(),
+            static fn(DriverDTO $driver) => $driver->getId(),
             $collection->toPlainArray(),
         );
         self::assertCount(6, array_unique($resultDriverIds));

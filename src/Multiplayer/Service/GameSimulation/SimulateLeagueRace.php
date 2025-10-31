@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Multiplayer\Service\GameSimulation;
 
 use Doctrine\Common\Collections\Collection;
-use Domain\Entity\Driver;
+use Domain\Contract\DTO\DriverDTO;
+use Domain\DomainFacadeInterface;
 use Domain\Service\GameSimulation\CouponsGenerator;
 use Multiplayer\Entity\UserSeason;
 use Multiplayer\Entity\UserSeasonPlayer;
@@ -17,6 +18,7 @@ class SimulateLeagueRace
     public function __construct(
         private readonly SimulateLeagueQualifications $simulateLeagueQualifications,
         private readonly CouponsGenerator $couponsGenerator,
+        private readonly DomainFacadeInterface $domainFacade,
     ) {
     }
 
@@ -24,7 +26,9 @@ class SimulateLeagueRace
     {
         $players = $userSeason->getPlayers();
 
-        $drivers = UserSeasonPlayer::getPlayersDrivers($players);
+        $driversIds = UserSeasonPlayer::getPlayersDriversIds($players);
+
+        $drivers = $this->domainFacade->getDriversByIds($driversIds);
 
         $qualificationsResults = $this->simulateLeagueQualifications->getLeagueQualificationsResults($userSeason);
 
@@ -36,7 +40,7 @@ class SimulateLeagueRace
     }
 
     /**
-     * @param Driver[] $drivers
+     * @param DriverDTO[] $drivers
      *
      * @return int[]
      */

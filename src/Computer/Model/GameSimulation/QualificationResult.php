@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Computer\Model\GameSimulation;
 
-use Domain\Entity\Driver;
+use Domain\Contract\DTO\DriverDTO;
 
 class QualificationResult
 {
-    private Driver $driver;
+    private DriverDTO $driver;
     private int $position;
 
-    public function getDriver(): Driver
+    public function getDriver(): DriverDTO
     {
         return $this->driver;
     }
@@ -21,7 +21,7 @@ class QualificationResult
         return $this->position;
     }
 
-    public static function create(Driver $driver, int $position): self
+    public static function create(DriverDTO $driver, int $position): self
     {
         $qualificationResult = new self();
         $qualificationResult->driver = $driver;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\Service\GameSimulation;
 
+use Domain\Contract\DTO\DriverDTO;
 use Multiplayer\Model\GameSimulation\LeagueQualificationResult;
 use Multiplayer\Model\GameSimulation\LeagueQualificationResultsCollection;
 use Tests\Common\Fixtures;
@@ -97,10 +98,11 @@ class SimulateLeagueRaceTest extends KernelTestCase
         $player2 = $this->fixtures->aUserSeasonPlayer($userSeason, $user2, $driver2);
 
         $drivers = [$driver1, $driver2];
+        $drivers = DriverDTO::fromEntityCollection($drivers);
 
         // Create qualification results
-        $qualificationResult1 = LeagueQualificationResult::create($player1, 1);
-        $qualificationResult2 = LeagueQualificationResult::create($player2, 2);
+        $qualificationResult1 = LeagueQualificationResult::create($player1, DriverDTO::fromEntity($driver1), 1);
+        $qualificationResult2 = LeagueQualificationResult::create($player2, DriverDTO::fromEntity($driver2), 2);
         $qualificationResults = LeagueQualificationResultsCollection::create([
             $qualificationResult1,
             $qualificationResult2,
@@ -143,11 +145,12 @@ class SimulateLeagueRaceTest extends KernelTestCase
         $player3 = $this->fixtures->aUserSeasonPlayer($userSeason, $user3, $driver3);
 
         $drivers = [$driver1, $driver2, $driver3];
+        $drivers = DriverDTO::fromEntityCollection($drivers);
 
         // Create qualification results
-        $qualificationResult1 = LeagueQualificationResult::create($player1, 1);
-        $qualificationResult2 = LeagueQualificationResult::create($player2, 2);
-        $qualificationResult3 = LeagueQualificationResult::create($player3, 3);
+        $qualificationResult1 = LeagueQualificationResult::create($player1, DriverDTO::fromEntity($driver1), 1);
+        $qualificationResult2 = LeagueQualificationResult::create($player2, DriverDTO::fromEntity($driver2), 2);
+        $qualificationResult3 = LeagueQualificationResult::create($player3, DriverDTO::fromEntity($driver3), 3);
         $qualificationResults = LeagueQualificationResultsCollection::create([
             $qualificationResult1,
             $qualificationResult2,
@@ -183,9 +186,10 @@ class SimulateLeagueRaceTest extends KernelTestCase
         $player = $this->fixtures->aUserSeasonPlayer($userSeason, $user, $driver);
 
         $drivers = [$driver];
+        $drivers = DriverDTO::fromEntityCollection($drivers);
 
         // Create qualification results
-        $qualificationResult = LeagueQualificationResult::create($player, 1);
+        $qualificationResult = LeagueQualificationResult::create($player, DriverDTO::fromEntity($driver), 1);
         $qualificationResults = LeagueQualificationResultsCollection::create([$qualificationResult]);
 
         // when

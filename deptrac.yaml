@@ -1,0 +1,81 @@
+deptrac:
+    paths:
+        - ./src
+    exclude_files:
+        - '#.*test.*#'
+    layers:
+        - name: Computer
+          collectors:
+              - type: bool
+                must:
+                    - { type: class, value: ^Computer\\.* }
+                must_not:
+                    - { type: layer, value: Computer_Allowed }
+        - name: Computer_Allowed
+          collectors:
+              - { type: class, value: ^Computer\\Contract\\.* }
+
+        - name: Domain
+          collectors:
+              - type: bool
+                must:
+                    - { type: class, value: ^Domain\\.* }
+                must_not:
+                    - { type: layer, value: Domain_Allowed }
+        - name: Domain_Allowed
+          collectors:
+              - { type: class, value: ^Domain\\Contract\\.* }
+              - { type: interface, value: ^Domain\\.* }
+
+        - name: Multiplayer
+          collectors:
+              - type: bool
+                must:
+                    - { type: class, value: ^Multiplayer\\.* }
+                must_not:
+                    - { type: layer, value: Multiplayer_Allowed }
+        - name: Multiplayer_Allowed
+          collectors:
+              - { type: class, value: ^Multiplayer\\Contract\\.* }
+
+        - name: Security
+          collectors:
+              - type: bool
+                must:
+                    - { type: class, value: ^Security\\.* }
+                must_not:
+                    - { type: layer, value: Security_Allowed }
+        - name: Security_Allowed
+          collectors:
+              - { type: class, value: ^Security\\Entity\\User }
+
+        - name: Shared
+          collectors:
+            - type: bool
+              must:
+                  - { type: class, value: ^Shared\\.* }
+
+
+    ruleset:
+        Computer:
+            - Computer_Allowed
+            - Security_Allowed
+            - Shared
+
+        Domain:
+            - Domain_Allowed
+
+        Multiplayer:
+            - Multiplayer_Allowed
+            - Domain_Allowed
+            - Security_Allowed
+            - Shared
+
+        Security:
+            - Security_Allowed
+            - Shared
+        Security_Allowed:
+            - Security
+
+        Shared:
+            - Security_Allowed

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Multiplayer\Service\GameSimulation;
 
+use Domain\DomainFacadeInterface;
 use Domain\Service\GameSimulation\QualificationsHelperService;
 use Multiplayer\Entity\UserSeason;
 use Multiplayer\Entity\UserSeasonPlayer;
@@ -14,6 +15,7 @@ class SimulateLeagueQualifications
 {
     public function __construct(
         private readonly QualificationsHelperService $helperService,
+        private readonly DomainFacadeInterface $domainFacade,
     ) {
     }
 
@@ -21,7 +23,9 @@ class SimulateLeagueQualifications
     {
         $players = $userSeason->getPlayers();
 
-        $drivers = UserSeasonPlayer::getPlayersDrivers($players);
+        $driversIds = UserSeasonPlayer::getPlayersDriversIds($players);
+
+        $drivers = $this->domainFacade->getDriversByIds($driversIds);
 
         $result = LeagueQualificationResultsCollection::create();
 
@@ -44,7 +48,7 @@ class SimulateLeagueQualifications
             // If there is no driver (e.g., team not in league or all finished), retry this position
             if ($driver) {
                 $userSeasonPlayer = UserSeasonPlayer::getPlayerByDriverId($players, $driver->getId());
-                $qualificationResult = LeagueQualificationResult::create($userSeasonPlayer, $position);
+                $qualificationResult = LeagueQualificationResult::create($userSeasonPlayer, $driver, $position);
                 $result->addQualificationResult($qualificationResult);
                 $driversInResults[] = $driver;
             } else {

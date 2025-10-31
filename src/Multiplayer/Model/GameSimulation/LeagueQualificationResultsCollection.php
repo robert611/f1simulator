@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Multiplayer\Model\GameSimulation;
 
-use Domain\Entity\Driver;
+use Domain\Contract\DTO\DriverDTO;
 use Multiplayer\Entity\UserSeasonPlayer;
 
 class LeagueQualificationResultsCollection
@@ -40,14 +40,14 @@ class LeagueQualificationResultsCollection
     }
 
     /**
-     * @return array<int, Driver>
+     * @return array<int, DriverDTO>
      */
     public function toPlainDriverArray(): array
     {
         $plainArray = [];
 
         foreach ($this->leagueQualificationResults as $qualificationResult) {
-            $plainArray[$qualificationResult->getPosition()] = $qualificationResult->getUserSeasonPlayer()->getDriver();
+            $plainArray[$qualificationResult->getPosition()] = $qualificationResult->getDriver();
         }
 
         return $plainArray;

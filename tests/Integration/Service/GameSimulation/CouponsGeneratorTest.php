@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\Service\GameSimulation;
 
+use Domain\Contract\DTO\DriverDTO;
 use Domain\Model\Configuration\QualificationAdvantage;
 use Domain\Model\Configuration\TeamsStrength;
 use Domain\Service\GameSimulation\CouponsGenerator;
@@ -49,9 +50,9 @@ class CouponsGeneratorTest extends KernelTestCase
 
         // Create a qualification results array: position => driver
         $qualificationResults = [
-            1 => $driver1, // Mercedes driver in P1 (the highest strength)
-            2 => $driver2, // Ferrari driver in P2
-            3 => $driver3, // Red Bull driver in P3
+            1 => DriverDTO::fromEntity($driver1), // Mercedes driver in P1 (the highest strength)
+            2 => DriverDTO::fromEntity($driver2), // Ferrari driver in P2
+            3 => DriverDTO::fromEntity($driver3), // Red Bull driver in P3
         ];
 
         // when
@@ -78,8 +79,8 @@ class CouponsGeneratorTest extends KernelTestCase
         $williamsDriver = $this->fixtures->aDriver('George', 'Russell', $teamWilliams, 63);
 
         $qualificationResults = [
-            1 => $mercedesDriver, // P1 with Mercedes strength
-            2 => $williamsDriver, // P2 with Williams strength
+            1 => DriverDTO::fromEntity($mercedesDriver), // P1 with Mercedes strength
+            2 => DriverDTO::fromEntity($williamsDriver), // P2 with Williams strength
         ];
 
         // when
@@ -100,7 +101,7 @@ class CouponsGeneratorTest extends KernelTestCase
         $teamFerrari = $this->fixtures->aTeamWithName('Ferrari');
         $driver = $this->fixtures->aDriver('Charles', 'Leclerc', $teamFerrari, 16);
 
-        $qualificationResults = [1 => $driver];
+        $qualificationResults = [1 => DriverDTO::fromEntity($driver)];
 
         // Calculate the expected coupon count
         $teamsStrength = TeamsStrength::getTeamsStrength();
@@ -129,8 +130,8 @@ class CouponsGeneratorTest extends KernelTestCase
         $driver2 = $this->fixtures->aDriver('Carlos', 'Sainz', $teamFerrari, 55);
 
         $qualificationResults = [
-            1 => $driver1, // P1 gets highest qualification advantage
-            2 => $driver2, // P2 gets lower qualification advantage
+            1 => DriverDTO::fromEntity($driver1), // P1 gets highest qualification advantage
+            2 => DriverDTO::fromEntity($driver2), // P2 gets lower qualification advantage
         ];
 
         // when
@@ -157,9 +158,9 @@ class CouponsGeneratorTest extends KernelTestCase
         $driver3 = $this->fixtures->aDriver('Max', 'Verstappen', $teamRedBull, 33);
 
         $qualificationResults = [
-            1 => $driver1,
-            2 => $driver2,
-            3 => $driver3,
+            1 => DriverDTO::fromEntity($driver1),
+            2 => DriverDTO::fromEntity($driver2),
+            3 => DriverDTO::fromEntity($driver3),
         ];
 
         // when
@@ -180,7 +181,7 @@ class CouponsGeneratorTest extends KernelTestCase
         $teamFerrari = $this->fixtures->aTeamWithName('Ferrari');
         $driver = $this->fixtures->aDriver('Charles', 'Leclerc', $teamFerrari, 16);
 
-        $qualificationResults = [1 => $driver];
+        $qualificationResults = [1 => DriverDTO::fromEntity($driver)];
 
         // when
         $coupons = $this->couponsGenerator->generateCoupons($qualificationResults);

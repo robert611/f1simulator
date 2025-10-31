@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\Service\GameSimulation;
 
+use Domain\Contract\DTO\DriverDTO;
 use Domain\Model\Configuration\TeamsStrength;
 use Tests\Common\Fixtures;
 use Domain\Service\GameSimulation\QualificationsHelperService;
@@ -55,7 +56,7 @@ class QualificationsHelperServiceTest extends KernelTestCase
         // when
         $result = $this->qualificationsHelperService->checkIfBothDriversFromATeamAlreadyFinished(
             'ferrari',
-            [$driver1, $driver2],
+            DriverDTO::fromEntityCollection([$driver1, $driver2]),
         );
 
         // then
@@ -81,7 +82,7 @@ class QualificationsHelperServiceTest extends KernelTestCase
         );
         $resultOne = $this->qualificationsHelperService->checkIfBothDriversFromATeamAlreadyFinished(
             $team->getName(),
-            [$driver1]
+            DriverDTO::fromEntityCollection([$driver1]),
         );
 
         // then
@@ -98,7 +99,11 @@ class QualificationsHelperServiceTest extends KernelTestCase
         $driver = $this->fixtures->aDriver('Max', 'Verstappen', $redBull, 33);
 
         // when
-        $result = $this->qualificationsHelperService->drawDriverFromATeam($mercedes->getName(), [$driver], []);
+        $result = $this->qualificationsHelperService->drawDriverFromATeam(
+            $mercedes->getName(),
+            DriverDTO::fromEntityCollection([$driver]),
+            [],
+        );
 
         // then
         self::assertNull($result);
@@ -110,12 +115,17 @@ class QualificationsHelperServiceTest extends KernelTestCase
         // given
         $team = $this->fixtures->aTeamWithName('Ferrari');
         $driver = $this->fixtures->aDriver('Charles', 'Leclerc', $team, 16);
+        $driverDTO = DriverDTO::fromEntity($driver);
 
         // when
-        $result = $this->qualificationsHelperService->drawDriverFromATeam('Ferrari', [$driver], []);
+        $result = $this->qualificationsHelperService->drawDriverFromATeam(
+            'Ferrari',
+            [$driverDTO],
+            [],
+        );
 
         // then
-        self::assertSame($driver, $result);
+        self::assertSame($driverDTO, $result);
     }
 
     #[Test]
@@ -126,7 +136,11 @@ class QualificationsHelperServiceTest extends KernelTestCase
         $driver = $this->fixtures->aDriver('Carlos', 'Sainz', $team, 55);
 
         // when
-        $result = $this->qualificationsHelperService->drawDriverFromATeam('Ferrari', [$driver], [$driver]);
+        $result = $this->qualificationsHelperService->drawDriverFromATeam(
+            'Ferrari',
+            DriverDTO::fromEntityCollection([$driver]),
+            DriverDTO::fromEntityCollection([$driver]),
+        );
 
         // then
         self::assertNull($result);
@@ -141,10 +155,14 @@ class QualificationsHelperServiceTest extends KernelTestCase
         $driver2 = $this->fixtures->aDriver('Oscar', 'Piastri', $team, 81);
 
         // when
-        $result = $this->qualificationsHelperService->drawDriverFromATeam('McLaren', [$driver1, $driver2], []);
+        $result = $this->qualificationsHelperService->drawDriverFromATeam(
+            'McLaren',
+            DriverDTO::fromEntityCollection([$driver1, $driver2]),
+            [],
+        );
 
         // then
-        self::assertTrue(in_array($result, [$driver1, $driver2], true));
+        self::assertTrue(in_array($result->getId(), [$driver1->getId(), $driver2->getId()], true));
     }
 
     #[Test]
@@ -158,12 +176,12 @@ class QualificationsHelperServiceTest extends KernelTestCase
         // when
         $result = $this->qualificationsHelperService->drawDriverFromATeam(
             'Aston Martin',
-            [$driver1, $driver2],
-            [$driver1],
+            DriverDTO::fromEntityCollection([$driver1, $driver2]),
+            DriverDTO::fromEntityCollection([$driver1]),
         );
 
         // then
-        self::assertSame($driver2, $result);
+        self::assertEquals(DriverDTO::fromEntity($driver2), $result);
     }
 
     #[Test]
@@ -174,10 +192,14 @@ class QualificationsHelperServiceTest extends KernelTestCase
         $driver = $this->fixtures->aDriver('Yuki', 'Tsunoda', $team, 22);
 
         // when
-        $result = $this->qualificationsHelperService->drawDriverFromATeam('alphatauri', [$driver], []);
+        $result = $this->qualificationsHelperService->drawDriverFromATeam(
+            'alphatauri',
+            DriverDTO::fromEntityCollection([$driver]),
+            [],
+        );
 
         // then
-        self::assertSame($driver, $result);
+        self::assertEquals(DriverDTO::fromEntity($driver), $result);
     }
 
     #[Test]
@@ -191,8 +213,8 @@ class QualificationsHelperServiceTest extends KernelTestCase
         // when
         $result = $this->qualificationsHelperService->drawDriverFromATeam(
             'Williams',
-            [$driver1, $driver2],
-            [$driver1, $driver2],
+            DriverDTO::fromEntityCollection([$driver1, $driver2]),
+            DriverDTO::fromEntityCollection([$driver1, $driver2]),
         );
 
         // then

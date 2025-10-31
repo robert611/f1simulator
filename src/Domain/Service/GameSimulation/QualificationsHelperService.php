@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Domain\Service\GameSimulation;
 
+use Domain\Contract\DTO\DriverDTO;
 use Domain\Model\Configuration\TeamsStrength;
-use Domain\Entity\Driver;
 
 class QualificationsHelperService
 {
@@ -34,7 +34,7 @@ class QualificationsHelperService
     }
 
     /**
-     * @param Driver[] $results
+     * @param DriverDTO[] $results
      */
     public function checkIfBothDriversFromATeamAlreadyFinished(string $teamName, array $results): bool
     {
@@ -54,10 +54,10 @@ class QualificationsHelperService
     }
 
     /**
-     * @param Driver[] $drivers
-     * @param Driver[] $results
+     * @param DriverDTO[] $drivers
+     * @param DriverDTO[] $results
      */
-    public function drawDriverFromATeam(string $teamName, array $drivers, array $results): ?Driver
+    public function drawDriverFromATeam(string $teamName, array $drivers, array $results): ?DriverDTO
     {
         $teamDrivers = [];
 
@@ -81,7 +81,7 @@ class QualificationsHelperService
 
         $unfinishedDrivers = array_values(array_filter(
             $teamDrivers,
-            static function (Driver $driver) use ($finishedDriverIds): bool {
+            static function (DriverDTO $driver) use ($finishedDriverIds): bool {
                 return !isset($finishedDriverIds[$driver->getId()]);
             },
         ));
