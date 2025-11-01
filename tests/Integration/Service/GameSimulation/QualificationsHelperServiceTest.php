@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Integration\Service\GameSimulation;
 
+use Domain\Contract\Configuration\TeamsStrength;
 use Domain\Contract\DTO\DriverDTO;
 use Domain\Contract\GameSimulation\QualificationsHelperService;
-use Domain\Model\Configuration\TeamsStrength;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Tests\Common\Fixtures;

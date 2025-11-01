@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Computer\Service\DriverStatistics;
 
-use Domain\Model\Configuration\RaceScoringSystem;
 use Computer\Entity\RaceResult;
 use Computer\Entity\Season;
+use Domain\Contract\Configuration\RaceScoringSystem;
 use Domain\Entity\Driver;
 
 class DriverPoints
