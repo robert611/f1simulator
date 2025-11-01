@@ -29,6 +29,8 @@ interface DomainFacadeInterface
     public function getDriversByIds(array $driversIds): array;
 
     /**
+     * Returns all drivers from database with eager loaded teams
+     *
      * @return DriverDTO[]
      */
     public function getAllDrivers(): array;
