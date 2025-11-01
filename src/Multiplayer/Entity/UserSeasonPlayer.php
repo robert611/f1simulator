@@ -7,9 +7,9 @@ namespace Multiplayer\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Domain\Contract\Model\DriverPodiumsDictionary;
+use Domain\Contract\Model\DriverPodiumsDTO;
 use Domain\Entity\Driver;
-use Domain\Model\DriverPodiumsDictionary;
-use Domain\Model\DriverPodiumsDTO;
 use Multiplayer\Repository\UserSeasonPlayersRepository;
 use Security\Entity\User;
 

@@ -6,8 +6,8 @@ namespace Computer\Model;
 
 use Computer\Entity\Race;
 use Computer\Entity\Season;
+use Domain\Contract\Model\DriverPodiumsDTO;
 use Domain\Entity\Track;
-use Domain\Model\DriverPodiumsDTO;
 
 class CurrentDriverSeason
 {
