@@ -34,4 +34,9 @@ interface DomainFacadeInterface
      * @return DriverDTO[]
      */
     public function getAllDrivers(): array;
+
+    /**
+     * Returns count of all tracks
+     */
+    public function getTracksCount(): int;
 }

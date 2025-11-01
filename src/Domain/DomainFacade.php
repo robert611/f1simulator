@@ -8,12 +8,14 @@ use Domain\Contract\DTO\DriverDTO;
 use Domain\Contract\DTO\TeamDTO;
 use Domain\Repository\DriverRepository;
 use Domain\Repository\TeamRepository;
+use Domain\Repository\TrackRepository;
 
 class DomainFacade implements DomainFacadeInterface
 {
     public function __construct(
         private readonly TeamRepository $teamRepository,
         private readonly DriverRepository $driverRepository,
+        private readonly TrackRepository $trackRepository,
     ) {
     }
 
@@ -49,5 +51,10 @@ class DomainFacade implements DomainFacadeInterface
         $drivers = $this->driverRepository->findAllWithTeams();
 
         return DriverDTO::fromEntityCollection($drivers);
+    }
+
+    public function getTracksCount(): int
+    {
+        return $this->trackRepository->count();
     }
 }
