@@ -59,12 +59,16 @@ deptrac:
     ruleset:
         Computer:
             - Computer_Allowed
+            - Domain_Allowed
             - Security_Allowed
             - Shared
 
         Domain:
             - Domain_Allowed
+            - Security_Allowed
             - Shared
+        Domain_Allowed:
+            - Domain
 
         Multiplayer:
             - Multiplayer_Allowed
