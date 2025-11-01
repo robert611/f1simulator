@@ -6,8 +6,8 @@ namespace Multiplayer\Service\GameSimulation;
 
 use Doctrine\Common\Collections\Collection;
 use Domain\Contract\DTO\DriverDTO;
+use Domain\Contract\GameSimulation\CouponsGenerator;
 use Domain\DomainFacadeInterface;
-use Domain\Service\GameSimulation\CouponsGenerator;
 use Multiplayer\Entity\UserSeason;
 use Multiplayer\Entity\UserSeasonPlayer;
 use Multiplayer\Model\GameSimulation\LeagueQualificationResultsCollection;

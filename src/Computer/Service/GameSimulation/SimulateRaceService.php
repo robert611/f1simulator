@@ -10,10 +10,10 @@ use Computer\Entity\RaceResult;
 use Computer\Entity\Season;
 use Computer\Model\GameSimulation\QualificationResultsCollection;
 use Doctrine\ORM\EntityManagerInterface;
+use Domain\Contract\GameSimulation\CouponsGenerator;
 use Domain\Entity\Driver;
 use Domain\Repository\DriverRepository;
 use Domain\Repository\TrackRepository;
-use Domain\Service\GameSimulation\CouponsGenerator;
 
 class SimulateRaceService
 {
