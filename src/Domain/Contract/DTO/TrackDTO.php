@@ -36,4 +36,20 @@ class TrackDTO
 
         return $trackDTO;
     }
+
+    /**
+     * @param Track[] $tracks
+     *
+     * @return TrackDTO[]
+     */
+    public static function fromEntityCollection(array $tracks): array
+    {
+        $tracksDTO = [];
+
+        foreach ($tracks as $track) {
+            $tracksDTO[] = TrackDTO::fromEntity($track);
+        }
+
+        return $tracksDTO;
+    }
 }

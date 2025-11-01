@@ -21,7 +21,7 @@ class UserSeasonRacesFixtures extends Fixture implements DependentFixtureInterfa
             $track = $this->getReference('track.' . $data['track_id'], Track::class);
             $userSeason = $this->getReference('userSeason.' . $data['season_id'], UserSeason::class);
 
-            $userSeasonRace = UserSeasonRace::create($track, $userSeason);
+            $userSeasonRace = UserSeasonRace::create($track->getId(), $userSeason);
 
             $manager->persist($userSeasonRace);
             $manager->flush();

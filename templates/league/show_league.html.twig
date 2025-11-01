@@ -56,8 +56,8 @@
                             <h4>Poprzedni wyścig</h4> 
                         </div>
                         <div class="card-body flow-text text-center"> 
-                            <h4 class="display-inline">{{ league.getRaces().last().getTrack().name }}</h4>
-                            <img class="f1-track mt-3" src="{{ asset('assets/tracks/'~league.getRaces().last().getTrack().picture) }}"/> 
+                            <h4 class="display-inline">{{ lastTrack.name }}</h4>
+                            <img class="f1-track mt-3" src="{{ asset('assets/tracks/'~lastTrack.picture) }}"/>
                         </div> 
                     </div>
                 {% endif %}
@@ -72,7 +72,7 @@
                                     {% if league.getRaces()|length != 0 %}
                                         {% for race in league.getRaces() %}
                                             <a href="{{ path('multiplayer_show_season' , {'id' : league.getId(), 'classificationType' : 'RACE', 'race_id' : race.id}) }}">
-                                                {{ race.getTrack().getName() }}
+                                                {{ tracks[race.getTrackId()].name }}
                                             </a>
                                         {% endfor %}
                                     {% else %}
@@ -86,7 +86,7 @@
                                     {% if league.getRaces()|length != 0 %}
                                         {% for race in league.getRaces() %}
                                             <a href="{{ path('multiplayer_show_season' , {'id' : league.getId(), 'classificationType' : 'QUALIFICATIONS', 'race_id' : race.id}) }}">
-                                                {{ race.getTrack().getName() }}
+                                                {{ tracks[race.getTrackId()].name }}
                                             </a>
                                         {% endfor %}
                                     {% else %}
@@ -111,14 +111,14 @@
                                 </div>
                             {% elseif classificationType == enum('Multiplayer\\Service\\ClassificationType').RACE %}
                                 <div class="card-header">
-                                    <h4 class="text-center">Klasyfikacja {{ classification ? classification.getOwner().getTrack().getName() }}</h4>
+                                    <h4 class="text-center">Klasyfikacja {{ classification ? tracks[classification.getOwner().getTrackId()].name }}</h4>
                                 </div>
                                 <div class="card-body">
                                     {% include 'league_results/_race_classification.html.twig' %}
                                 </div>
                             {% elseif classificationType == enum('Multiplayer\\Service\\ClassificationType').QUALIFICATIONS %}
                                 <div class="card-header">
-                                    <h4 class="text-center">Wyniki kwalifikacji - {{ classification ? classification.getOwner().getTrack().getName() }}</h4>
+                                    <h4 class="text-center">Wyniki kwalifikacji - {{ classification ? tracks[classification.getOwner().getTrackId()].name }}</h4>
                                 </div>
                                 <div class="card-body">
                                     {% include 'league_results/_qualifications_classification.html.twig' %}

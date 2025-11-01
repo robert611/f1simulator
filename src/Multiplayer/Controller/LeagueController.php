@@ -87,15 +87,16 @@ class LeagueController extends BaseController
     {
         $this->denyAccessUnlessGranted(LeagueVoter::SIMULATE_RACE, $userSeason);
 
+        /** @var UserSeasonRace $lastRace */
         $lastRace = $userSeason->getRaces()->last();
         $track = $lastRace
-            ? $this->trackRepository->getNextTrack($lastRace->getTrack()->getId())
+            ? $this->trackRepository->getNextTrack($lastRace->getTrackId())
             : $this->trackRepository->getFirstTrack();
 
         /* Save race in the database */
         $race = new UserSeasonRace();
 
-        $race->setTrack($track);
+        $race->setTrackId($track->getId());
         $race->setSeason($userSeason);
 
         $this->entityManager->persist($race);

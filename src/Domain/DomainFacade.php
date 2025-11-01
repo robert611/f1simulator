@@ -6,6 +6,7 @@ namespace Domain;
 
 use Domain\Contract\DTO\DriverDTO;
 use Domain\Contract\DTO\TeamDTO;
+use Domain\Contract\DTO\TrackDTO;
 use Domain\Repository\DriverRepository;
 use Domain\Repository\TeamRepository;
 use Domain\Repository\TrackRepository;
@@ -56,5 +57,48 @@ class DomainFacade implements DomainFacadeInterface
     public function getTracksCount(): int
     {
         return $this->trackRepository->count();
+    }
+
+    /**
+     * @return TrackDTO[]
+     */
+    public function getAllTracks(): array
+    {
+        $tracks = $this->trackRepository->findAll();
+
+        return TrackDTO::fromEntityCollection($tracks);
+    }
+
+    public function getFirstTrack(): ?TrackDTO
+    {
+        $track = $this->trackRepository->getFirstTrack();
+
+        if (null === $track) {
+            return null;
+        }
+
+        return TrackDTO::fromEntity($track);
+    }
+
+    public function getNextTrack(int $previousTrackId): ?TrackDTO
+    {
+        $track = $this->trackRepository->getNextTrack($previousTrackId);
+
+        if (null === $track) {
+            return null;
+        }
+
+        return TrackDTO::fromEntity($track);
+    }
+
+    public function getTrackById(int $trackId): ?TrackDTO
+    {
+        $track = $this->trackRepository->find($trackId);
+
+        if (null === $track) {
+            return null;
+        }
+
+        return TrackDTO::fromEntity($track);
     }
 }

@@ -93,9 +93,9 @@
                                             {% if league.getRaces().count() != 0 %}
                                                 {% for key, race in league.getRaces() %}
                                                     {% if key != league.getRaces()|keys|last %}
-                                                        {{ race.getTrack().getName() }} ,
+                                                        {{ tracks[race.getTrackId].name }},
                                                     {% else %}
-                                                        {{ race.getTrack().getName() }} 
+                                                        {{ tracks[race.getTrackId].name }}
                                                     {% endif %}
                                                 {% endfor %}
                                             {% else %}

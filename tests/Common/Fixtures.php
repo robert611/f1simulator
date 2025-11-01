@@ -154,9 +154,9 @@ class Fixtures
         return $userSeasonPlayer;
     }
 
-    public function aUserSeasonRace(Track $track, UserSeason $userSeason): UserSeasonRace
+    public function aUserSeasonRace(int $trackId, UserSeason $userSeason): UserSeasonRace
     {
-        $userSeasonRace = UserSeasonRace::create($track, $userSeason);
+        $userSeasonRace = UserSeasonRace::create($trackId, $userSeason);
 
         $this->entityManager->persist($userSeasonRace);
         $this->entityManager->flush();

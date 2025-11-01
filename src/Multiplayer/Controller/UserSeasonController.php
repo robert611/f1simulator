@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Multiplayer\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Domain\Contract\DTO\TrackDTO;
+use Domain\DomainFacadeInterface;
 use Domain\Entity\Driver;
-use Domain\Repository\TrackRepository;
 use Multiplayer\Entity\UserSeason;
 use Multiplayer\Entity\UserSeasonPlayer;
 use Multiplayer\Form\UserSeasonType;
@@ -18,6 +19,7 @@ use Multiplayer\Service\LeagueClassifications;
 use Multiplayer\Service\LeagueTeamsClassification;
 use Multiplayer\Service\SecretGenerator;
 use Shared\Controller\BaseController;
+use Shared\HashTable;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -30,9 +32,9 @@ class UserSeasonController extends BaseController
         private readonly LeagueTeamsClassification $leagueTeamsClassification,
         private readonly LeagueClassifications $leagueClassification,
         private readonly DrawDriverToReplace $drawDriverToReplace,
-        private readonly TrackRepository $trackRepository,
         private readonly UserSeasonRepository $userSeasonRepository,
         private readonly SecretGenerator $secretGenerator,
+        private readonly DomainFacadeInterface $domainFacade,
     ) {
     }
 
@@ -81,14 +83,17 @@ class UserSeasonController extends BaseController
             return $this->redirectToRoute('multiplayer_index');
         }
 
-        $leagueRepository = $this->entityManager->getRepository(UserSeason::class);
-        $userLeagues = $leagueRepository->findBy(['owner' => $this->getUser()]);
-        $leagues[] = $this->userSeasonRepository->getUserSeasons($this->getUser()->getId());
+        $userLeagues = $this->userSeasonRepository->findBy(['owner' => $this->getUser()]);
+        $leagues = $this->userSeasonRepository->getUserSeasons($this->getUser()->getId());
+        $tracks = $this->domainFacade->getAllTracks();
+        /** @var TrackDTO[] $tracks */
+        $tracks = HashTable::fromObjectArray($tracks, 'getId');
 
         return $this->render('league/index.html.twig', [
             'form' => $form->createView(),
             'userLeagues' => $userLeagues,
             'leagues' => $leagues,
+            'tracks' => $tracks,
         ]);
     }
 
@@ -105,13 +110,19 @@ class UserSeasonController extends BaseController
             'user' => $this->getUser(),
         ]);
 
-        $numberOfRacesInSeason = $this->trackRepository->count();
+        $numberOfRacesInSeason = $this->domainFacade->getTracksCount();
 
         if ($season->getRaces()->count()) {
-            $track = $this->trackRepository->getNextTrack($season->getRaces()->last()->getTrack()->getId());
+            $track = $this->domainFacade->getNextTrack($season->getRaces()->last()->getTrackId());
         } else {
-            $track = $this->trackRepository->getFirstTrack();
+            $track = $this->domainFacade->getFirstTrack();
         }
+
+        $lastTrack = $this->domainFacade->getTrackById($season->getRaces()->last()->getTrackId());
+
+        $tracks = $this->domainFacade->getAllTracks();
+        /** @var TrackDTO[] $tracks */
+        $tracks = HashTable::fromObjectArray($tracks, 'getId');
 
         if ($season->getRaces()->count() === 0) {
             $classificationType = ClassificationType::PLAYERS;
@@ -136,6 +147,8 @@ class UserSeasonController extends BaseController
             'player' => $player,
             'numberOfRacesInSeason' => $numberOfRacesInSeason,
             'track' => $track,
+            'lastTrack' => $lastTrack,
+            'tracks' => $tracks,
             'classificationType' => $classificationType,
             'classification' => $classification,
             'teamsClassification' => $teamsClassification
