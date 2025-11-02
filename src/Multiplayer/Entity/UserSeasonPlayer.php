@@ -30,9 +30,8 @@ class UserSeasonPlayer
     #[ORM\JoinColumn(name: 'user_id', nullable: false)]
     private User $user;
 
-    #[ORM\ManyToOne(targetEntity: Driver::class)]
-    #[ORM\JoinColumn(name: 'driver_id', nullable: false)]
-    private Driver $driver;
+    #[ORM\Column(name: 'driver_id', type: 'integer', nullable: false)]
+    private int $driverId;
 
     #[ORM\Column(name: 'points', type: 'integer', nullable: false)]
     private int $points = 0;
@@ -77,14 +76,14 @@ class UserSeasonPlayer
         $this->user = $user;
     }
 
-    public function getDriver(): Driver
+    public function getDriverId(): int
     {
-        return $this->driver;
+        return $this->driverId;
     }
 
-    public function setDriver(Driver $driver): void
+    public function setDriverId(int $driverId): void
     {
-        $this->driver = $driver;
+        $this->driverId = $driverId;
     }
 
     public function getPoints(): int
@@ -143,12 +142,12 @@ class UserSeasonPlayer
         }
     }
 
-    public static function create(UserSeason $userSeason, User $user, Driver $driver): self
+    public static function create(UserSeason $userSeason, User $user, int $driverId): self
     {
         $userSeasonPlayer = new self();
         $userSeasonPlayer->season = $userSeason;
         $userSeasonPlayer->user = $user;
-        $userSeasonPlayer->driver = $driver;
+        $userSeasonPlayer->driverId = $driverId;
         $userSeasonPlayer->points = 0;
         $userSeasonPlayer->position = 0;
 
@@ -201,7 +200,7 @@ class UserSeasonPlayer
     public static function getPlayersDriversIds(Collection $players): array
     {
         $driversIds = $players->map(function (UserSeasonPlayer $player) {
-            return $player->getDriver()->getId();
+            return $player->getDriverId();
         });
 
         return $driversIds->toArray();
@@ -213,7 +212,7 @@ class UserSeasonPlayer
     public static function getPlayerByDriverId(Collection $players, int $driverId): ?UserSeasonPlayer
     {
         return $players->filter(function (UserSeasonPlayer $player) use ($driverId) {
-            return $player->getDriver()->getId() === $driverId;
+            return $player->getDriverId() === $driverId;
         })->first();
     }
 }

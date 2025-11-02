@@ -7,7 +7,6 @@ namespace Multiplayer\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use Domain\Contract\Configuration\RaceScoringSystem;
 use Domain\DomainFacadeInterface;
-use Domain\Entity\Driver;
 use Multiplayer\Entity\UserSeason;
 use Multiplayer\Entity\UserSeasonPlayer;
 use Multiplayer\Entity\UserSeasonQualification;
@@ -46,9 +45,7 @@ class LeagueController extends BaseController
 
         $driver = $this->drawDriverToReplace->getDriverToReplaceInUserLeague($league);
 
-        $driver = $this->entityManager->getReference(Driver::class, $driver->getId());
-
-        $player = UserSeasonPlayer::create($league, $this->getUser(), $driver);
+        $player = UserSeasonPlayer::create($league, $this->getUser(), $driver->getId());
 
         $this->entityManager->persist($player);
         $this->entityManager->flush();

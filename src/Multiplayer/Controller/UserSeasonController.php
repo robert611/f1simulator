@@ -71,7 +71,7 @@ class UserSeasonController extends BaseController
 
             $player = new UserSeasonPlayer();
             $player->setUser($this->getUser());
-            $player->setDriver($this->entityManager->getReference(Driver::class, $driver->getId()));
+            $player->setDriverId($driver->getId());
             $player->setSeason($userSeason);
 
             $this->entityManager->persist($userSeason);

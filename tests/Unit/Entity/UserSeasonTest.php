@@ -73,10 +73,10 @@ class UserSeasonTest extends TestCase
         );
 
         // and given
-        $userSeasonPlayer1 = UserSeasonPlayer::create($userSeason, $user1, $driver1);
-        $userSeasonPlayer2 = UserSeasonPlayer::create($userSeason, $user2, $driver2);
-        $userSeasonPlayer3 = UserSeasonPlayer::create($userSeason, $user3, $driver4);
-        $userSeasonPlayer4 = UserSeasonPlayer::create($userSeason, $user4, $driver6);
+        $userSeasonPlayer1 = UserSeasonPlayer::create($userSeason, $user1, $driver1->getId());
+        $userSeasonPlayer2 = UserSeasonPlayer::create($userSeason, $user2, $driver2->getId());
+        $userSeasonPlayer3 = UserSeasonPlayer::create($userSeason, $user3, $driver4->getId());
+        $userSeasonPlayer4 = UserSeasonPlayer::create($userSeason, $user4, $driver6->getId());
 
         $userSeason->addPlayer($userSeasonPlayer1);
         $userSeason->addPlayer($userSeasonPlayer2);

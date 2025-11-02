@@ -143,7 +143,7 @@ class Fixtures
         $userSeasonPlayer = UserSeasonPlayer::create(
             $userSeason,
             $user,
-            $driver,
+            $driver->getId(),
         );
 
         $userSeason->addPlayer($userSeasonPlayer);

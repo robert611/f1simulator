@@ -198,7 +198,7 @@ class UserSeason
         $leagueDriversIds = [];
 
         foreach ($this->getPlayers() as $player) {
-            $leagueDriversIds[] = $player->getDriver()->getId();
+            $leagueDriversIds[] = $player->getDriverId();
         }
 
         return $leagueDriversIds;
