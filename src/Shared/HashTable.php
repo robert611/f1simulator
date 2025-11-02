@@ -16,4 +16,15 @@ class HashTable
 
         return $result;
     }
+
+    public static function fromNestedObjectArray(array $array, string $method, string $secondMethod): array
+    {
+        $result = [];
+
+        foreach ($array as $element) {
+            $result[$element->$method()->$secondMethod()] = $element;
+        }
+
+        return $result;
+    }
 }
