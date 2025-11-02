@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Domain\Entity;
 
-use Computer\Entity\Qualification;
 use Computer\Entity\RaceResult;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -33,16 +32,12 @@ class Driver
     #[ORM\Column(name: 'car_number', type: 'integer', nullable: false)]
     public int $carNumber;
 
-    #[ORM\OneToMany(targetEntity: Qualification::class, mappedBy: 'driver', orphanRemoval: true)]
-    private Collection $qualifications;
-
     #[ORM\OneToMany(targetEntity: RaceResult::class, mappedBy: 'driver')]
     private Collection $raceResults;
 
     public function __construct()
     {
         $this->raceResults = new ArrayCollection();
-        $this->qualifications = new ArrayCollection();
     }
 
     public function getId(): int
@@ -93,33 +88,6 @@ class Driver
     public function setCarNumber(int $carNumber): void
     {
         $this->carNumber = $carNumber;
-    }
-
-    /**
-     * @return Collection<Qualification>
-     */
-    public function getQualifications(): Collection
-    {
-        return $this->qualifications;
-    }
-
-    public function addQualification(Qualification $qualification): self
-    {
-        if (!$this->qualifications->contains($qualification)) {
-            $this->qualifications[] = $qualification;
-            $qualification->setDriver($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQualification(Qualification $qualification): self
-    {
-        if ($this->qualifications->contains($qualification)) {
-            $this->qualifications->removeElement($qualification);
-        }
-
-        return $this;
     }
 
     /**

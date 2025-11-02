@@ -20,7 +20,7 @@ class Qualification
     #[ORM\Column(name: 'position', type: 'smallint', nullable: false)]
     private int $position;
 
-    #[ORM\ManyToOne(targetEntity: Driver::class, inversedBy: 'qualifications')]
+    #[ORM\ManyToOne(targetEntity: Driver::class)]
     #[ORM\JoinColumn(name: 'driver_id', nullable: false)]
     private Driver $driver;
 
