@@ -6,8 +6,8 @@ namespace Multiplayer\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Domain\Contract\Configuration\RaceScoringSystem;
+use Domain\DomainFacadeInterface;
 use Domain\Entity\Driver;
-use Domain\Repository\TrackRepository;
 use Multiplayer\Entity\UserSeason;
 use Multiplayer\Entity\UserSeasonPlayer;
 use Multiplayer\Entity\UserSeasonQualification;
@@ -28,11 +28,11 @@ class LeagueController extends BaseController
 {
     public function __construct(
         private readonly UserSeasonRepository $userSeasonRepository,
-        private readonly TrackRepository $trackRepository,
         private readonly SimulateLeagueRace $simulateLeagueRace,
         private readonly LeagueClassifications $leagueClassifications,
         private readonly DrawDriverToReplace $drawDriverToReplace,
         private readonly EntityManagerInterface $entityManager,
+        private readonly DomainFacadeInterface $domainFacade,
     ) {
     }
 
@@ -90,8 +90,8 @@ class LeagueController extends BaseController
         /** @var UserSeasonRace $lastRace */
         $lastRace = $userSeason->getRaces()->last();
         $track = $lastRace
-            ? $this->trackRepository->getNextTrack($lastRace->getTrackId())
-            : $this->trackRepository->getFirstTrack();
+            ? $this->domainFacade->getNextTrack($lastRace->getTrackId())
+            : $this->domainFacade->getFirstTrack();
 
         /* Save race in the database */
         $race = new UserSeasonRace();
