@@ -221,7 +221,6 @@ class Fixtures
     {
         $raceResult = RaceResult::create($position, $race, $driver);
 
-        $driver->addRaceResult($raceResult);
         $race->addRaceResult($raceResult);
 
         $this->entityManager->persist($raceResult);

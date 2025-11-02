@@ -140,9 +140,11 @@ class Season
 
         $podiumsTable = DriverPodiumsDictionary::getPodiumsTable();
 
+        $driverId = $this->driver->getId();
+
         foreach ($races as $race) {
-            $raceResultCollection = $this->driver->getRaceResults()->filter(function ($result) use ($race) {
-                return $result->getRace()->getId() === $race->getId();
+            $raceResultCollection = $race->getRaceResults()->filter(function (RaceResult $result) use ($driverId) {
+                return $result->getDriver()->getId() === $driverId;
             });
 
             if ($raceResultCollection->isEmpty()) {

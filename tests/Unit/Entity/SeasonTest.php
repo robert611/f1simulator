@@ -56,6 +56,8 @@ class SeasonTest extends TestCase
         $driver = Driver::create('John', 'Doe', $team, 54);
         $season = Season::create(new User(), $driver);
 
+        PrivateProperty::set($driver, 'id', 1);
+
         // and given
         $track1 = Track::create('silverstone', 'silverstone.png');
         $track2 = Track::create('hungary', 'hungary.png');
@@ -91,11 +93,6 @@ class SeasonTest extends TestCase
         $race3->addRaceResult($raceResult3);
         $race4->addRaceResult($raceResult4);
         $race5->addRaceResult($raceResult5);
-        $driver->addRaceResult($raceResult1);
-        $driver->addRaceResult($raceResult2);
-        $driver->addRaceResult($raceResult3);
-        $driver->addRaceResult($raceResult4);
-        $driver->addRaceResult($raceResult5);
 
         // when
         $driverPodiumsDTO = $season->getDriverPodiumsDTO();
