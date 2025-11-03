@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\Service\DriverStatistics;
 
+use Domain\Contract\DTO\DriverDTO;
 use Tests\Common\Fixtures;
 use Computer\Service\DriverStatistics\DriverPoints;
 use PHPUnit\Framework\Attributes\Test;
@@ -45,8 +46,8 @@ class DriverPointsTest extends KernelTestCase
         $this->fixtures->aRaceResult(19, $race3, $driver2);
 
         // when
-        $firstDriverPoints = DriverPoints::getDriverPoints($driver1, $season);
-        $secondDriverPoints = DriverPoints::getDriverPoints($driver2, $season);
+        $firstDriverPoints = DriverPoints::getDriverPoints(DriverDTO::fromEntity($driver1), $season);
+        $secondDriverPoints = DriverPoints::getDriverPoints(DriverDTO::fromEntity($driver2), $season);
 
         // then
         self::assertEquals(10, $firstDriverPoints);

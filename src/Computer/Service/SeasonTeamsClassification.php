@@ -8,19 +8,19 @@ use Computer\Model\TeamsClassification;
 use Computer\Model\TeamSeasonResult;
 use Computer\Repository\SeasonRepository;
 use Computer\Service\TeamStatistics\TeamPoints;
-use Domain\Repository\TeamRepository;
+use Domain\DomainFacadeInterface;
 
 class SeasonTeamsClassification
 {
     public function __construct(
-        private readonly TeamRepository $teamRepository,
         private readonly SeasonRepository $seasonRepository,
+        private readonly DomainFacadeInterface $domainFacade,
     ) {
     }
 
     public function getClassification(int $userId): TeamsClassification
     {
-        $teams = $this->teamRepository->findAll();
+        $teams = $this->domainFacade->getAllTeams();
         $season = $this->seasonRepository->findOneBy(['user' => $userId, 'completed' => 0]);
 
         $teamsPointsTable = [];
@@ -50,7 +50,7 @@ class SeasonTeamsClassification
 
     public function getDefaultTeamsClassification(): TeamsClassification
     {
-        $teams = $this->teamRepository->findAll();
+        $teams = $this->domainFacade->getAllTeams();
 
         return TeamsClassification::createDefaultClassification($teams);
     }

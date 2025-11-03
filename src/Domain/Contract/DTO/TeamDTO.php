@@ -70,6 +70,10 @@ class TeamDTO
     {
         $driver = Team::drawDriverToReplaceMethod($this->drivers);
 
+        if (null === $driver) {
+            return null;
+        }
+
         return DriverDTO::fromEntity($driver);
     }
 }

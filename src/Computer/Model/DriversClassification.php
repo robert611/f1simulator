@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Computer\Model;
 
-use Domain\Entity\Driver;
+use Domain\Contract\DTO\DriverDTO;
 
 class DriversClassification
 {
@@ -23,7 +23,7 @@ class DriversClassification
      * This classification is shown if there is no active user season
      * All drivers have zero points and are displayed in random order
      *
-     * @param Driver[] $drivers
+     * @param DriverDTO[] $drivers
      */
     public static function createDefaultClassification(array $drivers): self
     {

@@ -39,6 +39,11 @@ class DriverDTO
         return $this->carNumber;
     }
 
+    public function getFullName(): string
+    {
+        return $this->name . ' ' . $this->surname;
+    }
+
     public static function fromEntity(Driver $driver): self
     {
         $driverDTO = new self();

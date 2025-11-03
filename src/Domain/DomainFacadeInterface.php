@@ -29,6 +29,22 @@ interface DomainFacadeInterface
     public function getTeamById(int $teamId): ?TeamDTO;
 
     /**
+     * Returns all teams
+     *
+     * @return TeamDTO[]
+     */
+    public function getAllTeams(): array;
+
+    /**
+     * Returns driver by given id
+     *
+     * @param int $driverId
+     *
+     * @return DriverDTO|null
+     */
+    public function getDriverById(int $driverId): ?DriverDTO;
+
+    /**
      * Returns a collection of driver entity dto based on given drivers ids
      *
      * @param int[] $driversIds

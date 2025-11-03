@@ -8,6 +8,7 @@ use Computer\Model\CurrentDriverSeason;
 use Computer\Repository\RaceRepository;
 use Computer\Repository\SeasonRepository;
 use Computer\Service\DriverStatistics\DriverPoints;
+use Domain\DomainFacadeInterface;
 use Domain\Repository\TrackRepository;
 
 class CurrentDriverSeasonService
@@ -18,6 +19,7 @@ class CurrentDriverSeasonService
         private readonly RaceRepository $raceRepository,
         private readonly SeasonClassifications $seasonClassifications,
         private readonly SeasonTeamsClassification $seasonTeamsClassification,
+        private readonly DomainFacadeInterface $domainFacade,
     ) {
     }
 
@@ -33,6 +35,8 @@ class CurrentDriverSeasonService
         }
 
         $driver = $season->getDriver();
+
+        $driver = $this->domainFacade->getDriverById($driver->getId());
 
         $driverPoints = DriverPoints::getDriverPoints($driver, $season);
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\Service\TeamStatistics;
 
+use Domain\Contract\DTO\TeamDTO;
 use Tests\Common\Fixtures;
 use Computer\Service\TeamStatistics\TeamPoints;
 use PHPUnit\Framework\Attributes\Test;
@@ -41,7 +42,7 @@ class TeamPointsTest extends KernelTestCase
         $this->fixtures->aRaceResult(3, $race2, $driver2);
 
         // when
-        $points = TeamPoints::getTeamPoints($team, $season);
+        $points = TeamPoints::getTeamPoints(TeamDTO::fromEntity($team), $season);
 
         // then
         self::assertEquals(45, $points);

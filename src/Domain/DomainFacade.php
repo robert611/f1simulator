@@ -44,6 +44,32 @@ class DomainFacade implements DomainFacadeInterface
     }
 
     /**
+     * @return TeamDTO[]
+     */
+    public function getAllTeams(): array
+    {
+        $teams = $this->teamRepository->getTeamsWithDrivers();
+
+        return TeamDTO::fromEntityCollection($teams);
+    }
+
+    /**
+     * @param int $driverId
+     *
+     * @return DriverDTO|null
+     */
+    public function getDriverById(int $driverId): ?DriverDTO
+    {
+        $driver = $this->driverRepository->find($driverId);
+
+        if (null === $driver) {
+            return null;
+        }
+
+        return DriverDTO::fromEntity($driver);
+    }
+
+    /**
      * @param int[] $driversIds
      *
      * @return DriverDTO[]

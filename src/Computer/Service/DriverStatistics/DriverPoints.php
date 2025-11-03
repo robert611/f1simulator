@@ -7,11 +7,11 @@ namespace Computer\Service\DriverStatistics;
 use Computer\Entity\RaceResult;
 use Computer\Entity\Season;
 use Domain\Contract\Configuration\RaceScoringSystem;
-use Domain\Entity\Driver;
+use Domain\Contract\DTO\DriverDTO;
 
 class DriverPoints
 {
-    public static function getDriverPoints(Driver $driver, Season $season): int
+    public static function getDriverPoints(DriverDTO $driver, Season $season): int
     {
         $points = 0;
 

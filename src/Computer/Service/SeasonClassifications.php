@@ -12,15 +12,15 @@ use Computer\Repository\QualificationRepository;
 use Computer\Repository\RaceRepository;
 use Computer\Repository\RaceResultRepository;
 use Computer\Service\DriverStatistics\DriverPoints;
-use Domain\Repository\DriverRepository;
+use Domain\DomainFacadeInterface;
 
 class SeasonClassifications
 {
     public function __construct(
-        private readonly DriverRepository $driverRepository,
         private readonly RaceRepository $raceRepository,
         private readonly RaceResultRepository $raceResultRepository,
         private readonly QualificationRepository $qualificationRepository,
+        private readonly DomainFacadeInterface $domainFacade,
     ) {
     }
 
@@ -38,14 +38,14 @@ class SeasonClassifications
 
     public function getDefaultDriversClassification(): DriversClassification
     {
-        $drivers = $this->driverRepository->findAll();
+        $drivers = $this->domainFacade->getAllDrivers();
 
         return DriversClassification::createDefaultClassification($drivers);
     }
 
     public function getDriversClassification(Season $season): DriversClassification
     {
-        $drivers = $this->driverRepository->findAll();
+        $drivers = $this->domainFacade->getAllDrivers();
 
         $driverRaceResults = [];
 
@@ -67,7 +67,8 @@ class SeasonClassifications
 
         foreach ($raceResults as $raceResult) {
             $points = DriverPoints::getDriverPointsByRace($raceResult);
-            $driverRaceResults[] = DriverRaceResult::create($raceResult->getDriver(), $points, 0);
+            $driver = $this->domainFacade->getDriverById($raceResult->getDriver()->getId());
+            $driverRaceResults[] = DriverRaceResult::create($driver, $points, 0);
         }
 
         $driverRaceResults = DriverRaceResult::calculatePositions($driverRaceResults);
