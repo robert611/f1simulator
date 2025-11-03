@@ -17,10 +17,12 @@ class QualificationFixtures extends Fixture implements DependentFixtureInterface
     {
         for ($i = 1; $i <= 6; $i++) {
             for ($j = 1; $j <= 20; $j++) {
-                $qualification = new Qualification();
+                /** @var Driver $driver */
+                $driver = $this->getReference('driver.' . $j, Driver::class);
 
+                $qualification = new Qualification();
                 $qualification->setRace($this->getReference('race.' . $i, Race::class));
-                $qualification->setDriver($this->getReference('driver.' . $j, Driver::class));
+                $qualification->setDriverId($driver->getId());
                 $qualification->setPosition($j);
 
                 $manager->persist($qualification);

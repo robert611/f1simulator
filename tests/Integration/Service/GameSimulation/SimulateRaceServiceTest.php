@@ -106,7 +106,7 @@ class SimulateRaceServiceTest extends KernelTestCase
         // and then (All drivers have a qualification result)
         $qualificationDrivers = [];
         foreach ($qualifications as $qualification) {
-            $qualificationDrivers[] = $qualification->getDriver()->getId();
+            $qualificationDrivers[] = $qualification->getDriverId();
         }
 
         self::assertContains($driver1->getId(), $qualificationDrivers);

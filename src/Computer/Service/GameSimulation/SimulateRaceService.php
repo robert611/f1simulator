@@ -49,7 +49,7 @@ class SimulateRaceService
         /* Save qualification results in a database */
         foreach ($qualificationResultsCollection->getQualificationResults() as $qualificationResult) {
             $qualification = Qualification::create(
-                $this->entityManager->getReference(Driver::class, $qualificationResult->getDriver()->getId()),
+                $qualificationResult->getDriver()->getId(),
                 $race,
                 $qualificationResult->getPosition(),
             );

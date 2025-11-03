@@ -231,7 +231,7 @@ class Fixtures
 
     public function aQualification(Driver $driver, Race $race, int $position): Qualification
     {
-        $qualification = Qualification::Create($driver, $race, $position);
+        $qualification = Qualification::Create($driver->getId(), $race, $position);
 
         $race->addQualification($qualification);
 
