@@ -19,7 +19,7 @@ class Race
     #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
     private int $id;
 
-    #[ORM\ManyToOne(targetEntity: Track::class, inversedBy: 'races')]
+    #[ORM\ManyToOne(targetEntity: Track::class)]
     #[ORM\JoinColumn(name: 'track_id', nullable: false)]
     private Track $track;
 

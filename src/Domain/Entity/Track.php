@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Domain\Entity;
 
-use Computer\Entity\Race;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Domain\Repository\TrackRepository;
 
@@ -24,14 +21,6 @@ class Track
 
     #[ORM\Column(name: 'picture', type: 'string', length: 255, nullable: false)]
     private string $picture;
-
-    #[ORM\OneToMany(targetEntity: Race::class, mappedBy: 'track')]
-    private Collection $races;
-
-    public function __construct()
-    {
-        $this->races = new ArrayCollection();
-    }
 
     public function getId(): int
     {
@@ -56,29 +45,6 @@ class Track
     public function setPicture(string $picture): void
     {
         $this->picture = $picture;
-    }
-
-    /**
-     * @return Collection<Race>
-     */
-    public function getRaces(): Collection
-    {
-        return $this->races;
-    }
-
-    public function addRace(Race $race): void
-    {
-        if (!$this->races->contains($race)) {
-            $this->races[] = $race;
-            $race->setTrack($this);
-        }
-    }
-
-    public function removeRace(Race $race): void
-    {
-        if ($this->races->contains($race)) {
-            $this->races->removeElement($race);
-        }
     }
 
     public static function create(string $name, string $picture): self
