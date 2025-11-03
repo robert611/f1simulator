@@ -11,8 +11,9 @@ use Computer\Entity\Season;
 use Computer\Model\GameSimulation\QualificationResultsCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Domain\Contract\GameSimulation\CouponsGenerator;
+use Domain\DomainFacadeInterface;
+use Domain\Entity\Track;
 use Domain\Repository\DriverRepository;
-use Domain\Repository\TrackRepository;
 
 class SimulateRaceService
 {
@@ -20,8 +21,8 @@ class SimulateRaceService
         private readonly DriverRepository $driverRepository,
         private readonly SimulateQualifications $simulateQualifications,
         private readonly CouponsGenerator $couponsGenerator,
-        private readonly TrackRepository $trackRepository,
         private readonly EntityManagerInterface $entityManager,
+        private readonly DomainFacadeInterface $domainFacade,
     ) {
     }
 
@@ -30,12 +31,12 @@ class SimulateRaceService
         $lastRace = $season->getRaces()->last();
 
         if ($lastRace) {
-            $track = $this->trackRepository->getNextTrack($lastRace->getTrack()->getId());
+            $track = $this->domainFacade->getNextTrack($lastRace->getTrack()->getId());
         } else {
-            $track = $this->trackRepository->getFirstTrack();
+            $track = $this->domainFacade->getFirstTrack();
         }
 
-        $race = Race::create($track, $season);
+        $race = Race::create($this->entityManager->getReference(Track::class, $track->getId()), $season);
         $season->addRace($race);
 
         $this->entityManager->persist($race);
