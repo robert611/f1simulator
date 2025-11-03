@@ -19,6 +19,14 @@ interface DomainFacadeInterface
      */
     public function getTeamsByDriversIds(array $driversIds): array;
 
+    /**
+     * Returns team by given id
+     *
+     * @param int $teamId
+     *
+     * @return TeamDTO|null
+     */
+    public function getTeamById(int $teamId): ?TeamDTO;
 
     /**
      * Returns a collection of driver entity dto based on given drivers ids
@@ -57,6 +65,8 @@ interface DomainFacadeInterface
      * Returns next track in ascending order sorted by tracks ids
      *
      * @param int $previousTrackId
+     *
+     * @return TrackDTO|null
      */
     public function getNextTrack(int $previousTrackId): ?TrackDTO;
 
@@ -64,6 +74,8 @@ interface DomainFacadeInterface
      * Returns track by given id
      *
      * @param int $trackId
+     *
+     * @return TrackDTO|null
      */
     public function getTrackById(int $trackId): ?TrackDTO;
 }

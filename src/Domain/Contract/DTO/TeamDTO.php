@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Domain\Contract\DTO;
 
+use Domain\Entity\Driver;
 use Domain\Entity\Team;
 
 class TeamDTO
@@ -11,6 +12,9 @@ class TeamDTO
     private int $id;
     private string $name;
     private string $picture;
+
+    /** @var Driver[] */
+    private array $drivers;
 
     public function getId(): int
     {
@@ -27,12 +31,21 @@ class TeamDTO
         return $this->picture;
     }
 
+    /**
+     * @return DriverDTO[]
+     */
+    public function getDrivers(): array
+    {
+        return DriverDTO::fromEntityCollection($this->drivers);
+    }
+
     public static function fromEntity(Team $team): self
     {
         $teamDTO = new self();
         $teamDTO->id = $team->getId();
         $teamDTO->name = $team->getName();
         $teamDTO->picture = $team->getPicture();
+        $teamDTO->drivers = $team->getDrivers()->toArray();
 
         return $teamDTO;
     }
@@ -51,5 +64,12 @@ class TeamDTO
         }
 
         return $teamsDTO;
+    }
+
+    public function drawDriverToReplace(): ?DriverDTO
+    {
+        $driver = Team::drawDriverToReplaceMethod($this->drivers);
+
+        return DriverDTO::fromEntity($driver);
     }
 }

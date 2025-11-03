@@ -32,6 +32,17 @@ class DomainFacade implements DomainFacadeInterface
         return TeamDTO::fromEntityCollection($teams);
     }
 
+    public function getTeamById(int $teamId): ?TeamDTO
+    {
+        $team = $this->teamRepository->find($teamId);
+
+        if (null === $team) {
+            return null;
+        }
+
+        return TeamDTO::fromEntity($team);
+    }
+
     /**
      * @param int[] $driversIds
      *
