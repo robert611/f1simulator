@@ -144,7 +144,7 @@ class Season
 
         foreach ($races as $race) {
             $raceResultCollection = $race->getRaceResults()->filter(function (RaceResult $result) use ($driverId) {
-                return $result->getDriver()->getId() === $driverId;
+                return $result->getDriverId() === $driverId;
             });
 
             if ($raceResultCollection->isEmpty()) {

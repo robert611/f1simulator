@@ -19,7 +19,7 @@ class DriverPoints
 
         foreach ($races as $race) {
             foreach ($race->getRaceResults() as $raceResult) {
-                if ($raceResult->getDriver()->getId() === $driver->getId()) {
+                if ($raceResult->getDriverId() === $driver->getId()) {
                     $points += RaceScoringSystem::getPositionScore($raceResult->getPosition());
                 }
             }

@@ -61,7 +61,7 @@ class SimulateRaceService
         /* Save race results in a database */
         foreach ($raceResults as $position => $driverId) {
             $driver = $this->driverRepository->find($driverId);
-            $raceResult = RaceResult::create($position, $race, $driver);
+            $raceResult = RaceResult::create($position, $race, $driver->getId());
             $race->addRaceResult($raceResult);
 
             $this->entityManager->persist($raceResult);

@@ -145,7 +145,7 @@ class SimulateRaceServiceTest extends KernelTestCase
         $raceResultDrivers = [];
         $positions = [];
         foreach ($raceResults as $raceResult) {
-            $raceResultDrivers[] = $raceResult->getDriver()->getId();
+            $raceResultDrivers[] = $raceResult->getDriverId();
             $positions[] = $raceResult->getPosition();
         }
 

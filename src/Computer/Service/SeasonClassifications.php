@@ -67,7 +67,7 @@ class SeasonClassifications
 
         foreach ($raceResults as $raceResult) {
             $points = DriverPoints::getDriverPointsByRace($raceResult);
-            $driver = $this->domainFacade->getDriverById($raceResult->getDriver()->getId());
+            $driver = $this->domainFacade->getDriverById($raceResult->getDriverId());
             $driverRaceResults[] = DriverRaceResult::create($driver, $points, 0);
         }
 

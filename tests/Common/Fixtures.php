@@ -219,7 +219,7 @@ class Fixtures
 
     public function aRaceResult(int $position, Race $race, Driver $driver): RaceResult
     {
-        $raceResult = RaceResult::create($position, $race, $driver);
+        $raceResult = RaceResult::create($position, $race, $driver->getId());
 
         $race->addRaceResult($raceResult);
 

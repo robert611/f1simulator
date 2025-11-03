@@ -83,11 +83,11 @@ class SeasonTest extends TestCase
         $season->addRace($race5);
 
         // and given
-        $raceResult1 = RaceResult::create(1, $race1, $driver);
-        $raceResult2 = RaceResult::create(3, $race2, $driver);
-        $raceResult3 = RaceResult::create(0, $race3, $driver);
-        $raceResult4 = RaceResult::create(2, $race4, $driver);
-        $raceResult5 = RaceResult::create(2, $race5, $driver);
+        $raceResult1 = RaceResult::create(1, $race1, $driver->getId());
+        $raceResult2 = RaceResult::create(3, $race2, $driver->getId());
+        $raceResult3 = RaceResult::create(0, $race3, $driver->getId());
+        $raceResult4 = RaceResult::create(2, $race4, $driver->getId());
+        $raceResult5 = RaceResult::create(2, $race5, $driver->getId());
         $race1->addRaceResult($raceResult1);
         $race2->addRaceResult($raceResult2);
         $race3->addRaceResult($raceResult3);
