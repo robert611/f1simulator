@@ -72,7 +72,7 @@ class SimulateRaceService
 
     public function getRaceResults(QualificationResultsCollection $qualificationResults): array
     {
-        $drivers = $this->driverRepository->findAll();
+        $drivers = $this->domainFacade->getAllDrivers();
 
         $results = [];
 
