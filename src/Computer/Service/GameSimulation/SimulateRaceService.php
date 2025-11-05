@@ -13,12 +13,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Domain\Contract\GameSimulation\CouponsGenerator;
 use Domain\DomainFacadeInterface;
 use Domain\Entity\Track;
-use Domain\Repository\DriverRepository;
 
 class SimulateRaceService
 {
     public function __construct(
-        private readonly DriverRepository $driverRepository,
         private readonly SimulateQualifications $simulateQualifications,
         private readonly CouponsGenerator $couponsGenerator,
         private readonly EntityManagerInterface $entityManager,
@@ -60,8 +58,7 @@ class SimulateRaceService
 
         /* Save race results in a database */
         foreach ($raceResults as $position => $driverId) {
-            $driver = $this->driverRepository->find($driverId);
-            $raceResult = RaceResult::create($position, $race, $driver->getId());
+            $raceResult = RaceResult::create($position, $race, $driverId);
             $race->addRaceResult($raceResult);
 
             $this->entityManager->persist($raceResult);
