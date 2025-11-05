@@ -9,13 +9,11 @@ use Computer\Repository\RaceRepository;
 use Computer\Repository\SeasonRepository;
 use Computer\Service\DriverStatistics\DriverPoints;
 use Domain\DomainFacadeInterface;
-use Domain\Repository\TrackRepository;
 
 class CurrentDriverSeasonService
 {
     public function __construct(
         private readonly SeasonRepository $seasonRepository,
-        private readonly TrackRepository $trackRepository,
         private readonly RaceRepository $raceRepository,
         private readonly SeasonClassifications $seasonClassifications,
         private readonly SeasonTeamsClassification $seasonTeamsClassification,
@@ -41,12 +39,12 @@ class CurrentDriverSeasonService
         $driverPoints = DriverPoints::getDriverPoints($driver, $season);
 
         if ($season->getRaces()->last()) {
-            $currentTrack = $this->trackRepository->getNextTrack($season->getRaces()->last()->getTrack()->getId());
+            $currentTrack = $this->domainFacade->getNextTrack($season->getRaces()->last()->getTrack()->getId());
         } else {
-            $currentTrack = $this->trackRepository->getFirstTrack();
+            $currentTrack = $this->domainFacade->getFirstTrack();
         }
 
-        $numberOfRacesInTheSeason = $this->trackRepository->count();
+        $numberOfRacesInTheSeason = $this->domainFacade->getTracksCount();
 
         $classification = $this->seasonClassifications->getClassificationBasedOnType(
             $season,
