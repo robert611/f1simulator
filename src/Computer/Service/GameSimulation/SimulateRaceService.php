@@ -34,7 +34,7 @@ class SimulateRaceService
             $track = $this->domainFacade->getFirstTrack();
         }
 
-        $race = Race::create($this->entityManager->getReference(Track::class, $track->getId()), $season);
+        $race = Race::create($track->getId(), $season);
         $season->addRace($race);
 
         $this->entityManager->persist($race);

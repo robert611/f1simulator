@@ -65,12 +65,18 @@ class SeasonTest extends TestCase
         $track4 = Track::create('usa', 'usa.png');
         $track5 = Track::create('belgium', 'belgium.png');
 
+        PrivateProperty::set($track1, 'id', 1);
+        PrivateProperty::set($track2, 'id', 2);
+        PrivateProperty::set($track3, 'id', 3);
+        PrivateProperty::set($track4, 'id', 4);
+        PrivateProperty::set($track5, 'id', 5);
+
         // and given
-        $race1 = Race::create($track1, $season);
-        $race2 = Race::create($track2, $season);
-        $race3 = Race::create($track3, $season);
-        $race4 = Race::create($track4, $season);
-        $race5 = Race::create($track5, $season);
+        $race1 = Race::create($track1->getId(), $season);
+        $race2 = Race::create($track2->getId(), $season);
+        $race3 = Race::create($track3->getId(), $season);
+        $race4 = Race::create($track4->getId(), $season);
+        $race5 = Race::create($track5->getId(), $season);
         PrivateProperty::set($race1, 'id', 1);
         PrivateProperty::set($race2, 'id', 2);
         PrivateProperty::set($race3, 'id', 3);

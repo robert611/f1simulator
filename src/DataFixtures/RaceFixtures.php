@@ -19,7 +19,7 @@ class RaceFixtures extends Fixture implements DependentFixtureInterface
             $track = $this->getReference("track." . $i, Track::class);
             $season = $this->getReference("season.1", Season::class);
 
-            $race = Race::create($track, $season);
+            $race = Race::create($track->getId(), $season);
 
             $manager->persist($race);
             $manager->flush();

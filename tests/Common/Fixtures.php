@@ -207,7 +207,7 @@ class Fixtures
 
     public function aRace(Track $track, Season $season): Race
     {
-        $race = Race::Create($track, $season);
+        $race = Race::Create($track->getId(), $season);
 
         $season->addRace($race);
 
