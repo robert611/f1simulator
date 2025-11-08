@@ -107,21 +107,21 @@
                                     <h4 class="text-center">Klasyfikacja kierowców</h4>
                                 </div>
                                 <div class="card-body">
-                                    {% include 'league_results/_players_classification.html.twig' %}
+                                    {% include '@multiplayer/league_results/_players_classification.html.twig' %}
                                 </div>
                             {% elseif classificationType == enum('Multiplayer\\Service\\ClassificationType').RACE %}
                                 <div class="card-header">
                                     <h4 class="text-center">Klasyfikacja {{ classification ? tracks[classification.getOwner().getTrackId()].name }}</h4>
                                 </div>
                                 <div class="card-body">
-                                    {% include 'league_results/_race_classification.html.twig' %}
+                                    {% include '@multiplayer/league_results/_race_classification.html.twig' %}
                                 </div>
                             {% elseif classificationType == enum('Multiplayer\\Service\\ClassificationType').QUALIFICATIONS %}
                                 <div class="card-header">
                                     <h4 class="text-center">Wyniki kwalifikacji - {{ classification ? tracks[classification.getOwner().getTrackId()].name }}</h4>
                                 </div>
                                 <div class="card-body">
-                                    {% include 'league_results/_qualifications_classification.html.twig' %}
+                                    {% include '@multiplayer/league_results/_qualifications_classification.html.twig' %}
                                 </div>
                             {% endif %}
                         </div>

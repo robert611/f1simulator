@@ -118,21 +118,21 @@
                                     <h4 class="text-center">Klasyfikacja kierowców</h4>
                                 </div>
                                 <div class="card-body">
-                                    {% include 'season_results/_classification.html.twig' %}
+                                    {% include '@computer/season_results/_classification.html.twig' %}
                                 </div>
                             {% elseif classificationType == enum('Computer\\Service\\ClassificationType').RACE %}
                                 <div class="card-header">
                                     <h4 class="text-center">Klasyfikacja - {{ currentDriverSeason ? tracks[currentDriverSeason.classificationRace.trackId].name }}</h4>
                                 </div>
                                 <div class="card-body">
-                                    {% include 'season_results/_classification.html.twig' %}
+                                    {% include '@computer/season_results/_classification.html.twig' %}
                                 </div>
                             {% elseif classificationType == enum('Computer\\Service\\ClassificationType').QUALIFICATIONS %}
                                 <div class="card-header">
                                     <h4 class="text-center">Wyniki kwalifikacji - {{ currentDriverSeason ? tracks[currentDriverSeason.classificationRace.trackId].name }} </h4>
                                 </div>
                                 <div class="card-body">
-                                    {% include 'season_results/_qualifications_classification.html.twig' %}
+                                    {% include '@computer/season_results/_qualifications_classification.html.twig' %}
                                 </div>
                             {% endif %}
                         </div>
