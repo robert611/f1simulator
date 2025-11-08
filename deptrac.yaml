@@ -62,6 +62,8 @@ deptrac:
             - Domain_Allowed
             - Security_Allowed
             - Shared
+        Computer_Allowed:
+            - Computer
 
         Domain:
             - Domain_Allowed
@@ -75,6 +77,8 @@ deptrac:
             - Domain_Allowed
             - Security_Allowed
             - Shared
+        Multiplayer_Allowed:
+            - Multiplayer
 
         Security:
             - Security_Allowed
