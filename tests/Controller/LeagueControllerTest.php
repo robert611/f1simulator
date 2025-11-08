@@ -59,7 +59,7 @@ class LeagueControllerTest extends WebTestCase
 
         // and then
         $userSeasonPlayer = $this->userSeasonPlayerRepository->findOneBy([]);
-        self::assertEquals($userSeasonPlayer->getDriver(), $driver);
+        self::assertEquals($userSeasonPlayer->getDriverId(), $driver->getId());
         self::assertEquals($userSeasonPlayer->getUser(), $user);
         self::assertEquals($userSeasonPlayer->getSeason(), $userSeason);
     }

@@ -6,7 +6,7 @@
             <div class="col-xs-12 col-md-3">
                 <div class="card mb-3">
                     <div class="card-header text-center">
-                        <h4>Stwórz nową lige</h4>
+                        <h4>Stwórz nową ligę</h4>
                     </div>
                     <div class="card-body">
                         {{ form_start(form) }}
@@ -73,7 +73,7 @@
             <div class="col-xs-12 col-md-6">
                 <div class="card mb-3">
                     <div class="card-header text-center">
-                        <h4>Ligi do których należysz</h4>
+                        <h4>Ligi, do których należysz</h4>
                     </div>
                     <div class="card-body">
                         <table class="table">
@@ -93,9 +93,9 @@
                                             {% if league.getRaces().count() != 0 %}
                                                 {% for key, race in league.getRaces() %}
                                                     {% if key != league.getRaces()|keys|last %}
-                                                        {{ race.getTrack().getName() }} ,
+                                                        {{ tracks[race.getTrackId].name }},
                                                     {% else %}
-                                                        {{ race.getTrack().getName() }} 
+                                                        {{ tracks[race.getTrackId].name }}
                                                     {% endif %}
                                                 {% endfor %}
                                             {% else %}

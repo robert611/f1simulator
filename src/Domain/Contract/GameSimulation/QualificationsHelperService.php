@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Domain\Service\GameSimulation;
+namespace Domain\Contract\GameSimulation;
 
+use Domain\Contract\Configuration\TeamsStrength;
 use Domain\Contract\DTO\DriverDTO;
-use Domain\Model\Configuration\TeamsStrength;
 
 class QualificationsHelperService
 {

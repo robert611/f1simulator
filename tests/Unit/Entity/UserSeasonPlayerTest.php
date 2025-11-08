@@ -90,10 +90,10 @@ class UserSeasonPlayerTest extends TestCase
         $userSeason = new UserSeason();
 
         // and given
-        $userSeasonPlayer1 = UserSeasonPlayer::create($userSeason, $user1, $driver1);
-        $userSeasonPlayer2 = UserSeasonPlayer::create($userSeason, $user2, $driver2);
-        $userSeasonPlayer3 = UserSeasonPlayer::create($userSeason, $user3, $driver3);
-        $userSeasonPlayer4 = UserSeasonPlayer::create($userSeason, $user4, $driver4);
+        $userSeasonPlayer1 = UserSeasonPlayer::create($userSeason, $user1, $driver1->getId());
+        $userSeasonPlayer2 = UserSeasonPlayer::create($userSeason, $user2, $driver2->getId());
+        $userSeasonPlayer3 = UserSeasonPlayer::create($userSeason, $user3, $driver3->getId());
+        $userSeasonPlayer4 = UserSeasonPlayer::create($userSeason, $user4, $driver4->getId());
 
         // when
         $driversIds = UserSeasonPlayer::getPlayersDriversIds(new ArrayCollection([
@@ -140,10 +140,10 @@ class UserSeasonPlayerTest extends TestCase
         $userSeason = new UserSeason();
 
         // and given
-        $userSeasonPlayer1 = UserSeasonPlayer::create($userSeason, $user1, $driver1);
-        $userSeasonPlayer2 = UserSeasonPlayer::create($userSeason, $user2, $driver2);
-        $userSeasonPlayer3 = UserSeasonPlayer::create($userSeason, $user3, $driver3);
-        $userSeasonPlayer4 = UserSeasonPlayer::create($userSeason, $user4, $driver4);
+        $userSeasonPlayer1 = UserSeasonPlayer::create($userSeason, $user1, $driver1->getId());
+        $userSeasonPlayer2 = UserSeasonPlayer::create($userSeason, $user2, $driver2->getId());
+        $userSeasonPlayer3 = UserSeasonPlayer::create($userSeason, $user3, $driver3->getId());
+        $userSeasonPlayer4 = UserSeasonPlayer::create($userSeason, $user4, $driver4->getId());
 
         // when
         $result = UserSeasonPlayer::getPlayerByDriverId(

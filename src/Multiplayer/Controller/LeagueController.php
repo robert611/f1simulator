@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace Multiplayer\Controller;
 
-use Domain\Entity\Driver;
-use Domain\Model\Configuration\RaceScoringSystem;
 use Doctrine\ORM\EntityManagerInterface;
-use Domain\Repository\TrackRepository;
+use Domain\Contract\Configuration\RaceScoringSystem;
+use Domain\DomainFacadeInterface;
 use Multiplayer\Entity\UserSeason;
 use Multiplayer\Entity\UserSeasonPlayer;
 use Multiplayer\Entity\UserSeasonQualification;
 use Multiplayer\Entity\UserSeasonRace;
 use Multiplayer\Entity\UserSeasonRaceResult;
 use Multiplayer\Repository\UserSeasonRepository;
-use Multiplayer\Service\DrawDriverToReplace;
 use Multiplayer\Security\LeagueVoter;
+use Multiplayer\Service\DrawDriverToReplace;
 use Multiplayer\Service\GameSimulation\SimulateLeagueRace;
 use Multiplayer\Service\LeagueClassifications;
 use Shared\Controller\BaseController;
@@ -28,11 +27,11 @@ class LeagueController extends BaseController
 {
     public function __construct(
         private readonly UserSeasonRepository $userSeasonRepository,
-        private readonly TrackRepository $trackRepository,
         private readonly SimulateLeagueRace $simulateLeagueRace,
         private readonly LeagueClassifications $leagueClassifications,
         private readonly DrawDriverToReplace $drawDriverToReplace,
         private readonly EntityManagerInterface $entityManager,
+        private readonly DomainFacadeInterface $domainFacade,
     ) {
     }
 
@@ -46,9 +45,7 @@ class LeagueController extends BaseController
 
         $driver = $this->drawDriverToReplace->getDriverToReplaceInUserLeague($league);
 
-        $driver = $this->entityManager->getReference(Driver::class, $driver->getId());
-
-        $player = UserSeasonPlayer::create($league, $this->getUser(), $driver);
+        $player = UserSeasonPlayer::create($league, $this->getUser(), $driver->getId());
 
         $this->entityManager->persist($player);
         $this->entityManager->flush();
@@ -87,15 +84,16 @@ class LeagueController extends BaseController
     {
         $this->denyAccessUnlessGranted(LeagueVoter::SIMULATE_RACE, $userSeason);
 
+        /** @var UserSeasonRace $lastRace */
         $lastRace = $userSeason->getRaces()->last();
         $track = $lastRace
-            ? $this->trackRepository->getNextTrack($lastRace->getTrack()->getId())
-            : $this->trackRepository->getFirstTrack();
+            ? $this->domainFacade->getNextTrack($lastRace->getTrackId())
+            : $this->domainFacade->getFirstTrack();
 
         /* Save race in the database */
         $race = new UserSeasonRace();
 
-        $race->setTrack($track);
+        $race->setTrackId($track->getId());
         $race->setSeason($userSeason);
 
         $this->entityManager->persist($race);

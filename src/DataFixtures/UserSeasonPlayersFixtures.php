@@ -23,7 +23,7 @@ class UserSeasonPlayersFixtures extends Fixture implements DependentFixtureInter
             $user = $this->getReference('user.' . $data['user_id'], User::class);
             $driver = $this->getReference('driver.' . $data['driver_id'], Driver::class);
 
-            $player = UserSeasonPlayer::create($season, $user, $driver);
+            $player = UserSeasonPlayer::create($season, $user, $driver->getId());
 
             $manager->persist($player);
             $manager->flush();

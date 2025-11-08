@@ -17,10 +17,12 @@ class RaceResultsFixtures extends Fixture implements DependentFixtureInterface
     {
         for ($i = 1; $i <= 6; $i++) {
             for ($j = 1; $j <= 20; $j++) {
-                $raceResults = new RaceResult();
+                /** @var Driver $driver */
+                $driver = $this->getReference('driver.' . $j, Driver::class);
 
+                $raceResults = new RaceResult();
                 $raceResults->setRace($this->getReference('race.' . $i, Race::class));
-                $raceResults->setDriver($this->getReference('driver.' . $j, Driver::class));
+                $raceResults->setDriverId($driver->getId());
                 $raceResults->setPosition($j);
 
                 $manager->persist($raceResults);

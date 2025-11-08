@@ -44,7 +44,7 @@ class SimulateRaceServiceTest extends KernelTestCase
         self::assertCount(1, $season->getRaces());
 
         self::assertNotNull($season->getLastRace());
-        self::assertEquals($track1->getId(), $season->getLastRace()->getTrack()->getId());
+        self::assertEquals($track1->getId(), $season->getLastRace()->getTrackId());
         self::assertEquals($season->getId(), $season->getLastRace()->getSeason()->getId());
     }
 
@@ -72,7 +72,7 @@ class SimulateRaceServiceTest extends KernelTestCase
         self::assertCount(2, $season->getRaces());
 
         self::assertNotNull($season->getLastRace());
-        self::assertEquals($track2->getId(), $season->getLastRace()->getTrack()->getId());
+        self::assertEquals($track2->getId(), $season->getLastRace()->getTrackId());
         self::assertEquals($season->getId(), $season->getLastRace()->getSeason()->getId());
     }
 
@@ -106,7 +106,7 @@ class SimulateRaceServiceTest extends KernelTestCase
         // and then (All drivers have a qualification result)
         $qualificationDrivers = [];
         foreach ($qualifications as $qualification) {
-            $qualificationDrivers[] = $qualification->getDriver()->getId();
+            $qualificationDrivers[] = $qualification->getDriverId();
         }
 
         self::assertContains($driver1->getId(), $qualificationDrivers);
@@ -145,7 +145,7 @@ class SimulateRaceServiceTest extends KernelTestCase
         $raceResultDrivers = [];
         $positions = [];
         foreach ($raceResults as $raceResult) {
-            $raceResultDrivers[] = $raceResult->getDriver()->getId();
+            $raceResultDrivers[] = $raceResult->getDriverId();
             $positions[] = $raceResult->getPosition();
         }
 
@@ -180,8 +180,8 @@ class SimulateRaceServiceTest extends KernelTestCase
         $secondRace = $season->getLastRace();
 
         // then (Verify track selection)
-        self::assertEquals($track1->getId(), $firstRace->getTrack()->getId());
-        self::assertEquals($track2->getId(), $secondRace->getTrack()->getId());
+        self::assertEquals($track1->getId(), $firstRace->getTrackId());
+        self::assertEquals($track2->getId(), $secondRace->getTrackId());
     }
 
     #[Test]

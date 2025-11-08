@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Multiplayer\Security;
 
-use Domain\Repository\TrackRepository;
+use Domain\DomainFacadeInterface;
 use LogicException;
 use Multiplayer\Entity\UserSeason;
 use Security\Entity\User;
@@ -22,7 +22,7 @@ class LeagueVoter extends Voter
     public const SIMULATE_RACE = 'SIMULATE_RACE';
 
     public function __construct(
-        private readonly TrackRepository $trackRepository,
+        private readonly DomainFacadeInterface $domainFacade,
     ) {
     }
 
@@ -120,7 +120,7 @@ class LeagueVoter extends Voter
             return false;
         }
 
-        if ($league->getRaces()->count() >= $this->trackRepository->count()) {
+        if ($league->getRaces()->count() >= $this->domainFacade->getTracksCount()) {
             (new Session())->getFlashBag()->add('warning', 'Wszystkie wyścigi zostały już rozegrane.');
 
             return false;

@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Computer\Model;
 
-use Domain\Entity\Driver;
+use Domain\Contract\DTO\DriverDTO;
 
 class DriverRaceResult
 {
-    private Driver $driver;
+    private DriverDTO $driver;
     private int $points;
     private int $position;
 
-    public function getDriver(): Driver
+    public function getDriver(): DriverDTO
     {
         return $this->driver;
     }
@@ -27,7 +27,7 @@ class DriverRaceResult
         return $this->position;
     }
 
-    public static function create(Driver $driver, int $points, int $position): self
+    public static function create(DriverDTO $driver, int $points, int $position): self
     {
         $driverRaceResult = new self();
         $driverRaceResult->driver = $driver;

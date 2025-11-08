@@ -6,8 +6,8 @@ namespace Computer\Service\GameSimulation;
 
 use Computer\Model\GameSimulation\QualificationResult;
 use Computer\Model\GameSimulation\QualificationResultsCollection;
+use Domain\Contract\GameSimulation\QualificationsHelperService;
 use Domain\DomainFacadeInterface;
-use Domain\Service\GameSimulation\QualificationsHelperService;
 
 class SimulateQualifications
 {

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Integration\Service\GameSimulation;
 
+use Domain\Contract\Configuration\QualificationAdvantage;
+use Domain\Contract\Configuration\TeamsStrength;
 use Domain\Contract\DTO\DriverDTO;
-use Domain\Model\Configuration\QualificationAdvantage;
-use Domain\Model\Configuration\TeamsStrength;
-use Domain\Service\GameSimulation\CouponsGenerator;
+use Domain\Contract\GameSimulation\CouponsGenerator;
 use PHPUnit\Framework\Attributes\Test;
-use Tests\Common\Fixtures;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Tests\Common\Fixtures;
 
 class CouponsGeneratorTest extends KernelTestCase
 {

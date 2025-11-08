@@ -6,7 +6,6 @@ namespace Computer\Entity;
 
 use Computer\Repository\QualificationRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Domain\Entity\Driver;
 
 #[ORM\Entity(repositoryClass: QualificationRepository::class)]
 #[ORM\Table(name: 'qualification')]
@@ -20,9 +19,8 @@ class Qualification
     #[ORM\Column(name: 'position', type: 'smallint', nullable: false)]
     private int $position;
 
-    #[ORM\ManyToOne(targetEntity: Driver::class, inversedBy: 'qualifications')]
-    #[ORM\JoinColumn(name: 'driver_id', nullable: false)]
-    private Driver $driver;
+    #[ORM\Column(name: 'driver_id', type: 'integer', nullable: false)]
+    private int $driverId;
 
     #[ORM\ManyToOne(targetEntity: Race::class, inversedBy: 'qualifications')]
     #[ORM\JoinColumn(name: 'race_id', nullable: false)]
@@ -33,14 +31,14 @@ class Qualification
         return $this->id;
     }
 
-    public function getDriver(): Driver
+    public function getDriverId(): int
     {
-        return $this->driver;
+        return $this->driverId;
     }
 
-    public function setDriver(Driver $driver): void
+    public function setDriverId(int $driverId): void
     {
-        $this->driver = $driver;
+        $this->driverId = $driverId;
     }
 
     public function getRace(): Race
@@ -63,10 +61,10 @@ class Qualification
         $this->position = $position;
     }
 
-    public static function create(Driver $driver, Race $race, int $position): self
+    public static function create(int $driverId, Race $race, int $position): self
     {
         $qualification = new self();
-        $qualification->driver = $driver;
+        $qualification->driverId = $driverId;
         $qualification->race = $race;
         $qualification->position = $position;
 

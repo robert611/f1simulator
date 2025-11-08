@@ -6,11 +6,11 @@ namespace Computer\Service\TeamStatistics;
 
 use Computer\Entity\Season;
 use Computer\Service\DriverStatistics\DriverPoints;
-use Domain\Entity\Team;
+use Domain\Contract\DTO\TeamDTO;
 
 class TeamPoints
 {
-    public static function getTeamPoints(Team $team, Season $season): int
+    public static function getTeamPoints(TeamDTO $team, Season $season): int
     {
         $teamDrivers = $team->getDrivers();
         $points = 0;

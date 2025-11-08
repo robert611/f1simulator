@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Integration\Service\GameSimulation;
 
+use Domain\Contract\Configuration\TeamsStrength;
 use Domain\Contract\DTO\DriverDTO;
-use Domain\Model\Configuration\TeamsStrength;
-use Tests\Common\Fixtures;
-use Domain\Service\GameSimulation\QualificationsHelperService;
+use Domain\Contract\GameSimulation\QualificationsHelperService;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Tests\Common\Fixtures;
 
 class QualificationsHelperServiceTest extends KernelTestCase
 {

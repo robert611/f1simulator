@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Multiplayer\Service\GameSimulation;
 
+use Domain\Contract\GameSimulation\QualificationsHelperService;
 use Domain\DomainFacadeInterface;
-use Domain\Service\GameSimulation\QualificationsHelperService;
 use Multiplayer\Entity\UserSeason;
 use Multiplayer\Entity\UserSeasonPlayer;
 use Multiplayer\Model\GameSimulation\LeagueQualificationResult;

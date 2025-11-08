@@ -6,14 +6,17 @@ namespace Domain;
 
 use Domain\Contract\DTO\DriverDTO;
 use Domain\Contract\DTO\TeamDTO;
+use Domain\Contract\DTO\TrackDTO;
 use Domain\Repository\DriverRepository;
 use Domain\Repository\TeamRepository;
+use Domain\Repository\TrackRepository;
 
 class DomainFacade implements DomainFacadeInterface
 {
     public function __construct(
         private readonly TeamRepository $teamRepository,
         private readonly DriverRepository $driverRepository,
+        private readonly TrackRepository $trackRepository,
     ) {
     }
 
@@ -27,6 +30,43 @@ class DomainFacade implements DomainFacadeInterface
         $teams = $this->teamRepository->getTeamsByDriversIds($driversIds);
 
         return TeamDTO::fromEntityCollection($teams);
+    }
+
+    public function getTeamById(int $teamId): ?TeamDTO
+    {
+        $team = $this->teamRepository->find($teamId);
+
+        if (null === $team) {
+            return null;
+        }
+
+        return TeamDTO::fromEntity($team);
+    }
+
+    /**
+     * @return TeamDTO[]
+     */
+    public function getAllTeams(): array
+    {
+        $teams = $this->teamRepository->getTeamsWithDrivers();
+
+        return TeamDTO::fromEntityCollection($teams);
+    }
+
+    /**
+     * @param int $driverId
+     *
+     * @return DriverDTO|null
+     */
+    public function getDriverById(int $driverId): ?DriverDTO
+    {
+        $driver = $this->driverRepository->find($driverId);
+
+        if (null === $driver) {
+            return null;
+        }
+
+        return DriverDTO::fromEntity($driver);
     }
 
     /**
@@ -49,5 +89,53 @@ class DomainFacade implements DomainFacadeInterface
         $drivers = $this->driverRepository->findAllWithTeams();
 
         return DriverDTO::fromEntityCollection($drivers);
+    }
+
+    public function getTracksCount(): int
+    {
+        return $this->trackRepository->count();
+    }
+
+    /**
+     * @return TrackDTO[]
+     */
+    public function getAllTracks(): array
+    {
+        $tracks = $this->trackRepository->findAll();
+
+        return TrackDTO::fromEntityCollection($tracks);
+    }
+
+    public function getFirstTrack(): ?TrackDTO
+    {
+        $track = $this->trackRepository->getFirstTrack();
+
+        if (null === $track) {
+            return null;
+        }
+
+        return TrackDTO::fromEntity($track);
+    }
+
+    public function getNextTrack(int $previousTrackId): ?TrackDTO
+    {
+        $track = $this->trackRepository->getNextTrack($previousTrackId);
+
+        if (null === $track) {
+            return null;
+        }
+
+        return TrackDTO::fromEntity($track);
+    }
+
+    public function getTrackById(int $trackId): ?TrackDTO
+    {
+        $track = $this->trackRepository->find($trackId);
+
+        if (null === $track) {
+            return null;
+        }
+
+        return TrackDTO::fromEntity($track);
     }
 }

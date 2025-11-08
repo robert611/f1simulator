@@ -7,7 +7,6 @@ namespace Multiplayer\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Domain\Entity\Track;
 use Multiplayer\Repository\UserSeasonRaceRepository;
 
 #[ORM\Entity(repositoryClass: UserSeasonRaceRepository::class)]
@@ -19,9 +18,8 @@ class UserSeasonRace
     #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
     private int $id;
 
-    #[ORM\ManyToOne(targetEntity: Track::class)]
-    #[ORM\JoinColumn(name: 'track_id', nullable: false)]
-    private Track $track;
+    #[ORM\Column(name: 'track_id', type: 'integer', nullable: false)]
+    private int $trackId;
 
     #[ORM\ManyToOne(targetEntity: UserSeason::class, inversedBy: 'races')]
     #[ORM\JoinColumn(name: 'season_id', nullable: false)]
@@ -44,14 +42,14 @@ class UserSeasonRace
         return $this->id;
     }
 
-    public function getTrack(): Track
+    public function getTrackId(): int
     {
-        return $this->track;
+        return $this->trackId;
     }
 
-    public function setTrack(Track $track): void
+    public function setTrackId(int $trackId): void
     {
-        $this->track = $track;
+        $this->trackId = $trackId;
     }
 
     public function getSeason(): UserSeason
@@ -110,10 +108,10 @@ class UserSeasonRace
         }
     }
 
-    public static function create(Track $track, UserSeason $userSeason): self
+    public static function create(int $trackId, UserSeason $userSeason): self
     {
         $userSeasonRace = new self();
-        $userSeasonRace->track = $track;
+        $userSeasonRace->trackId = $trackId;
         $userSeasonRace->season = $userSeason;
 
         return $userSeasonRace;

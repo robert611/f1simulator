@@ -11,16 +11,16 @@
             </thead>
             <tbody>
                 {% for result in currentDriverSeason.classification %}
-                    <tr class={{ result.driver == currentDriverSeason.season.driver ? 'highlight-driver'}}>
+                    <tr class={{ result.driverId == currentDriverSeason.driver.id ? 'highlight-driver'}}>
                         <td>{{ result.position }}</td>
-                        {% if result.driver == currentDriverSeason.season.driver %}
+                        {% if result.driverId == currentDriverSeason.driver.id %}
                             <td>{{ currentDriverSeason.season.user.username }}</td>
                         {% else %}
-                            <td>{{ result.driver.fullName }}</td>
+                            <td>{{ drivers[result.driverId].fullName }}</td>
                         {% endif %}
-                        <td>{{ result.driver.team.name }}</td>
+                        <td>{{ drivers[result.driverId].team.name }}</td>
                         <td>
-                            <img alt="{{ result.driver.team.name }}-car" class="f1-car-picture" src="/assets/cars/{{result.driver.team.picture}}"/>
+                            <img alt="{{ drivers[result.driverId].team.name }}-car" class="f1-car-picture" src="/assets/cars/{{drivers[result.driverId].team.picture}}"/>
                         </td>
                     </tr>
                 {% endfor %}

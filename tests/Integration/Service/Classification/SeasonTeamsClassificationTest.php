@@ -60,19 +60,19 @@ class SeasonTeamsClassificationTest extends KernelTestCase
 
         // and then
         $firstPlaceTeam = $classification->getTeamsSeasonResults()[0];
-        self::assertEquals($williams, $firstPlaceTeam->getTeam());
+        self::assertEquals($williams->getId(), $firstPlaceTeam->getTeam()->getId());
         self::assertEquals(1, $firstPlaceTeam->getPosition());
         self::assertEquals(40, $firstPlaceTeam->getPoints());
 
         // and then
         $secondPlaceTeam = $classification->getTeamsSeasonResults()[1];
-        self::assertEquals($alphaTauri, $secondPlaceTeam->getTeam());
+        self::assertEquals($alphaTauri->getId(), $secondPlaceTeam->getTeam()->getId());
         self::assertEquals(2, $secondPlaceTeam->getPosition());
         self::assertEquals(18, $secondPlaceTeam->getPoints());
 
         // and then
         $thirdPlaceTeam = $classification->getTeamsSeasonResults()[2];
-        self::assertEquals($renault, $thirdPlaceTeam->getTeam());
+        self::assertEquals($renault->getId(), $thirdPlaceTeam->getTeam()->getId());
         self::assertEquals(3, $thirdPlaceTeam->getPosition());
         self::assertEquals(12, $thirdPlaceTeam->getPoints());
     }

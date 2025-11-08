@@ -94,6 +94,14 @@ class Team
         /** @var Driver[] $drivers */
         $drivers = $this->getDrivers()->toArray();
 
+        return self::drawDriverToReplaceMethod($drivers);
+    }
+
+    /**
+     * @param Driver[] $drivers
+     */
+    public static function drawDriverToReplaceMethod(array $drivers): ?Driver
+    {
         if (empty($drivers)) {
             return null;
         }
