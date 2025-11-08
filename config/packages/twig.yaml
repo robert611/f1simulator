@@ -4,3 +4,4 @@ twig:
         '%kernel.project_dir%/src/Computer/templates': 'computer'
         '%kernel.project_dir%/src/Domain/templates': 'domain'
         '%kernel.project_dir%/src/Multiplayer/templates': 'multiplayer'
+        '%kernel.project_dir%/src/Security/templates': 'security'
