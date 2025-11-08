@@ -77,9 +77,9 @@ class LeagueTeamsClassificationTest extends KernelTestCase
         $track3 = $this->fixtures->aTrack('dutch', 'dutch.png');
 
         // and given
-        $race1 = $this->fixtures->aUserSeasonRace($track1, $userSeason);
-        $race2 = $this->fixtures->aUserSeasonRace($track2, $userSeason);
-        $race3 = $this->fixtures->aUserSeasonRace($track3, $userSeason);
+        $race1 = $this->fixtures->aUserSeasonRace($track1->getId(), $userSeason);
+        $race2 = $this->fixtures->aUserSeasonRace($track2->getId(), $userSeason);
+        $race3 = $this->fixtures->aUserSeasonRace($track3->getId(), $userSeason);
 
         // and given
         $this->fixtures->aUserSeasonRaceResult(1, 25, $race1, $userSeasonPlayer1);

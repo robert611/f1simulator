@@ -24,9 +24,8 @@ class RaceResult
     #[ORM\JoinColumn(name: 'race_id', nullable: false)]
     private Race $race;
 
-    #[ORM\ManyToOne(targetEntity: Driver::class, inversedBy: 'raceResults')]
-    #[ORM\JoinColumn(name: 'driver_id', nullable: false)]
-    private Driver $driver;
+    #[ORM\Column(name: 'driver_id', type: 'integer', nullable: false)]
+    private int $driverId;
 
     public function getId(): int
     {
@@ -53,22 +52,22 @@ class RaceResult
         $this->race = $race;
     }
 
-    public function getDriver(): Driver
+    public function getDriverId(): int
     {
-        return $this->driver;
+        return $this->driverId;
     }
 
-    public function setDriver(Driver $driver): void
+    public function setDriverId(int $driverId): void
     {
-        $this->driver = $driver;
+        $this->driverId = $driverId;
     }
 
-    public static function create(int $position, Race $race, Driver $driver): self
+    public static function create(int $position, Race $race, int $driverId): self
     {
         $raceResult = new self();
         $raceResult->position = $position;
         $raceResult->race = $race;
-        $raceResult->driver = $driver;
+        $raceResult->driverId = $driverId;
 
         return $raceResult;
     }

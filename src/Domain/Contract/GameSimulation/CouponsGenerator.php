@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Domain\Service\GameSimulation;
+namespace Domain\Contract\GameSimulation;
 
+use Domain\Contract\Configuration\QualificationAdvantage;
+use Domain\Contract\Configuration\TeamsStrength;
 use Domain\Contract\DTO\DriverDTO;
-use Domain\Model\Configuration\QualificationAdvantage;
-use Domain\Model\Configuration\TeamsStrength;
-use Domain\Entity\Driver;
 
 class CouponsGenerator
 {

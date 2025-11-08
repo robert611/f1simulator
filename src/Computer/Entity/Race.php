@@ -8,7 +8,6 @@ use Computer\Repository\RaceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Domain\Entity\Track;
 
 #[ORM\Entity(repositoryClass: RaceRepository::class)]
 #[ORM\Table(name: 'race')]
@@ -19,9 +18,8 @@ class Race
     #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
     private int $id;
 
-    #[ORM\ManyToOne(targetEntity: Track::class, inversedBy: 'races')]
-    #[ORM\JoinColumn(name: 'track_id', nullable: false)]
-    private Track $track;
+    #[ORM\Column(name: 'track_id', type: 'integer', nullable: false)]
+    private int $trackId;
 
     #[ORM\ManyToOne(targetEntity: Season::class, inversedBy: 'races')]
     #[ORM\JoinColumn(name: 'season_id', nullable: false)]
@@ -44,14 +42,14 @@ class Race
         return $this->id;
     }
 
-    public function getTrack(): Track
+    public function getTrackId(): int
     {
-        return $this->track;
+        return $this->trackId;
     }
 
-    public function setTrack(Track $track): void
+    public function setTrackId(int $trackId): void
     {
-        $this->track = $track;
+        $this->trackId = $trackId;
     }
 
     public function getSeason(): Season
@@ -110,10 +108,10 @@ class Race
         }
     }
 
-    public static function create(Track $track, Season $season): self
+    public static function create(int $trackId, Season $season): self
     {
         $race = new self();
-        $race->track = $track;
+        $race->trackId = $trackId;
         $race->season = $season;
 
         return $race;

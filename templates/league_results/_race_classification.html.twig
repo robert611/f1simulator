@@ -15,8 +15,8 @@
                     <tr>
                         <td>{{ result.position }}</td>
                         <td>{{ result.player.user.username }}</td>
-                        <td>{{ result.player.driver.team.name }}</td>
-                        <td><img class="f1-car-picture" src="/assets/cars/{{ result.player.driver.team.picture }}" /></td>
+                        <td>{{ drivers[result.player.driverId].team.name }}</td>
+                        <td><img class="f1-car-picture" src="/assets/cars/{{ drivers[result.player.driverId].team.picture }}" /></td>
                         <td>{{ result.points }}</td>
                     </tr>
                 {% endfor %}

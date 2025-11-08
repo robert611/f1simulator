@@ -107,7 +107,7 @@ class Fixtures
 
     public function aSeason(User $user, Driver $driver): Season
     {
-        $season = Season::Create($user, $driver);
+        $season = Season::Create($user, $driver->getId());
 
         $this->entityManager->persist($season);
         $this->entityManager->flush();
@@ -143,7 +143,7 @@ class Fixtures
         $userSeasonPlayer = UserSeasonPlayer::create(
             $userSeason,
             $user,
-            $driver,
+            $driver->getId(),
         );
 
         $userSeason->addPlayer($userSeasonPlayer);
@@ -154,9 +154,9 @@ class Fixtures
         return $userSeasonPlayer;
     }
 
-    public function aUserSeasonRace(Track $track, UserSeason $userSeason): UserSeasonRace
+    public function aUserSeasonRace(int $trackId, UserSeason $userSeason): UserSeasonRace
     {
-        $userSeasonRace = UserSeasonRace::create($track, $userSeason);
+        $userSeasonRace = UserSeasonRace::create($trackId, $userSeason);
 
         $this->entityManager->persist($userSeasonRace);
         $this->entityManager->flush();
@@ -207,7 +207,7 @@ class Fixtures
 
     public function aRace(Track $track, Season $season): Race
     {
-        $race = Race::Create($track, $season);
+        $race = Race::Create($track->getId(), $season);
 
         $season->addRace($race);
 
@@ -219,9 +219,8 @@ class Fixtures
 
     public function aRaceResult(int $position, Race $race, Driver $driver): RaceResult
     {
-        $raceResult = RaceResult::create($position, $race, $driver);
+        $raceResult = RaceResult::create($position, $race, $driver->getId());
 
-        $driver->addRaceResult($raceResult);
         $race->addRaceResult($raceResult);
 
         $this->entityManager->persist($raceResult);
@@ -232,7 +231,7 @@ class Fixtures
 
     public function aQualification(Driver $driver, Race $race, int $position): Qualification
     {
-        $qualification = Qualification::Create($driver, $race, $position);
+        $qualification = Qualification::Create($driver->getId(), $race, $position);
 
         $race->addQualification($qualification);
 

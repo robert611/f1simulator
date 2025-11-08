@@ -15,8 +15,8 @@
                     <tr>
                         <td>{{ i + 1 }}</td>
                         <td>{{ player.user.username }}</td>
-                        <td>{{ player.driver.team.name }}</td>
-                        <td><img class="f1-car-picture" src="/assets/cars/{{ player.driver.team.picture }}" alt="f1 car"/></td>
+                        <td>{{ drivers[player.driverId].team.name }}</td>
+                        <td><img class="f1-car-picture" src="/assets/cars/{{ drivers[player.driverId].team.picture }}" alt="f1 car"/></td>
                         <td>{{ player.points }}</td>
                     </tr>
                 {% endfor %}

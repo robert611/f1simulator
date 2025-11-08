@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Computer\Service\DriverStatistics;
 
-use Domain\Model\Configuration\RaceScoringSystem;
 use Computer\Entity\RaceResult;
 use Computer\Entity\Season;
-use Domain\Entity\Driver;
+use Domain\Contract\Configuration\RaceScoringSystem;
+use Domain\Contract\DTO\DriverDTO;
 
 class DriverPoints
 {
-    public static function getDriverPoints(Driver $driver, Season $season): int
+    public static function getDriverPoints(DriverDTO $driver, Season $season): int
     {
         $points = 0;
 
@@ -19,7 +19,7 @@ class DriverPoints
 
         foreach ($races as $race) {
             foreach ($race->getRaceResults() as $raceResult) {
-                if ($raceResult->getDriver()->getId() === $driver->getId()) {
+                if ($raceResult->getDriverId() === $driver->getId()) {
                     $points += RaceScoringSystem::getPositionScore($raceResult->getPosition());
                 }
             }

@@ -8,16 +8,16 @@ use Computer\Model\CurrentDriverSeason;
 use Computer\Repository\RaceRepository;
 use Computer\Repository\SeasonRepository;
 use Computer\Service\DriverStatistics\DriverPoints;
-use Domain\Repository\TrackRepository;
+use Domain\DomainFacadeInterface;
 
 class CurrentDriverSeasonService
 {
     public function __construct(
         private readonly SeasonRepository $seasonRepository,
-        private readonly TrackRepository $trackRepository,
         private readonly RaceRepository $raceRepository,
         private readonly SeasonClassifications $seasonClassifications,
         private readonly SeasonTeamsClassification $seasonTeamsClassification,
+        private readonly DomainFacadeInterface $domainFacade,
     ) {
     }
 
@@ -32,17 +32,17 @@ class CurrentDriverSeasonService
             return null;
         }
 
-        $driver = $season->getDriver();
+        $driver = $this->domainFacade->getDriverById($season->getDriverId());
 
         $driverPoints = DriverPoints::getDriverPoints($driver, $season);
 
         if ($season->getRaces()->last()) {
-            $currentTrack = $this->trackRepository->getNextTrack($season->getRaces()->last()->getTrack()->getId());
+            $currentTrack = $this->domainFacade->getNextTrack($season->getRaces()->last()->getTrackId());
         } else {
-            $currentTrack = $this->trackRepository->getFirstTrack();
+            $currentTrack = $this->domainFacade->getFirstTrack();
         }
 
-        $numberOfRacesInTheSeason = $this->trackRepository->count();
+        $numberOfRacesInTheSeason = $this->domainFacade->getTracksCount();
 
         $classification = $this->seasonClassifications->getClassificationBasedOnType(
             $season,
@@ -59,6 +59,7 @@ class CurrentDriverSeasonService
 
         return CurrentDriverSeason::create(
             $season,
+            $driver,
             $driverPoints,
             $season->getDriverPodiumsDTO(),
             $currentTrack,

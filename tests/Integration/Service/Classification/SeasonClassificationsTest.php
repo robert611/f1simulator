@@ -223,35 +223,35 @@ class SeasonClassificationsTest extends KernelTestCase
         // then
         self::assertCount(8, $classification->getDriversRaceResults());
 
-        self::assertEquals($driver8, $classification->getDriversRaceResults()[0]->getDriver());
+        self::assertEquals($driver8->getId(), $classification->getDriversRaceResults()[0]->getDriver()->getId());
         self::assertEquals(1, $classification->getDriversRaceResults()[0]->getPosition());
         self::assertEquals(25, $classification->getDriversRaceResults()[0]->getPoints());
 
-        self::assertEquals($driver7, $classification->getDriversRaceResults()[1]->getDriver());
+        self::assertEquals($driver7->getId(), $classification->getDriversRaceResults()[1]->getDriver()->getId());
         self::assertEquals(2, $classification->getDriversRaceResults()[1]->getPosition());
         self::assertEquals(18, $classification->getDriversRaceResults()[1]->getPoints());
 
-        self::assertEquals($driver6, $classification->getDriversRaceResults()[2]->getDriver());
+        self::assertEquals($driver6->getId(), $classification->getDriversRaceResults()[2]->getDriver()->getId());
         self::assertEquals(3, $classification->getDriversRaceResults()[2]->getPosition());
         self::assertEquals(15, $classification->getDriversRaceResults()[2]->getPoints());
 
-        self::assertEquals($driver1, $classification->getDriversRaceResults()[3]->getDriver());
+        self::assertEquals($driver1->getId(), $classification->getDriversRaceResults()[3]->getDriver()->getId());
         self::assertEquals(4, $classification->getDriversRaceResults()[3]->getPosition());
         self::assertEquals(12, $classification->getDriversRaceResults()[3]->getPoints());
 
-        self::assertEquals($driver2, $classification->getDriversRaceResults()[4]->getDriver());
+        self::assertEquals($driver2->getId(), $classification->getDriversRaceResults()[4]->getDriver()->getId());
         self::assertEquals(5, $classification->getDriversRaceResults()[4]->getPosition());
         self::assertEquals(10, $classification->getDriversRaceResults()[4]->getPoints());
 
-        self::assertEquals($driver3, $classification->getDriversRaceResults()[5]->getDriver());
+        self::assertEquals($driver3->getId(), $classification->getDriversRaceResults()[5]->getDriver()->getId());
         self::assertEquals(6, $classification->getDriversRaceResults()[5]->getPosition());
         self::assertEquals(8, $classification->getDriversRaceResults()[5]->getPoints());
 
-        self::assertEquals($driver4, $classification->getDriversRaceResults()[6]->getDriver());
+        self::assertEquals($driver4->getId(), $classification->getDriversRaceResults()[6]->getDriver()->getId());
         self::assertEquals(7, $classification->getDriversRaceResults()[6]->getPosition());
         self::assertEquals(6, $classification->getDriversRaceResults()[6]->getPoints());
 
-        self::assertEquals($driver5, $classification->getDriversRaceResults()[7]->getDriver());
+        self::assertEquals($driver5->getId(), $classification->getDriversRaceResults()[7]->getDriver()->getId());
         self::assertEquals(8, $classification->getDriversRaceResults()[7]->getPosition());
         self::assertEquals(4, $classification->getDriversRaceResults()[7]->getPoints());
     }
@@ -312,14 +312,14 @@ class SeasonClassificationsTest extends KernelTestCase
 
         // then
         self::assertEquals(8, count($classification));
-        self::assertEquals($driver8, $classification[0]->getDriver());
-        self::assertEquals($driver7, $classification[1]->getDriver());
-        self::assertEquals($driver6, $classification[2]->getDriver());
-        self::assertEquals($driver5, $classification[3]->getDriver());
-        self::assertEquals($driver4, $classification[4]->getDriver());
-        self::assertEquals($driver3, $classification[5]->getDriver());
-        self::assertEquals($driver2, $classification[6]->getDriver());
-        self::assertEquals($driver1, $classification[7]->getDriver());
+        self::assertEquals($driver8->getId(), $classification[0]->getDriverId());
+        self::assertEquals($driver7->getId(), $classification[1]->getDriverId());
+        self::assertEquals($driver6->getId(), $classification[2]->getDriverId());
+        self::assertEquals($driver5->getId(), $classification[3]->getDriverId());
+        self::assertEquals($driver4->getId(), $classification[4]->getDriverId());
+        self::assertEquals($driver3->getId(), $classification[5]->getDriverId());
+        self::assertEquals($driver2->getId(), $classification[6]->getDriverId());
+        self::assertEquals($driver1->getId(), $classification[7]->getDriverId());
     }
 
     #[Test]
@@ -379,35 +379,35 @@ class SeasonClassificationsTest extends KernelTestCase
         // then
         self::assertCount(8, $classification->getDriversRaceResults());
 
-        self::assertEquals($driver1, $classification->getDriversRaceResults()[0]->getDriver());
+        self::assertEquals($driver1->getId(), $classification->getDriversRaceResults()[0]->getDriver()->getId());
         self::assertEquals(1, $classification->getDriversRaceResults()[0]->getPosition());
         self::assertEquals(29, $classification->getDriversRaceResults()[0]->getPoints());
 
-        self::assertEquals($driver8, $classification->getDriversRaceResults()[1]->getDriver());
+        self::assertEquals($driver8->getId(), $classification->getDriversRaceResults()[1]->getDriver()->getId());
         self::assertEquals(2, $classification->getDriversRaceResults()[1]->getPosition());
         self::assertEquals(29, $classification->getDriversRaceResults()[1]->getPoints());
 
-        self::assertEquals($driver2, $classification->getDriversRaceResults()[2]->getDriver());
+        self::assertEquals($driver2->getId(), $classification->getDriversRaceResults()[2]->getDriver()->getId());
         self::assertEquals(3, $classification->getDriversRaceResults()[2]->getPosition());
         self::assertEquals(24, $classification->getDriversRaceResults()[2]->getPoints());
 
-        self::assertEquals($driver7, $classification->getDriversRaceResults()[3]->getDriver());
+        self::assertEquals($driver7->getId(), $classification->getDriversRaceResults()[3]->getDriver()->getId());
         self::assertEquals(4, $classification->getDriversRaceResults()[3]->getPosition());
         self::assertEquals(24, $classification->getDriversRaceResults()[3]->getPoints());
 
-        self::assertEquals($driver3, $classification->getDriversRaceResults()[4]->getDriver());
+        self::assertEquals($driver3->getId(), $classification->getDriversRaceResults()[4]->getDriver()->getId());
         self::assertEquals(5, $classification->getDriversRaceResults()[4]->getPosition());
         self::assertEquals(23, $classification->getDriversRaceResults()[4]->getPoints());
 
-        self::assertEquals($driver6, $classification->getDriversRaceResults()[5]->getDriver());
+        self::assertEquals($driver6->getId(), $classification->getDriversRaceResults()[5]->getDriver()->getId());
         self::assertEquals(6, $classification->getDriversRaceResults()[5]->getPosition());
         self::assertEquals(23, $classification->getDriversRaceResults()[5]->getPoints());
 
-        self::assertEquals($driver4, $classification->getDriversRaceResults()[6]->getDriver());
+        self::assertEquals($driver4->getId(), $classification->getDriversRaceResults()[6]->getDriver()->getId());
         self::assertEquals(7, $classification->getDriversRaceResults()[6]->getPosition());
         self::assertEquals(22, $classification->getDriversRaceResults()[6]->getPoints());
 
-        self::assertEquals($driver5, $classification->getDriversRaceResults()[7]->getDriver());
+        self::assertEquals($driver5->getId(), $classification->getDriversRaceResults()[7]->getDriver()->getId());
         self::assertEquals(8, $classification->getDriversRaceResults()[7]->getPosition());
         self::assertEquals(22, $classification->getDriversRaceResults()[7]->getPoints());
     }

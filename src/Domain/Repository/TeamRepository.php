@@ -36,4 +36,18 @@ class TeamRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * @return Team[]
+     */
+    public function getTeamsWithDrivers(): array
+    {
+        return $this->createQueryBuilder('t')
+            ->select('t')
+            ->addSelect('d')
+            ->leftJoin('t.drivers', 'd')
+            ->orderBy('t.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

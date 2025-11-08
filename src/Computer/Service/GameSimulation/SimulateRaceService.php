@@ -10,33 +10,32 @@ use Computer\Entity\RaceResult;
 use Computer\Entity\Season;
 use Computer\Model\GameSimulation\QualificationResultsCollection;
 use Doctrine\ORM\EntityManagerInterface;
-use Domain\Entity\Driver;
-use Domain\Repository\DriverRepository;
-use Domain\Repository\TrackRepository;
-use Domain\Service\GameSimulation\CouponsGenerator;
+use Domain\Contract\GameSimulation\CouponsGenerator;
+use Domain\DomainFacadeInterface;
+use Domain\Entity\Track;
 
 class SimulateRaceService
 {
     public function __construct(
-        private readonly DriverRepository $driverRepository,
         private readonly SimulateQualifications $simulateQualifications,
         private readonly CouponsGenerator $couponsGenerator,
-        private readonly TrackRepository $trackRepository,
         private readonly EntityManagerInterface $entityManager,
+        private readonly DomainFacadeInterface $domainFacade,
     ) {
     }
 
     public function simulateRace(Season $season): void
     {
+        /** @var ?Race $lastRace */
         $lastRace = $season->getRaces()->last();
 
         if ($lastRace) {
-            $track = $this->trackRepository->getNextTrack($lastRace->getTrack()->getId());
+            $track = $this->domainFacade->getNextTrack($lastRace->getTrackId());
         } else {
-            $track = $this->trackRepository->getFirstTrack();
+            $track = $this->domainFacade->getFirstTrack();
         }
 
-        $race = Race::create($track, $season);
+        $race = Race::create($track->getId(), $season);
         $season->addRace($race);
 
         $this->entityManager->persist($race);
@@ -49,7 +48,7 @@ class SimulateRaceService
         /* Save qualification results in a database */
         foreach ($qualificationResultsCollection->getQualificationResults() as $qualificationResult) {
             $qualification = Qualification::create(
-                $this->entityManager->getReference(Driver::class, $qualificationResult->getDriver()->getId()),
+                $qualificationResult->getDriver()->getId(),
                 $race,
                 $qualificationResult->getPosition(),
             );
@@ -60,8 +59,7 @@ class SimulateRaceService
 
         /* Save race results in a database */
         foreach ($raceResults as $position => $driverId) {
-            $driver = $this->driverRepository->find($driverId);
-            $raceResult = RaceResult::create($position, $race, $driver);
+            $raceResult = RaceResult::create($position, $race, $driverId);
             $race->addRaceResult($raceResult);
 
             $this->entityManager->persist($raceResult);
@@ -72,7 +70,7 @@ class SimulateRaceService
 
     public function getRaceResults(QualificationResultsCollection $qualificationResults): array
     {
-        $drivers = $this->driverRepository->findAll();
+        $drivers = $this->domainFacade->getAllDrivers();
 
         $results = [];
 

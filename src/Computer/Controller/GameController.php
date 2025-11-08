@@ -8,8 +8,8 @@ use Computer\Entity\Season;
 use Computer\Repository\SeasonRepository;
 use Computer\Service\GameSimulation\SimulateRaceService;
 use Doctrine\ORM\EntityManagerInterface;
-use Domain\Repository\TeamRepository;
-use Domain\Repository\TrackRepository;
+use Domain\DomainFacadeInterface;
+use Domain\Entity\Driver;
 use Shared\Controller\BaseController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,18 +19,17 @@ use Symfony\Component\Routing\Attribute\Route;
 class GameController extends BaseController
 {
     public function __construct(
-        private readonly TeamRepository $teamRepository,
         private readonly SeasonRepository $seasonRepository,
-        private readonly TrackRepository $trackRepository,
         private readonly SimulateRaceService $simulateRaceService,
         private readonly EntityManagerInterface $entityManager,
+        private readonly DomainFacadeInterface $domainFacade,
     ) {
     }
 
     #[Route('/game/season/start', name: 'game_season_start', methods: ['GET', 'POST'])]
     public function startSeason(Request $request): RedirectResponse
     {
-        $team = $this->teamRepository->find($request->get('teamId'));
+        $team = $this->domainFacade->getTeamById((int) $request->get('teamId'));
 
         $driver = $team->drawDriverToReplace();
 
@@ -39,10 +38,7 @@ class GameController extends BaseController
             return $this->redirectToRoute('app_index');
         }
 
-        $season = Season::create(
-            $this->getUser(),
-            $driver,
-        );
+        $season = Season::create($this->getUser(), $driver->getId());
 
         $this->entityManager->persist($season);
         $this->entityManager->flush();
@@ -60,7 +56,7 @@ class GameController extends BaseController
             return $this->redirectToRoute('app_index');
         }
 
-        $tracksCount = $this->trackRepository->count();
+        $tracksCount = $this->domainFacade->getTracksCount();
 
         if ($season->getRaces()->count() === $tracksCount) {
             $season->endSeason();
@@ -81,7 +77,7 @@ class GameController extends BaseController
             return $this->redirectToRoute('app_index');
         }
 
-        $tracksCount = $this->trackRepository->count();
+        $tracksCount = $this->domainFacade->getTracksCount();
 
         if ($season->getRaces()->count() === $tracksCount) {
             /* phpcs:ignore */

@@ -25,13 +25,14 @@ class SeasonTest extends TestCase
 
         // and given
         $driver = new Driver();
+        PrivateProperty::set($driver, 'id', 1);
 
         // when
-        $season = Season::create($user, $driver);
+        $season = Season::create($user, $driver->getId());
 
         // then
         self::assertEquals($user, $season->getUser());
-        self::assertEquals($driver, $season->getDriver());
+        self::assertEquals($driver->getId(), $season->getDriverId());
         self::assertFalse($season->getCompleted());
     }
 
@@ -39,7 +40,7 @@ class SeasonTest extends TestCase
     public function canEndSeason(): void
     {
         // given
-        $season = Season::create(new User(), new Driver());
+        $season = Season::create(new User(), 1);
 
         // when
         $season->endSeason();
@@ -54,7 +55,8 @@ class SeasonTest extends TestCase
         // given
         $team = Team::create('ferrari', 'ferrari.png');
         $driver = Driver::create('John', 'Doe', $team, 54);
-        $season = Season::create(new User(), $driver);
+        PrivateProperty::set($driver, 'id', 1);
+        $season = Season::create(new User(), $driver->getId());
 
         // and given
         $track1 = Track::create('silverstone', 'silverstone.png');
@@ -63,12 +65,18 @@ class SeasonTest extends TestCase
         $track4 = Track::create('usa', 'usa.png');
         $track5 = Track::create('belgium', 'belgium.png');
 
+        PrivateProperty::set($track1, 'id', 1);
+        PrivateProperty::set($track2, 'id', 2);
+        PrivateProperty::set($track3, 'id', 3);
+        PrivateProperty::set($track4, 'id', 4);
+        PrivateProperty::set($track5, 'id', 5);
+
         // and given
-        $race1 = Race::create($track1, $season);
-        $race2 = Race::create($track2, $season);
-        $race3 = Race::create($track3, $season);
-        $race4 = Race::create($track4, $season);
-        $race5 = Race::create($track5, $season);
+        $race1 = Race::create($track1->getId(), $season);
+        $race2 = Race::create($track2->getId(), $season);
+        $race3 = Race::create($track3->getId(), $season);
+        $race4 = Race::create($track4->getId(), $season);
+        $race5 = Race::create($track5->getId(), $season);
         PrivateProperty::set($race1, 'id', 1);
         PrivateProperty::set($race2, 'id', 2);
         PrivateProperty::set($race3, 'id', 3);
@@ -81,21 +89,16 @@ class SeasonTest extends TestCase
         $season->addRace($race5);
 
         // and given
-        $raceResult1 = RaceResult::create(1, $race1, $driver);
-        $raceResult2 = RaceResult::create(3, $race2, $driver);
-        $raceResult3 = RaceResult::create(0, $race3, $driver);
-        $raceResult4 = RaceResult::create(2, $race4, $driver);
-        $raceResult5 = RaceResult::create(2, $race5, $driver);
+        $raceResult1 = RaceResult::create(1, $race1, $driver->getId());
+        $raceResult2 = RaceResult::create(3, $race2, $driver->getId());
+        $raceResult3 = RaceResult::create(0, $race3, $driver->getId());
+        $raceResult4 = RaceResult::create(2, $race4, $driver->getId());
+        $raceResult5 = RaceResult::create(2, $race5, $driver->getId());
         $race1->addRaceResult($raceResult1);
         $race2->addRaceResult($raceResult2);
         $race3->addRaceResult($raceResult3);
         $race4->addRaceResult($raceResult4);
         $race5->addRaceResult($raceResult5);
-        $driver->addRaceResult($raceResult1);
-        $driver->addRaceResult($raceResult2);
-        $driver->addRaceResult($raceResult3);
-        $driver->addRaceResult($raceResult4);
-        $driver->addRaceResult($raceResult5);
 
         // when
         $driverPodiumsDTO = $season->getDriverPodiumsDTO();
