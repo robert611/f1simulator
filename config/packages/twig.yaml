@@ -2,4 +2,4 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     paths:
         '%kernel.project_dir%/src/Computer/templates': 'computer'
-
+        '%kernel.project_dir%/src/Domain/templates': 'domain'

@@ -24,7 +24,7 @@ class DriverController extends BaseController
     #[Route('/', name: 'driver_index', methods: ['GET'])]
     public function index(DriverRepository $driverRepository): Response
     {
-        return $this->render('driver/index.html.twig', [
+        return $this->render('@domain/driver/index.html.twig', [
             'drivers' => $driverRepository->findAll(),
         ]);
     }
@@ -43,7 +43,7 @@ class DriverController extends BaseController
             return $this->redirectToRoute('driver_index');
         }
 
-        return $this->render('driver/new.html.twig', [
+        return $this->render('@domain/driver/new.html.twig', [
             'driver' => $driver,
             'form' => $form->createView(),
         ]);
@@ -52,7 +52,7 @@ class DriverController extends BaseController
     #[Route('/{id}', name: 'driver_show', methods: ['GET'])]
     public function show(Driver $driver): Response
     {
-        return $this->render('driver/show.html.twig', [
+        return $this->render('@domain/driver/show.html.twig', [
             'driver' => $driver,
         ]);
     }
@@ -69,7 +69,7 @@ class DriverController extends BaseController
             return $this->redirectToRoute('driver_index');
         }
 
-        return $this->render('driver/edit.html.twig', [
+        return $this->render('@domain/driver/edit.html.twig', [
             'driver' => $driver,
             'form' => $form->createView(),
         ]);
