@@ -7,6 +7,13 @@
     border-right: 1px solid #dee2e6;
 }
 
+@media (max-width: 768px) {
+    .admin-sidebar {
+        height: 100vh;
+        top: 0;
+    }
+}
+
 .admin-sidebar .nav-link {
     color: black;
     font-weight: 500;

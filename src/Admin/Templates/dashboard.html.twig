@@ -12,9 +12,22 @@
     <div class="container-fluid">
         <div class="row flex-nowrap">
 
-            {# LEFT SIDEBAR #}
-            <div class="col-auto col-md-3 col-xl-2 px-sm-2 bg-light border-end admin-sidebar">
-                {% include '@admin/partials/_sidebar.html.twig' %}
+            {# BUTTON TOGGLE ONLY ON SMALL SCREENS #}
+            <div class="d-md-none py-2 bg-light border-bottom text-center">
+                <button class="btn btn-outline-primary" data-bs-toggle="offcanvas" data-bs-target="#adminSidebar">
+                    <i class="bi bi-list"></i> Menu
+                </button>
+            </div>
+
+            {# SIDEBAR AS OFFCANVAS FOR SMALL SCREENS + STICKY FOR LARGE SCREENS #}
+            <div class="offcanvas-md offcanvas-start bg-light border-end admin-sidebar" tabindex="-1" id="adminSidebar">
+                <div class="offcanvas-header d-md-none">
+                    <h5 class="offcanvas-title">Panel administratora</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Zamknij"></button>
+                </div>
+                <div class="offcanvas-body p-0">
+                    {% include '@admin/partials/_sidebar.html.twig' %}
+                </div>
             </div>
 
             {# MAIN CONTENT #}
