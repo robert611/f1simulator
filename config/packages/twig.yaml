@@ -3,3 +3,4 @@ twig:
     paths:
         '%kernel.project_dir%/src/Computer/templates': 'computer'
         '%kernel.project_dir%/src/Domain/templates': 'domain'
+        '%kernel.project_dir%/src/Multiplayer/templates': 'multiplayer'
