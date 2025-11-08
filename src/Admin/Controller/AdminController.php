@@ -11,9 +11,9 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/admin')]
 class AdminController extends BaseController
 {
-    #[Route('', name: 'app_admin', methods: ['GET'])]
+    #[Route('', name: 'admin_dashboard', methods: ['GET'])]
     public function admin(): Response
     {
-        return $this->render('@admin/admin.html.twig');
+        return $this->render('@admin/dashboard.html.twig');
     }
 }

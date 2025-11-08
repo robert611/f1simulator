@@ -1,0 +1,30 @@
+.admin-sidebar {
+    height: calc(100vh - 100px);
+    position: sticky;
+    top: 100px;
+    overflow-y: auto;
+    background-color: #f8f9fa;
+    border-right: 1px solid #dee2e6;
+}
+
+.admin-sidebar .nav-link {
+    color: black;
+    font-weight: 500;
+    padding: 0.5rem 0.75rem;
+    transition: all 0.2s ease;
+}
+
+.admin-sidebar .nav-link:hover {
+    background-color: #e9ecef;
+    color: #212529;
+}
+
+.admin-sidebar .nav-link.active {
+    background-color: #202731;
+    color: #fff;
+    font-weight: 600;
+}
+
+.admin-sidebar .nav-link i {
+    font-size: 1rem;
+}
