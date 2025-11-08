@@ -33,6 +33,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/driver, roles: ROLE_ADMIN }
         - { path: ^/game, roles: ROLE_USER }
         - { path: ^/teams, roles: ROLE_USER }

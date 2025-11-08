@@ -17,3 +17,7 @@ security:
 shared:
     resource: '../src/Shared/Controller'
     type: attribute
+
+admin:
+    resource: '../src/Admin/Controller'
+    type: attribute
