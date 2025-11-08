@@ -63,7 +63,7 @@ class IndexController extends BaseController
         /** @var DriverDTO[] $drivers */
         $drivers = HashTable::fromObjectArray($drivers, 'getId');
 
-        return $this->render('index.html.twig', [
+        return $this->render('@computer/index.html.twig', [
             'defaultDriversClassification' => $defaultDriversClassification,
             'classificationType' => $classificationType,
             'defaultTeamsClassification' => $defaultTeamsClassification,
