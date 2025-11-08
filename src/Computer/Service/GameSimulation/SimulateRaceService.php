@@ -26,10 +26,11 @@ class SimulateRaceService
 
     public function simulateRace(Season $season): void
     {
+        /** @var ?Race $lastRace */
         $lastRace = $season->getRaces()->last();
 
         if ($lastRace) {
-            $track = $this->domainFacade->getNextTrack($lastRace->getTrack()->getId());
+            $track = $this->domainFacade->getNextTrack($lastRace->getTrackId());
         } else {
             $track = $this->domainFacade->getFirstTrack();
         }

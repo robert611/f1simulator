@@ -25,13 +25,14 @@ class SeasonTest extends TestCase
 
         // and given
         $driver = new Driver();
+        PrivateProperty::set($driver, 'id', 1);
 
         // when
-        $season = Season::create($user, $driver);
+        $season = Season::create($user, $driver->getId());
 
         // then
         self::assertEquals($user, $season->getUser());
-        self::assertEquals($driver, $season->getDriver());
+        self::assertEquals($driver->getId(), $season->getDriverId());
         self::assertFalse($season->getCompleted());
     }
 
@@ -39,7 +40,7 @@ class SeasonTest extends TestCase
     public function canEndSeason(): void
     {
         // given
-        $season = Season::create(new User(), new Driver());
+        $season = Season::create(new User(), 1);
 
         // when
         $season->endSeason();
@@ -54,9 +55,8 @@ class SeasonTest extends TestCase
         // given
         $team = Team::create('ferrari', 'ferrari.png');
         $driver = Driver::create('John', 'Doe', $team, 54);
-        $season = Season::create(new User(), $driver);
-
         PrivateProperty::set($driver, 'id', 1);
+        $season = Season::create(new User(), $driver->getId());
 
         // and given
         $track1 = Track::create('silverstone', 'silverstone.png');

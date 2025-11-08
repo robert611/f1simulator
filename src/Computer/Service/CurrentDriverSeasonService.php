@@ -32,14 +32,12 @@ class CurrentDriverSeasonService
             return null;
         }
 
-        $driver = $season->getDriver();
-
-        $driver = $this->domainFacade->getDriverById($driver->getId());
+        $driver = $this->domainFacade->getDriverById($season->getDriverId());
 
         $driverPoints = DriverPoints::getDriverPoints($driver, $season);
 
         if ($season->getRaces()->last()) {
-            $currentTrack = $this->domainFacade->getNextTrack($season->getRaces()->last()->getTrack()->getId());
+            $currentTrack = $this->domainFacade->getNextTrack($season->getRaces()->last()->getTrackId());
         } else {
             $currentTrack = $this->domainFacade->getFirstTrack();
         }
@@ -61,6 +59,7 @@ class CurrentDriverSeasonService
 
         return CurrentDriverSeason::create(
             $season,
+            $driver,
             $driverPoints,
             $season->getDriverPodiumsDTO(),
             $currentTrack,

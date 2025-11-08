@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Controller;
 
+use Domain\Repository\DriverRepository;
 use Tests\Common\Fixtures;
 use Computer\Repository\SeasonRepository;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -16,12 +17,14 @@ class GameControllerTest extends WebTestCase
     private KernelBrowser $client;
     private Fixtures $fixtures;
     private SeasonRepository $seasonRepository;
+    private DriverRepository $driverRepository;
 
     public function setUp(): void
     {
         $this->client = self::createClient();
         $this->fixtures = self::getContainer()->get(Fixtures::class);
         $this->seasonRepository = self::getContainer()->get(SeasonRepository::class);
+        $this->driverRepository = self::getContainer()->get(DriverRepository::class);
     }
 
     #[Test]
@@ -43,8 +46,9 @@ class GameControllerTest extends WebTestCase
 
         // and then (User season is created in the database)
         $dbSeason = $this->seasonRepository->findOneBy([]);
+        $driver = $this->driverRepository->find($dbSeason->getDriverId());
         self::assertEquals($dbSeason->getUser()->getId(), $user->getId());
-        self::assertEquals($dbSeason->getDriver()->getTeam()->getId(), $team->getId());
+        self::assertEquals($driver->getTeam()->getId(), $team->getId());
         self::assertFalse($dbSeason->getCompleted());
     }
 

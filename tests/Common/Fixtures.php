@@ -107,7 +107,7 @@ class Fixtures
 
     public function aSeason(User $user, Driver $driver): Season
     {
-        $season = Season::Create($user, $driver);
+        $season = Season::Create($user, $driver->getId());
 
         $this->entityManager->persist($season);
         $this->entityManager->flush();

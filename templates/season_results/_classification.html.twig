@@ -13,10 +13,10 @@
             <tbody>
                 {% if currentDriverSeason %}
                     {% for driverRaceResult in currentDriverSeason.classification.driversRaceResults %}
-                        <tr class={{ currentDriverSeason.season and currentDriverSeason.season.driver == driverRaceResult.driver ? 'highlight-driver'}}>
+                        <tr class={{ currentDriverSeason.season and currentDriverSeason.driver.id == driverRaceResult.driver.id ? 'highlight-driver'}}>
                             <td>{{ driverRaceResult.position }}</td>
 
-                            {% if currentDriverSeason.season and currentDriverSeason.season.driver == driverRaceResult.driver %}
+                            {% if currentDriverSeason.season and currentDriverSeason.driver.id == driverRaceResult.driver.id %}
                                 <td>{{ currentDriverSeason.season.user.username }}</td>
                             {% else %}
                                 <td>{{ driverRaceResult.driver.fullName }}</td>

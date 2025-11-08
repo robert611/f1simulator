@@ -16,8 +16,8 @@
                     </div>
                     <div class="card-body flow-text">
                         <span>Kierowca: {{ player.user.username }} </span><br>
-                        <span>Zespół: {{ player.driver.team.name }}</span><br>
-                        <span>Numer samochodu: {{ player.driver.carNumber }}</span><br>
+                        <span>Zespół: {{ drivers[player.driverId].team.name }}</span><br>
+                        <span>Numer samochodu: {{ drivers[player.driverId].carNumber }}</span><br>
                         <span>Rozegrane wyścigi: {{ league.races|length }} / {{ numberOfRacesInSeason }}</span><br>
                         <span>Zdobyte punkty: {{ player.points }} </span><br>
 

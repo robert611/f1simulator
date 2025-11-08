@@ -38,10 +38,7 @@ class GameController extends BaseController
             return $this->redirectToRoute('app_index');
         }
 
-        $season = Season::create(
-            $this->getUser(),
-            $this->entityManager->getReference(Driver::class, $driver->getId()),
-        );
+        $season = Season::create($this->getUser(), $driver->getId());
 
         $this->entityManager->persist($season);
         $this->entityManager->flush();

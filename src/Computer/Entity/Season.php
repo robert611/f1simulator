@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Domain\Contract\Model\DriverPodiumsDictionary;
 use Domain\Contract\Model\DriverPodiumsDTO;
-use Domain\Entity\Driver;
 use Security\Entity\User;
 
 #[ORM\Entity(repositoryClass: SeasonRepository::class)]
@@ -22,9 +21,8 @@ class Season
     #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
     private int $id;
 
-    #[ORM\ManyToOne(targetEntity: Driver::class)]
-    #[ORM\JoinColumn(name: 'driver_id', nullable: false)]
-    private Driver $driver;
+    #[ORM\Column(name: 'driver_id', type: 'integer', nullable: false)]
+    private int $driverId;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'seasons')]
     #[ORM\JoinColumn(name: 'user_id', nullable: false)]
@@ -109,21 +107,21 @@ class Season
         }
     }
 
-    public function getDriver(): Driver
+    public function getDriverId(): int
     {
-        return $this->driver;
+        return $this->driverId;
     }
 
-    public function setDriver(Driver $driver): void
+    public function setDriverId(int $driverId): void
     {
-        $this->driver = $driver;
+        $this->driverId = $driverId;
     }
 
-    public static function create(User $user, Driver $driver): self
+    public static function create(User $user, int $driverId): self
     {
         $season = new self();
         $season->user = $user;
-        $season->driver = $driver;
+        $season->driverId = $driverId;
         $season->completed = false;
 
         return $season;
@@ -140,7 +138,7 @@ class Season
 
         $podiumsTable = DriverPodiumsDictionary::getPodiumsTable();
 
-        $driverId = $this->driver->getId();
+        $driverId = $this->getDriverId();
 
         foreach ($races as $race) {
             $raceResultCollection = $race->getRaceResults()->filter(function (RaceResult $result) use ($driverId) {

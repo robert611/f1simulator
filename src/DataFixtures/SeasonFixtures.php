@@ -21,7 +21,7 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
             $user = $this->getReference('user.' . $data['user_id'], User::class);
             $driver = $this->getReference('driver.' . $data['driver_id'], Driver::class);
 
-            $season = Season::create($user, $driver);
+            $season = Season::create($user, $driver->getId());
 
             if ($data['completed']) {
                 $season->endSeason();

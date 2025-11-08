@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Multiplayer\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Domain\Contract\DTO\DriverDTO;
 use Domain\Contract\DTO\TrackDTO;
 use Domain\DomainFacadeInterface;
 use Domain\Entity\Driver;
@@ -124,6 +125,10 @@ class UserSeasonController extends BaseController
         /** @var TrackDTO[] $tracks */
         $tracks = HashTable::fromObjectArray($tracks, 'getId');
 
+        $drivers = $this->domainFacade->getAllDrivers();
+        /** @var DriverDTO[] $drivers */
+        $drivers = HashTable::fromObjectArray($drivers, 'getId');
+
         if ($season->getRaces()->count() === 0) {
             $classificationType = ClassificationType::PLAYERS;
         }
@@ -149,6 +154,7 @@ class UserSeasonController extends BaseController
             'track' => $track,
             'lastTrack' => $lastTrack,
             'tracks' => $tracks,
+            'drivers' => $drivers,
             'classificationType' => $classificationType,
             'classification' => $classification,
             'teamsClassification' => $teamsClassification

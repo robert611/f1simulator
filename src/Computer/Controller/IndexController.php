@@ -8,7 +8,11 @@ use Computer\Service\ClassificationType;
 use Computer\Service\CurrentDriverSeasonService;
 use Computer\Service\SeasonClassifications;
 use Computer\Service\SeasonTeamsClassification;
+use Domain\Contract\DTO\DriverDTO;
+use Domain\Contract\DTO\TrackDTO;
+use Domain\DomainFacadeInterface;
 use Shared\Controller\BaseController;
+use Shared\HashTable;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,6 +24,7 @@ class IndexController extends BaseController
         private readonly CurrentDriverSeasonService $currentDriverSeasonService,
         private readonly SeasonClassifications $seasonClassifications,
         private readonly SeasonTeamsClassification $seasonTeamsClassification,
+        private readonly DomainFacadeInterface $domainFacade,
     ) {
     }
 
@@ -50,11 +55,21 @@ class IndexController extends BaseController
 
         $defaultTeamsClassification = $this->seasonTeamsClassification->getDefaultTeamsClassification();
 
+        $tracks = $this->domainFacade->getAllTracks();
+        /** @var TrackDTO[] $tracks */
+        $tracks = HashTable::fromObjectArray($tracks, 'getId');
+
+        $drivers = $this->domainFacade->getAllDrivers();
+        /** @var DriverDTO[] $drivers */
+        $drivers = HashTable::fromObjectArray($drivers, 'getId');
+
         return $this->render('index.html.twig', [
             'defaultDriversClassification' => $defaultDriversClassification,
             'classificationType' => $classificationType,
             'defaultTeamsClassification' => $defaultTeamsClassification,
             'currentDriverSeason' => $currentDriverSeason,
+            'tracks' => $tracks,
+            'drivers' => $drivers,
         ]);
     }
 
