@@ -57,24 +57,26 @@
                         </div>
                     {% endif %}
                 </div>
-                <div class="card custom-card mt-5 mb-2">
-                    {% if currentDriverSeason and currentDriverSeason.currentTrack %}
-                        <div class="card-header"> 
-                            <h4>Kolejny wyścig</h4> 
-                        </div>
-                        <div class="card-body flow-text">
-                            <span>{{ currentDriverSeason.currentTrack.name }} - <a href="{{ path('game_simulate_race') }}" class="btn btn-outline-info">Symuluj</a></span><br>
-                            <img alt="{{ currentDriverSeason.currentTrack.name }}" class="f1-track mt-3" src="{{ asset('assets/tracks/'~currentDriverSeason.currentTrack.picture) }}"/>
-                        </div>
-                    {% elseif currentDriverSeason %}
-                        <div class="card-header"> 
-                            <h4>Koniec sezonu</h4> 
-                        </div> 
-                        <div class="card-body flow-text"> 
-                            <a href="{{ path('game_season_end') }}" class="btn btn-outline-info-darker">Zakończ sezon</a>
-                        </div>
-                    {% endif %}
-                </div>
+                {% if currentDriverSeason is not same as(null) %}
+                    <div class="card custom-card mt-5 mb-2">
+                        {% if currentDriverSeason and currentDriverSeason.currentTrack %}
+                            <div class="card-header">
+                                <h4>Kolejny wyścig</h4>
+                            </div>
+                            <div class="card-body flow-text">
+                                <span>{{ currentDriverSeason.currentTrack.name }} - <a href="{{ path('game_simulate_race') }}" class="btn btn-outline-info">Symuluj</a></span><br>
+                                <img alt="{{ currentDriverSeason.currentTrack.name }}" class="f1-track mt-3" src="{{ asset('assets/tracks/'~currentDriverSeason.currentTrack.picture) }}"/>
+                            </div>
+                        {% elseif currentDriverSeason %}
+                            <div class="card-header">
+                                <h4>Koniec sezonu</h4>
+                            </div>
+                            <div class="card-body flow-text">
+                                <a href="{{ path('game_season_end') }}" class="btn btn-outline-info-darker">Zakończ sezon</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
             </div>
             <div class="col-xs-12 col-md-9">
                 <div class="row position-relative">
@@ -138,7 +140,7 @@
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-4">
-                        <div class="card">
+                        <div class="card custom-card">
                             <div class="card-header">
                                 <h4 class="text-center">Klasyfikacja konstruktorów</h4>
                             </div>
