@@ -10,7 +10,7 @@
         <h3 class="text-justify text-center mb-5">{{ league.getName() }}</h3>
         <div class="row">
             <div class="col-xs-12 col-md-3">
-                <div class="card">
+                <div class="card custom-card">
                     <div class="card-header">
                         <h4>Statystyki</h4>
                     </div>
@@ -21,7 +21,7 @@
                         <span>Rozegrane wyścigi: {{ league.races|length }} / {{ numberOfRacesInSeason }}</span><br>
                         <span>Zdobyte punkty: {{ player.points }} </span><br>
 
-                        <hr>
+                        <hr class="light-hr">
                         <div class="driver-medals mt-2">
                             <div class="row">
                                 <div class="col gold-medal mb-1">
@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 {% if track.name is defined %}
-                    <div class="card mt-5 mb-2">
+                    <div class="card custom-card mt-5 mb-2">
                         <div class="card-header"> 
                             <h4>Kolejny wyścig</h4> 
                         </div>
@@ -51,7 +51,7 @@
                         </div> 
                     </div>
                 {% else %}    
-                    <div class="card mt-5 mb-2">
+                    <div class="card custom-card mt-5 mb-2">
                         <div class="card-header"> 
                             <h4>Poprzedni wyścig</h4> 
                         </div>
@@ -63,7 +63,7 @@
                 {% endif %}
             </div>
             <div class="col-xs-12 col-md-9">
-                <div class="row">
+                <div class="row position-relative">
                     <div class="col-xs-12 col-md-8">
                         <div class="middle-section-menu">
                             <div>
@@ -101,7 +101,7 @@
                         <div class="midlle-section-dropdown-content">
 
                         </div>
-                        <div class="card mt-3 mb-2">
+                        <div class="card custom-card mt-3 mb-2">
                             {% if classificationType == enum('Multiplayer\\Service\\ClassificationType').PLAYERS %}
                                 <div class="card-header">
                                     <h4 class="text-center">Klasyfikacja kierowców</h4>
@@ -130,7 +130,7 @@
                         <div class="row">
                             {% if league.owner == player.getUser() %}
                                 <div class="col-xs-12 col-md-12 mb-5">
-                                    <div class="card flow-text">
+                                    <div class="card custom-card flow-text">
                                         <div class="card-header">
                                             <h4 class="text-center">Zarządzanie {{ league.getName() }}</h4>
                                         </div>
@@ -169,7 +169,7 @@
                                 </div> 
                             {% endif %}
                             <div class="col-xs-12 col-md-12">
-                                <div class="card">
+                                <div class="card custom-card">
                                     <div class="card-header">
                                         <h4 class="text-center">Klasyfikacja konstruktorów</h4>
                                     </div>
