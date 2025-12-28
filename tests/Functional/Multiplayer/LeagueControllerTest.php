@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Functional\Multiplayer;
 
+use Multiplayer\Repository\UserSeasonQualificationsRepository;
+use Multiplayer\Repository\UserSeasonRaceResultsRepository;
 use Tests\Common\Fixtures;
 use Multiplayer\Repository\UserSeasonPlayersRepository;
 use PHPUnit\Framework\Attributes\Test;
@@ -15,12 +17,18 @@ class LeagueControllerTest extends WebTestCase
     private KernelBrowser $client;
     private Fixtures $fixtures;
     private UserSeasonPlayersRepository $userSeasonPlayerRepository;
+    private UserSeasonQualificationsRepository $userSeasonQualificationsRepository;
+    private UserSeasonRaceResultsRepository $userSeasonRaceResultsRepository;
 
     public function setUp(): void
     {
         $this->client = self::createClient();
         $this->fixtures = self::getContainer()->get(Fixtures::class);
         $this->userSeasonPlayerRepository = self::getContainer()->get(UserSeasonPlayersRepository::class);
+        $this->userSeasonQualificationsRepository = self::getContainer()->get(
+            UserSeasonQualificationsRepository::class,
+        );
+        $this->userSeasonRaceResultsRepository = self::getContainer()->get(UserSeasonRaceResultsRepository::class);
     }
 
     #[Test]
@@ -62,5 +70,42 @@ class LeagueControllerTest extends WebTestCase
         self::assertEquals($userSeasonPlayer->getDriverId(), $driver->getId());
         self::assertEquals($userSeasonPlayer->getUser(), $user);
         self::assertEquals($userSeasonPlayer->getSeason(), $userSeason);
+    }
+
+    #[Test]
+    public function it_checks_if_will_race_be_simulated(): void
+    {
+        // given
+        $user = $this->fixtures->aUser();
+        $this->client->loginUser($user);
+
+        // and given
+        $team = $this->fixtures->aTeam();
+        $driver = $this->fixtures->aDriver("Lewis", "Hamilton", $team, 44);
+
+        // and given
+        $secret = "J783NMS092C";
+        $userSeason = $this->fixtures->aUserSeason(
+            $secret,
+            10,
+            $user,
+            "Liga szybkich kierowców",
+            false,
+            false,
+        );
+
+        // and given
+        $this->fixtures->aUserSeasonPlayer($userSeason, $user, $driver);
+
+        // and given
+        $this->fixtures->aTrack('silverstone', 'silverstone.png');
+
+        // when
+        $this->client->request('GET', "/league/{$userSeason->getId()}/simulate/race");
+
+        // then
+        self::assertResponseRedirects("/multiplayer/{$userSeason->getId()}/show");
+        self::assertEquals(1, $this->userSeasonQualificationsRepository->count());
+        self::assertEquals(1, $this->userSeasonRaceResultsRepository->count());
     }
 }

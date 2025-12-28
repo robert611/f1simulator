@@ -54,7 +54,7 @@ class UserSeasonController extends BaseController
         if ($form->isSubmitted() && $form->isValid()) {
             $userSeasonRepository = $this->entityManager->getRepository(UserSeason::class);
 
-            if ($userSeasonRepository->count(['owner' => $this->getUser()]) >= 3) {
+            if ($userSeasonRepository->count(['owner' => $this->getUser(), 'completed' => false]) >= 3) {
                 $this->addFlash('warning', 'W jednym momencie możesz mieć maksymalnie trzy nieukończone ligi');
 
                 return $this->redirectToRoute('multiplayer_index');
