@@ -16,20 +16,22 @@
             <div class="container">
                 <span class="navbar-brand mb-0 h1"><a href="{{ path('app_index') }}" class="text-decoration-none text-white">F1 Simulator</a></span>
 
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                
-                <ul class="navbar-nav my-2 my-lg-0">
-                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <li class="nav-item"><a class="nav-link text-white" href="{{ path('multiplayer_index') }}">Multiplayer</a></li>
-                        <li class="nav-item"><a class="nav-link text-white" href="">Hello:  {{ app.user.username }} </a></li>
-                        <li class="nav-item"><a class="nav-link text-white" href="{{ path('app_logout') }}">Logout</a></li>
-                    {% else %}
-                        <li class="nav-item"><a class="nav-link text-white" href="{{ path('app_login') }}">Logowanie</a></li>
-                        <li class="nav-item"><a class="nav-link text-white" href="{{ path('app_register') }}">Rejestracja</a></li>
-                    {% endif %}
-                </ul>
+
+                <div class="collapse navbar-collapse my-2 my-lg-0 justify-content-end" id="navbarSupportedContent">
+                    <ul class="navbar-nav">
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <li class="nav-item"><a class="nav-link text-white" href="{{ path('multiplayer_index') }}">Multiplayer</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="">Hello:  {{ app.user.username }} </a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="{{ path('app_logout') }}">Logout</a></li>
+                        {% else %}
+                            <li class="nav-item"><a class="nav-link text-white" href="{{ path('app_login') }}">Logowanie</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="{{ path('app_register') }}">Rejestracja</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
             </div>
         </nav>
 
