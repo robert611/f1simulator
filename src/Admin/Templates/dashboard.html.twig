@@ -10,20 +10,24 @@
 
 {% block body %}
     <div class="container-fluid">
-        <div class="row flex-nowrap">
+        <div class="row">
 
             {# BUTTON TOGGLE ONLY ON SMALL SCREENS #}
-            <div class="d-md-none py-2 bg-light border-bottom text-center">
-                <button class="btn btn-outline-primary" data-bs-toggle="offcanvas" data-bs-target="#adminSidebar">
-                    <i class="bi bi-list"></i> Menu
+            <div class="d-md-none py-2 bg-dark border-bottom text-center">
+                <button class="btn btn-dark w-100 d-flex align-items-center justify-content-center gap-2"
+                        type="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#adminSidebar">
+                    <i class="bi bi-list fs-4"></i>
+                    <span class="fw-semibold">Menu administratora</span>
                 </button>
             </div>
 
             {# SIDEBAR AS OFFCANVAS FOR SMALL SCREENS + STICKY FOR LARGE SCREENS #}
-            <div class="offcanvas-md offcanvas-start bg-light border-end admin-sidebar" tabindex="-1" id="adminSidebar">
+            <div class="offcanvas offcanvas-start bg-light border-end admin-sidebar" data-bs-scroll="true" tabindex="-1" id="adminSidebar">
                 <div class="offcanvas-header d-md-none">
                     <h5 class="offcanvas-title">Panel administratora</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Zamknij"></button>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Zamknij"></button>
                 </div>
                 <div class="offcanvas-body p-0">
                     {% include '@admin/partials/_sidebar.html.twig' %}
@@ -36,7 +40,8 @@
                     {# tutaj pojawi się treść poszczególnych widoków #}
                 {% endblock %}
             </div>
-
         </div>
     </div>
+
+
 {% endblock %}

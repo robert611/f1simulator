@@ -35,3 +35,11 @@
 .admin-sidebar .nav-link i {
     font-size: 1rem;
 }
+
+@media (min-width: 768px) {
+    #adminSidebar {
+        position: static;
+        transform: none !important;
+        visibility: visible !important;
+    }
+}
