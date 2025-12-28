@@ -105,8 +105,8 @@ input {
     background: -o-linear-gradient(left, rgba(182,33,7,1) 0%, rgba(157,23,6,1) 36%, rgba(192,40,17,1) 71%, rgba(188,39,17,1) 74%, rgba(151,28,17,1) 100%);
     background: -ms-linear-gradient(left, rgba(182,33,7,1) 0%, rgba(157,23,6,1) 36%, rgba(192,40,17,1) 71%, rgba(188,39,17,1) 74%, rgba(151,28,17,1) 100%);
     background: linear-gradient(to right, rgba(182,33,7,1) 0%, rgba(157,23,6,1) 36%, rgba(192,40,17,1) 71%, rgba(188,39,17,1) 74%, rgba(151,28,17,1) 100%);
-    min-width: 33%;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    min-width: 25%;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
     z-index: 1;
     top: 50px;
 }
@@ -125,6 +125,10 @@ input {
 .div-for-classification-results-anchors a:hover {
     background: rgb(165, 44, 23);
     color: white;
+}
+
+.custom-dropdown {
+    text-decoration: none;
 }
 
 @media only screen and (min-width: 960px)
