@@ -25,7 +25,7 @@
                             <td>{{ driver.carNumber }}</td>
                             <td>
                                 <a class="btn btn-outline-success" href="{{ path('driver_show', {'id': driver.id}) }}">Wyświetl</a>
-                                <a class="btn btn-outline-info" href="{{ path('driver_edit', {'id': driver.id}) }}">Edycja</a>
+                                <a class="btn btn-outline-info" href="{{ path('admin_driver_edit', {'id': driver.id}) }}">Edycja</a>
                             </td>
                         </tr>
                     {% else %}
