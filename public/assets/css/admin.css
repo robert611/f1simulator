@@ -1,4 +1,4 @@
-.admin-sidebar {
+.admin-desktop-sidebar {
     height: calc(100vh - 100px);
     position: sticky;
     top: 100px;
@@ -11,6 +11,10 @@
     .admin-sidebar {
         height: 100vh;
         top: 0;
+    }
+
+    #admin-desktop-sidebar {
+        display: none;
     }
 }
 
@@ -37,7 +41,7 @@
 }
 
 @media (min-width: 768px) {
-    #adminSidebar {
+    #admin-desktop-sidebar {
         position: static;
         transform: none !important;
         visibility: visible !important;

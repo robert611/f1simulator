@@ -9,6 +9,16 @@
 {% endblock %}
 
 {% block body %}
+    {# MOBILE OFFCANVAS #}
+    <div class="admin-sidebar offcanvas offcanvas-start d-md-none bg-light border-end"
+         tabindex="-1"
+         id="admin-sidebar-mobile">
+        <div class="offcanvas-body p-0">
+            {% include '@admin/partials/_sidebar.html.twig' %}
+        </div>
+    </div>
+    {# END OF MOBILE OFFCANVAS #}
+
     <div class="container-fluid">
         <div class="row">
             {# BUTTON TOGGLE ONLY ON SMALL SCREENS #}
@@ -16,14 +26,14 @@
                 <button class="btn btn-dark w-100 d-flex align-items-center justify-content-center gap-2"
                         type="button"
                         data-bs-toggle="offcanvas"
-                        data-bs-target="#adminSidebar">
+                        data-bs-target="#admin-sidebar-mobile">
                     <i class="bi bi-list fs-4"></i>
                     <span class="fw-semibold">Menu administratora</span>
                 </button>
             </div>
 
             {# SIDEBAR AS OFFCANVAS FOR SMALL SCREENS + STICKY FOR LARGE SCREENS #}
-            <div class="offcanvas offcanvas-start bg-light border-end admin-sidebar" data-bs-scroll="true" tabindex="-1" id="adminSidebar">
+            <div class="admin-sidebar admin-desktop-sidebar offcanvas offcanvas-start bg-light border-end" data-bs-scroll="true" tabindex="-1" id="admin-desktop-sidebar">
                 <div class="offcanvas-header d-md-none">
                     <h5 class="offcanvas-title">Panel administratora</h5>
                     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Zamknij"></button>
