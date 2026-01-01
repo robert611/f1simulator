@@ -89,4 +89,12 @@ class Driver
 
         return $driver;
     }
+
+    public function update(string $name, string $surname, Team $team, int $carNumber): void
+    {
+        $this->name = $name;
+        $this->surname = $surname;
+        $this->team = $team;
+        $this->carNumber = $carNumber;
+    }
 }

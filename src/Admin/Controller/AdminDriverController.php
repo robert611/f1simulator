@@ -6,6 +6,7 @@ namespace Admin\Controller;
 
 use Admin\Form\DriverFormModel;
 use Admin\Form\DriverType;
+use Domain\Contract\DriverServiceFacadeInterface;
 use Domain\DomainFacadeInterface;
 use Shared\Controller\BaseController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +18,7 @@ class AdminDriverController extends BaseController
 {
     public function __construct(
         private readonly DomainFacadeInterface $domainFacade,
+        private readonly DriverServiceFacadeInterface $driverServiceFacade,
     ) {
     }
 
@@ -37,6 +39,20 @@ class AdminDriverController extends BaseController
 
         $form = $this->createForm(DriverType::class, DriverFormModel::fromDriver($driver));
         $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var DriverFormModel $driverFormModel */
+            $driverFormModel = $form->getData();
+            $this->driverServiceFacade->update(
+                $driver->getId(),
+                $driverFormModel->name,
+                $driverFormModel->surname,
+                $driverFormModel->teamId,
+                $driverFormModel->carNumber,
+            );
+
+            return $this->redirectToRoute('admin_driver_edit', ['id' => $id]);
+        }
 
         return $this->render('@admin/admin_driver/edit.html.twig', [
             'driver' => $driver,
