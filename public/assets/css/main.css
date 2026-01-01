@@ -131,6 +131,10 @@ input {
     text-decoration: none;
 }
 
+.form-field-error ul {
+    margin-bottom: 0;
+}
+
 @media only screen and (min-width: 960px)
 {
     .flow-text {

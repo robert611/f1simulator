@@ -72,4 +72,44 @@ class AdminDriverControllerTest extends WebTestCase
         self::assertSelectorTextContains('body', $driver6->getName());
         self::assertSelectorTextContains('body', $driver6->getSurname());
     }
+
+    #[Test]
+    public function admin_driver_edit_form_can_be_displayed(): void
+    {
+        // given
+        $user = $this->fixtures->anAdmin();
+        $this->client->loginUser($user);
+
+        // and given
+        $teamFerrari = $this->fixtures->aTeamWithName('Ferrari');
+        $driver1 = $this->fixtures->aDriver('Charles', 'Leclerc', $teamFerrari, 16);
+
+        // when
+        $this->client->request('GET', "/admin-driver/{$driver1->getId()}/edit");
+
+        // then
+        self::assertResponseIsSuccessful();
+        $crawler = $this->client->getCrawler();
+
+        // and then
+        self::assertSame(
+            $driver1->getName(),
+            $crawler->filter('input[name="driver[name]"]')->attr('value'),
+        );
+        self::assertSame(
+            $driver1->getSurname(),
+            $crawler->filter('input[name="driver[surname]"]')->attr('value'),
+        );
+        self::assertSame(
+            (string) $driver1->getCarNumber(),
+            $crawler->filter('input[name="driver[carNumber]"]')->attr('value'),
+        );
+        $selectedTeamOption = $crawler
+            ->filter('select[name="driver[teamId]"] option[selected]')
+            ->first();
+        self::assertSame(
+            $driver1->getTeam()->getName(),
+            trim($selectedTeamOption->text())
+        );
+    }
 }
