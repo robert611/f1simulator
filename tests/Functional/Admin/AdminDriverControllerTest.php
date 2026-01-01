@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Functional\Admin;
 
+use Doctrine\ORM\Exception\ORMException;
+use Domain\Repository\DriverRepository;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -13,11 +15,13 @@ class AdminDriverControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
     private Fixtures $fixtures;
+    private DriverRepository $driverRepository;
 
     public function setUp(): void
     {
         $this->client = self::createClient();
         $this->fixtures = self::getContainer()->get(Fixtures::class);
+        $this->driverRepository = self::getContainer()->get(DriverRepository::class);
     }
 
     #[Test]
@@ -111,5 +115,41 @@ class AdminDriverControllerTest extends WebTestCase
             $driver1->getTeam()->getName(),
             trim($selectedTeamOption->text())
         );
+    }
+
+    /**
+     * @throws ORMException
+     */
+    #[Test]
+    public function admin_driver_edition_works(): void
+    {
+        // given
+        $user = $this->fixtures->anAdmin();
+        $this->client->loginUser($user);
+
+        // and given
+        $teamFerrari = $this->fixtures->aTeamWithName('Ferrari');
+        $teamRedBull = $this->fixtures->aTeamWithName('RedBull');
+        $driver = $this->fixtures->aDriver('Charles', 'Leclerc', $teamFerrari, 16);
+
+        // when
+        $crawler = $this->client->request('GET', "/admin-driver/{$driver->getId()}/edit");
+        $form = $crawler->selectButton('Zapisz')->form([
+            'driver[name]' => 'Lewis',
+            'driver[surname]' => 'Hamilton',
+            'driver[teamId]' => $teamRedBull->getId(),
+            'driver[carNumber]' => 88,
+        ]);
+        $this->client->submit($form);
+
+        // then
+        self::assertResponseRedirects("/admin-driver/{$driver->getId()}/edit");
+
+        // and then
+        $driver = $this->driverRepository->find($driver->getId());
+        self::assertSame('Lewis', $driver->getName());
+        self::assertSame('Hamilton', $driver->getSurname());
+        self::assertSame($teamRedBull->getId(), $driver->getTeam()->getId());
+        self::assertSame(88, $driver->getCarNumber());
     }
 }
