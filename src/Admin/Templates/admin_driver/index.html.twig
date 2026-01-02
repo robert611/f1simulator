@@ -3,7 +3,13 @@
 {% block title %}Panel administratora - Kierowcy | {{ parent() }}{% endblock %}
 
 {% block admin_content %}
-    <h3 class="text-center mt-4 mb-5">Zarządzanie kierowcami</h3>
+    <h3 class="text-center mt-4 mb-4">Zarządzanie kierowcami</h3>
+    <a href="{{ path('admin_driver_new') }}">
+        <button class="btn btn-success mb-3">
+            <i class="fa-solid fa-plus"></i>
+            Dodaj kierowcę
+        </button>
+    </a>
     <div class="card bg-dark mb-5">
         <div class="card-body">
             <table class="table table-dark table-hover">

@@ -32,6 +32,23 @@ class AdminDriverController extends BaseController
         ]);
     }
 
+    #[Route('/new', name: 'admin_driver_new', methods: ['GET', 'POST'])]
+    public function new(Request $request): Response
+    {
+        $driverFormModel = new DriverFormModel();
+        $form = $this->createForm(DriverType::class, $driverFormModel);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            return $this->redirectToRoute('admin_driver');
+        }
+
+        return $this->render('@admin/admin_driver/new.html.twig', [
+            'driverFormModel' => $driverFormModel,
+            'form' => $form->createView(),
+        ]);
+    }
+
     #[Route('/{id}/edit', name: 'admin_driver_edit', methods: ["GET", "POST"])]
     public function edit(Request $request, int $id): Response
     {
