@@ -12,35 +12,37 @@
     </a>
     <div class="card bg-dark mb-5">
         <div class="card-body">
-            <table class="table table-dark table-hover">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Imię</th>
-                        <th>Nazwisko</th>
-                        <th>Numer samochodu</th>
-                        <th>Akcje</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for driver in drivers %}
+            <div class="table-responsive">
+                <table class="table table-dark table-hover">
+                    <thead>
                         <tr>
-                            <td>{{ driver.id }}</td>
-                            <td>{{ driver.name }}</td>
-                            <td>{{ driver.surname }}</td>
-                            <td>{{ driver.carNumber }}</td>
-                            <td>
-                                <a class="btn btn-outline-success" href="{{ path('driver_show', {'id': driver.id}) }}">Wyświetl</a>
-                                <a class="btn btn-outline-info" href="{{ path('admin_driver_edit', {'id': driver.id}) }}">Edycja</a>
-                            </td>
+                            <th>Id</th>
+                            <th>Imię</th>
+                            <th>Nazwisko</th>
+                            <th>Numer samochodu</th>
+                            <th>Akcje</th>
                         </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="5">no records found</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {% for driver in drivers %}
+                            <tr>
+                                <td>{{ driver.id }}</td>
+                                <td>{{ driver.name }}</td>
+                                <td>{{ driver.surname }}</td>
+                                <td>{{ driver.carNumber }}</td>
+                                <td>
+                                    <a class="btn btn-outline-success mb-1 mb-md-0" href="{{ path('driver_show', {'id': driver.id}) }}">Wyświetl</a>
+                                    <a class="btn btn-outline-info mb-1 mb-md-0" href="{{ path('admin_driver_edit', {'id': driver.id}) }}">Edycja</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="5">no records found</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 {% endblock %}
