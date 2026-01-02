@@ -13,6 +13,10 @@
     <div class="admin-sidebar offcanvas offcanvas-start d-md-none bg-light border-end"
          tabindex="-1"
          id="admin-sidebar-mobile">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title text-uppercase text-muted">Panel administratora</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Zamknij"></button>
+        </div>
         <div class="offcanvas-body p-0">
             {% include '@admin/partials/_sidebar.html.twig' %}
         </div>
@@ -34,10 +38,6 @@
 
             {# SIDEBAR AS OFFCANVAS FOR SMALL SCREENS + STICKY FOR LARGE SCREENS #}
             <div class="admin-sidebar admin-desktop-sidebar offcanvas offcanvas-start bg-light border-end" data-bs-scroll="true" tabindex="-1" id="admin-desktop-sidebar">
-                <div class="offcanvas-header d-md-none">
-                    <h5 class="offcanvas-title">Panel administratora</h5>
-                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Zamknij"></button>
-                </div>
                 <div class="offcanvas-body p-0">
                     {% include '@admin/partials/_sidebar.html.twig' %}
                 </div>
