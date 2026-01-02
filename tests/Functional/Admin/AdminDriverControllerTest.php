@@ -78,6 +78,30 @@ class AdminDriverControllerTest extends WebTestCase
     }
 
     #[Test]
+    public function admin_driver_new_form_can_be_displayed(): void
+    {
+        // given
+        $user = $this->fixtures->anAdmin();
+        $this->client->loginUser($user);
+
+        // and given
+        $this->fixtures->aTeamWithName('Ferrari');
+
+        // when
+        $this->client->request('GET', "/admin-driver/new");
+
+        // then
+        self::assertResponseIsSuccessful();
+
+        // then
+        self::assertSelectorTextContains('body', 'Dodanie nowego kierowcy');
+        self::assertSelectorTextContains('body', 'Imię');
+        self::assertSelectorTextContains('body', 'Nazwisko');
+        self::assertSelectorTextContains('body', 'Numer samochodu');
+        self::assertSelectorTextContains('body', 'Zespół');
+    }
+
+    #[Test]
     public function admin_driver_edit_form_can_be_displayed(): void
     {
         // given
@@ -117,9 +141,6 @@ class AdminDriverControllerTest extends WebTestCase
         );
     }
 
-    /**
-     * @throws ORMException
-     */
     #[Test]
     public function admin_driver_edition_works(): void
     {
