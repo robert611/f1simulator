@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Functional\Admin;
 
-use Doctrine\ORM\Exception\ORMException;
 use Domain\Repository\DriverRepository;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -93,12 +92,72 @@ class AdminDriverControllerTest extends WebTestCase
         // then
         self::assertResponseIsSuccessful();
 
-        // then
+        // and then
         self::assertSelectorTextContains('body', 'Dodanie nowego kierowcy');
         self::assertSelectorTextContains('body', 'Imię');
         self::assertSelectorTextContains('body', 'Nazwisko');
         self::assertSelectorTextContains('body', 'Numer samochodu');
         self::assertSelectorTextContains('body', 'Zespół');
+    }
+
+    #[Test]
+    public function new_driver_car_number_must_be_unique(): void
+    {
+        // given
+        $user = $this->fixtures->anAdmin();
+        $this->client->loginUser($user);
+
+        // and given
+        $teamFerrari = $this->fixtures->aTeamWithName('Ferrari');
+        $driver = $this->fixtures->aDriver('Charles', 'Leclerc', $teamFerrari, 16);
+
+        // when
+        $crawler = $this->client->request('GET', "/admin-driver/new");
+        $form = $crawler->selectButton('Zapisz')->form([
+            'driver[name]' => 'Lewis',
+            'driver[surname]' => 'Hamilton',
+            'driver[teamId]' => $teamFerrari->getId(),
+            'driver[carNumber]' => $driver->getCarNumber(),
+        ]);
+        $this->client->submit($form);
+
+        // then
+        self::assertResponseIsSuccessful();
+
+        // and then
+        self::assertSelectorTextContains('body', 'Istnieje już kierowca z tym numerem samochodu');
+        self::assertEquals(1, $this->driverRepository->count());
+    }
+
+    #[Test]
+    public function new_driver_can_be_added(): void
+    {
+        // given
+        $user = $this->fixtures->anAdmin();
+        $this->client->loginUser($user);
+
+        // and given
+        $teamFerrari = $this->fixtures->aTeamWithName('Ferrari');
+
+        // when
+        $crawler = $this->client->request('GET', "/admin-driver/new");
+        $form = $crawler->selectButton('Zapisz')->form([
+            'driver[name]' => 'Lewis',
+            'driver[surname]' => 'Hamilton',
+            'driver[teamId]' => $teamFerrari->getId(),
+            'driver[carNumber]' => 88,
+        ]);
+        $this->client->submit($form);
+
+        // then
+        self::assertResponseRedirects("/admin-driver");
+
+        // follow redirection
+        $this->client->followRedirect();
+
+        // and then
+        self::assertSelectorTextContains('body', 'Dodano nowego kierowcę');
+        self::assertEquals(1, $this->driverRepository->count());
     }
 
     #[Test]

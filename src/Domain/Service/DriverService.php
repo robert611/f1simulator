@@ -6,6 +6,8 @@ namespace Domain\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Domain\Contract\DriverServiceFacadeInterface;
+use Domain\Contract\Exception\CarNumberTakenException;
+use Domain\Entity\Driver;
 use Domain\Repository\DriverRepository;
 use Domain\Repository\TeamRepository;
 
@@ -16,6 +18,26 @@ readonly class DriverService implements DriverServiceFacadeInterface
         private TeamRepository $teamRepository,
         private EntityManagerInterface $entityManager,
     ) {
+    }
+
+    /**
+     * @throws CarNumberTakenException
+     */
+    public function add(string $name, string $surname, int $teamId, int $carNumber): void
+    {
+        $driversWithCarNumber = $this->driverRepository->count(['carNumber' => $carNumber]);
+
+        if ($driversWithCarNumber > 0) {
+            throw new CarNumberTakenException();
+        }
+
+        $team = $this->teamRepository->find($teamId);
+
+        $driver = Driver::create($name, $surname, $team, $carNumber);
+        $team->addDriver($driver);
+
+        $this->entityManager->persist($driver);
+        $this->entityManager->flush();
     }
 
     public function update(int $driverId, string $name, string $surname, int $teamId, int $carNumber): void

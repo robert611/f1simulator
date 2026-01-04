@@ -7,8 +7,10 @@ namespace Admin\Controller;
 use Admin\Form\DriverFormModel;
 use Admin\Form\DriverType;
 use Domain\Contract\DriverServiceFacadeInterface;
+use Domain\Contract\Exception\CarNumberTakenException;
 use Domain\DomainFacadeInterface;
 use Shared\Controller\BaseController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -40,7 +42,23 @@ class AdminDriverController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            return $this->redirectToRoute('admin_driver');
+            /** @var DriverFormModel $driverFormModel */
+            $driverFormModel = $form->getData();
+
+            try {
+                $this->driverServiceFacade->add(
+                    $driverFormModel->name,
+                    $driverFormModel->surname,
+                    $driverFormModel->teamId,
+                    $driverFormModel->carNumber,
+                );
+
+                $this->addFlash('admin_success', 'Dodano nowego kierowcę');
+
+                return $this->redirectToRoute('admin_driver');
+            } catch (CarNumberTakenException) {
+                $form->addError(new FormError('Istnieje już kierowca z tym numerem samochodu'));
+            }
         }
 
         return $this->render('@admin/admin_driver/new.html.twig', [

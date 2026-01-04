@@ -45,6 +45,21 @@
 
             {# MAIN CONTENT #}
             <div class="col py-3">
+                {% if app.session.flashBag.has('admin_success') %}
+                    {% for msg in app.session.flashBag.get('admin_success') %}
+                        <div class="alert alert-success mt-3">
+                            {{ msg }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {% if app.session.flashBag.has('admin_error') %}
+                    {% for msg in app.session.flashBag.get('admin_error') %}
+                        <div class="alert alert-success mt-3">
+                            {{ msg }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
                 {% block admin_content %}
                     {# tutaj pojawi się treść poszczególnych widoków #}
                 {% endblock %}
