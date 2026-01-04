@@ -54,7 +54,7 @@
                 {% endif %}
                 {% if app.session.flashBag.has('admin_error') %}
                     {% for msg in app.session.flashBag.get('admin_error') %}
-                        <div class="alert alert-success mt-3">
+                        <div class="alert alert-danger mt-3">
                             {{ msg }}
                         </div>
                     {% endfor %}

@@ -8,7 +8,9 @@ use Admin\Form\DriverFormModel;
 use Admin\Form\DriverType;
 use Domain\Contract\DriverServiceFacadeInterface;
 use Domain\Contract\Exception\CarNumberTakenException;
+use Domain\Contract\Exception\DriverCannotBeDeletedException;
 use Domain\DomainFacadeInterface;
+use Domain\Entity\Driver;
 use Shared\Controller\BaseController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -93,5 +95,23 @@ class AdminDriverController extends BaseController
             'driver' => $driver,
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/{id}', name: 'admin_driver_delete', methods: ["POST", "DELETE"])]
+    public function delete(Request $request, int $id): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $id, $request->request->get('_token'))) {
+            try {
+                $this->driverServiceFacade->delete($id);
+                $this->addFlash('admin_success', 'Kierowca został usunięty');
+            } catch (DriverCannotBeDeletedException) {
+                $this->addFlash(
+                    'admin_error',
+                    'Kierowca nie może zostać usunięty ponieważ był użyty w istniejących sezonach',
+                );
+            }
+        }
+
+        return $this->redirectToRoute('admin_driver');
     }
 }
