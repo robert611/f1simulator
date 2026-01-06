@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Domain\Service;
 
+use Computer\ComputerFacadeInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Domain\Contract\DriverServiceFacadeInterface;
 use Domain\Contract\Exception\CarNumberTakenException;
@@ -19,6 +20,7 @@ readonly class DriverService implements DriverServiceFacadeInterface
         private DriverRepository $driverRepository,
         private TeamRepository $teamRepository,
         private MultiplayerFacadeInterface $multiplayerFacade,
+        private ComputerFacadeInterface $computerFacade,
         private EntityManagerInterface $entityManager,
     ) {
     }
@@ -69,6 +71,8 @@ readonly class DriverService implements DriverServiceFacadeInterface
             throw new DriverCannotBeDeletedException();
         }
 
-
+        if (false === $this->computerFacade->canDriverBeSafelyDeleted($driverId)) {
+            throw new DriverCannotBeDeletedException();
+        }
     }
 }
