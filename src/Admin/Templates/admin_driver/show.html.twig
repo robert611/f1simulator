@@ -1,9 +1,63 @@
 {% extends '@admin/dashboard.html.twig' %}
 
-{% block title %}Panel administratora - Kierowcy | {{ parent() }}{% endblock %}
+{% block title %}
+    Panel administratora – Kierowca {{ driver.fullName }} | {{ parent() }}
+{% endblock %}
 
 {% block admin_content %}
-    <h3 class="text-center mt-4 mb-5">Prezentacja kierowcy</h3>
+    <h3 class="text-center mt-4 mb-4">Szczegóły kierowcy</h3>
 
-    <a href="{{ path('admin_driver') }}" class="btn btn-dark">Powrót do listy</a>
+    <div class="mb-3 d-flex gap-2">
+        <a href="{{ path('admin_driver') }}" class="btn btn-dark">
+            Powrót do listy
+        </a>
+        <a href="{{ path('admin_driver_edit', {id: driver.id}) }}" class="btn btn-info">
+            Edytuj kierowcę
+        </a>
+    </div>
+
+    <div class="card bg-dark text-white mb-5">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12 col-lg-8">
+                    <h4 class="mb-3">{{ driver.fullName }}</h4>
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">ID</dt>
+                        <dd class="col-sm-8">{{ driver.id }}</dd>
+
+                        <dt class="col-sm-4">Imię</dt>
+                        <dd class="col-sm-8">{{ driver.name }}</dd>
+
+                        <dt class="col-sm-4">Nazwisko</dt>
+                        <dd class="col-sm-8">{{ driver.surname }}</dd>
+
+                        <dt class="col-sm-4">Numer samochodu</dt>
+                        <dd class="col-sm-8">
+                            <span class="badge bg-success fs-6">
+                                #{{ driver.carNumber }}
+                            </span>
+                        </dd>
+
+                        <dt class="col-sm-4">Zespół</dt>
+                        <dd class="col-sm-8">
+                            {{ driver.team.name }}
+                        </dd>
+                    </dl>
+                </div>
+                <div class="col-md-12 col-lg-4 text-center">
+                    {% if driver.team.picture %}
+                        <img
+                                src="{{ asset('/assets/cars/'~driver.team.picture) }}"
+                                alt="{{ driver.team.name }}"
+                                class="img-fluid rounded mb-2"
+                                style="max-height: 180px;"
+                        >
+                    {% endif %}
+                    <div class="fw-semibold">
+                        {{ driver.team.name }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
