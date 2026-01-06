@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Functional\Admin;
 
 use Domain\Repository\DriverRepository;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -21,6 +22,21 @@ class AdminDriverControllerTest extends WebTestCase
         $this->client = self::createClient();
         $this->fixtures = self::getContainer()->get(Fixtures::class);
         $this->driverRepository = self::getContainer()->get(DriverRepository::class);
+    }
+
+    #[Test]
+    #[DataProvider('provideUrls')]
+    public function only_admin_can_access_admin_driver_endpoints(string $method, string $url): void
+    {
+        // given
+        $user = $this->fixtures->aUser();
+        $this->client->loginUser($user);
+
+        // when
+        $this->client->request($method, $url);
+
+        // then
+        self::assertResponseStatusCodeSame(302);
     }
 
     #[Test]
@@ -320,5 +336,18 @@ class AdminDriverControllerTest extends WebTestCase
 
         // and then
         self::assertEquals(0, $this->driverRepository->count());
+    }
+
+    public static function provideUrls(): array
+    {
+        return [
+            ['GET', '/admin-driver'],
+            ['GET', '/admin-driver/new'],
+            ['POST', '/admin-driver/new'],
+            ['GET', '/admin-driver/1/edit'],
+            ['POST', '/admin-driver/1/edit'],
+            ['POST', '/admin-driver/1'],
+            ['DELETE', '/admin-driver/1'],
+        ];
     }
 }

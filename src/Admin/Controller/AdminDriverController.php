@@ -10,7 +10,6 @@ use Domain\Contract\DriverServiceFacadeInterface;
 use Domain\Contract\Exception\CarNumberTakenException;
 use Domain\Contract\Exception\DriverCannotBeDeletedException;
 use Domain\DomainFacadeInterface;
-use Domain\Entity\Driver;
 use Shared\Controller\BaseController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
