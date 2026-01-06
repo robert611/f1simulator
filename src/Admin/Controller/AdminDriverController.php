@@ -68,6 +68,16 @@ class AdminDriverController extends BaseController
         ]);
     }
 
+    #[Route('/{id}', name: 'admin_driver_show', methods: ['GET'])]
+    public function show(int $id): Response
+    {
+        $driver = $this->domainFacade->getDriverById($id);
+
+        return $this->render('@admin/admin_driver/show.html.twig', [
+            'driver' => $driver,
+        ]);
+    }
+
     #[Route('/{id}/edit', name: 'admin_driver_edit', methods: ["GET", "POST"])]
     public function edit(Request $request, int $id): Response
     {

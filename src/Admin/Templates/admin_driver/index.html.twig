@@ -31,7 +31,7 @@
                                 <td>{{ driver.surname }}</td>
                                 <td>{{ driver.carNumber }}</td>
                                 <td>
-                                    <a class="btn btn-outline-success mb-1 mb-md-0" href="{{ path('driver_show', {'id': driver.id}) }}">Wyświetl</a>
+                                    <a class="btn btn-outline-success mb-1 mb-md-0" href="{{ path('admin_driver_show', {'id': driver.id}) }}">Wyświetl</a>
                                     <a class="btn btn-outline-info mb-1 mb-md-0" href="{{ path('admin_driver_edit', {'id': driver.id}) }}">Edycja</a>
                                     <form method="post" class="display-inline" action="{{ path('admin_driver_delete', {'id': driver.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
                                         <input type="hidden" name="_method" value="DELETE">

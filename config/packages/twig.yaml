@@ -2,7 +2,6 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     paths:
         '%kernel.project_dir%/src/Computer/Templates': 'computer'
-        '%kernel.project_dir%/src/Domain/Templates': 'domain'
         '%kernel.project_dir%/src/Multiplayer/Templates': 'multiplayer'
         '%kernel.project_dir%/src/Security/Templates': 'security'
         '%kernel.project_dir%/src/Admin/Templates': 'admin'

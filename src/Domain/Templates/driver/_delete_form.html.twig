@@ -1,5 +1,0 @@
-<form method="post" class="display-inline" action="{{ path('driver_delete', {'id': driver.id}) }}" onsubmit="return confirm('Czy jesteś pewien? Ta operacja jest nieodwracalna.');">
-    <input type="hidden" name="_method" value="DELETE">
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ driver.id) }}">
-    <button class="btn btn-outline-danger">Delete</button>
-</form>
