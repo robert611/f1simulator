@@ -146,6 +146,31 @@ class AdminDriverControllerTest extends WebTestCase
     }
 
     #[Test]
+    public function admin_driver_show_page_can_be_displayed(): void
+    {
+        // given
+        $user = $this->fixtures->anAdmin();
+        $this->client->loginUser($user);
+
+        // and given
+        $teamFerrari = $this->fixtures->aTeamWithName('Ferrari');
+        $driver = $this->fixtures->aDriver('Charles', 'Leclerc', $teamFerrari, 16);
+
+        // when
+        $this->client->request('GET', "/admin-driver/{$driver->getId()}");
+
+        // then
+        self::assertResponseIsSuccessful();
+
+        // and then
+        self::assertSelectorTextContains('body', (string) $driver->getId());
+        self::assertSelectorTextContains('body', $driver->getName());
+        self::assertSelectorTextContains('body', $driver->getSurname());
+        self::assertSelectorTextContains('body', (string)$driver->getCarNumber());
+        self::assertSelectorTextContains('body', $driver->getTeam()->getName());
+    }
+
+    #[Test]
     public function new_driver_can_be_added(): void
     {
         // given
