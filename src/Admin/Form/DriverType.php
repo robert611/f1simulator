@@ -55,7 +55,7 @@ class DriverType extends AbstractType
 
     /**
      * @param TeamDTO[] $teams
-     * @return array<int, string>
+     * @return array<string, int>
      */
     private function teamsToChoiceList(array $teams): array
     {

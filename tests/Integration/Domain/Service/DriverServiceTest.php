@@ -41,6 +41,6 @@ class DriverServiceTest extends KernelTestCase
 
         // and then
         self::assertEquals($hass->getDrivers()->toArray(), [$driver]);
-        self::assertEmpty($williams->getDrivers());
+        self::assertEmpty($williams->getDrivers()->toArray());
     }
 }
