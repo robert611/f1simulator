@@ -74,5 +74,10 @@ readonly class DriverService implements DriverServiceFacadeInterface
         if (false === $this->computerFacade->canDriverBeSafelyDeleted($driverId)) {
             throw new DriverCannotBeDeletedException();
         }
+
+        $driver =  $this->driverRepository->find($driverId);
+
+        $this->entityManager->remove($driver);
+        $this->entityManager->flush();
     }
 }
