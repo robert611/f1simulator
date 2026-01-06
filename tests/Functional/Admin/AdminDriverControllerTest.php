@@ -232,4 +232,93 @@ class AdminDriverControllerTest extends WebTestCase
         self::assertSame($teamRedBull->getId(), $driver->getTeam()->getId());
         self::assertSame(88, $driver->getCarNumber());
     }
+
+    #[Test]
+    public function delete_csrf_token_must_be_valid(): void
+    {
+        // given
+        $user = $this->fixtures->anAdmin();
+        $this->client->loginUser($user);
+
+        // and given
+        $teamFerrari = $this->fixtures->aTeamWithName('Ferrari');
+        $driver = $this->fixtures->aDriver('Charles', 'Leclerc', $teamFerrari, 16);
+
+        // when
+        $this->client->request('DELETE', "/admin-driver/{$driver->getId()}", [
+            '_token' => 'invalid_token',
+        ]);
+
+        // then
+        self::assertResponseRedirects("/admin-driver");
+
+        // and then
+        self::assertEquals(1, $this->driverRepository->count());
+    }
+
+    #[Test]
+    public function driver_cannot_be_used_to_be_deleted(): void
+    {
+        // given
+        $user = $this->fixtures->anAdmin();
+        $this->client->loginUser($user);
+
+        // and given
+        $teamFerrari = $this->fixtures->aTeamWithName('Ferrari');
+        $driver = $this->fixtures->aDriver('Charles', 'Leclerc', $teamFerrari, 16);
+        $this->fixtures->aSeason($user, $driver);
+
+        // and given
+        $crawler = $this->client->request('GET', "/admin-driver");
+
+        // when
+        $form = $crawler->selectButton('Usuń')->form([]);
+        $this->client->submit($form);
+
+        // then
+        self::assertResponseRedirects("/admin-driver");
+
+        // follow redirection
+        $this->client->followRedirect();
+
+        // and then
+        self::assertSelectorTextContains(
+            '.alert-danger',
+            'Kierowca nie może zostać usunięty ponieważ był użyty w istniejących sezonach'
+        );
+
+        // and then
+        self::assertEquals(1, $this->driverRepository->count());
+    }
+
+    #[Test]
+    public function driver_can_be_deleted(): void
+    {
+        // given
+        $user = $this->fixtures->anAdmin();
+        $this->client->loginUser($user);
+
+        // and given
+        $teamFerrari = $this->fixtures->aTeamWithName('Ferrari');
+        $this->fixtures->aDriver('Charles', 'Leclerc', $teamFerrari, 16);
+
+        // and given
+        $crawler = $this->client->request('GET', "/admin-driver");
+
+        // when
+        $form = $crawler->selectButton('Usuń')->form([]);
+        $this->client->submit($form);
+
+        // follow redirection
+        $this->client->followRedirect();
+
+        // and then
+        self::assertSelectorTextContains(
+            '.alert-success',
+            'Kierowca został usunięty'
+        );
+
+        // and then
+        self::assertEquals(0, $this->driverRepository->count());
+    }
 }
