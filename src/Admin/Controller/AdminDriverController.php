@@ -6,6 +6,7 @@ namespace Admin\Controller;
 
 use Admin\Form\DriverFormModel;
 use Admin\Form\DriverType;
+use Computer\ComputerFacadeInterface;
 use Domain\Contract\DriverServiceFacadeInterface;
 use Domain\Contract\Exception\CarNumberTakenException;
 use Domain\Contract\Exception\DriverCannotBeDeletedException;
@@ -21,6 +22,7 @@ class AdminDriverController extends BaseController
 {
     public function __construct(
         private readonly DomainFacadeInterface $domainFacade,
+        private readonly ComputerFacadeInterface $computerFacade,
         private readonly DriverServiceFacadeInterface $driverServiceFacade,
     ) {
     }
@@ -72,9 +74,11 @@ class AdminDriverController extends BaseController
     public function show(int $id): Response
     {
         $driver = $this->domainFacade->getDriverById($id);
+        $driverComputerStatistics = $this->computerFacade->getDriverStatistics($driver->getId());
 
         return $this->render('@admin/admin_driver/show.html.twig', [
             'driver' => $driver,
+            'driverComputerStatistics' => $driverComputerStatistics
         ]);
     }
 

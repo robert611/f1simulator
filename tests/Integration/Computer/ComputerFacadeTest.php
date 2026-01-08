@@ -53,4 +53,25 @@ class ComputerFacadeTest extends KernelTestCase
         // then
         self::assertTrue($result);
     }
+
+    #[Test]
+    public function driver_statistics_will_be_returned(): void
+    {
+        // given
+        $user = $this->fixtures->aUser();
+
+        // and given
+        $team = $this->fixtures->aTeam();
+        $driver = $this->fixtures->aDriver("Lewis", "Hamilton", $team, 44);
+
+        // and given
+        $this->fixtures->aSeason($user, $driver);
+        $this->fixtures->aSeason($user, $driver);
+
+        // when
+        $result = $this->facade->getDriverStatistics($driver->getId());
+
+        // then
+        self::assertEquals(2, $result->getSeasonsPlayed());
+    }
 }

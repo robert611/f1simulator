@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Computer;
 
+use Computer\Contract\DriverComputerStatisticsDTO;
 use Computer\Repository\SeasonRepository;
 
 readonly class ComputerFacade implements ComputerFacadeInterface
@@ -20,5 +21,12 @@ readonly class ComputerFacade implements ComputerFacadeInterface
         }
 
         return true;
+    }
+
+    public function getDriverStatistics(int $driverId): DriverComputerStatisticsDTO
+    {
+        $seasonsPlayed = $this->seasonRepository->count(['driverId' => $driverId]);
+
+        return DriverComputerStatisticsDTO::create($seasonsPlayed);
     }
 }

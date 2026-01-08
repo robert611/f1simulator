@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Computer;
 
+use Computer\Contract\DriverComputerStatisticsDTO;
+
 interface ComputerFacadeInterface
 {
     /**
@@ -11,4 +13,9 @@ interface ComputerFacadeInterface
      * in this module, that makes it impossible to delete a driver without breaking database integrity
      */
     public function canDriverBeSafelyDeleted(int $driverId): bool;
+
+    /**
+     * This method returns a DTO with driver statistics in played seasons
+     */
+    public function getDriverStatistics(int $driverId): DriverComputerStatisticsDTO;
 }
