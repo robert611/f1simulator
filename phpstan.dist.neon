@@ -1,0 +1,15 @@
+parameters:
+    level: 5
+    treatPhpDocTypesAsCertain: false
+    paths:
+        - src/
+        - tests/
+    bootstrapFiles:
+        - vendor/autoload.php
+    excludePaths:
+        - tests/bootstrap.php
+    ignoreErrors:
+        -
+            message: '#Property .*\\Entity\\.*::\$id is never written, only read.#'
+        -
+            message: '#Call to an undefined method Symfony\\Component\\HttpFoundation\\Session\\SessionInterface::getFlashBag#'
