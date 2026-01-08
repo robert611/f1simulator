@@ -113,4 +113,9 @@ class Team
 
         return $drivers[$randomKey];
     }
+
+    public function getHighResolutionPicture(): string
+    {
+        return 'high_resolution/' . str_replace('png', 'avif', $this->picture);
+    }
 }

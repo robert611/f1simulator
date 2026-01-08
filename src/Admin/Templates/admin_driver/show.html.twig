@@ -18,43 +18,59 @@
 
     <div class="card bg-dark text-white mb-5">
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-12 col-lg-8">
-                    <h4 class="mb-3">{{ driver.fullName }}</h4>
-                    <dl class="row mb-0">
-                        <dt class="col-sm-4">ID</dt>
-                        <dd class="col-sm-8">{{ driver.id }}</dd>
+            <h4 class="mb-4 text-center text-lg-start">
+                {{ driver.fullName }}
+            </h4>
+            <div class="row g-4 align-items-start">
+                {# LEFT – DRIVER INFO #}
+                <div class="col-12 col-lg-8">
+                    <div class="list-group list-group-flush bg-dark">
 
-                        <dt class="col-sm-4">Imię</dt>
-                        <dd class="col-sm-8">{{ driver.name }}</dd>
+                        <div class="list-group-item bg-dark text-white d-flex justify-content-between">
+                            <span class="fw-semibold">ID</span>
+                            <span>{{ driver.id }}</span>
+                        </div>
 
-                        <dt class="col-sm-4">Nazwisko</dt>
-                        <dd class="col-sm-8">{{ driver.surname }}</dd>
+                        <div class="list-group-item bg-dark text-white d-flex justify-content-between">
+                            <span class="fw-semibold">Imię</span>
+                            <span>{{ driver.name }}</span>
+                        </div>
 
-                        <dt class="col-sm-4">Numer samochodu</dt>
-                        <dd class="col-sm-8">
+                        <div class="list-group-item bg-dark text-white d-flex justify-content-between">
+                            <span class="fw-semibold">Nazwisko</span>
+                            <span>{{ driver.surname }}</span>
+                        </div>
+
+                        <div class="list-group-item bg-dark text-white d-flex justify-content-between align-items-center">
+                            <span class="fw-semibold">Numer samochodu</span>
                             <span class="badge bg-success fs-6">
-                                #{{ driver.carNumber }}
-                            </span>
-                        </dd>
+                            #{{ driver.carNumber }}
+                        </span>
+                        </div>
 
-                        <dt class="col-sm-4">Zespół</dt>
-                        <dd class="col-sm-8">
-                            {{ driver.team.name }}
-                        </dd>
-                    </dl>
+                        <div class="list-group-item bg-dark text-white d-flex justify-content-between">
+                            <span class="fw-semibold">Zespół</span>
+                            <span>{{ driver.team.name }}</span>
+                        </div>
+
+                    </div>
                 </div>
-                <div class="col-md-12 col-lg-4 text-center">
-                    {% if driver.team.picture %}
-                        <img
-                                src="{{ asset('/assets/cars/'~driver.team.picture) }}"
-                                alt="{{ driver.team.name }}"
-                                class="img-fluid rounded mb-2"
-                                style="max-height: 180px;"
-                        >
-                    {% endif %}
-                    <div class="fw-semibold">
-                        {{ driver.team.name }}
+                {# RIGHT – TEAM CARD #}
+                <div class="col-12 col-lg-4">
+                    <div class="card bg-secondary text-white h-100 text-center p-3">
+
+                        {% if driver.team.picture %}
+                            <img
+                                    src="{{ asset('/assets/cars/' ~ driver.team.highResolutionPicture) }}"
+                                    alt="{{ driver.team.name }}"
+                                    class="img-fluid rounded mb-3"
+                                    style="max-height: 160px;"
+                            >
+                        {% endif %}
+
+                        <div class="fw-semibold fs-5">
+                            {{ driver.team.name }}
+                        </div>
                     </div>
                 </div>
             </div>
