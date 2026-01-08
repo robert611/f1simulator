@@ -64,4 +64,47 @@ class MultiplayerFacadeTest extends KernelTestCase
         // then
         self::assertTrue($result);
     }
+
+    #[Test]
+    public function driver_statistics_will_be_returned(): void
+    {
+        // given
+        $user = $this->fixtures->aUser();
+
+        // and given
+        $team = $this->fixtures->aTeam();
+        $driver = $this->fixtures->aDriver("Lewis", "Hamilton", $team, 44);
+
+        // and given
+        $secret = "J783NMS092C";
+        $userSeason1 = $this->fixtures->aUserSeason(
+            $secret,
+            10,
+            $user,
+            "Liga szybkich kierowców",
+            false,
+            false,
+        );
+
+        // and given
+        $secret = "JKI93MPO0F2I";
+        $userSeason2 = $this->fixtures->aUserSeason(
+            $secret,
+            10,
+            $user,
+            "Liga dwójek",
+            false,
+            false,
+        );
+
+        // and given
+        $this->fixtures->aUserSeasonPlayer($userSeason1, $user, $driver);
+        $this->fixtures->aUserSeasonPlayer($userSeason2, $user, $driver);
+
+        // when
+        $result = $this->facade->getDriverStatistics($driver->getId());
+
+        // then
+        self::assertEquals(2, $result->getSeasonsPlayed());
+    }
 }

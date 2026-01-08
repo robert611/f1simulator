@@ -11,6 +11,7 @@ use Domain\Contract\DriverServiceFacadeInterface;
 use Domain\Contract\Exception\CarNumberTakenException;
 use Domain\Contract\Exception\DriverCannotBeDeletedException;
 use Domain\DomainFacadeInterface;
+use Multiplayer\MultiplayerFacadeInterface;
 use Shared\Controller\BaseController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +24,7 @@ class AdminDriverController extends BaseController
     public function __construct(
         private readonly DomainFacadeInterface $domainFacade,
         private readonly ComputerFacadeInterface $computerFacade,
+        private readonly MultiplayerFacadeInterface $multiplayerFacade,
         private readonly DriverServiceFacadeInterface $driverServiceFacade,
     ) {
     }
@@ -75,10 +77,12 @@ class AdminDriverController extends BaseController
     {
         $driver = $this->domainFacade->getDriverById($id);
         $driverComputerStatistics = $this->computerFacade->getDriverStatistics($driver->getId());
+        $driverMultiplayerStatistics = $this->multiplayerFacade->getDriverStatistics($driver->getId());
 
         return $this->render('@admin/admin_driver/show.html.twig', [
             'driver' => $driver,
-            'driverComputerStatistics' => $driverComputerStatistics
+            'driverComputerStatistics' => $driverComputerStatistics,
+            'driverMultiplayerStatistics' => $driverMultiplayerStatistics,
         ]);
     }
 

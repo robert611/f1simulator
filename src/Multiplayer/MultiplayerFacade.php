@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Multiplayer;
 
+use Multiplayer\Contract\DriverMultiplayerStatisticsDTO;
 use Multiplayer\Repository\UserSeasonPlayersRepository;
 
 readonly class MultiplayerFacade implements MultiplayerFacadeInterface
@@ -20,5 +21,12 @@ readonly class MultiplayerFacade implements MultiplayerFacadeInterface
         }
 
         return true;
+    }
+
+    public function getDriverStatistics(int $driverId): DriverMultiplayerStatisticsDTO
+    {
+        $userSeasonsPlayed = $this->userSeasonPlayersRepository->count(['driverId' => $driverId]);
+
+        return DriverMultiplayerStatisticsDTO::create($userSeasonsPlayed);
     }
 }
