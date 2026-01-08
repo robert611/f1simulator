@@ -8,3 +8,6 @@ services:
 
     Multiplayer\Service\SecretGenerator:
         public: true
+
+    Multiplayer\MultiplayerFacade:
+        public: true

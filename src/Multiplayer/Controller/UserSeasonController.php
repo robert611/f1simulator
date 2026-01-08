@@ -8,7 +8,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Domain\Contract\DTO\DriverDTO;
 use Domain\Contract\DTO\TrackDTO;
 use Domain\DomainFacadeInterface;
-use Domain\Entity\Driver;
 use Multiplayer\Entity\UserSeason;
 use Multiplayer\Entity\UserSeasonPlayer;
 use Multiplayer\Form\UserSeasonType;
@@ -55,7 +54,7 @@ class UserSeasonController extends BaseController
         if ($form->isSubmitted() && $form->isValid()) {
             $userSeasonRepository = $this->entityManager->getRepository(UserSeason::class);
 
-            if ($userSeasonRepository->count(['owner' => $this->getUser()]) >= 3) {
+            if ($userSeasonRepository->count(['owner' => $this->getUser(), 'completed' => false]) >= 3) {
                 $this->addFlash('warning', 'W jednym momencie możesz mieć maksymalnie trzy nieukończone ligi');
 
                 return $this->redirectToRoute('multiplayer_index');
@@ -90,7 +89,7 @@ class UserSeasonController extends BaseController
         /** @var TrackDTO[] $tracks */
         $tracks = HashTable::fromObjectArray($tracks, 'getId');
 
-        return $this->render('league/index.html.twig', [
+        return $this->render('@multiplayer/league/index.html.twig', [
             'form' => $form->createView(),
             'userLeagues' => $userLeagues,
             'leagues' => $leagues,
@@ -147,7 +146,7 @@ class UserSeasonController extends BaseController
 
         $teamsClassification = $this->leagueTeamsClassification->getClassification($season);
 
-        return $this->render('league/show_league.html.twig', [
+        return $this->render('@multiplayer/league/show_league.html.twig', [
             'league' => $season,
             'player' => $player,
             'numberOfRacesInSeason' => $numberOfRacesInSeason,

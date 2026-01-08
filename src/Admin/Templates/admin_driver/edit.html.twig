@@ -1,0 +1,62 @@
+{% extends '@admin/dashboard.html.twig' %}
+
+{% block title %}Panel administratora - Kierowcy | {{ parent() }}{% endblock %}
+
+{% block admin_content %}
+    <h3 class="text-center mt-4 mb-5">Edycja kierowcy</h3>
+    <div class="card bg-dark mb-5">
+        <div class="card-body">
+            {{ form_start(form, {'attr': {'class': 'text-white'}}) }}
+                <div class="admin-form-errors text-danger">
+                    {{ form_errors(form) }}
+                </div>
+
+                <div class="row">
+                    <div class="form-group mb-3">
+                        {{ form_label(form.name) }}
+                        {{ form_widget(form.name, {'attr': {'class': 'form-control bg-dark text-white mt-1'}}) }}
+                        {% if form_errors(form.name) %}
+                            <div class="form-field-error text-danger mt-1">
+                                {{ form_errors(form.name) }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        {{ form_label(form.surname) }}
+                        {{ form_widget(form.surname, {'attr': {'class': 'form-control bg-dark text-white mt-1'}}) }}
+                        {% if form_errors(form.surname) %}
+                            <div class="form-field-error text-danger mt-1">
+                                {{ form_errors(form.surname) }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        {{ form_label(form.carNumber) }}
+                        {{ form_widget(form.carNumber, {'attr': {'class': 'form-control bg-dark text-white mt-1'}}) }}
+                        {% if form_errors(form.carNumber) %}
+                            <div class="form-field-error text-danger mt-1">
+                                {{ form_errors(form.carNumber) }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        {{ form_label(form.teamId) }}
+                        {{ form_widget(form.teamId, {'attr': {'class': 'form-control form-select bg-dark text-white mt-1'}}) }}
+                        {% if form_errors(form.teamId) %}
+                            <div class="form-field-error text-danger mt-1">
+                                {{ form_errors(form.teamId) }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <button class="btn btn-success mt-2">{{ button_label|default('Zapisz') }}</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+    <a href="{{ path('admin_driver') }}" class="btn btn-dark">Powrót do listy</a>
+{% endblock %}

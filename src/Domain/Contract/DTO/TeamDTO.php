@@ -15,6 +15,7 @@ class TeamDTO
 
     /** @var Driver[] */
     private array $drivers;
+    private string $highResolutionPicture;
 
     public function getId(): int
     {
@@ -39,6 +40,11 @@ class TeamDTO
         return DriverDTO::fromEntityCollection($this->drivers);
     }
 
+    public function getHighResolutionPicture(): string
+    {
+        return $this->highResolutionPicture;
+    }
+
     public static function fromEntity(Team $team): self
     {
         $teamDTO = new self();
@@ -46,6 +52,7 @@ class TeamDTO
         $teamDTO->name = $team->getName();
         $teamDTO->picture = $team->getPicture();
         $teamDTO->drivers = $team->getDrivers()->toArray();
+        $teamDTO->highResolutionPicture = $team->getHighResolutionPicture();
 
         return $teamDTO;
     }

@@ -9,7 +9,6 @@ use Computer\Repository\SeasonRepository;
 use Computer\Service\GameSimulation\SimulateRaceService;
 use Doctrine\ORM\EntityManagerInterface;
 use Domain\DomainFacadeInterface;
-use Domain\Entity\Driver;
 use Shared\Controller\BaseController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;

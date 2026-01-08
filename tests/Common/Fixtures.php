@@ -40,6 +40,20 @@ class Fixtures
         return $user;
     }
 
+    public function anAdmin(): User
+    {
+        $user = new User();
+        $user->setUsername('admin');
+        $user->setEmail('admin@gmail.com');
+        $user->setPassword('password');
+        $user->setRoles(['ROLE_ADMIN']);
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        return $user;
+    }
+
     public function aCustomUser(string $username, string $email): User
     {
         $user = new User();

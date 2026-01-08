@@ -21,6 +21,7 @@ use Shared\Controller\BaseController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use Throwable;
 
 #[Route('/league')]
 class LeagueController extends BaseController
@@ -79,51 +80,65 @@ class LeagueController extends BaseController
         return $this->redirectToRoute('multiplayer_show_season', ['id' => $season->getId()]);
     }
 
+    /**
+     * @throws Throwable
+     */
     #[Route('/{id}/simulate/race', name: 'league_simulate_race', methods: ['GET'])]
     public function simulateRace(UserSeason $userSeason): RedirectResponse
     {
         $this->denyAccessUnlessGranted(LeagueVoter::SIMULATE_RACE, $userSeason);
 
-        /** @var UserSeasonRace $lastRace */
+        /** @var null|UserSeasonRace $lastRace */
         $lastRace = $userSeason->getRaces()->last();
         $track = $lastRace
             ? $this->domainFacade->getNextTrack($lastRace->getTrackId())
             : $this->domainFacade->getFirstTrack();
 
-        /* Save race in the database */
-        $race = new UserSeasonRace();
+        $connection = $this->entityManager->getConnection();
+        $connection->beginTransaction();
 
-        $race->setTrackId($track->getId());
-        $race->setSeason($userSeason);
+        try {
+            /* Save race in the database */
+            $race = new UserSeasonRace();
 
-        $this->entityManager->persist($race);
-        $this->entityManager->flush();
+            $race->setTrackId($track->getId());
+            $race->setSeason($userSeason);
 
-        $leagueRaceResultsDTO = $this->simulateLeagueRace->simulateRaceResults($userSeason);
-
-        $qualificationsResults = $leagueRaceResultsDTO->getQualificationsResults();
-
-        foreach ($qualificationsResults->getQualificationResults() as $result) {
-            $qualification = new UserSeasonQualification();
-            $qualification->setRace($race);
-            $qualification->setPlayer($result->getUserSeasonPlayer());
-            $qualification->setPosition($result->getPosition());
-
-            $this->entityManager->persist($qualification);
+            $this->entityManager->persist($race);
             $this->entityManager->flush();
-        }
 
-        $raceResults = $leagueRaceResultsDTO->getRaceResults();
+            $leagueRaceResultsDTO = $this->simulateLeagueRace->simulateRaceResults($userSeason);
 
-        /** @var UserSeasonPlayer $player */
-        foreach ($raceResults as $position => $player) {
-            $points = RaceScoringSystem::getPositionScore($position);
+            $qualificationsResults = $leagueRaceResultsDTO->getQualificationsResults();
 
-            $raceResult = UserSeasonRaceResult::create($position, $points, $race, $player);
-            $player->addPoints($points);
+            foreach ($qualificationsResults->getQualificationResults() as $result) {
+                $qualification = new UserSeasonQualification();
+                $qualification->setRace($race);
+                $qualification->setPlayer($result->getUserSeasonPlayer());
+                $qualification->setPosition($result->getPosition());
 
-            $this->entityManager->persist($raceResult);
+                $this->entityManager->persist($qualification);
+            }
+
             $this->entityManager->flush();
+
+            $raceResults = $leagueRaceResultsDTO->getRaceResults();
+
+            /** @var UserSeasonPlayer $player */
+            foreach ($raceResults as $position => $player) {
+                $points = RaceScoringSystem::getPositionScore($position);
+
+                $raceResult = UserSeasonRaceResult::create($position, $points, $race, $player);
+                $player->addPoints($points);
+
+                $this->entityManager->persist($raceResult);
+            }
+
+            $this->entityManager->flush();
+            $connection->commit();
+        } catch (Throwable $e) {
+            $connection->rollBack();
+            throw $e;
         }
 
         $this->leagueClassifications->recalculatePlayersPositions($userSeason);

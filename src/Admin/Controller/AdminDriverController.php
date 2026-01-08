@@ -1,0 +1,134 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Admin\Controller;
+
+use Admin\Form\DriverFormModel;
+use Admin\Form\DriverType;
+use Computer\ComputerFacadeInterface;
+use Domain\Contract\DriverServiceFacadeInterface;
+use Domain\Contract\Exception\CarNumberTakenException;
+use Domain\Contract\Exception\DriverCannotBeDeletedException;
+use Domain\DomainFacadeInterface;
+use Multiplayer\MultiplayerFacadeInterface;
+use Shared\Controller\BaseController;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+
+#[Route('/admin-driver')]
+class AdminDriverController extends BaseController
+{
+    public function __construct(
+        private readonly DomainFacadeInterface $domainFacade,
+        private readonly ComputerFacadeInterface $computerFacade,
+        private readonly MultiplayerFacadeInterface $multiplayerFacade,
+        private readonly DriverServiceFacadeInterface $driverServiceFacade,
+    ) {
+    }
+
+    #[Route('', name: 'admin_driver', methods: ['GET'])]
+    public function index(): Response
+    {
+        $drivers = $this->domainFacade->getAllDrivers();
+
+        return $this->render('@admin/admin_driver/index.html.twig', [
+            'drivers' => $drivers,
+        ]);
+    }
+
+    #[Route('/new', name: 'admin_driver_new', methods: ['GET', 'POST'])]
+    public function new(Request $request): Response
+    {
+        $driverFormModel = new DriverFormModel();
+        $form = $this->createForm(DriverType::class, $driverFormModel);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var DriverFormModel $driverFormModel */
+            $driverFormModel = $form->getData();
+
+            try {
+                $this->driverServiceFacade->add(
+                    $driverFormModel->name,
+                    $driverFormModel->surname,
+                    $driverFormModel->teamId,
+                    $driverFormModel->carNumber,
+                );
+
+                $this->addFlash('admin_success', 'Dodano nowego kierowcę');
+
+                return $this->redirectToRoute('admin_driver');
+            } catch (CarNumberTakenException) {
+                $form->addError(new FormError('Istnieje już kierowca z tym numerem samochodu'));
+            }
+        }
+
+        return $this->render('@admin/admin_driver/new.html.twig', [
+            'driverFormModel' => $driverFormModel,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/{id}', name: 'admin_driver_show', methods: ['GET'])]
+    public function show(int $id): Response
+    {
+        $driver = $this->domainFacade->getDriverById($id);
+        $driverComputerStatistics = $this->computerFacade->getDriverStatistics($driver->getId());
+        $driverMultiplayerStatistics = $this->multiplayerFacade->getDriverStatistics($driver->getId());
+
+        return $this->render('@admin/admin_driver/show.html.twig', [
+            'driver' => $driver,
+            'driverComputerStatistics' => $driverComputerStatistics,
+            'driverMultiplayerStatistics' => $driverMultiplayerStatistics,
+        ]);
+    }
+
+    #[Route('/{id}/edit', name: 'admin_driver_edit', methods: ["GET", "POST"])]
+    public function edit(Request $request, int $id): Response
+    {
+        $driver = $this->domainFacade->getDriverById($id);
+
+        $form = $this->createForm(DriverType::class, DriverFormModel::fromDriver($driver));
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var DriverFormModel $driverFormModel */
+            $driverFormModel = $form->getData();
+            $this->driverServiceFacade->update(
+                $driver->getId(),
+                $driverFormModel->name,
+                $driverFormModel->surname,
+                $driverFormModel->teamId,
+                $driverFormModel->carNumber,
+            );
+
+            return $this->redirectToRoute('admin_driver_edit', ['id' => $id]);
+        }
+
+        return $this->render('@admin/admin_driver/edit.html.twig', [
+            'driver' => $driver,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/{id}', name: 'admin_driver_delete', methods: ["POST", "DELETE"])]
+    public function delete(Request $request, int $id): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $id, $request->request->get('_token'))) {
+            try {
+                $this->driverServiceFacade->delete($id);
+                $this->addFlash('admin_success', 'Kierowca został usunięty');
+            } catch (DriverCannotBeDeletedException) {
+                $this->addFlash(
+                    'admin_error',
+                    'Kierowca nie może zostać usunięty ponieważ był użyty w istniejących sezonach',
+                );
+            }
+        }
+
+        return $this->redirectToRoute('admin_driver');
+    }
+}

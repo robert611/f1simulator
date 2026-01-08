@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panel administratora | {{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+{% endblock %}
+
+{% block body %}
+    {# MOBILE OFFCANVAS #}
+    <div class="admin-sidebar offcanvas offcanvas-start d-md-none bg-light border-end"
+         tabindex="-1"
+         id="admin-sidebar-mobile">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title text-uppercase text-muted">Panel administratora</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Zamknij"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            {% include '@admin/partials/_sidebar.html.twig' %}
+        </div>
+    </div>
+    {# END OF MOBILE OFFCANVAS #}
+
+    <div class="container-fluid">
+        <div class="row">
+            {# BUTTON TOGGLE ONLY ON SMALL SCREENS #}
+            <div class="d-md-none py-2 bg-dark border-bottom text-center">
+                <button class="btn btn-dark w-100 d-flex align-items-center justify-content-center gap-2"
+                        type="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#admin-sidebar-mobile">
+                    <i class="bi bi-list fs-4"></i>
+                    <span class="fw-semibold">Menu administratora</span>
+                </button>
+            </div>
+
+            {# SIDEBAR AS OFFCANVAS FOR SMALL SCREENS + STICKY FOR LARGE SCREENS #}
+            <div class="admin-sidebar admin-desktop-sidebar offcanvas offcanvas-start bg-light border-end" data-bs-scroll="true" tabindex="-1" id="admin-desktop-sidebar">
+                <div class="offcanvas-body p-0">
+                    {% include '@admin/partials/_sidebar.html.twig' %}
+                </div>
+            </div>
+
+            {# MAIN CONTENT #}
+            <div class="col py-3">
+                {% if app.session.flashBag.has('admin_success') %}
+                    {% for msg in app.session.flashBag.get('admin_success') %}
+                        <div class="alert alert-success mt-3">
+                            {{ msg }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {% if app.session.flashBag.has('admin_error') %}
+                    {% for msg in app.session.flashBag.get('admin_error') %}
+                        <div class="alert alert-danger mt-3">
+                            {{ msg }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                {% block admin_content %}
+                    {# tutaj pojawi się treść poszczególnych widoków #}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

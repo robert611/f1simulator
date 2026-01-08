@@ -1,0 +1,48 @@
+.light-hr {
+    margin: 1rem 0;
+    color: inherit;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, .1);
+    opacity: 1;
+}
+
+.custom-card .card-header {
+    padding: 0.75rem 1.25rem;
+}
+
+.custom-card .card-body {
+    padding: 1.25rem;
+}
+
+.btn-outline-info-darker {
+    color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.btn-outline-info-darker:hover  {
+    color: white;
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.hover-underline {
+    text-decoration: none;
+}
+
+.hover-underline:hover {
+    text-decoration: underline;
+}
+
+.position-relative {
+    position: relative;
+}
+
+.spacier-table thead th {
+    border-bottom: 2px solid #dee2e6;
+    border-top: 1px solid #dee2e6;
+    padding: 0.75rem;
+}
+
+.spacier-table tbody td {
+    padding: 0.75rem;
+}

@@ -26,7 +26,7 @@ class Driver
     #[ORM\JoinColumn(name: 'team_id', nullable: false)]
     public Team $team;
 
-    #[ORM\Column(name: 'car_number', type: 'integer', nullable: false)]
+    #[ORM\Column(name: 'car_number', type: 'integer', unique: true, nullable: false)]
     public int $carNumber;
 
     public function getId(): int
@@ -88,5 +88,13 @@ class Driver
         $driver->carNumber = $carNumber;
 
         return $driver;
+    }
+
+    public function update(string $name, string $surname, Team $team, int $carNumber): void
+    {
+        $this->name = $name;
+        $this->surname = $surname;
+        $this->team = $team;
+        $this->carNumber = $carNumber;
     }
 }
