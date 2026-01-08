@@ -10,6 +10,13 @@
             </a>
         </li>
         <li>
+            <a href="{{ path('admin_driver') }}"
+               class="nav-link d-flex align-items-center rounded {% if app.request.get('_route') starts with 'admin_driver' %}active{% endif %}">
+                <i class="fa-solid fa-helmet-un me-2"></i>
+                <span class="ml-2">Kierowcy</span>
+            </a>
+        </li>
+        <li>
             <a href=""
                class="nav-link d-flex align-items-center rounded {% if app.request.get('_route') starts with 'admin_user' %}active{% endif %}">
                 <i class="bi bi-people me-2"></i>

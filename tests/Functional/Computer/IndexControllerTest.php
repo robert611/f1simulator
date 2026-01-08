@@ -64,26 +64,26 @@ class IndexControllerTest extends WebTestCase
         $williams = $this->fixtures->aTeamWithName('Williams');
 
         // and given
-        $driver1 = $this->fixtures->aDriver('Kyle', 'Walker', $ferrari, 8);
-        $driver2 = $this->fixtures->aDriver('Kyle', 'Walker', $ferrari, 8);
-        $driver3 = $this->fixtures->aDriver('Kyle', 'Walker', $alfaRomeo, 8);
-        $this->fixtures->aDriver('Kyle', 'Walker', $alfaRomeo, 8);
-        $this->fixtures->aDriver('Kyle', 'Walker', $haas, 8);
-        $this->fixtures->aDriver('Kyle', 'Walker', $haas, 8);
+        $driver1 = $this->fixtures->aDriver('Kyle', 'Walker', $ferrari, 1);
+        $driver2 = $this->fixtures->aDriver('Kyle', 'Walker', $ferrari, 2);
+        $driver3 = $this->fixtures->aDriver('Kyle', 'Walker', $alfaRomeo, 3);
+        $this->fixtures->aDriver('Kyle', 'Walker', $alfaRomeo, 4);
+        $this->fixtures->aDriver('Kyle', 'Walker', $haas, 5);
+        $this->fixtures->aDriver('Kyle', 'Walker', $haas, 6);
+        $this->fixtures->aDriver('Kyle', 'Walker', $mclaren, 7);
         $this->fixtures->aDriver('Kyle', 'Walker', $mclaren, 8);
-        $this->fixtures->aDriver('Kyle', 'Walker', $mclaren, 8);
-        $this->fixtures->aDriver('Kyle', 'Walker', $mercedes, 8);
-        $this->fixtures->aDriver('Kyle', 'Walker', $mercedes, 8);
-        $this->fixtures->aDriver('Kyle', 'Walker', $racingPoint, 8);
-        $this->fixtures->aDriver('Kyle', 'Walker', $racingPoint, 8);
-        $this->fixtures->aDriver('Kyle', 'Walker', $redBull, 8);
-        $this->fixtures->aDriver('Kyle', 'Walker', $redBull, 8);
-        $this->fixtures->aDriver('Kyle', 'Walker', $renualt, 8);
-        $this->fixtures->aDriver('Kyle', 'Walker', $renualt, 8);
-        $this->fixtures->aDriver('Kyle', 'Walker', $toroRosso, 8);
-        $this->fixtures->aDriver('Kyle', 'Walker', $toroRosso, 8);
-        $this->fixtures->aDriver('Kyle', 'Walker', $williams, 8);
-        $this->fixtures->aDriver('Kyle', 'Walker', $williams, 8);
+        $this->fixtures->aDriver('Kyle', 'Walker', $mercedes, 9);
+        $this->fixtures->aDriver('Kyle', 'Walker', $mercedes, 10);
+        $this->fixtures->aDriver('Kyle', 'Walker', $racingPoint, 11);
+        $this->fixtures->aDriver('Kyle', 'Walker', $racingPoint, 12);
+        $this->fixtures->aDriver('Kyle', 'Walker', $redBull, 13);
+        $this->fixtures->aDriver('Kyle', 'Walker', $redBull, 14);
+        $this->fixtures->aDriver('Kyle', 'Walker', $renualt, 15);
+        $this->fixtures->aDriver('Kyle', 'Walker', $renualt, 16);
+        $this->fixtures->aDriver('Kyle', 'Walker', $toroRosso, 17);
+        $this->fixtures->aDriver('Kyle', 'Walker', $toroRosso, 18);
+        $this->fixtures->aDriver('Kyle', 'Walker', $williams, 19);
+        $this->fixtures->aDriver('Kyle', 'Walker', $williams, 20);
 
         // and given
         $season = $this->fixtures->aSeason($user, $driver1);

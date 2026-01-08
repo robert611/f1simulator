@@ -88,7 +88,7 @@ class LeagueController extends BaseController
     {
         $this->denyAccessUnlessGranted(LeagueVoter::SIMULATE_RACE, $userSeason);
 
-        /** @var UserSeasonRace $lastRace */
+        /** @var null|UserSeasonRace $lastRace */
         $lastRace = $userSeason->getRaces()->last();
         $track = $lastRace
             ? $this->domainFacade->getNextTrack($lastRace->getTrackId())

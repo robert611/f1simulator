@@ -1,0 +1,86 @@
+{% extends '@admin/dashboard.html.twig' %}
+
+{% block title %}
+    Panel administratora – Kierowca {{ driver.fullName }} | {{ parent() }}
+{% endblock %}
+
+{% block admin_content %}
+    <h3 class="text-center mt-4 mb-4">Szczegóły kierowcy</h3>
+
+    <div class="mb-3 d-flex gap-2">
+        <a href="{{ path('admin_driver') }}" class="btn btn-dark">
+            Powrót do listy
+        </a>
+        <a href="{{ path('admin_driver_edit', {id: driver.id}) }}" class="btn btn-info">
+            Edytuj kierowcę
+        </a>
+    </div>
+
+    <div class="card bg-dark text-white mb-5">
+        <div class="card-body">
+            <h4 class="mb-4 text-center text-lg-start">
+                {{ driver.fullName }}
+            </h4>
+            <div class="row g-4 align-items-start">
+                {# LEFT – DRIVER INFO #}
+                <div class="col-12 col-lg-8">
+                    <div class="list-group list-group-flush bg-dark">
+                        <div class="list-group-item bg-dark text-white d-flex justify-content-between">
+                            <span class="fw-semibold">ID</span>
+                            <span>{{ driver.id }}</span>
+                        </div>
+                        <div class="list-group-item bg-dark text-white d-flex justify-content-between">
+                            <span class="fw-semibold">Imię</span>
+                            <span>{{ driver.name }}</span>
+                        </div>
+                        <div class="list-group-item bg-dark text-white d-flex justify-content-between">
+                            <span class="fw-semibold">Nazwisko</span>
+                            <span>{{ driver.surname }}</span>
+                        </div>
+                        <div class="list-group-item bg-dark text-white d-flex justify-content-between align-items-center">
+                            <span class="fw-semibold">Numer samochodu</span>
+                            <span class="badge bg-success fs-6">
+                            #{{ driver.carNumber }}
+                        </span>
+                        </div>
+                        <div class="list-group-item bg-dark text-white d-flex justify-content-between">
+                            <span class="fw-semibold">Zespół</span>
+                            <span>{{ driver.team.name }}</span>
+                        </div>
+                    </div>
+
+                    <h4 class="mb-4 mt-3 text-center">
+                        Dodatkowe statystyki
+                    </h4>
+
+                    <div class="list-group list-group-flush bg-dark">
+                        <div class="list-group-item bg-dark text-white d-flex justify-content-between">
+                            <span class="fw-semibold">Rozegrane sezony offline</span>
+                            <span>{{ driverComputerStatistics.seasonsPlayed }}</span>
+                        </div>
+                        <div class="list-group-item bg-dark text-white d-flex justify-content-between">
+                            <span class="fw-semibold">Rozegrane sezony multiplayer</span>
+                            <span>{{ driverMultiplayerStatistics.seasonsPlayed }}</span>
+                        </div>
+                    </div>
+                </div>
+                {# RIGHT – TEAM CARD #}
+                <div class="col-12 col-lg-4">
+                    <div class="card bg-secondary text-white h-100 text-center p-3">
+                        {% if driver.team.picture %}
+                            <img
+                                    src="{{ asset('/assets/cars/' ~ driver.team.highResolutionPicture) }}"
+                                    alt="{{ driver.team.name }}"
+                                    class="img-fluid rounded mb-3"
+                                    style="max-height: 160px;"
+                            >
+                        {% endif %}
+                        <div class="fw-semibold fs-5">
+                            {{ driver.team.name }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
