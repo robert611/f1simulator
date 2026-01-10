@@ -36,6 +36,9 @@ services:
     Admin\:
         resource: '../src/Admin/*'
 
+    DataFixtures\:
+        resource: '../src/DataFixtures/*'
+
     Domain\Controller\:
         resource: '../src/Domain/Controller/'
         tags: ['controller.service_arguments']

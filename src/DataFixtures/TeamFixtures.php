@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\DataFixtures;
+namespace DataFixtures;
 
 use Domain\Entity\Team;
 use Doctrine\Bundle\FixturesBundle\Fixture;
