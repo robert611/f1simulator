@@ -172,6 +172,40 @@ class LeagueControllerTest extends WebTestCase
     }
 
     #[Test]
+    public function will_lack_of_drivers_when_joining_be_handled(): void
+    {
+        // given
+        $user = $this->fixtures->aUser();
+        $this->client->loginUser($user);
+
+        // and given
+        $owner = $this->fixtures->aCustomUser("marcin", "marcin@gmail.com");
+
+        // and given
+        $secret = "J783NMS092C";
+        $this->fixtures->aUserSeason(
+            $secret,
+            10,
+            $owner,
+            "Liga szybkich kierowców",
+            false,
+            false,
+        );
+
+        // when
+        $this->client->request('POST', '/league/join', ['league-secret' => $secret]);
+
+        // then
+        self::assertResponseRedirects('/multiplayer/');
+
+        // follow redirection
+        $this->client->followRedirect();
+
+        // and then
+        self::assertSelectorTextContains('.alert-warning', 'Brakuje kierowców, w których możesz się wcielić.');
+    }
+
+    #[Test]
     public function it_checks_if_will_race_be_simulated(): void
     {
         // given

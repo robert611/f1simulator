@@ -46,6 +46,12 @@ class LeagueController extends BaseController
 
         $driver = $this->drawDriverToReplace->getDriverToReplaceInUserLeague($league);
 
+        if (null === $driver) {
+            $this->addFlash('warning', 'Brakuje kierowców, w których możesz się wcielić.');
+
+            return $this->redirectToRoute('multiplayer_index');
+        }
+
         $player = UserSeasonPlayer::create($league, $this->getUser(), $driver->getId());
 
         $this->entityManager->persist($player);
