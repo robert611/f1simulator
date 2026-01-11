@@ -41,12 +41,9 @@ readonly class SimulateLeagueRace
 
         try {
             /* Save race in the database */
-            $race = new UserSeasonRace();
+            $userSeasonRace = UserSeasonRace::create($track->getId(), $userSeason);
 
-            $race->setTrackId($track->getId());
-            $race->setSeason($userSeason);
-
-            $this->entityManager->persist($race);
+            $this->entityManager->persist($userSeasonRace);
             $this->entityManager->flush();
 
             $leagueRaceResultsDTO = $this->simulateLeagueRaceResults->simulateRaceResults($userSeason);
@@ -54,10 +51,11 @@ readonly class SimulateLeagueRace
             $qualificationsResults = $leagueRaceResultsDTO->getQualificationsResults();
 
             foreach ($qualificationsResults->getQualificationResults() as $result) {
-                $qualification = new UserSeasonQualification();
-                $qualification->setRace($race);
-                $qualification->setPlayer($result->getUserSeasonPlayer());
-                $qualification->setPosition($result->getPosition());
+                $qualification = UserSeasonQualification::create(
+                    $result->getUserSeasonPlayer(),
+                    $userSeasonRace,
+                    $result->getPosition(),
+                );
 
                 $this->entityManager->persist($qualification);
             }
@@ -69,8 +67,7 @@ readonly class SimulateLeagueRace
             /** @var UserSeasonPlayer $player */
             foreach ($raceResults as $position => $player) {
                 $points = RaceScoringSystem::getPositionScore($position);
-
-                $raceResult = UserSeasonRaceResult::create($position, $points, $race, $player);
+                $raceResult = UserSeasonRaceResult::create($position, $points, $userSeasonRace, $player);
                 $player->addPoints($points);
 
                 $this->entityManager->persist($raceResult);
