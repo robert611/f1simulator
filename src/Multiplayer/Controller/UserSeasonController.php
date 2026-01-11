@@ -69,13 +69,10 @@ class UserSeasonController extends BaseController
 
             $driver = $this->drawDriverToReplace->getDriverToReplaceInUserLeague($userSeason);
 
-            $player = new UserSeasonPlayer();
-            $player->setUser($this->getUser());
-            $player->setDriverId($driver->getId());
-            $player->setSeason($userSeason);
+            $userSeasonPlayer = UserSeasonPlayer::create($userSeason, $this->getUser(), $driver->getId());
 
             $this->entityManager->persist($userSeason);
-            $this->entityManager->persist($player);
+            $this->entityManager->persist($userSeasonPlayer);
             $this->entityManager->flush();
 
             $this->addFlash('success', 'Liga została stworzona');

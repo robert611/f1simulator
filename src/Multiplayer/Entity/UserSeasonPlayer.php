@@ -70,19 +70,9 @@ class UserSeasonPlayer
         return $this->user;
     }
 
-    public function setUser(User $user): void
-    {
-        $this->user = $user;
-    }
-
     public function getDriverId(): int
     {
         return $this->driverId;
-    }
-
-    public function setDriverId(int $driverId): void
-    {
-        $this->driverId = $driverId;
     }
 
     public function getPoints(): int
