@@ -32,7 +32,7 @@ class LeagueControllerTest extends WebTestCase
     }
 
     #[Test]
-    public function canJoin(): void
+    public function can_user_join_a_league(): void
     {
         // given
         $user = $this->fixtures->aUser();
@@ -70,6 +70,23 @@ class LeagueControllerTest extends WebTestCase
         self::assertEquals($userSeasonPlayer->getDriverId(), $driver->getId());
         self::assertEquals($userSeasonPlayer->getUser(), $user);
         self::assertEquals($userSeasonPlayer->getSeason(), $userSeason);
+    }
+
+    #[Test]
+    public function will_trying_to_join_not_existing_league_be_handled(): void
+    {
+        // given
+        $user = $this->fixtures->aUser();
+        $this->client->loginUser($user);
+
+        // and given
+        $secret = "84NI0PKL32";
+
+        // when
+        $this->client->request('POST', '/league/join', ['league-secret' => $secret]);
+
+        // then
+        self::assertResponseRedirects('/home');
     }
 
     #[Test]
