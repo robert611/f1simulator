@@ -190,6 +190,11 @@ class UserSeason
         return $userSeason;
     }
 
+    public function start(): void
+    {
+        $this->started = true;
+    }
+
     /**
      * @return int[]
      */

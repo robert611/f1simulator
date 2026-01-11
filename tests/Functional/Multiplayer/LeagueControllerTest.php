@@ -206,6 +206,117 @@ class LeagueControllerTest extends WebTestCase
     }
 
     #[Test]
+    public function can_league_be_started(): void
+    {
+        // given
+        $owner = $this->fixtures->aCustomUser('league_user_1', 'user1@gmail.com');
+        $leagueUser2 = $this->fixtures->aCustomUser('league_user_2', 'user2@gmail.com');
+        $this->client->loginUser($owner);
+
+        // and given
+        $team = $this->fixtures->aTeam();
+        $driver1 = $this->fixtures->aDriver("Lewis", "Hamilton", $team, 44);
+        $driver2 = $this->fixtures->aDriver("Mark", "Evans", $team, 102);
+
+        // and given
+        $secret = "J783NMS092C";
+        $userSeason = $this->fixtures->aUserSeason(
+            $secret,
+            10,
+            $owner,
+            "Liga szybkich kierowców",
+            false,
+            false,
+        );
+
+        // and given
+        $this->fixtures->aUserSeasonPlayer($userSeason, $owner, $driver1);
+        $this->fixtures->aUserSeasonPlayer($userSeason, $leagueUser2, $driver2);
+
+        // when
+        $this->client->request('GET', "/league/{$userSeason->getId()}/start");
+
+        // then
+        self::assertResponseRedirects("/multiplayer/{$userSeason->getId()}/show");
+
+        // then
+        self::assertTrue($userSeason->getStarted());
+    }
+
+    #[Test]
+    public function only_owner_can_start_the_league(): void
+    {
+        // given
+        $owner = $this->fixtures->aCustomUser('league_user_1', 'user1@gmail.com');
+        $leagueUser2 = $this->fixtures->aCustomUser('league_user_2', 'user2@gmail.com');
+        $this->client->loginUser($owner);
+
+        // and given
+        $team = $this->fixtures->aTeam();
+        $driver1 = $this->fixtures->aDriver("Lewis", "Hamilton", $team, 44);
+        $driver2 = $this->fixtures->aDriver("Mark", "Evans", $team, 102);
+
+        // and given
+        $secret = "J783NMS092C";
+        $userSeason = $this->fixtures->aUserSeason(
+            $secret,
+            10,
+            $leagueUser2,
+            "Liga szybkich kierowców",
+            false,
+            false,
+        );
+
+        // and given
+        $this->fixtures->aUserSeasonPlayer($userSeason, $owner, $driver1);
+        $this->fixtures->aUserSeasonPlayer($userSeason, $leagueUser2, $driver2);
+
+        // when
+        $this->client->request('GET', "/league/{$userSeason->getId()}/start");
+
+        // then
+        self::assertResponseRedirects("/home");
+
+        // then
+        self::assertFalse($userSeason->getStarted());
+    }
+
+    #[Test]
+    public function league_must_have_at_least_two_players_to_start(): void
+    {
+        // given
+        $owner = $this->fixtures->aCustomUser('league_user_1', 'user1@gmail.com');
+        $this->client->loginUser($owner);
+
+        // and given
+        $team = $this->fixtures->aTeam();
+        $driver1 = $this->fixtures->aDriver("Lewis", "Hamilton", $team, 44);
+
+        // and given
+        $secret = "J783NMS092C";
+        $userSeason = $this->fixtures->aUserSeason(
+            $secret,
+            10,
+            $owner,
+            "Liga szybkich kierowców",
+            false,
+            false,
+        );
+
+        // and given
+        $this->fixtures->aUserSeasonPlayer($userSeason, $owner, $driver1);
+
+        // when
+        $this->client->request('GET', "/league/{$userSeason->getId()}/start");
+
+        // then
+        self::assertResponseRedirects("/home");
+
+        // then
+        self::assertFalse($userSeason->getStarted());
+    }
+
+    #[Test]
     public function it_checks_if_will_race_be_simulated(): void
     {
         // given

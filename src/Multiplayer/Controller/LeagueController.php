@@ -61,13 +61,12 @@ class LeagueController extends BaseController
     }
 
     #[Route('/{id}/start', name: 'league_start', methods: ['GET'])]
-    public function startLeague(UserSeason $season): RedirectResponse
+    public function start(UserSeason $season): RedirectResponse
     {
         $this->denyAccessUnlessGranted(LeagueVoter::START, $season);
 
-        $season->setStarted(true);
+        $season->start();
 
-        $this->entityManager->persist($season);
         $this->entityManager->flush();
 
         return $this->redirectToRoute('multiplayer_show_season', ['id' => $season->getId()]);
