@@ -73,13 +73,12 @@ class LeagueController extends BaseController
     }
 
     #[Route('/{id}/end', name: 'league_end', methods: ['GET'])]
-    public function endLeague(UserSeason $season): RedirectResponse
+    public function end(UserSeason $season): RedirectResponse
     {
         $this->denyAccessUnlessGranted(LeagueVoter::END, $season);
 
-        $season->setCompleted(true);
+        $season->end();
 
-        $this->entityManager->persist($season);
         $this->entityManager->flush();
 
         return $this->redirectToRoute('multiplayer_show_season', ['id' => $season->getId()]);

@@ -195,6 +195,11 @@ class UserSeason
         $this->started = true;
     }
 
+    public function end(): void
+    {
+        $this->completed = true;
+    }
+
     /**
      * @return int[]
      */

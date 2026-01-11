@@ -317,6 +317,82 @@ class LeagueControllerTest extends WebTestCase
     }
 
     #[Test]
+    public function can_league_be_ended(): void
+    {
+        // given
+        $owner = $this->fixtures->aCustomUser('league_user_1', 'user1@gmail.com');
+        $leagueUser2 = $this->fixtures->aCustomUser('league_user_2', 'user2@gmail.com');
+        $this->client->loginUser($owner);
+
+        // and given
+        $team = $this->fixtures->aTeam();
+        $driver1 = $this->fixtures->aDriver("Lewis", "Hamilton", $team, 44);
+        $driver2 = $this->fixtures->aDriver("Mark", "Evans", $team, 102);
+
+        // and given
+        $secret = "J783NMS092C";
+        $userSeason = $this->fixtures->aUserSeason(
+            $secret,
+            10,
+            $owner,
+            "Liga szybkich kierowców",
+            false,
+            false,
+        );
+
+        // and given
+        $this->fixtures->aUserSeasonPlayer($userSeason, $owner, $driver1);
+        $this->fixtures->aUserSeasonPlayer($userSeason, $leagueUser2, $driver2);
+
+        // when
+        $this->client->request('GET', "/league/{$userSeason->getId()}/end");
+
+        // then
+        self::assertResponseRedirects("/multiplayer/{$userSeason->getId()}/show");
+
+        // then
+        self::assertTrue($userSeason->getCompleted());
+    }
+
+    #[Test]
+    public function only_owner_can_end_the_league(): void
+    {
+        // given
+        $owner = $this->fixtures->aCustomUser('league_user_1', 'user1@gmail.com');
+        $leagueUser2 = $this->fixtures->aCustomUser('league_user_2', 'user2@gmail.com');
+        $this->client->loginUser($leagueUser2);
+
+        // and given
+        $team = $this->fixtures->aTeam();
+        $driver1 = $this->fixtures->aDriver("Lewis", "Hamilton", $team, 44);
+        $driver2 = $this->fixtures->aDriver("Mark", "Evans", $team, 102);
+
+        // and given
+        $secret = "J783NMS092C";
+        $userSeason = $this->fixtures->aUserSeason(
+            $secret,
+            10,
+            $owner,
+            "Liga szybkich kierowców",
+            false,
+            false,
+        );
+
+        // and given
+        $this->fixtures->aUserSeasonPlayer($userSeason, $owner, $driver1);
+        $this->fixtures->aUserSeasonPlayer($userSeason, $leagueUser2, $driver2);
+
+        // when
+        $this->client->request('GET', "/league/{$userSeason->getId()}/end");
+
+        // then
+        self::assertResponseRedirects("/home");
+
+        // then
+        self::assertFalse($userSeason->getCompleted());
+    }
+
+    #[Test]
     public function it_checks_if_will_race_be_simulated(): void
     {
         // given
