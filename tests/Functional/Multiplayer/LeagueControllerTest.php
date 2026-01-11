@@ -128,6 +128,50 @@ class LeagueControllerTest extends WebTestCase
     }
 
     #[Test]
+    public function league_players_cannot_exceed_limit(): void
+    {
+        // given
+        $loggedUser = $this->fixtures->aUser();
+        $this->client->loginUser($loggedUser);
+
+        // and given
+        $leagueUser1 = $this->fixtures->aCustomUser('league_user_1', 'user1@gmail.com');
+        $leagueUser2 = $this->fixtures->aCustomUser('league_user_2', 'user2@gmail.com');
+
+        // and given
+        $owner = $this->fixtures->aCustomUser("marcin", "marcin@gmail.com");
+
+        // and given
+        $team = $this->fixtures->aTeam();
+        $driver1 = $this->fixtures->aDriver("Lewis", "Hamilton", $team, 44);
+        $driver2 = $this->fixtures->aDriver("Mark", "Evans", $team, 102);
+
+        // and given
+        $secret = "J783NMS092C";
+        $userSeason = $this->fixtures->aUserSeason(
+            $secret,
+            2,
+            $owner,
+            "Liga szybkich kierowców",
+            false,
+            false,
+        );
+
+        // and given
+        $this->fixtures->aUserSeasonPlayer($userSeason, $leagueUser1, $driver1);
+        $this->fixtures->aUserSeasonPlayer($userSeason, $leagueUser2, $driver2);
+
+        // when
+        $this->client->request('POST', '/league/join', ['league-secret' => $secret]);
+
+        // then
+        self::assertResponseRedirects('/home');
+
+        // and then
+        self::assertEquals(2, $this->userSeasonPlayerRepository->count([]));
+    }
+
+    #[Test]
     public function it_checks_if_will_race_be_simulated(): void
     {
         // given
