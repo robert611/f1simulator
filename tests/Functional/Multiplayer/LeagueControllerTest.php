@@ -90,6 +90,44 @@ class LeagueControllerTest extends WebTestCase
     }
 
     #[Test]
+    public function user_cannot_join_league_twice(): void
+    {
+        // given
+        $user = $this->fixtures->aUser();
+        $this->client->loginUser($user);
+
+        // and given
+        $owner = $this->fixtures->aCustomUser("marcin", "marcin@gmail.com");
+
+        // and given
+        $team = $this->fixtures->aTeam();
+        $driver = $this->fixtures->aDriver("Lewis", "Hamilton", $team, 44);
+
+        // and given
+        $secret = "J783NMS092C";
+        $userSeason = $this->fixtures->aUserSeason(
+            $secret,
+            10,
+            $owner,
+            "Liga szybkich kierowców",
+            false,
+            false,
+        );
+
+        // and given
+        $this->fixtures->aUserSeasonPlayer($userSeason, $user, $driver);
+
+        // when
+        $this->client->request('POST', '/league/join', ['league-secret' => $secret]);
+
+        // then
+        self::assertResponseRedirects('/home');
+
+        // and then
+        self::assertEquals(1, $this->userSeasonPlayerRepository->count([]));
+    }
+
+    #[Test]
     public function it_checks_if_will_race_be_simulated(): void
     {
         // given
