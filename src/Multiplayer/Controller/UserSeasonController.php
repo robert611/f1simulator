@@ -39,16 +39,31 @@ class UserSeasonController extends BaseController
     }
 
     #[Route('/', name: 'multiplayer_index', methods: ['GET', 'POST'])]
-    public function index(Request $request): Response
+    public function index(): Response
     {
-        $userSeason = new UserSeason();
-
-        /* This is league creation form | It is not a good idea to place it in this method */
-        $form = $this->createForm(UserSeasonType::class, $userSeason, [
-            'action' => $this->generateUrl('multiplayer_index'),
+        $form = $this->createForm(UserSeasonType::class, new UserSeason(), [
+            'action' => $this->generateUrl('multiplayer_create'),
             'method' => 'POST',
         ]);
 
+        $userLeagues = $this->userSeasonRepository->findBy(['owner' => $this->getUser()]);
+        $leagues = $this->userSeasonRepository->getUserSeasons($this->getUser()->getId());
+        $tracks = $this->domainFacade->getAllTracks();
+        /** @var TrackDTO[] $tracks */
+        $tracks = HashTable::fromObjectArray($tracks, 'getId');
+
+        return $this->render('@multiplayer/league/index.html.twig', [
+            'form' => $form->createView(),
+            'userLeagues' => $userLeagues,
+            'leagues' => $leagues,
+            'tracks' => $tracks,
+        ]);
+    }
+
+    #[Route('/create', name: 'multiplayer_create', methods: ['POST'])]
+    public function create(Request $request): Response
+    {
+        $form = $this->createForm(UserSeasonType::class, new UserSeason());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -76,22 +91,9 @@ class UserSeasonController extends BaseController
             $this->entityManager->flush();
 
             $this->addFlash('success', 'Liga została stworzona');
-
-            return $this->redirectToRoute('multiplayer_index');
         }
 
-        $userLeagues = $this->userSeasonRepository->findBy(['owner' => $this->getUser()]);
-        $leagues = $this->userSeasonRepository->getUserSeasons($this->getUser()->getId());
-        $tracks = $this->domainFacade->getAllTracks();
-        /** @var TrackDTO[] $tracks */
-        $tracks = HashTable::fromObjectArray($tracks, 'getId');
-
-        return $this->render('@multiplayer/league/index.html.twig', [
-            'form' => $form->createView(),
-            'userLeagues' => $userLeagues,
-            'leagues' => $leagues,
-            'tracks' => $tracks,
-        ]);
+        return $this->redirectToRoute('multiplayer_index');
     }
 
     #[Route('/{id}/show/{classificationType}', name: 'multiplayer_show_season', methods: ['GET'])]
