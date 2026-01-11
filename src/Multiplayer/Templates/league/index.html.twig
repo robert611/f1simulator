@@ -16,9 +16,9 @@
                                 {{ form_errors(form.name) }}
                             </div>
                             <div class="form-group mb-2">
-                                {{ form_label(form.max_players, 'Liczba graczy(2-20)') }}
-                                {{ form_widget(form.max_players, {'attr': {'class': 'form-control mt-1'}}) }}
-                                {{ form_errors(form.max_players) }}
+                                {{ form_label(form.maxPlayers, 'Liczba graczy(2-20)') }}
+                                {{ form_widget(form.maxPlayers, {'attr': {'class': 'form-control mt-1'}}) }}
+                                {{ form_errors(form.maxPlayers) }}
                             </div>
                             <button type="submit" class="btn btn-success">Stwórz</button>
                         {{ form_end(form) }}

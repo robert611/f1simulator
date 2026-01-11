@@ -10,6 +10,7 @@ use Domain\Contract\DTO\TrackDTO;
 use Domain\DomainFacadeInterface;
 use Multiplayer\Entity\UserSeason;
 use Multiplayer\Entity\UserSeasonPlayer;
+use Multiplayer\Form\UserSeasonFormDTO;
 use Multiplayer\Form\UserSeasonType;
 use Multiplayer\Repository\UserSeasonRepository;
 use Multiplayer\Service\DrawDriverToReplace;
@@ -41,7 +42,7 @@ class UserSeasonController extends BaseController
     #[Route('/', name: 'multiplayer_index', methods: ['GET', 'POST'])]
     public function index(): Response
     {
-        $form = $this->createForm(UserSeasonType::class, new UserSeason(), [
+        $form = $this->createForm(UserSeasonType::class, new UserSeasonFormDTO(), [
             'action' => $this->generateUrl('multiplayer_create'),
             'method' => 'POST',
         ]);
@@ -63,24 +64,25 @@ class UserSeasonController extends BaseController
     #[Route('/create', name: 'multiplayer_create', methods: ['POST'])]
     public function create(Request $request): Response
     {
-        $form = $this->createForm(UserSeasonType::class, new UserSeason());
+        $form = $this->createForm(UserSeasonType::class, new UserSeasonFormDTO());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $userSeasonRepository = $this->entityManager->getRepository(UserSeason::class);
-
-            if ($userSeasonRepository->count(['owner' => $this->getUser(), 'completed' => false]) >= 3) {
+            if ($this->userSeasonRepository->count(['owner' => $this->getUser(), 'completed' => false]) >= 3) {
                 $this->addFlash('warning', 'W jednym momencie możesz mieć maksymalnie trzy nieukończone ligi');
 
                 return $this->redirectToRoute('multiplayer_index');
             }
 
-            /** @var UserSeason $userSeason */
-            $userSeason = $form->getData();
-            $userSeason->setOwner($this->getUser());
-            $userSeason->setSecret($this->secretGenerator->getLeagueUniqueSecret());
-            $userSeason->setCompleted(false);
-            $userSeason->setStarted(false);
+            /** @var UserSeasonFormDTO $userSeasonFormDTO */
+            $userSeasonFormDTO = $form->getData();
+
+            $userSeason = UserSeason::create(
+                $this->secretGenerator->getLeagueUniqueSecret(),
+                $userSeasonFormDTO->maxPlayers,
+                $this->getUser(),
+                $userSeasonFormDTO->name,
+            );
 
             $driver = $this->drawDriverToReplace->getDriverToReplaceInUserLeague($userSeason);
 
