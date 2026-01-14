@@ -39,7 +39,7 @@ class UserSeasonController extends BaseController
     ) {
     }
 
-    #[Route('/', name: 'multiplayer_index', methods: ['GET', 'POST'])]
+    #[Route('', name: 'multiplayer_index', methods: ['GET', 'POST'])]
     public function index(): Response
     {
         $form = $this->createForm(UserSeasonType::class, new UserSeasonFormDTO(), [

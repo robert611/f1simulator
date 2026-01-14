@@ -60,7 +60,7 @@ class LeagueControllerTest extends WebTestCase
         $this->client->request('POST', '/league/join', ['league-secret' => $secret]);
 
         // then
-        self::assertResponseRedirects('/multiplayer/');
+        self::assertResponseRedirects('/multiplayer');
 
         // and then
         self::assertEquals(1, $this->userSeasonPlayerRepository->count());
@@ -196,7 +196,7 @@ class LeagueControllerTest extends WebTestCase
         $this->client->request('POST', '/league/join', ['league-secret' => $secret]);
 
         // then
-        self::assertResponseRedirects('/multiplayer/');
+        self::assertResponseRedirects('/multiplayer');
 
         // follow redirection
         $this->client->followRedirect();
