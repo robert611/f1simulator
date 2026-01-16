@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Functional\Multiplayer;
 
+use Multiplayer\Repository\UserSeasonRepository;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -13,11 +14,13 @@ class UserSeasonControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
     private Fixtures $fixtures;
+    private UserSeasonRepository $userSeasonRepository;
 
     public function setUp(): void
     {
         $this->client = self::createClient();
         $this->fixtures = self::getContainer()->get(Fixtures::class);
+        $this->userSeasonRepository = self::getContainer()->get(UserSeasonRepository::class);
     }
 
     #[Test]
@@ -26,9 +29,6 @@ class UserSeasonControllerTest extends WebTestCase
         // given
         $user = $this->fixtures->aUser();
         $this->client->loginUser($user);
-
-        // Dodanie dwóch lig @TODO
-        // Dodanie kilku torów @TODO
 
         // and given
         $track1 = $this->fixtures->aTrack('Australian Grand Prix', 'australia.png');
@@ -69,5 +69,36 @@ class UserSeasonControllerTest extends WebTestCase
 
         // then
         self::assertResponseIsSuccessful();
+    }
+
+    #[Test]
+    public function new_league_can_be_created(): void
+    {
+        // given
+        $user = $this->fixtures->aUser();
+        $this->client->loginUser($user);
+
+        // and given
+        $team = $this->fixtures->aTeam();
+        $this->fixtures->aDriver("Lewis", "Hamilton", $team, 44);
+
+        // when
+        $crawler = $this->client->request('GET', '/multiplayer');
+
+        $form = $crawler->selectButton('Stwórz')->form([
+            'user_season[name]' => 'Liga szybkich kierowców',
+            'user_season[maxPlayers]' => '20',
+        ]);
+        $this->client->submit($form);
+
+        // then
+        self::assertResponseRedirects('/multiplayer');
+
+        // and then
+        $userSeason = $this->userSeasonRepository->findOneBy([]);
+        self::assertEquals(1, $this->userSeasonRepository->count());
+        self::assertEquals("Liga szybkich kierowców", $userSeason->getName());
+        self::assertEquals(20, $userSeason->getMaxPlayers());
+        self::assertEquals(1, $userSeason->getPlayers()->count());
     }
 }
