@@ -71,7 +71,7 @@
                                 <div class="div-for-classification-results-anchors" id="div-for-race-results-anchors">
                                     {% if league.getRaces()|length != 0 %}
                                         {% for race in league.getRaces() %}
-                                            <a href="{{ path('multiplayer_show_season' , {'id' : league.getId(), 'classificationType' : 'RACE', 'race_id' : race.id}) }}">
+                                            <a href="{{ path('user_season_show' , {'id' : league.getId(), 'classificationType' : 'RACE', 'race_id' : race.id}) }}">
                                                 {{ tracks[race.getTrackId()].name }}
                                             </a>
                                         {% endfor %}
@@ -85,7 +85,7 @@
                                 <div class="div-for-classification-results-anchors" id="div-for-qualifications-results-anchors">
                                     {% if league.getRaces()|length != 0 %}
                                         {% for race in league.getRaces() %}
-                                            <a href="{{ path('multiplayer_show_season' , {'id' : league.getId(), 'classificationType' : 'QUALIFICATIONS', 'race_id' : race.id}) }}">
+                                            <a href="{{ path('user_season_show' , {'id' : league.getId(), 'classificationType' : 'QUALIFICATIONS', 'race_id' : race.id}) }}">
                                                 {{ tracks[race.getTrackId()].name }}
                                             </a>
                                         {% endfor %}
@@ -95,10 +95,10 @@
                                 </div>
                             </div>
                             <div>
-                                <a href="{{ path('multiplayer_show_season' , {'id' : league.getId(), 'classificationType' : 'PLAYERS'}) }}">#Klasyfikacja kierowców</a>
+                                <a href="{{ path('user_season_show' , {'id' : league.getId(), 'classificationType' : 'PLAYERS'}) }}">#Klasyfikacja kierowców</a>
                             </div>
                         </div>
-                        <div class="midlle-section-dropdown-content">
+                        <div class="middle-section-dropdown-content">
 
                         </div>
                         <div class="card custom-card mt-3 mb-2">
@@ -107,21 +107,21 @@
                                     <h4 class="text-center">Klasyfikacja kierowców</h4>
                                 </div>
                                 <div class="card-body">
-                                    {% include '@multiplayer/league_results/_players_classification.html.twig' %}
+                                    {% include '@multiplayer/user_season/_players_classification.html.twig' %}
                                 </div>
                             {% elseif classificationType == enum('Multiplayer\\Service\\ClassificationType').RACE %}
                                 <div class="card-header">
                                     <h4 class="text-center">Klasyfikacja {{ classification ? tracks[classification.getOwner().getTrackId()].name }}</h4>
                                 </div>
                                 <div class="card-body">
-                                    {% include '@multiplayer/league_results/_race_classification.html.twig' %}
+                                    {% include '@multiplayer/user_season/_race_classification.html.twig' %}
                                 </div>
                             {% elseif classificationType == enum('Multiplayer\\Service\\ClassificationType').QUALIFICATIONS %}
                                 <div class="card-header">
                                     <h4 class="text-center">Wyniki kwalifikacji - {{ classification ? tracks[classification.getOwner().getTrackId()].name }}</h4>
                                 </div>
                                 <div class="card-body">
-                                    {% include '@multiplayer/league_results/_qualifications_classification.html.twig' %}
+                                    {% include '@multiplayer/user_season/_qualifications_classification.html.twig' %}
                                 </div>
                             {% endif %}
                         </div>
@@ -140,11 +140,11 @@
                                                     <tbody>
                                                         <tr>
                                                             <td>Rozpocznij Sezon: </td>
-                                                            <td><a href="{{ path('league_start', {'id' : league.getId() }) }}"><button {{ league.started != false ? "class='btn btn-outline-secondary' disabled ": "class='btn btn-info'" }}>Rozpocznij</button></a></td>
+                                                            <td><a href="{{ path('user_season_start', {'id' : league.getId() }) }}"><button {{ league.started != false ? "class='btn btn-outline-secondary' disabled ": "class='btn btn-info'" }}>Rozpocznij</button></a></td>
                                                         </tr>
                                                         <tr>
                                                             <td>Kolejny wyścig: </td>
-                                                            <td><span><a href="{{ path('league_simulate_race', {'id' : league.getId() }) }}"><button {{ league.started == false or track.name is not defined ? "class='btn btn-outline-secondary' disabled ": "class='btn btn-info'" }}>Symuluj</button></a></span></td>
+                                                            <td><span><a href="{{ path('user_season_simulate_race', {'id' : league.getId() }) }}"><button {{ league.started == false or track.name is not defined ? "class='btn btn-outline-secondary' disabled ": "class='btn btn-info'" }}>Symuluj</button></a></span></td>
                                                         </tr>
                                                         {% if track.name is not defined %}
                                                             <tr>
@@ -152,7 +152,7 @@
                                                                 <td>
                                                                     {% if league.getCompleted == 0 %}
                                                                         <span>
-                                                                            <a href="{{ path('league_end', {'id' : league.getId() }) }}"><button class="btn btn btn-warning">Zakończ</button>
+                                                                            <a href="{{ path('user_season_end', {'id' : league.getId() }) }}"><button class="btn btn btn-warning">Zakończ</button>
                                                                             </a>
                                                                         </span>
                                                                     {% else %}
