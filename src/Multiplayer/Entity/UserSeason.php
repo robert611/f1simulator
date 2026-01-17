@@ -70,19 +70,9 @@ class UserSeason
         return $this->secret;
     }
 
-    public function setSecret(string $secret): void
-    {
-        $this->secret = $secret;
-    }
-
     public function getMaxPlayers(): int
     {
         return $this->maxPlayers;
-    }
-
-    public function setMaxPlayers(int $maxPlayers): void
-    {
-        $this->maxPlayers = $maxPlayers;
     }
 
     public function getOwner(): User
@@ -90,9 +80,19 @@ class UserSeason
         return $this->owner;
     }
 
-    public function setOwner(User $owner): void
+    public function getName(): string
     {
-        $this->owner = $owner;
+        return $this->name;
+    }
+
+    public function getCompleted(): bool
+    {
+        return $this->completed;
+    }
+
+    public function getStarted(): bool
+    {
+        return $this->started;
     }
 
     /**
@@ -141,43 +141,13 @@ class UserSeason
         }
     }
 
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
-
-    public function getCompleted(): bool
-    {
-        return $this->completed;
-    }
-
-    public function setCompleted(bool $completed): void
-    {
-        $this->completed = $completed;
-    }
-
-    public function getStarted(): bool
-    {
-        return $this->started;
-    }
-
-    public function setStarted(bool $started): void
-    {
-        $this->started = $started;
-    }
-
     public static function create(
         string $secret,
         int $maxPlayers,
         User $owner,
         string $name,
-        bool $completed,
-        bool $started,
+        bool $completed = false,
+        bool $started = false,
     ): self {
         $userSeason = new self();
         $userSeason->secret = $secret;
@@ -188,6 +158,16 @@ class UserSeason
         $userSeason->started = $started;
 
         return $userSeason;
+    }
+
+    public function start(): void
+    {
+        $this->started = true;
+    }
+
+    public function end(): void
+    {
+        $this->completed = true;
     }
 
     /**

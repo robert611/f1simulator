@@ -11,11 +11,11 @@ use Multiplayer\Entity\UserSeasonPlayer;
 use Multiplayer\Model\GameSimulation\LeagueQualificationResult;
 use Multiplayer\Model\GameSimulation\LeagueQualificationResultsCollection;
 
-class SimulateLeagueQualifications
+readonly class SimulateLeagueQualifications
 {
     public function __construct(
-        private readonly QualificationsHelperService $helperService,
-        private readonly DomainFacadeInterface $domainFacade,
+        private QualificationsHelperService $helperService,
+        private DomainFacadeInterface $domainFacade,
     ) {
     }
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Multiplayer\Form;
 
-use Multiplayer\Entity\UserSeason;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,14 +16,14 @@ class UserSeasonType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
-            ->add('max_players', NumberType::class)
+            ->add('maxPlayers', NumberType::class)
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => UserSeason::class,
+            'data_class' => UserSeasonFormDTO::class,
         ]);
     }
 }

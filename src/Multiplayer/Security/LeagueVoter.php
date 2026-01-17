@@ -72,9 +72,11 @@ class LeagueVoter extends Voter
         if (false === $enoughPlayers) {
             // phpcs:ignore
             (new Session())->getFlashBag()->add('warning', 'Do rozpoczęcia ligi potrzebujesz przynajmniej dwóch użytkowników.');
+
+            return false;
         }
 
-        return $enoughPlayers;
+        return true;
     }
 
     private function canEnd(UserSeason $league, User $user): bool

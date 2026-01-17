@@ -172,6 +172,8 @@ class Fixtures
     {
         $userSeasonRace = UserSeasonRace::create($trackId, $userSeason);
 
+        $userSeason->addRace($userSeasonRace);
+
         $this->entityManager->persist($userSeasonRace);
         $this->entityManager->flush();
 
