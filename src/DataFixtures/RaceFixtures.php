@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\DataFixtures;
+namespace DataFixtures;
 
 use Computer\Entity\Race;
 use Computer\Entity\Season;

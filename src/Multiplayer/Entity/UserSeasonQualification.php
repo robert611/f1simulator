@@ -57,11 +57,6 @@ class UserSeasonQualification
         return $this->position;
     }
 
-    public function setPosition(int $position): void
-    {
-        $this->position = $position;
-    }
-
     public static function create(
         UserSeasonPlayer $userSeasonPlayer,
         UserSeasonRace $userSeasonRace,

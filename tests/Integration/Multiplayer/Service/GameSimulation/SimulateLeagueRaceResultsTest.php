@@ -7,20 +7,20 @@ namespace Integration\Multiplayer\Service\GameSimulation;
 use Domain\Contract\DTO\DriverDTO;
 use Multiplayer\Model\GameSimulation\LeagueQualificationResult;
 use Multiplayer\Model\GameSimulation\LeagueQualificationResultsCollection;
-use Multiplayer\Service\GameSimulation\SimulateLeagueRace;
+use Multiplayer\Service\GameSimulation\SimulateLeagueRaceResults;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Tests\Common\Fixtures;
 
-class SimulateLeagueRaceTest extends KernelTestCase
+class SimulateLeagueRaceResultsTest extends KernelTestCase
 {
     private Fixtures $fixtures;
-    private SimulateLeagueRace $simulateLeagueRace;
+    private SimulateLeagueRaceResults $simulateLeagueRaceResults;
 
     public function setUp(): void
     {
         $this->fixtures = self::getContainer()->get(Fixtures::class);
-        $this->simulateLeagueRace = self::getContainer()->get(SimulateLeagueRace::class);
+        $this->simulateLeagueRaceResults = self::getContainer()->get(SimulateLeagueRaceResults::class);
     }
 
     #[Test]
@@ -57,7 +57,7 @@ class SimulateLeagueRaceTest extends KernelTestCase
         $this->fixtures->aUserSeasonPlayer($userSeason, $user2, $driver3);
 
         // when
-        $result = $this->simulateLeagueRace->simulateRaceResults($userSeason);
+        $result = $this->simulateLeagueRaceResults->simulateRaceResults($userSeason);
 
         // then
         self::assertCount(3, $result->getQualificationsResults()->toPlainArray());
@@ -72,7 +72,7 @@ class SimulateLeagueRaceTest extends KernelTestCase
         $qualificationResults = LeagueQualificationResultsCollection::create();
 
         // when
-        $results = $this->simulateLeagueRace->getLeagueRaceResults($drivers, $qualificationResults);
+        $results = $this->simulateLeagueRaceResults->getLeagueRaceResults($drivers, $qualificationResults);
 
         // then
         self::assertEmpty($results);
@@ -109,7 +109,7 @@ class SimulateLeagueRaceTest extends KernelTestCase
         ]);
 
         // when
-        $results = $this->simulateLeagueRace->getLeagueRaceResults($drivers, $qualificationResults);
+        $results = $this->simulateLeagueRaceResults->getLeagueRaceResults($drivers, $qualificationResults);
 
         // then
         self::assertCount(2, $results);
@@ -158,7 +158,7 @@ class SimulateLeagueRaceTest extends KernelTestCase
         ]);
 
         // when
-        $results = $this->simulateLeagueRace->getLeagueRaceResults($drivers, $qualificationResults);
+        $results = $this->simulateLeagueRaceResults->getLeagueRaceResults($drivers, $qualificationResults);
 
         // then
         self::assertCount(3, $results);
@@ -193,7 +193,7 @@ class SimulateLeagueRaceTest extends KernelTestCase
         $qualificationResults = LeagueQualificationResultsCollection::create([$qualificationResult]);
 
         // when
-        $results = $this->simulateLeagueRace->getLeagueRaceResults($drivers, $qualificationResults);
+        $results = $this->simulateLeagueRaceResults->getLeagueRaceResults($drivers, $qualificationResults);
 
         // then
         self::assertCount(1, $results);

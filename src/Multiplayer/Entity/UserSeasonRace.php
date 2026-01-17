@@ -47,11 +47,6 @@ class UserSeasonRace
         return $this->trackId;
     }
 
-    public function setTrackId(int $trackId): void
-    {
-        $this->trackId = $trackId;
-    }
-
     public function getSeason(): UserSeason
     {
         return $this->season;

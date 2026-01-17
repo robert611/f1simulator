@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\DataFixtures;
+namespace DataFixtures;
 
 use Computer\Entity\Season;
 use Doctrine\Bundle\FixturesBundle\Fixture;

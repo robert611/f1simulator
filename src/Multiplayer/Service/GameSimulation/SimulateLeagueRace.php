@@ -4,78 +4,82 @@ declare(strict_types=1);
 
 namespace Multiplayer\Service\GameSimulation;
 
-use Doctrine\Common\Collections\Collection;
-use Domain\Contract\DTO\DriverDTO;
-use Domain\Contract\GameSimulation\CouponsGenerator;
+use Doctrine\ORM\EntityManagerInterface;
+use Domain\Contract\Configuration\RaceScoringSystem;
 use Domain\DomainFacadeInterface;
 use Multiplayer\Entity\UserSeason;
 use Multiplayer\Entity\UserSeasonPlayer;
-use Multiplayer\Model\GameSimulation\LeagueQualificationResultsCollection;
-use Multiplayer\Model\GameSimulation\LeagueRaceResultsDTO;
+use Multiplayer\Entity\UserSeasonQualification;
+use Multiplayer\Entity\UserSeasonRace;
+use Multiplayer\Entity\UserSeasonRaceResult;
+use Multiplayer\Service\LeagueClassifications;
+use Throwable;
 
-class SimulateLeagueRace
+readonly class SimulateLeagueRace
 {
     public function __construct(
-        private readonly SimulateLeagueQualifications $simulateLeagueQualifications,
-        private readonly CouponsGenerator $couponsGenerator,
-        private readonly DomainFacadeInterface $domainFacade,
+        private SimulateLeagueRaceResults $simulateLeagueRaceResults,
+        private LeagueClassifications $leagueClassifications,
+        private DomainFacadeInterface $domainFacade,
+        private EntityManagerInterface $entityManager,
     ) {
     }
 
-    public function simulateRaceResults(UserSeason $userSeason): LeagueRaceResultsDTO
-    {
-        $players = $userSeason->getPlayers();
-
-        $driversIds = UserSeasonPlayer::getPlayersDriversIds($players);
-
-        $drivers = $this->domainFacade->getDriversByIds($driversIds);
-
-        $qualificationsResults = $this->simulateLeagueQualifications->getLeagueQualificationsResults($userSeason);
-
-        $raceResults = $this->getLeagueRaceResults($drivers, $qualificationsResults);
-
-        $preparedRaceResults = $this->setRaceResultsToPlayers($raceResults, $players);
-
-        return LeagueRaceResultsDTO::create($qualificationsResults, $preparedRaceResults);
-    }
-
     /**
-     * @param DriverDTO[] $drivers
-     *
-     * @return int[]
+     * @throws Throwable
      */
-    public function getLeagueRaceResults(
-        array $drivers,
-        LeagueQualificationResultsCollection $qualificationsResults,
-    ): array {
-        $results = [];
+    public function simulateRace(UserSeason $userSeason): void
+    {
+        /** @var null|UserSeasonRace $lastRace */
+        $lastRace = $userSeason->getRaces()->last();
+        $track = $lastRace
+            ? $this->domainFacade->getNextTrack($lastRace->getTrackId())
+            : $this->domainFacade->getFirstTrack();
 
-        $coupons = $this->couponsGenerator->generateCoupons($qualificationsResults->toPlainDriverArray());
+        $connection = $this->entityManager->getConnection();
+        $connection->beginTransaction();
 
-        for ($position = 1; $position <= count($drivers); $position++) {
-            do {
-                $driverId = $coupons[array_rand($coupons)];
-            } while (in_array($driverId, $results));
+        try {
+            /* Save race in the database */
+            $userSeasonRace = UserSeasonRace::create($track->getId(), $userSeason);
 
-            $results[$position] = $driverId;
+            $this->entityManager->persist($userSeasonRace);
+            $this->entityManager->flush();
+
+            $leagueRaceResultsDTO = $this->simulateLeagueRaceResults->simulateRaceResults($userSeason);
+
+            $qualificationsResults = $leagueRaceResultsDTO->getQualificationsResults();
+
+            foreach ($qualificationsResults->getQualificationResults() as $result) {
+                $qualification = UserSeasonQualification::create(
+                    $result->getUserSeasonPlayer(),
+                    $userSeasonRace,
+                    $result->getPosition(),
+                );
+
+                $this->entityManager->persist($qualification);
+            }
+
+            $this->entityManager->flush();
+
+            $raceResults = $leagueRaceResultsDTO->getRaceResults();
+
+            /** @var UserSeasonPlayer $player */
+            foreach ($raceResults as $position => $player) {
+                $points = RaceScoringSystem::getPositionScore($position);
+                $raceResult = UserSeasonRaceResult::create($position, $points, $userSeasonRace, $player);
+                $player->addPoints($points);
+
+                $this->entityManager->persist($raceResult);
+            }
+
+            $this->entityManager->flush();
+            $connection->commit();
+        } catch (Throwable $e) {
+            $connection->rollBack();
+            throw $e;
         }
 
-        return $results;
-    }
-
-    /**
-     * @param int[] $raceResults
-     * @param Collection<UserSeasonPlayer> $players
-     *
-     * @return UserSeasonPlayer[]
-     */
-    private function setRaceResultsToPlayers(array $raceResults, Collection $players): array
-    {
-        foreach ($raceResults as $key => $driverId) {
-            $player = UserSeasonPlayer::getPlayerByDriverId($players, $driverId);
-            $raceResults[$key] = $player;
-        }
-
-        return $raceResults;
+        $this->leagueClassifications->recalculatePlayersPositions($userSeason);
     }
 }
