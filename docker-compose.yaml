@@ -1,0 +1,27 @@
+services:
+    php:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: f1simulator_php
+        working_dir: /app
+        volumes:
+            - .:/app
+        ports:
+            - "8000:8000"
+        command: php -S 0.0.0.0:8000 -t public
+    mysql:
+        image: mysql:8.0
+        container_name: f1simulator_mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_USER: f1simulator
+            MYSQL_PASSWORD: password
+        ports:
+            - "3306:3306"
+        volumes:
+            - db_data:/var/lib/mysql
+            - ./docker/mysql_init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+    db_data:
