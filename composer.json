@@ -5,6 +5,10 @@
         "php": ">=8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-dom": "*",
+        "ext-xml": "*",
+        "ext-simplexml": "*",
+        "ext-mbstring": "*",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "^7.2",
         "symfony/console": "^6.4",
@@ -63,7 +67,8 @@
         "symfony/web-profiler-bundle": "7.1.*",
         "phpstan/phpstan": "^2.1",
         "squizlabs/php_codesniffer": "^3.11",
-        "deptrac/deptrac": "^4.2"
+        "deptrac/deptrac": "^4.2",
+        "behat/behat": "^3.29"
     },
     "autoload": {
         "psr-4": {
