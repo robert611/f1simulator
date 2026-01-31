@@ -1,0 +1,10 @@
+{
+    "navbar": {
+        "login": "Logowanie",
+        "register": "Rejestracja",
+        "logout": "Wyloguj się",
+        "hello_nickname": "Witaj",
+        "multiplayer": "Gra wieloosobowa",
+        "admin_panel": "Panel administratora"
+    }
+}
