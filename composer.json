@@ -5,6 +5,10 @@
         "php": ">=8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-dom": "*",
+        "ext-xml": "*",
+        "ext-simplexml": "*",
+        "ext-mbstring": "*",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "^7.2",
         "symfony/console": "^6.4",
@@ -22,7 +26,12 @@
         "symfony/validator": "7.1.*",
         "symfony/yaml": "7.1.*",
         "symfony/runtime": "7.1.*",
-        "symfony/twig-bundle": "7.1.*"
+        "symfony/twig-bundle": "7.1.*",
+        "behat/behat": "^3.29",
+        "behat/mink": "^1.13",
+        "behat/mink-browserkit-driver": "^2.3",
+        "friends-of-behat/symfony-extension": "^2.6",
+        "symfony/browser-kit": "7.1.*"
     },
     "extra": {
         "symfony": {
@@ -48,6 +57,7 @@
             "./vendor/bin/phpcs",
             "./vendor/bin/phpstan analyse -l 5 src tests",
             "./vendor/bin/phpunit",
+            "./vendor/bin/behat",
             "./vendor/bin/deptrac analyse"
         ]
     },
@@ -55,7 +65,6 @@
         "phpunit/phpunit": "^11.5",
         "dama/doctrine-test-bundle": "^8.2",
         "doctrine/doctrine-fixtures-bundle": "^4.0",
-        "symfony/browser-kit": "7.1.*",
         "symfony/css-selector": "7.1.*",
         "symfony/maker-bundle": "^1.61",
         "symfony/phpunit-bridge": "7.1.4",

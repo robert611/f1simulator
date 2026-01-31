@@ -20,5 +20,6 @@ RUN pecl install xdebug && docker-php-ext-enable xdebug
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 COPY docker/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+COPY docker/php.ini /usr/local/etc/php/conf.d/99-custom.ini
 
 WORKDIR /app

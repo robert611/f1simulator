@@ -1,11 +1,11 @@
-name: PhpUnit
+name: Behat
 
 on:
     pull_request:
         branches: [master, develop]
 
 jobs:
-    phpunit:
+    behat:
         runs-on: ubuntu-latest
 
         env:
@@ -24,7 +24,6 @@ jobs:
                     --health-interval=10s
                     --health-timeout=5s
                     --health-retries=5
-        
 
         steps:
             -   name: Checkout code
@@ -33,10 +32,10 @@ jobs:
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: '8.4'
-                    extensions: mbstring, pdo_mysql, intl
-                    ini-values: post_max_size=256M, max_execution_time=180
-                    coverage: none
+                      php-version: '8.4'
+                      extensions: mbstring, intl, xml, dom
+                      ini-values: post_max_size=256M, max_execution_time=180
+                      coverage: none
 
             -   name: Install dependencies
                 run: composer install --prefer-dist --no-progress --no-suggest
@@ -53,5 +52,5 @@ jobs:
                     php bin/console doctrine:database:create --if-not-exists --env=test
                     php bin/console doctrine:migrations:migrate --no-interaction --env=test
 
-            -   name: Run PHPUnit
-                run: vendor/bin/phpunit
+            -   name: Run Behat
+                run: ./vendor/bin/behat
