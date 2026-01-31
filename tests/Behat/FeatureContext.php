@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 class FeatureContext implements Context
 {
     private KernelBrowser $client;
-    private string $responseContent;
+    private ?string $responseContent = null;
 
     /**
      * Initializes context.
@@ -44,6 +44,25 @@ class FeatureContext implements Context
     #[Then('I should see :text')]
     public function iShouldSee(string $text): void
     {
+        Assert::assertNotNull($this->responseContent, 'Response content is null');
         Assert::assertStringContainsString($text, $this->responseContent);
+    }
+
+    #[Then('the response status should be :status')]
+    public function theResponseStatusShouldBe(int $status): void
+    {
+        Assert::assertSame(
+            $status,
+            $this->client->getResponse()->getStatusCode(),
+        );
+    }
+
+    #[Then('the page title should be :title')]
+    public function thePageTitleShouldBe(string $title): void
+    {
+        preg_match('/<title>(.*?)<\/title>/', $this->responseContent, $matches);
+
+        Assert::assertNotEmpty($matches, 'No <title> tag found');
+        Assert::assertSame($title, trim($matches[1]));
     }
 }
