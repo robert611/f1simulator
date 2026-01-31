@@ -41,6 +41,31 @@
                         </a>
                     </li>
                 {% endif %}
+                <!-- Language switcher -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-globe me-1"></i>
+                        {% if app.request.locale == 'pl' %}
+                            Polski
+                        {% else %}
+                            English
+                        {% endif %}
+                    </a>
+                    <ul class="dropdown-menu bg-dark" aria-labelledby="languageDropdown" id="language-picker-dropdown">
+                        <li>
+                            <a class="dropdown-item text-white" href="{{ path('app_change_language', {'locale': 'pl'}) }}">
+                                <img src="{{ asset('assets/flags/pl.png') }}" alt="PL" class="me-2" width="20" height="15">
+                                Polski
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item text-white" href="{{ path('app_change_language', {'locale': 'en'}) }}">
+                                <img src="{{ asset('assets/flags/gb.png') }}" alt="EN" class="me-2" width="20" height="15">
+                                English
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
