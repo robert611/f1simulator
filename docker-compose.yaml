@@ -35,6 +35,12 @@ services:
             - "8080:80"
         volumes:
             - phpmyadmin_data:/etc/phpmyadmi
+    mailhog:
+        image: mailhog/mailhog:latest
+        container_name: f1simulator_mailhog
+        ports:
+            - "8025:8025"
+            - "1025:1025"
 
 volumes:
     db_data:
