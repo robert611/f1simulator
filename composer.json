@@ -32,7 +32,8 @@
         "behat/mink-browserkit-driver": "^2.3",
         "friends-of-behat/symfony-extension": "^2.6",
         "symfony/browser-kit": "7.1.*",
-        "symfony/translation": "7.1.*"
+        "symfony/translation": "7.1.*",
+        "symfony/mailer": "7.1.*"
     },
     "extra": {
         "symfony": {
