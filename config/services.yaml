@@ -39,6 +39,9 @@ services:
     DataFixtures\:
         resource: '../src/DataFixtures/*'
 
+    Mailer\:
+        resource: '../src/Mailer/*'
+
     Domain\Controller\:
         resource: '../src/Domain/Controller/'
         tags: ['controller.service_arguments']

@@ -34,7 +34,8 @@
         "symfony/browser-kit": "7.1.*",
         "symfony/translation": "7.1.*",
         "symfony/mailer": "7.1.*",
-        "symfony/messenger": "7.1.*"
+        "symfony/messenger": "7.1.*",
+        "symfony/doctrine-messenger": "7.1.*"
     },
     "extra": {
         "symfony": {

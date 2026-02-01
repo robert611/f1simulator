@@ -4,6 +4,7 @@ namespace Security\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Security\Entity\User;
+use Security\Event\UserRegisteredEvent;
 use Security\Form\RegistrationFormType;
 use Shared\Controller\BaseController;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,11 +12,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class RegistrationController extends BaseController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
+        private readonly EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
@@ -45,6 +48,8 @@ class RegistrationController extends BaseController
             // do anything else you need here, like send an email
             $session = new Session();
             $session->getFlashBag()->add('auth_success', 'Rejestracja przebiegła pomyślnie');
+
+            $this->eventDispatcher->dispatch(new UserRegisteredEvent($user));
 
             return $this->redirectToRoute('app_register');
         }
