@@ -21,7 +21,9 @@ class LanguageControllerTest extends WebTestCase
     public function it_changes_language_and_redirects_to_referer(): void
     {
         // given
-        $this->client->request('GET', '/change-language/pl',
+        $this->client->request(
+            'GET',
+            '/change-language/pl',
             server: [
                 'HTTP_REFERER' => '/some-page',
             ],
