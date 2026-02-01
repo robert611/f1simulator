@@ -8,6 +8,11 @@
     padding-bottom: 30px!important;
     color: white!important;
 }
+
+#language-picker-dropdown .dropdown-item:hover, #language-picker-dropdown .dropdown-item:focus {
+    background-color: rgb(62 67 71)!important;
+}
+
 .display-inline {
     display: inline-block!important;
 }
