@@ -5,12 +5,16 @@ declare (strict_types=1);
 namespace Mailer;
 
 use Mailer\AsyncCommand\SendEmail;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Throwable;
 
 final readonly class MailerFacade implements MailerFacadeInterface
 {
     public function __construct(
+        #[Autowire(service: 'monolog.logger.mailer')]
+        private LoggerInterface $mailerLogger,
         private MessageBusInterface $messageBus,
     ) {
     }
@@ -27,8 +31,8 @@ final readonly class MailerFacade implements MailerFacadeInterface
 
         try {
             $this->messageBus->dispatch($command);
-        } catch (Throwable) {
-            // @TODO Add file logger
+        } catch (Throwable $e) {
+           $this->mailerLogger->error((string) $e);
         }
     }
 }
