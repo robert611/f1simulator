@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Mailer\AsyncCommand;
 
 use Shared\Messenger\EmailQueue;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -19,6 +20,7 @@ final readonly class SendEmailHandler implements EmailQueue
     public function __construct(
         private MailerInterface $mailer,
         private Environment $twig,
+        private ParameterBagInterface $parameterBag,
     ) {
     }
 
@@ -31,13 +33,11 @@ final readonly class SendEmailHandler implements EmailQueue
     #[AsMessageHandler(bus: 'messenger.bus.default')]
     public function __invoke(SendEmail $command): void
     {
-        $from = "f1simulator@gmail.com";
-
         $htmlBody = $this->twig->render($command->htmlTemplate, $command->contentParams);
         $plainBody = $this->twig->render($command->plainTemplate, $command->contentParams);
 
         $email = (new Email())
-            ->from($from)
+            ->from($this->parameterBag->get('mailer_from_address'))
             ->to(...$command->to)
             ->subject($command->subject)
             ->html($htmlBody)
