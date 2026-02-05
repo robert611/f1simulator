@@ -7,6 +7,7 @@ namespace Security\EventListener;
 use Mailer\GenericEmail;
 use Mailer\MailerFacadeInterface;
 use Security\Event\UserRegisteredEvent;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 #[AsEventListener]
@@ -14,6 +15,7 @@ readonly class UserRegisteredListener
 {
     public function __construct(
         private MailerFacadeInterface $mailerFacade,
+        private ParameterBagInterface $parameterBag,
     ) {
     }
 
@@ -29,6 +31,7 @@ readonly class UserRegisteredListener
                 '@mailer/welcome-email.txt.twig',
                 [
                     'username' => $user->getUsername(),
+                    'homepageUrl' => $this->parameterBag->get('app_domain'),
                 ],
             ),
         );
