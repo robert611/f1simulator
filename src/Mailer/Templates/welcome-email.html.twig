@@ -3,18 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <title>Witamy w F1Simulator</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color:#0f1115;
+            font-family: Arial, Helvetica, sans-serif;
+            color:#ffffff;
+        }
+
+        #main-table {
+            width: 100%;
+            border-spacing: 0;
+            background-color: #0f1115;
+            padding:40px 0;
+        }
+
+        #main-table th, #main-table td {
+            padding: 0;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        #sub-table {
+            width: 600px;
+            border-spacing: 0;
+            background-color: #151922;
+            border-radius:12px;
+            padding:40px;
+        }
+
+        #sub-table th, #main-table td {
+            padding: 0;
+        }
+
+        #title {
+            margin: 0;
+            color: #e10600;
+            font-size: 32px;
+            letter-spacing: 1px;
+        }
+
+        #sub-title {
+            margin: 8px 0 0 0;
+            color: #9aa4b2;
+            font-size:14px;
+        }
+
+        #homepage-button {
+            background-color: #e10600;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            display: inline-block;
+        }
+    </style>
 </head>
-<body style="margin:0;padding:0;background-color:#0f1115;font-family:Arial,Helvetica,sans-serif;color:#ffffff;">
-<table width="100%" cellpadding="0" cellspacing="0" style="background-color:#0f1115;padding:40px 0;">
+<body>
+<table id="main-table">
     <tr>
         <td align="center">
-            <table width="600" cellpadding="0" cellspacing="0" style="background-color:#151922;border-radius:12px;padding:40px;">
+            <table id="sub-table">
                 <tr>
-                    <td align="center" style="padding-bottom:20px;">
-                        <h1 style="margin:0;color:#e10600;font-size:32px;letter-spacing:1px;">
+                    <td class="text-center" style="padding-bottom:20px;">
+                        <h1 id="title">
                             F1Simulator
                         </h1>
-                        <p style="margin:8px 0 0 0;color:#9aa4b2;font-size:14px;">
+                        <p id="sub-title">
                             Twoja alternatywna rzeczywistość Formuły 1
                         </p>
                     </td>
@@ -34,19 +94,16 @@
                         </p>
 
                         <ul style="color:#d6dbe3;font-size:15px;line-height:1.8;padding-left:18px;margin-top:0;">
-                            <li>symulować wyniki wyścigów i całych sezonów F1,</li>
-                            <li>tworzyć własne scenariusze i alternatywne historie,</li>
-                            <li>analizować statystyki i porównywać wyniki,</li>
-                            <li>sprawdzać kto zostanie mistrzem w Twojej rzeczywistości.</li>
+                            <li>Symulować wyniki wyścigów i całych sezonów F1,</li>
+                            <li>Tworzyć własne scenariusze i alternatywne historie,</li>
+                            <li>Analizować statystyki i porównywać wyniki,</li>
+                            <li>Sprawdzać kto zostanie mistrzem w Twojej rzeczywistości.</li>
                         </ul>
                     </td>
                 </tr>
                 <tr>
-                    <td align="center" style="padding:30px 0;">
-                        <a href="{{ homepageUrl }}"
-                           style="background-color:#e10600;color:#ffffff;text-decoration:none;
-                    padding:14px 28px;border-radius:8px;font-weight:bold;
-                    font-size:16px;display:inline-block;">
+                    <td class="text-center" style="padding:30px 0;">
+                        <a id="homepage-button" href="{{ homepageUrl }}">
                             Rozpocznij grę
                         </a>
                     </td>
