@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Integration\Domain\Service;
+namespace Tests\Integration\Domain\Service;
 
 use Domain\Service\DriverService;
 use PHPUnit\Framework\Attributes\Test;

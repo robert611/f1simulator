@@ -32,7 +32,7 @@ final readonly class MailerFacade implements MailerFacadeInterface
         try {
             $this->messageBus->dispatch($command);
         } catch (Throwable $e) {
-           $this->mailerLogger->error((string) $e);
+            $this->mailerLogger->error((string) $e);
         }
     }
 }

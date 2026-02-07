@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Integration\Computer\Service\GameSimulation;
+namespace Tests\Integration\Computer\Service\GameSimulation;
 
 use Computer\Service\GameSimulation\SimulateQualifications;
 use Domain\Contract\DTO\DriverDTO;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Integration\Multiplayer\Service\GameSimulation;
+namespace Tests\Integration\Multiplayer\Service\GameSimulation;
 
 use Domain\Contract\DTO\DriverDTO;
 use Multiplayer\Model\GameSimulation\LeagueQualificationResult;

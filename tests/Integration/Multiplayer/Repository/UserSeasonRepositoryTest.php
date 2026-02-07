@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Integration\Multiplayer\Repository;
+namespace Tests\Integration\Multiplayer\Repository;
 
 use Multiplayer\Repository\UserSeasonRepository;
 use PHPUnit\Framework\Attributes\Test;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Integration\Computer\Service\DriverStatistics;
+namespace Tests\Integration\Computer\Service\DriverStatistics;
 
 use Computer\Service\DriverStatistics\DriverPoints;
 use Domain\Contract\DTO\DriverDTO;

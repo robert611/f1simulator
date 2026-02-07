@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Integration\Computer\Service\GameSimulation;
+namespace Tests\Integration\Computer\Service\GameSimulation;
 
 use Computer\Model\GameSimulation\QualificationResult;
 use Computer\Model\GameSimulation\QualificationResultsCollection;
