@@ -37,7 +37,7 @@
         "symfony/messenger": "7.1.*",
         "symfony/doctrine-messenger": "7.1.*",
         "symfony/monolog-bundle": "^3.11",
-        "elasticsearch/elasticsearch": "^9.3"
+        "elasticsearch/elasticsearch": "^8.13"
     },
     "extra": {
         "symfony": {

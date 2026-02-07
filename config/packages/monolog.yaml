@@ -2,6 +2,7 @@ monolog:
     channels:
         - deprecation # Deprecations are logged in the dedicated "deprecation" channel when it exists
         - mailer
+        - mailer_elastic
 
 when@dev:
     monolog:
@@ -10,12 +11,17 @@ when@dev:
                 type: stream
                 path: "%kernel.logs_dir%/%kernel.environment%.log"
                 level: debug
-                channels: ["!event", "!mailer"]
+                channels: ["!event", "!mailer", '!mailer_elastic']
             mailer:
                 type: stream
                 path: "%kernel.logs_dir%/mailer/mailer_%kernel.environment%.log"
                 level: debug
                 channels: [mailer]
+            mailer_elastic:
+                type: service
+                id: Elastic\ElasticMailHandler
+                channels: [mailer_elastic]
+                level: info
             console:
                 type: console
                 process_psr_3_messages: false
