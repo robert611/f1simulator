@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Mailer;
 
 use Mailer\AsyncCommand\SendEmail;
+use Mailer\Contract\GenericEmail;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Messenger\MessageBusInterface;

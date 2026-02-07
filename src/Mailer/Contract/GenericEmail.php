@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mailer;
+namespace Mailer\Contract;
 
 final readonly class GenericEmail
 {

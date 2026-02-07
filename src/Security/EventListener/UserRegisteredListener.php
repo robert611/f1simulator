@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Security\EventListener;
 
-use Mailer\GenericEmail;
+use Mailer\Contract\GenericEmail;
 use Mailer\MailerFacadeInterface;
 use Security\Event\UserRegisteredEvent;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;

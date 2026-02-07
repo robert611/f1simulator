@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Integration\Mailer;
 
 use Mailer\AsyncCommand\SendEmail;
-use Mailer\GenericEmail;
+use Mailer\Contract\GenericEmail;
 use Mailer\MailerFacade;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
