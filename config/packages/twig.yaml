@@ -5,3 +5,4 @@ twig:
         '%kernel.project_dir%/src/Multiplayer/Templates': 'multiplayer'
         '%kernel.project_dir%/src/Security/Templates': 'security'
         '%kernel.project_dir%/src/Admin/Templates': 'admin'
+        '%kernel.project_dir%/src/Mailer/Templates': 'mailer'

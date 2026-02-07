@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Integration\Computer\Service\Classification;
+namespace Tests\Integration\Computer\Service\Classification;
 
 use Computer\Entity\Qualification;
 use Computer\Model\DriversClassification;

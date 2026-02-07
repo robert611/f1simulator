@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Integration\Computer;
+namespace Tests\Integration\Computer;
 
 use Computer\ComputerFacade;
 use PHPUnit\Framework\Attributes\Test;

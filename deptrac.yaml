@@ -27,6 +27,18 @@ deptrac:
               - { type: class, value: ^Domain\\Contract\\.* }
               - { type: interface, value: ^Domain\\.* }
 
+        - name: Mailer
+          collectors:
+               - type: bool
+                 must:
+                     - { type: class, value: ^Mailer\\.* }
+                 must_not:
+                     - { type: layer, value: Mailer_Allowed }
+        - name: Mailer_Allowed
+          collectors:
+              - { type: class, value: ^Mailer\\Contract\\.* }
+              - { type: interface, value: ^Mailer\\.* }
+
         - name: Multiplayer
           collectors:
               - type: bool
@@ -72,6 +84,12 @@ deptrac:
         Domain_Allowed:
             - Domain
 
+        Mailer:
+            - Mailer_Allowed
+            - Shared
+        Mailer_Allowed:
+            - Mailer
+
         Multiplayer:
             - Multiplayer_Allowed
             - Domain_Allowed
@@ -81,6 +99,7 @@ deptrac:
             - Multiplayer
 
         Security:
+            - Mailer_Allowed
             - Security_Allowed
             - Shared
         Security_Allowed:

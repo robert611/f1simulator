@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Integration\Computer\Service\TeamStatistics;
+namespace Tests\Integration\Computer\Service\TeamStatistics;
 
 use Computer\Service\TeamStatistics\TeamPoints;
 use Domain\Contract\DTO\TeamDTO;

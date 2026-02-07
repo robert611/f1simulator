@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Integration\Multiplayer\Service;
+namespace Tests\Integration\Multiplayer\Service;
 
 use Domain\Contract\DTO\DriverDTO;
 use Multiplayer\Service\DrawDriverToReplace;

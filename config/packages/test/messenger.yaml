@@ -1,0 +1,7 @@
+framework:
+    messenger:
+        transports:
+            async: 'in-memory://'
+
+        routing:
+            'Shared\Messenger\EmailQueue': async
