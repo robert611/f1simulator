@@ -23,7 +23,7 @@ class MailerFacadeTest extends KernelTestCase
     }
 
     #[Test]
-    public function mail_will_be_dispatched(): void
+    public function email_will_be_dispatched(): void
     {
         // given
         $genericEmail = new GenericEmail(
