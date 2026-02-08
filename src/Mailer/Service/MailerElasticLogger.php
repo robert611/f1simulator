@@ -6,7 +6,7 @@ namespace Mailer\Service;
 
 use Psr\Log\LoggerInterface;
 
-final readonly class MailerElasticLogger
+readonly class MailerElasticLogger
 {
     public function __construct(
         private LoggerInterface $mailerElasticLogger,
