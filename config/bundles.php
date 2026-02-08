@@ -10,4 +10,6 @@ return [
     Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
     DAMA\DoctrineTestBundle\DAMADoctrineTestBundle::class => ['test' => true],
     Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
+    FriendsOfBehat\SymfonyExtension\Bundle\FriendsOfBehatSymfonyExtensionBundle::class => ['test' => true],
+    Symfony\Bundle\MonologBundle\MonologBundle::class => ['all' => true],
 ];

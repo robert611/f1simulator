@@ -105,6 +105,21 @@
     "doctrine/sql-formatter": {
         "version": "1.1.1"
     },
+    "friends-of-behat/symfony-extension": {
+        "version": "2.6",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "2.0",
+            "ref": "1e012e04f573524ca83795cd19df9ea690adb604"
+        },
+        "files": [
+            "behat.yml.dist",
+            "config/services_test.yaml",
+            "features/demo.feature",
+            "tests/Behat/DemoContext.php"
+        ]
+    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.3"
     },
@@ -131,6 +146,18 @@
     },
     "php": {
         "version": "7.4"
+    },
+    "php-http/discovery": {
+        "version": "1.20",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.18",
+            "ref": "f45b5dd173a27873ab19f5e3180b2f661c21de02"
+        },
+        "files": [
+            "config/packages/http_discovery.yaml"
+        ]
     },
     "phpstan/phpstan": {
         "version": "2.1",
@@ -271,6 +298,18 @@
     "symfony/intl": {
         "version": "v5.0.5"
     },
+    "symfony/mailer": {
+        "version": "7.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "4.3",
+            "ref": "09051cfde49476e3c12cd3a0e44289ace1c75a4f"
+        },
+        "files": [
+            "config/packages/mailer.yaml"
+        ]
+    },
     "symfony/maker-bundle": {
         "version": "1.0",
         "recipe": {
@@ -280,8 +319,32 @@
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
     },
+    "symfony/messenger": {
+        "version": "7.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "6.0",
+            "ref": "d8936e2e2230637ef97e5eecc0eea074eecae58b"
+        },
+        "files": [
+            "config/packages/messenger.yaml"
+        ]
+    },
     "symfony/mime": {
         "version": "v5.0.5"
+    },
+    "symfony/monolog-bundle": {
+        "version": "3.11",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "3.7",
+            "ref": "1b9efb10c54cb51c713a9391c9300ff8bceda459"
+        },
+        "files": [
+            "config/packages/monolog.yaml"
+        ]
     },
     "symfony/options-resolver": {
         "version": "v5.0.5"
@@ -385,6 +448,19 @@
     },
     "symfony/string": {
         "version": "v5.2.6"
+    },
+    "symfony/translation": {
+        "version": "7.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "6.3",
+            "ref": "620a1b84865ceb2ba304c8f8bf2a185fbf32a843"
+        },
+        "files": [
+            "config/packages/translation.yaml",
+            "translations/.gitignore"
+        ]
     },
     "symfony/translation-contracts": {
         "version": "v2.0.1"

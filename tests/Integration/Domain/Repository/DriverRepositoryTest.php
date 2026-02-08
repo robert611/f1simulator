@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Integration\Domain\Repository;
+namespace Tests\Integration\Domain\Repository;
 
 use Domain\Repository\DriverRepository;
 use PHPUnit\Framework\Attributes\Test;

@@ -1,0 +1,10 @@
+{
+    "navbar": {
+        "login": "Log in",
+        "register": "Register",
+        "logout": "Logout",
+        "hello_nickname": "Hello",
+        "multiplayer": "Multiplayer",
+        "admin_panel": "Admin panel"
+    }
+}

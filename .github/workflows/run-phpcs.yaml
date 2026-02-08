@@ -1,26 +1,26 @@
 name: Phpcs
 
 on:
-  pull_request:
-    branches: [master, develop]
+    pull_request:
+        branches: [master, develop]
 
 jobs:
-  phpcs:
-    runs-on: ubuntu-latest
+    phpcs:
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.4'
-          extensions: mbstring, pdo_mysql, intl
-          coverage: none
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.4'
+                  extensions: mbstring, pdo_mysql, intl
+                  coverage: none
 
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
+            - name: Install dependencies
+              run: composer install --prefer-dist --no-progress --no-suggest
 
-      - name: Run Phpcs
-        run: ./vendor/bin/phpcs
+            - name: Run Phpcs
+              run: ./vendor/bin/phpcs

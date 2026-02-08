@@ -1,19 +1,19 @@
 name: Enforce develop -> master only
 
 on:
-  pull_request:
-    branches: [master]
+    pull_request:
+        branches: [master]
 
 jobs:
-  enforce-develop-to-master-only:
-    runs-on: ubuntu-latest
-    steps:
-      -   name: Fail if source branch is not develop
-          run: |
-            echo "Base branch: ${{ github.base_ref }}"
-            echo "Source branch: ${{ github.head_ref }}"
-            
-            if [ "${{ github.base_ref }}" = "master" ] && [ "${{ github.head_ref }}" != "develop" ]; then
-                echo "❌ Only 'develop' branch can be merged into 'master'."
-                exit 1
-            fi
+    enforce-develop-to-master-only:
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Fail if source branch is not develop
+                run: |
+                    echo "Base branch: ${{ github.base_ref }}"
+                    echo "Source branch: ${{ github.head_ref }}"
+                    
+                    if [ "${{ github.base_ref }}" = "master" ] && [ "${{ github.head_ref }}" != "develop" ]; then
+                        echo "❌ Only 'develop' branch can be merged into 'master'."
+                        exit 1
+                    fi

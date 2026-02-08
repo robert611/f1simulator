@@ -1,0 +1,72 @@
+{% trans_default_domain 'front' %}
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <span class="navbar-brand mb-0 h1">
+            <a href="{{ path('app_index') }}" class="text-decoration-none text-white">F1 Simulator</a>
+        </span>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse my-2 my-lg-0 justify-content-end" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ path('multiplayer_index') }}">{{ 'navbar.multiplayer'|trans }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="">{{ 'navbar.hello_nickname'|trans }}: {{ app.user.username }}</a>
+                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{ path('admin_dashboard') }}">{{ 'navbar.admin_panel'|trans }}</a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ path('app_logout') }}">
+                            {{ 'navbar.logout'|trans }}
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ path('app_login') }}">
+                            {{ 'navbar.login'|trans }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ path('app_register') }}">
+                            {{ 'navbar.register'|trans }}
+                        </a>
+                    </li>
+                {% endif %}
+                <!-- Language switcher -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-globe me-1"></i>
+                        {% if app.request.locale == 'pl' %}
+                            Polski
+                        {% else %}
+                            English
+                        {% endif %}
+                    </a>
+                    <ul class="dropdown-menu bg-dark" aria-labelledby="languageDropdown" id="language-picker-dropdown">
+                        <li>
+                            <a class="dropdown-item text-white" href="{{ path('app_change_language', {'locale': 'pl'}) }}">
+                                <img src="{{ asset('assets/flags/pl.png') }}" alt="PL" class="me-2" width="20" height="15">
+                                Polski
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item text-white" href="{{ path('app_change_language', {'locale': 'en'}) }}">
+                                <img src="{{ asset('assets/flags/gb.png') }}" alt="EN" class="me-2" width="20" height="15">
+                                English
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

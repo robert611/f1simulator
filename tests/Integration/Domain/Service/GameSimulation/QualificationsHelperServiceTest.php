@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Integration\Domain\Service\GameSimulation;
+namespace Tests\Integration\Domain\Service\GameSimulation;
 
 use Domain\Contract\Configuration\TeamsStrength;
 use Domain\Contract\DTO\DriverDTO;

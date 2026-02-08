@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Integration\Multiplayer\Service\Classification;
+namespace Tests\Integration\Multiplayer\Service\Classification;
 
 use Domain\Contract\DTO\TeamDTO;
 use Multiplayer\Service\LeagueTeamsClassification;
