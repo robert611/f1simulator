@@ -6,6 +6,7 @@
 parameters:
     mailer_from_address: '%env(MAILER_FROM_ADDRESS)%'
     app_domain: '%env(APP_DOMAIN)%'
+    elastic_host: '%env(ELASTIC_HOST)%'
 
 services:
     # default configuration for services in *this* file
@@ -43,6 +44,9 @@ services:
 
     Mailer\:
         resource: '../src/Mailer/*'
+
+    Elastic\:
+        resource: '../src/Elastic/*'
 
     Domain\Controller\:
         resource: '../src/Domain/Controller/'

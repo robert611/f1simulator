@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mailer\AsyncCommand;
 
+use Mailer\Service\MailerElasticLogger;
 use Shared\Messenger\EmailQueue;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -21,6 +22,7 @@ final readonly class SendEmailHandler implements EmailQueue
         private MailerInterface $mailer,
         private Environment $twig,
         private ParameterBagInterface $parameterBag,
+        private MailerElasticLogger $mailerElasticLogger,
     ) {
     }
 
@@ -28,7 +30,6 @@ final readonly class SendEmailHandler implements EmailQueue
      * @throws SyntaxError
      * @throws RuntimeError
      * @throws LoaderError
-     * @throws TransportExceptionInterface
      */
     #[AsMessageHandler(bus: 'messenger.bus.default')]
     public function __invoke(SendEmail $command): void
@@ -43,6 +44,11 @@ final readonly class SendEmailHandler implements EmailQueue
             ->html($htmlBody)
             ->text($plainBody);
 
-        $this->mailer->send($email);
+        try {
+            $this->mailer->send($email);
+            $this->mailerElasticLogger->sent($command->to, $command->subject);
+        } catch (TransportExceptionInterface $e) {
+            $this->mailerElasticLogger->error($command->to, $command->subject, (string) $e);
+        }
     }
 }
