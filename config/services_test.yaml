@@ -11,3 +11,6 @@ services:
 
     Multiplayer\MultiplayerFacade:
         public: true
+
+    Elastic\ElasticClientFactory:
+        public: true
