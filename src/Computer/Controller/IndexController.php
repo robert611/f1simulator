@@ -11,14 +11,12 @@ use Computer\Service\SeasonTeamsClassification;
 use Domain\Contract\DTO\DriverDTO;
 use Domain\Contract\DTO\TrackDTO;
 use Domain\DomainFacadeInterface;
-use Security\Event\UserRegisteredEvent;
 use Shared\Controller\BaseController;
 use Shared\HashTable;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class IndexController extends BaseController
 {
@@ -27,7 +25,6 @@ class IndexController extends BaseController
         private readonly SeasonClassifications $seasonClassifications,
         private readonly SeasonTeamsClassification $seasonTeamsClassification,
         private readonly DomainFacadeInterface $domainFacade,
-        private readonly EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
@@ -65,8 +62,6 @@ class IndexController extends BaseController
         $drivers = $this->domainFacade->getAllDrivers();
         /** @var DriverDTO[] $drivers */
         $drivers = HashTable::fromObjectArray($drivers, 'getId');
-
-        $this->eventDispatcher->dispatch(new UserRegisteredEvent($this->getUser()));
 
         return $this->render('@computer/index.html.twig', [
             'defaultDriversClassification' => $defaultDriversClassification,
