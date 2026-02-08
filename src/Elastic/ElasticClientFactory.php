@@ -8,7 +8,7 @@ use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientBuilder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-final readonly class ElasticClientFactory
+readonly class ElasticClientFactory
 {
     public function __construct(
         private ParameterBagInterface $parameterBag,

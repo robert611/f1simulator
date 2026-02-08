@@ -8,7 +8,7 @@ use Elastic\Elasticsearch\Client;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\LogRecord;
 
-class ElasticMailHandler extends AbstractProcessingHandler
+final class ElasticMailerHandler extends AbstractProcessingHandler
 {
     private readonly Client $client;
 
