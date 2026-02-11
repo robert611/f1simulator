@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Functional\Security;
 
 use PHPUnit\Framework\Attributes\Test;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Tests\Common\Fixtures;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -14,13 +13,11 @@ class SecurityControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
     private Fixtures $fixtures;
-    private TokenStorageInterface $tokenStorage;
 
     public function setUp(): void
     {
         $this->client = static::createClient();
         $this->fixtures = self::getContainer()->get(Fixtures::class);
-        $this->tokenStorage = self::getContainer()->get(TokenStorageInterface::class);
     }
 
     #[Test]
@@ -62,6 +59,28 @@ class SecurityControllerTest extends WebTestCase
 
         // and then
         $this->client->followRedirect();
-        self::assertNull($this->tokenStorage->getToken());
+        $tokenStorage = static::getContainer()->get('security.token_storage');
+        self::assertNull($tokenStorage->getToken());
+    }
+
+    #[Test]
+    public function login_form_works(): void
+    {
+        // given
+        $this->fixtures->aCustomUser('John', 'test@gmail.com');
+
+        // when
+        $crawler = $this->client->request('GET', '/login');
+        $form = $crawler->selectButton('Zaloguj się')->form([
+            '_username' => 'John',
+            '_password' => 'password',
+        ]);
+        $this->client->submit($form);
+        $this->client->followRedirect();
+
+        // then
+        self::assertResponseRedirects('/home');
+        $tokenStorage = static::getContainer()->get('security.token_storage');
+        self::assertNotNull($tokenStorage->getToken());
     }
 }

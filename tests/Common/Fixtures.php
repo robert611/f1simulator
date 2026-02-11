@@ -18,11 +18,13 @@ use Multiplayer\Entity\UserSeasonQualification;
 use Multiplayer\Entity\UserSeasonRace;
 use Multiplayer\Entity\UserSeasonRaceResult;
 use Security\Entity\User;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class Fixtures
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
+        private readonly UserPasswordHasherInterface $passwordEncoder,
     ) {
     }
 
@@ -59,7 +61,12 @@ class Fixtures
         $user = new User();
         $user->setUsername($username);
         $user->setEmail($email);
-        $user->setPassword('password');
+        $user->setPassword(
+            $this->passwordEncoder->hashPassword(
+                $user,
+                'password',
+            ),
+        );
         $user->setRoles(['ROLE_USER']);
 
         $this->entityManager->persist($user);
