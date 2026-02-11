@@ -38,8 +38,8 @@ class RegistrationController extends BaseController
             $user->setPassword(
                 $passwordEncoder->hashPassword(
                     $user,
-                    $form->get('plainPassword')->getData()
-                )
+                    $form->get('plainPassword')->getData(),
+                ),
             );
 
             $this->entityManager->persist($user);
