@@ -28,6 +28,8 @@
 
                         <div class="auth-form-container">
                             {{ form_start(registrationForm) }}
+
+                            <!-- Username field -->
                             <div class="auth-form-group">
                                 <label class="auth-form-label" for="{{ registrationForm.username.vars.id }}">
                                     <i class="fas fa-user"></i> Nazwa użytkownika
@@ -43,6 +45,7 @@
                                 </div>
                             </div>
 
+                            <!-- Email field -->
                             <div class="auth-form-group">
                                 <label class="auth-form-label" for="{{ registrationForm.email.vars.id }}">
                                     <i class="fas fa-envelope"></i> Adres email
@@ -58,19 +61,41 @@
                                 </div>
                             </div>
 
+                            <!-- Password field -->
                             <div class="auth-form-group">
-                                <label class="auth-form-label" for="{{ registrationForm.plainPassword.vars.id }}">
+                                <label class="auth-form-label" for="{{ registrationForm.plainPassword.first.vars.id }}">
                                     <i class="fas fa-lock"></i> Hasło
                                 </label>
-                                {{ form_widget(registrationForm.plainPassword, {
+                                {{ form_widget(registrationForm.plainPassword.first, {
                                     'attr': {
                                         'class': 'auth-form-control',
-                                        'placeholder': 'Wprowadź hasło (minimum 6 znaków)'
+                                        'placeholder': 'Wprowadź hasło (minimum 12 znaków)'
                                     }
                                 }) }}
                                 <div class="auth-form-error text-sm mt-2">
-                                    {{ form_errors(registrationForm.plainPassword) }}
+                                    {{ form_errors(registrationForm.plainPassword.first) }}
                                 </div>
+                            </div>
+
+                            <!-- Repeat password -->
+                            <div class="auth-form-group">
+                                <label class="auth-form-label" for="{{ registrationForm.plainPassword.second.vars.id }}">
+                                    <i class="fas fa-lock"></i> Powtórz hasło
+                                </label>
+                                {{ form_widget(registrationForm.plainPassword.second, {
+                                    'attr': {
+                                        'class': 'auth-form-control',
+                                        'placeholder': 'Wprowadź hasło (minimum 12 znaków)'
+                                    }
+                                }) }}
+                                <div class="auth-form-error text-sm mt-2">
+                                    {{ form_errors(registrationForm.plainPassword.second) }}
+                                </div>
+                                {% if form_errors(registrationForm.plainPassword) %}
+                                    <div class="auth-form-error text-sm mt-2">
+                                        {{ form_errors(registrationForm.plainPassword) }}
+                                    </div>
+                                {% endif %}
                             </div>
 
                             <button type="submit" name="submit_button" class="btn auth-btn">

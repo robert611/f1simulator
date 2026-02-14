@@ -7,5 +7,13 @@
     "username.unique": "Konto z tą nazwą użytkownika już istnieje",
     "email.not_blank": "Proszę podać adres e-mail",
     "email.invalid": "Proszę podać poprawny adres e-mail",
-    "email.unique": "Ten adres e-mail jest już używany."
+    "email.unique": "Ten adres e-mail jest już używany.",
+    "password.not_blank": "Proszę wprowadzić hasło",
+    "password.too_short": "Hasło musi zawierać co najmniej {{ limit }} znaków",
+    "password.too_long": "Hasło może mieć maksymalnie {{ limit }} znaków",
+    "password.missing_uppercase": "Hasło musi zawierać co najmniej jedną wielką literę",
+    "password.missing_special": "Hasło musi zawierać co najmniej jeden znak specjalny",
+    "password.contains_user_data": "Hasło nie może zawierać nazwy użytkownika ani adresu e-mail",
+    "password.front_validation": "Twoje hasło nie spełnia wszystkich wymagań",
+    "password.mismatch": "Podane hasła się różnią"
 }

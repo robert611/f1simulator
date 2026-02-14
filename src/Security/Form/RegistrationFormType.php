@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Security\Form;
 
 use Security\Entity\User;
+use Security\Validator\PasswordDoesNotContainUserData;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -61,22 +63,52 @@ class RegistrationFormType extends AbstractType
                 ],
                 'required' => true,
             ])
-            ->add('plainPassword', PasswordType::class, [
+            ->add('plainPassword', RepeatedType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
+                'type' => PasswordType::class,
                 'mapped' => false,
+                'attr' => ['autocomplete' => 'new-password'],
+                'invalid_message' => 'password.mismatch',
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Podaj poprawne hasło',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Twoje hasło powinno zawierać co najmniej {{ limit }} znaków',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
-                    ]),
+                    new NotBlank(
+                        message: 'password.not_blank',
+                    ),
+                    new Length(
+                        min: 12,
+                        max: 64,
+                        minMessage: 'password.too_long',
+                        maxMessage: 'password.too_long',
+                    ),
+                    new Regex(
+                        pattern: '/[A-Z]/',
+                        message: 'password.missing_uppercase',
+                    ),
+                    new Regex(
+                        pattern: '/[\W_]/',
+                        message: 'password.missing_special',
+                    ),
+                    new PasswordDoesNotContainUserData(),
                 ],
-                'label' => 'Hasło'
+                'required' => true,
+                'first_options'  => [
+                    'label' => 'Password',
+                    'attr' => [
+                        'minlength' => 12,
+                        'maxlength' => 64,
+                        'pattern' => '(?=.*[A-Z])(?=.*[\W_]).{12,64}',
+                        'title' => $this->translator->trans('password.front_validation', [], 'validators'),
+                    ],
+                ],
+                'second_options' => [
+                    'label' => 'Repeat Password',
+                    'attr' => [
+                        'minlength' => 12,
+                        'maxlength' => 64,
+                        'pattern' => '(?=.*[A-Z])(?=.*[\W_]).{12,64}',
+                        'title' => $this->translator->trans('password.front_validation', [], 'validators'),
+                    ],
+                ],
             ])
         ;
     }

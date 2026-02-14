@@ -7,5 +7,13 @@
     "username.unique": "There is already an account with this username",
     "email.not_blank": "Please enter an email address",
     "email.invalid": "Please enter a valid email address",
-    "email.unique": "This email address is already in use."
+    "email.unique": "This email address is already in use.",
+    "password.not_blank": "Please enter a password",
+    "password.too_short": "Your password should be at least {{ limit }} characters",
+    "password.too_long": "Your password cannot be longer than {{ limit }} characters",
+    "password.missing_uppercase": "Your password must contain at least one uppercase letter",
+    "password.missing_special": "Your password must contain at least one special character",
+    "password.contains_user_data": "Your password cannot contain your username or email address",
+    "password.front_validation": "Your password doesn't match all of the criteria",
+    "password.mismatch": "Provided password are different"
 }
