@@ -4,6 +4,8 @@
     "username.max_length": "Nazwa użytkownika może mieć maksymalnie {{ limit }} znaków",
     "username.forbidden_words": "Nazwa użytkownika zawiera niedozwolone słowo",
     "username.front_length_validation": "Nazwa użytkownika musi zawierać od 8 do 64 znaków",
+    "username.unique": "Konto z tą nazwą użytkownika już istnieje",
     "email.not_blank": "Proszę podać adres e-mail",
-    "email.invalid": "Proszę podać poprawny adres e-mail"
+    "email.invalid": "Proszę podać poprawny adres e-mail",
+    "email.unique": "Ten adres e-mail jest już używany."
 }

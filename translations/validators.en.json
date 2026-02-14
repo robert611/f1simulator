@@ -4,6 +4,8 @@
     "username.max_length": "Your username should be at most {{ limit }} characters",
     "username.forbidden_words": "The username contains forbidden word",
     "username.front_length_validation": "Username must be between 8 and 64 characters",
+    "username.unique": "There is already an account with this username",
     "email.not_blank": "Please enter an email address",
-    "email.invalid": "Please enter a valid email address"
+    "email.invalid": "Please enter a valid email address",
+    "email.unique": "This email address is already in use."
 }

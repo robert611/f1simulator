@@ -69,6 +69,48 @@ class RegisterControllerTest extends WebTestCase
     }
 
     #[Test]
+    public function username_must_be_unique(): void
+    {
+        // given
+        $this->fixtures->aCustomUser('legacy_fighter', 'legacy_fighter@email.com');
+
+        // when
+        $this->client->request('GET', '/register');
+        $this->client->submitForm('submit_button', [
+            'registration_form[username]' => 'legacy_fighter',
+            'registration_form[email]' => 'test@gmail.com',
+            'registration_form[plainPassword]' => 'password',
+        ]);
+
+        // then
+        self::assertSelectorTextContains('body', 'Konto z tą nazwą użytkownika już istnieje');
+
+        // and then
+        self::assertEquals(1, $this->userRepository->count());
+    }
+
+    #[Test]
+    public function email_must_be_unique(): void
+    {
+        // given
+        $this->fixtures->aCustomUser('legacy_fighter', 'legacy_fighter@email.com');
+
+        // when
+        $this->client->request('GET', '/register');
+        $this->client->submitForm('submit_button', [
+            'registration_form[username]' => 'original_username',
+            'registration_form[email]' => 'legacy_fighter@email.com',
+            'registration_form[plainPassword]' => 'password',
+        ]);
+
+        // then
+        self::assertSelectorTextContains('body', 'Ten adres e-mail jest już używany.');
+
+        // and then
+        self::assertEquals(1, $this->userRepository->count());
+    }
+
+    #[Test]
     #[DataProvider('unmetConstraintProvider')]
     public function unmet_constraint_will_be_discovered(array $data, string $expectedMessage): void
     {
