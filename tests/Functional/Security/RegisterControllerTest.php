@@ -118,6 +118,22 @@ class RegisterControllerTest extends WebTestCase
                 ],
                 'Nazwa użytkownika zawiera niedozwolone słowo',
             ],
+            [
+                [
+                    'registration_form[username]' => 'john1doe3546',
+                    'registration_form[email]' => '',
+                    'registration_form[plainPassword]' => 'password',
+                ],
+                'Proszę podać adres e-mail',
+            ],
+            [
+                [
+                    'registration_form[username]' => 'john1doe3546',
+                    'registration_form[email]' => 'invalid_email',
+                    'registration_form[plainPassword]' => 'password',
+                ],
+                'Proszę podać poprawny adres e-mail',
+            ],
         ];
     }
 }

@@ -3,5 +3,7 @@
     "username.min_length": "Nazwa użytkownika musi mieć co najmniej {{ limit }} znaków",
     "username.max_length": "Nazwa użytkownika może mieć maksymalnie {{ limit }} znaków",
     "username.forbidden_words": "Nazwa użytkownika zawiera niedozwolone słowo",
-    "username.front_length_validation": "Nazwa użytkownika musi zawierać od 8 do 64 znaków"
+    "username.front_length_validation": "Nazwa użytkownika musi zawierać od 8 do 64 znaków",
+    "email.not_blank": "Proszę podać adres e-mail",
+    "email.invalid": "Proszę podać poprawny adres e-mail"
 }
