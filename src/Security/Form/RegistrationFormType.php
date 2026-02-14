@@ -13,13 +13,43 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RegistrationFormType extends AbstractType
 {
+    public function __construct(
+        private readonly TranslatorInterface $translator,
+    ) {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('username', TextType::class, ['label' => 'Użytkownik'])
+            ->add('username', TextType::class, [
+                'constraints' => [
+                    new NotBlank(
+                        message: 'username.not_blank',
+                    ),
+                    new Length(
+                        min: 8,
+                        max: 64,
+                        minMessage: 'username.min_length',
+                        maxMessage: 'username.max_length',
+                    ),
+                    new Regex(
+                        pattern: '/^(?!.*(admin|support|obsługa|moderator)).*$/i',
+                        message: 'username.forbidden_words',
+                    ),
+                ],
+                'attr' => [
+                    'minlength' => 8,
+                    'maxlength' => 64,
+                    'pattern' => '.{8,64}',
+                    'title' => $this->translator->trans('username.front_length_validation', [], 'validators'),
+                ],
+                'required' => true,
+            ])
             ->add('email', EmailType::class)
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
@@ -31,7 +61,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Twoje hasło powinno zawierać conajmniej {{ limit }} znaków',
+                        'minMessage' => 'Twoje hasło powinno zawierać co najmniej {{ limit }} znaków',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),

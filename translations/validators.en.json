@@ -1,0 +1,7 @@
+{
+    "username.not_blank": "Please enter a username",
+    "username.min_length": "Your username should be at least {{ limit }} characters",
+    "username.max_length": "Your username should be at most {{ limit }} characters",
+    "username.forbidden_words": "The username contains forbidden word",
+    "username.front_length_validation": "Username must be between 8 and 64 characters"
+}

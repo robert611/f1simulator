@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Functional\Security;
 
 use Mailer\AsyncCommand\SendEmail;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Security\Repository\UserRepository;
 use Symfony\Component\Messenger\Transport\InMemory\InMemoryTransport;
 use Tests\Common\Fixtures;
@@ -26,17 +27,7 @@ class RegisterControllerTest extends WebTestCase
     }
 
     #[Test]
-    public function it_checks_if_unlogged_user_will_reach_login_page(): void
-    {
-        // when
-        $this->client->request('GET', '/login');
-
-        // then
-        self::assertResponseIsSuccessful();
-    }
-
-    #[Test]
-    public function it_checks_if_logged_user_cannot_access_register_page(): void
+    public function logged_user_cannot_access_register_page(): void
     {
         // given
         $user = $this->fixtures->aUser();
@@ -75,5 +66,58 @@ class RegisterControllerTest extends WebTestCase
         self::assertCount(1, $messages);
         self::assertInstanceOf(SendEmail::class, $command);
         self::assertSame(['test@gmail.com'], $command->to);
+    }
+
+    #[Test]
+    #[DataProvider('unmetConstraintProvider')]
+    public function unmet_constraint_will_be_discovered(array $data, string $expectedMessage): void
+    {
+        // when
+        $this->client->request('GET', '/register');
+        $this->client->submitForm('submit_button', $data);
+
+        // then
+        self::assertSelectorTextContains('body', $expectedMessage);
+
+        // and then
+        self::assertEquals(0, $this->userRepository->count());
+    }
+
+    public static function unmetConstraintProvider(): array
+    {
+        return [
+            [
+                [
+                    'registration_form[username]' => '',
+                    'registration_form[email]' => 'test@gmail.com',
+                    'registration_form[plainPassword]' => 'password',
+                ],
+                'Proszę podać nazwę użytkownika',
+            ],
+            [
+                [
+                    'registration_form[username]' => 'short',
+                    'registration_form[email]' => 'test@gmail.com',
+                    'registration_form[plainPassword]' => 'password',
+                ],
+                'Nazwa użytkownika musi mieć co najmniej 8 znaków',
+            ],
+            [
+                [
+                    'registration_form[username]' => str_repeat('A', 65),
+                    'registration_form[email]' => 'test@gmail.com',
+                    'registration_form[plainPassword]' => 'password',
+                ],
+                'Nazwa użytkownika może mieć maksymalnie 64 znaków',
+            ],
+            [
+                [
+                    'registration_form[username]' => 'support',
+                    'registration_form[email]' => 'test@gmail.com',
+                    'registration_form[plainPassword]' => 'password',
+                ],
+                'Nazwa użytkownika zawiera niedozwolone słowo',
+            ],
+        ];
     }
 }

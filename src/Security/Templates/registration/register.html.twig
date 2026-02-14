@@ -10,13 +10,11 @@
 {% block body %}
     <div class="auth-container">
         <div class="container">
-            {% if app.session.flashBag.has('auth_success') %}
-                {% for msg in app.session.flashBag.get('auth_success') %}
-                    <div class="auth-alert auth-alert-success mb-5">
-                        {{ msg }}
-                    </div>
-                {% endfor %}
-            {% endif %}
+            {% for message in app.flashes('auth_success') %}
+                <div class="auth-alert auth-alert-success mb-5">
+                    {{ message }}
+                </div>
+            {% endfor %}
 
             <div class="row justify-content-center align-items-center">
                 <div class="col-lg-6 col-md-8 col-sm-10">
@@ -75,7 +73,7 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn auth-btn">
+                            <button type="submit" name="submit_button" class="btn auth-btn">
                                 <i class="fas fa-flag-checkered"></i> Zarejestruj się
                             </button>
                             {{ form_end(registrationForm) }}
