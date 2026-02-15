@@ -50,6 +50,7 @@ class RegisterControllerTest extends WebTestCase
             'registration_form[email]' => 'test@gmail.com',
             'registration_form[plainPassword][first]' => 'Password1...',
             'registration_form[plainPassword][second]' => 'Password1...',
+            'registration_form[agreeTerms]' => true,
         ]);
         $this->client->submit($form);
 
@@ -82,6 +83,7 @@ class RegisterControllerTest extends WebTestCase
             'registration_form[email]' => 'test@gmail.com',
             'registration_form[plainPassword][first]' => 'Password1...',
             'registration_form[plainPassword][second]' => 'Password1...',
+            'registration_form[agreeTerms]' => true,
         ]);
 
         // then
@@ -104,6 +106,7 @@ class RegisterControllerTest extends WebTestCase
             'registration_form[email]' => 'legacy_fighter@email.com',
             'registration_form[plainPassword][first]' => 'Password1...',
             'registration_form[plainPassword][second]' => 'Password1...',
+            'registration_form[agreeTerms]' => true,
         ]);
 
         // then
@@ -137,6 +140,7 @@ class RegisterControllerTest extends WebTestCase
                     'registration_form[email]' => 'test@gmail.com',
                     'registration_form[plainPassword][first]' => 'Password1...',
                     'registration_form[plainPassword][second]' => 'Password1...',
+                    'registration_form[agreeTerms]' => true,
                 ],
                 'Proszę podać nazwę użytkownika',
             ],
@@ -146,6 +150,7 @@ class RegisterControllerTest extends WebTestCase
                     'registration_form[email]' => 'test@gmail.com',
                     'registration_form[plainPassword][first]' => 'Password1...',
                     'registration_form[plainPassword][second]' => 'Password1...',
+                    'registration_form[agreeTerms]' => true,
                 ],
                 'Nazwa użytkownika musi mieć co najmniej 8 znaków',
             ],
@@ -155,6 +160,7 @@ class RegisterControllerTest extends WebTestCase
                     'registration_form[email]' => 'test@gmail.com',
                     'registration_form[plainPassword][first]' => 'Password1...',
                     'registration_form[plainPassword][second]' => 'Password1...',
+                    'registration_form[agreeTerms]' => true,
                 ],
                 'Nazwa użytkownika może mieć maksymalnie 64 znaków',
             ],
@@ -164,6 +170,7 @@ class RegisterControllerTest extends WebTestCase
                     'registration_form[email]' => 'test@gmail.com',
                     'registration_form[plainPassword][first]' => 'Password1...',
                     'registration_form[plainPassword][second]' => 'Password1...',
+                    'registration_form[agreeTerms]' => true,
                 ],
                 'Nazwa użytkownika zawiera niedozwolone słowo',
             ],
@@ -173,6 +180,7 @@ class RegisterControllerTest extends WebTestCase
                     'registration_form[email]' => '',
                     'registration_form[plainPassword][first]' => 'Password1...',
                     'registration_form[plainPassword][second]' => 'Password1...',
+                    'registration_form[agreeTerms]' => true,
                 ],
                 'Proszę podać adres e-mail',
             ],
@@ -182,6 +190,7 @@ class RegisterControllerTest extends WebTestCase
                     'registration_form[email]' => 'invalid_email',
                     'registration_form[plainPassword][first]' => 'Password1...',
                     'registration_form[plainPassword][second]' => 'Password1...',
+                    'registration_form[agreeTerms]' => true,
                 ],
                 'Proszę podać poprawny adres e-mail',
             ],
@@ -191,6 +200,7 @@ class RegisterControllerTest extends WebTestCase
                     'registration_form[email]' => 'test@gmail.com',
                     'registration_form[plainPassword][first]' => '',
                     'registration_form[plainPassword][second]' => '',
+                    'registration_form[agreeTerms]' => true,
                 ],
                 'Proszę wprowadzić hasło',
             ],
@@ -200,6 +210,7 @@ class RegisterControllerTest extends WebTestCase
                     'registration_form[email]' => 'test@gmail.com',
                     'registration_form[plainPassword][first]' => 'Ce5!',
                     'registration_form[plainPassword][second]' => 'Ce5!',
+                    'registration_form[agreeTerms]' => true,
                 ],
                 'Hasło musi zawierać co najmniej 12 znaków',
             ],
@@ -209,6 +220,7 @@ class RegisterControllerTest extends WebTestCase
                     'registration_form[email]' => 'test@gmail.com',
                     'registration_form[plainPassword][first]' => str_repeat('A1.', 23),
                     'registration_form[plainPassword][second]' => str_repeat('A1.', 23),
+                    'registration_form[agreeTerms]' => true,
                 ],
                 'Hasło może mieć maksymalnie 64 znaków',
             ],
@@ -218,6 +230,7 @@ class RegisterControllerTest extends WebTestCase
                     'registration_form[email]' => 'test@gmail.com',
                     'registration_form[plainPassword][first]' => 'abc1234567890.',
                     'registration_form[plainPassword][second]' => 'abc1234567890.',
+                    'registration_form[agreeTerms]' => true,
                 ],
                 'Hasło musi zawierać co najmniej jedną wielką literę',
             ],
@@ -227,6 +240,7 @@ class RegisterControllerTest extends WebTestCase
                     'registration_form[email]' => 'test@gmail.com',
                     'registration_form[plainPassword][first]' => 'Abc1234567890',
                     'registration_form[plainPassword][second]' => 'Abc1234567890',
+                    'registration_form[agreeTerms]' => true,
                 ],
                 'Hasło musi zawierać co najmniej jeden znak specjalny',
             ],
@@ -236,6 +250,7 @@ class RegisterControllerTest extends WebTestCase
                     'registration_form[email]' => 'test@gmail.com',
                     'registration_form[plainPassword][first]' => 'john1doe3546A.',
                     'registration_form[plainPassword][second]' => 'john1doe3546A.',
+                    'registration_form[agreeTerms]' => true,
                 ],
                 'Hasło nie może zawierać nazwy użytkownika ani adresu e-mail',
             ],
@@ -245,6 +260,7 @@ class RegisterControllerTest extends WebTestCase
                     'registration_form[email]' => 'test@gmail.com',
                     'registration_form[plainPassword][first]' => 'test@gmail.comA',
                     'registration_form[plainPassword][second]' => 'test@gmail.comA',
+                    'registration_form[agreeTerms]' => true,
                 ],
                 'Hasło nie może zawierać nazwy użytkownika ani adresu e-mail',
             ],
@@ -254,8 +270,28 @@ class RegisterControllerTest extends WebTestCase
                     'registration_form[email]' => 'test@gmail.com',
                     'registration_form[plainPassword][first]' => 'Mi35lik9..!klo9i',
                     'registration_form[plainPassword][second]' => 'Mi35lik9..!klo9iC',
+                    'registration_form[agreeTerms]' => true,
                 ],
                 'Podane hasła się różnią',
+            ],
+            [
+                [
+                    'registration_form[username]' => 'john1doe3546',
+                    'registration_form[email]' => 'test@gmail.com',
+                    'registration_form[plainPassword][first]' => 'Mi35lik9..!klo9i',
+                    'registration_form[plainPassword][second]' => 'Mi35lik9..!klo9iC',
+                ],
+                'Musisz zaakceptować nasz regulamin',
+            ],
+            [
+                [
+                    'registration_form[username]' => 'john1doe3546',
+                    'registration_form[email]' => 'test@gmail.com',
+                    'registration_form[plainPassword][first]' => 'Mi35lik9..!klo9i',
+                    'registration_form[plainPassword][second]' => 'Mi35lik9..!klo9iC',
+                    'registration_form[agreeTerms]' => false,
+                ],
+                'Musisz zaakceptować nasz regulamin',
             ],
         ];
     }

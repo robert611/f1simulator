@@ -117,6 +117,18 @@
     text-decoration: underline;
 }
 
+.auth-link {
+    color: #b71c1c;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.auth-link:hover {
+    color: #d32f2f;
+    text-decoration: underline;
+}
+
 .auth-form-error {
     color: #d32f2f;
     font-size: 1rem;
@@ -207,6 +219,40 @@
 
 .password-group .form-control:hover + .input-group-text i {
     color: #b71c1c;
+}
+
+.registration-agree-terms .form-check-input {
+    width: 1.1rem;
+    height: 1.1rem;
+    cursor: pointer;
+    border: 2px solid #b71c1c;
+    background-color: #fff;
+    transition: all .2s ease;
+}
+
+.registration-agree-terms .form-check-input:hover {
+    border-color: #d32f2f;
+    box-shadow: 0 0 0 3px rgba(183, 28, 28, 0.1);
+}
+
+.registration-agree-terms .form-check-input:checked {
+    background-color: #b71c1c;
+    border-color: #b71c1c;
+}
+
+.registration-agree-terms .form-check-input:checked:hover {
+    background-color: #d32f2f;
+    border-color: #d32f2f;
+}
+
+.registration-agree-terms .form-check-input:focus {
+    border-color: #b71c1c;
+    box-shadow: 0 0 0 0.25rem rgba(183, 28, 28, 0.25);
+}
+
+.registration-agree-terms .form-check-label {
+    cursor: pointer;
+    user-select: none;
 }
 
 /* Responsive adjustments */

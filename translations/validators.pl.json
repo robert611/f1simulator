@@ -15,5 +15,6 @@
     "password.missing_special": "Hasło musi zawierać co najmniej jeden znak specjalny",
     "password.contains_user_data": "Hasło nie może zawierać nazwy użytkownika ani adresu e-mail",
     "password.front_validation": "Twoje hasło nie spełnia wszystkich wymagań",
-    "password.mismatch": "Podane hasła się różnią"
+    "password.mismatch": "Podane hasła się różnią",
+    "terms.not_accepted": "Musisz zaakceptować nasz regulamin"
 }

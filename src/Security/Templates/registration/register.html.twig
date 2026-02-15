@@ -132,6 +132,28 @@
                                 {% endif %}
                             </div>
 
+                            <!-- Terms checkbox -->
+                            <div class="mb-4">
+                                <div class="registration-agree-terms form-check">
+                                    {{ form_widget(registrationForm.agreeTerms, {
+                                        'attr': {
+                                            'class': 'form-check-input rounded-2'
+                                        }
+                                    }) }}
+                                    <label class="form-check-label" for="{{ registrationForm.agreeTerms.vars.id }}">
+                                        {{ 'register.terms.accept'|trans({}, 'front') }}
+                                        <a href="{{ path('app_terms_of_service') }}" target="_blank" rel="noopener noreferrer" class="auth-link">{{ 'register.terms.terms_of_service'|trans({}, 'front') }}</a>
+                                        {{ 'register.terms.and'|trans({}, 'front') }}
+                                        <a href="#" target="_blank" rel="noopener noreferrer" class="auth-link">{{ 'register.terms.privacy_policy'|trans({}, 'front') }}</a>
+                                    </label>
+                                </div>
+                                {% if form_errors(registrationForm.agreeTerms) %}
+                                    <div class="auth-form-error text-sm mt-2">
+                                        {{ form_errors(registrationForm.agreeTerms) }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
                             <button type="submit" name="submit_button" class="btn auth-btn">
                                 <i class="fas fa-flag-checkered"></i> {{ 'register.submit'|trans({}, 'front') }}
                             </button>

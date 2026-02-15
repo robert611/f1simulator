@@ -15,5 +15,6 @@
     "password.missing_special": "Your password must contain at least one special character",
     "password.contains_user_data": "Your password cannot contain your username or email address",
     "password.front_validation": "Your password doesn't match all of the criteria",
-    "password.mismatch": "Provided password are different"
+    "password.mismatch": "Provided password are different",
+    "terms.not_accepted": "You should agree to our terms"
 }

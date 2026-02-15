@@ -38,6 +38,12 @@
         "repeat_password_info": "Enter the same password again",
         "submit": "Create account",
         "already_have_account": "Already have an account?",
-        "login": "Log in"
+        "login": "Log in",
+        "terms": {
+            "accept": "I accept the",
+            "terms_of_service": "terms of service",
+            "and": "and",
+            "privacy_policy": "privacy policy"
+        }
     }
 }

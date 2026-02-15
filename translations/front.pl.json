@@ -38,6 +38,12 @@
         "repeat_password_info": "Wprowadź ponownie to samo hasło",
         "submit": "Zarejestruj się",
         "already_have_account": "Masz już konto?",
-        "login": "Zaloguj się"
+        "login": "Zaloguj się",
+        "terms": {
+            "accept": "Akceptuję",
+            "terms_of_service": "Regulamin",
+            "and": "i",
+            "privacy_policy": "politykę prywatności"
+        }
     }
 }
