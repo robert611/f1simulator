@@ -46,15 +46,16 @@ class RegisterControllerTest extends WebTestCase
         // when
         $crawler = $this->client->request('GET', '/register');
         $form = $crawler->selectButton('Zarejestruj się')->form([
-            'registration_form[username]' => 'John',
+            'registration_form[username]' => 'John5611',
             'registration_form[email]' => 'test@gmail.com',
-            'registration_form[plainPassword]' => 'password',
+            'registration_form[plainPassword][first]' => 'Password1...',
+            'registration_form[plainPassword][second]' => 'Password1...',
         ]);
         $this->client->submit($form);
 
         // then (User is created)
         $user = $this->userRepository->findOneBy([]);
-        self::assertSame('John', $user->getUsername());
+        self::assertSame('John5611', $user->getUsername());
         self::assertSame('test@gmail.com', $user->getEmail());
 
         // and then (Welcome email is dispatched)
@@ -79,7 +80,8 @@ class RegisterControllerTest extends WebTestCase
         $this->client->submitForm('submit_button', [
             'registration_form[username]' => 'legacy_fighter',
             'registration_form[email]' => 'test@gmail.com',
-            'registration_form[plainPassword]' => 'password',
+            'registration_form[plainPassword][first]' => 'Password1...',
+            'registration_form[plainPassword][second]' => 'Password1...',
         ]);
 
         // then
@@ -100,7 +102,8 @@ class RegisterControllerTest extends WebTestCase
         $this->client->submitForm('submit_button', [
             'registration_form[username]' => 'original_username',
             'registration_form[email]' => 'legacy_fighter@email.com',
-            'registration_form[plainPassword]' => 'password',
+            'registration_form[plainPassword][first]' => 'Password1...',
+            'registration_form[plainPassword][second]' => 'Password1...',
         ]);
 
         // then
@@ -132,7 +135,8 @@ class RegisterControllerTest extends WebTestCase
                 [
                     'registration_form[username]' => '',
                     'registration_form[email]' => 'test@gmail.com',
-                    'registration_form[plainPassword]' => 'password',
+                    'registration_form[plainPassword][first]' => 'Password1...',
+                    'registration_form[plainPassword][second]' => 'Password1...',
                 ],
                 'Proszę podać nazwę użytkownika',
             ],
@@ -140,7 +144,8 @@ class RegisterControllerTest extends WebTestCase
                 [
                     'registration_form[username]' => 'short',
                     'registration_form[email]' => 'test@gmail.com',
-                    'registration_form[plainPassword]' => 'password',
+                    'registration_form[plainPassword][first]' => 'Password1...',
+                    'registration_form[plainPassword][second]' => 'Password1...',
                 ],
                 'Nazwa użytkownika musi mieć co najmniej 8 znaków',
             ],
@@ -148,7 +153,8 @@ class RegisterControllerTest extends WebTestCase
                 [
                     'registration_form[username]' => str_repeat('A', 65),
                     'registration_form[email]' => 'test@gmail.com',
-                    'registration_form[plainPassword]' => 'password',
+                    'registration_form[plainPassword][first]' => 'Password1...',
+                    'registration_form[plainPassword][second]' => 'Password1...',
                 ],
                 'Nazwa użytkownika może mieć maksymalnie 64 znaków',
             ],
@@ -156,7 +162,8 @@ class RegisterControllerTest extends WebTestCase
                 [
                     'registration_form[username]' => 'support',
                     'registration_form[email]' => 'test@gmail.com',
-                    'registration_form[plainPassword]' => 'password',
+                    'registration_form[plainPassword][first]' => 'Password1...',
+                    'registration_form[plainPassword][second]' => 'Password1...',
                 ],
                 'Nazwa użytkownika zawiera niedozwolone słowo',
             ],
@@ -164,7 +171,8 @@ class RegisterControllerTest extends WebTestCase
                 [
                     'registration_form[username]' => 'john1doe3546',
                     'registration_form[email]' => '',
-                    'registration_form[plainPassword]' => 'password',
+                    'registration_form[plainPassword][first]' => 'Password1...',
+                    'registration_form[plainPassword][second]' => 'Password1...',
                 ],
                 'Proszę podać adres e-mail',
             ],
@@ -172,7 +180,8 @@ class RegisterControllerTest extends WebTestCase
                 [
                     'registration_form[username]' => 'john1doe3546',
                     'registration_form[email]' => 'invalid_email',
-                    'registration_form[plainPassword]' => 'password',
+                    'registration_form[plainPassword][first]' => 'Password1...',
+                    'registration_form[plainPassword][second]' => 'Password1...',
                 ],
                 'Proszę podać poprawny adres e-mail',
             ],

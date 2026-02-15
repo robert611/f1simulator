@@ -47,7 +47,7 @@ class Fixtures
         $user = new User();
         $user->setUsername('admin');
         $user->setEmail('admin@gmail.com');
-        $user->setPassword('password');
+        $user->setPassword('Password1...');
         $user->setRoles(['ROLE_ADMIN']);
 
         $this->entityManager->persist($user);
@@ -64,7 +64,7 @@ class Fixtures
         $user->setPassword(
             $this->passwordEncoder->hashPassword(
                 $user,
-                'password',
+                'Password1...',
             ),
         );
         $user->setRoles(['ROLE_USER']);

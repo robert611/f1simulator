@@ -73,7 +73,7 @@ class SecurityControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/login');
         $form = $crawler->selectButton('Zaloguj się')->form([
             '_username' => 'John',
-            '_password' => 'password',
+            '_password' => 'Password1...',
         ]);
         $this->client->submit($form);
         $this->client->followRedirect();
