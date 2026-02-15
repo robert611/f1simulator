@@ -6,5 +6,9 @@
         "hello_nickname": "Witaj",
         "multiplayer": "Gra wieloosobowa",
         "admin_panel": "Panel administratora"
+    },
+    "register": {
+        "password_info": "Hasło musi zawierać co najmniej 12 znaków, jedną dużą literę oraz jeden znak specjalny",
+        "repeat_password_info": "Wprowadź ponownie to samo hasło"
     }
 }

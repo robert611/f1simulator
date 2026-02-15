@@ -6,5 +6,9 @@
         "hello_nickname": "Hello",
         "multiplayer": "Multiplayer",
         "admin_panel": "Admin panel"
+    },
+    "register": {
+        "password_info": "Password must be at least 12 characters, contain an uppercase letter and a special character",
+        "repeat_password_info": "Enter the same password again"
     }
 }
