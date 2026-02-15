@@ -66,12 +66,17 @@
                                 <label class="auth-form-label" for="{{ registrationForm.plainPassword.first.vars.id }}">
                                     <i class="fas fa-lock"></i> Hasło
                                 </label>
-                                {{ form_widget(registrationForm.plainPassword.first, {
-                                    'attr': {
-                                        'class': 'auth-form-control',
-                                        'placeholder': 'Wprowadź hasło (minimum 12 znaków)'
-                                    }
-                                }) }}
+                                <div class="input-group password-group">
+                                    {{ form_widget(registrationForm.plainPassword.first, {
+                                        'attr': {
+                                            'class': 'auth-form-control form-control password-input',
+                                            'placeholder': 'Wprowadź hasło (minimum 12 znaków)'
+                                        }
+                                    }) }}
+                                    <span class="input-group-text toggle-password">
+                                        <i class="fas fa-eye"></i>
+                                    </span>
+                                </div>
                                 <div class="auth-form-error text-sm mt-2">
                                     {{ form_errors(registrationForm.plainPassword.first) }}
                                 </div>
@@ -82,12 +87,17 @@
                                 <label class="auth-form-label" for="{{ registrationForm.plainPassword.second.vars.id }}">
                                     <i class="fas fa-lock"></i> Powtórz hasło
                                 </label>
-                                {{ form_widget(registrationForm.plainPassword.second, {
-                                    'attr': {
-                                        'class': 'auth-form-control',
-                                        'placeholder': 'Wprowadź hasło (minimum 12 znaków)'
-                                    }
-                                }) }}
+                                <div class="input-group password-group">
+                                    {{ form_widget(registrationForm.plainPassword.second, {
+                                        'attr': {
+                                            'class': 'auth-form-control form-control password-input',
+                                            'placeholder': 'Wprowadź hasło (minimum 12 znaków)'
+                                        }
+                                    }) }}
+                                    <span class="input-group-text toggle-password">
+                                        <i class="fas fa-eye"></i>
+                                    </span>
+                                </div>
                                 <div class="auth-form-error text-sm mt-2">
                                     {{ form_errors(registrationForm.plainPassword.second) }}
                                 </div>
@@ -112,4 +122,9 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="module" src="{{ asset('assets/js/app/TogglePassword.js') }}"></script>
 {% endblock %}

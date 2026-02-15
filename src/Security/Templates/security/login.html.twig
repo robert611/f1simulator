@@ -55,12 +55,17 @@
                                     <label class="auth-form-label" for="inputPassword">
                                         <i class="fas fa-lock"></i> Hasło
                                     </label>
-                                    <input type="password" 
-                                           name="_password" 
-                                           id="inputPassword" 
-                                           class="auth-form-control"
-                                           placeholder="Wprowadź hasło"
-                                           required>
+                                    <div class="input-group password-group">
+                                        <input type="password"
+                                               name="_password"
+                                               id="inputPassword"
+                                               class="auth-form-control form-control password-input"
+                                               placeholder="Wprowadź hasło"
+                                               required>
+                                        <span class="input-group-text toggle-password">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
                                 </div>
 
                                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
@@ -79,4 +84,9 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="module" src="{{ asset('assets/js/app/TogglePassword.js') }}"></script>
 {% endblock %}
