@@ -16,27 +16,21 @@
 
         <div class="container">
             {% block messages %}
-                {% if app.session.flashBag.has('success') %}
-                    {% for msg in app.session.flashBag.get('success') %}
-                        <div class="alert alert-success mt-3">
-                            {{ msg }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
-                {% if app.session.flashBag.has('error') %}
-                    {% for msg in app.session.flashBag.get('error') %}
-                        <div class="alert alert-danger mt-3">
-                            {{ msg }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
-                {% if app.session.flashBag.has('warning') %}
-                    {% for msg in app.session.flashBag.get('warning') %}
-                        <div class="alert alert-warning mt-3">
-                            {{ msg }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
+                {% for msg in app.flashes('success') %}
+                    <div class="alert alert-success mt-3">
+                        {{ msg }}
+                    </div>
+                {% endfor %}
+                {% for msg in app.flashes('error') %}
+                    <div class="alert alert-danger mt-3">
+                        {{ msg }}
+                    </div>
+                {% endfor %}
+                {% for msg in app.flashes('warning') %}
+                    <div class="alert alert-warning mt-3">
+                        {{ msg }}
+                    </div>
+                {% endfor %}
             {% endblock %}
         </div>
 

@@ -12,8 +12,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'user')]
-#[UniqueEntity(fields: ['username'], message: 'Istnieje już konto z takim loginem')]
-#[UniqueEntity(fields: ['email'], message: 'Istnieje już konto z takim adresem email')]
+#[UniqueEntity(fields: ['username'], message: 'username.unique')]
+#[UniqueEntity(fields: ['email'], message: 'email.unique')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]

@@ -6,5 +6,44 @@
         "hello_nickname": "Witaj",
         "multiplayer": "Gra wieloosobowa",
         "admin_panel": "Panel administratora"
+    },
+    "login": {
+        "title": "Logowanie",
+        "header": "Logowanie",
+        "subtitle": "Witaj z powrotem w F1 Simulator!",
+        "already_logged_in_as": "Jesteś zalogowany jako %username%",
+        "logout": "Wyloguj się",
+        "username": "Nazwa użytkownika",
+        "username_placeholder": "Wprowadź nazwę użytkownika",
+        "password": "Hasło",
+        "password_placeholder": "Wprowadź hasło",
+        "submit": "Zaloguj się",
+        "no_account": "Nie masz konta?",
+        "register": "Zarejestruj się"
+    },
+    "register": {
+        "title": "Rejestracja",
+        "subtitle": "Dołącz do F1 Simulator i rozpocznij swoją przygodę!",
+        "username": "Nazwa użytkownika",
+        "username_placeholder": "Wprowadź nazwę użytkownika",
+        "username_info": "Nazwa użytkownika musi zawierać minimum 8 znaków, bez polskich znaków specjalnych",
+        "email": "Adres email",
+        "email_placeholder": "Wprowadź adres email",
+        "email_info": "Na ten adres wyślemy email weryfikacyjny",
+        "password": "Hasło",
+        "password_placeholder": "Wprowadź hasło",
+        "password_info": "Hasło musi zawierać co najmniej 12 znaków, jedną dużą literę oraz jeden znak specjalny",
+        "repeat_password": "Powtórz hasło",
+        "repeat_password_placeholder": "Powtórz hasło",
+        "repeat_password_info": "Wprowadź ponownie to samo hasło",
+        "submit": "Zarejestruj się",
+        "already_have_account": "Masz już konto?",
+        "login": "Zaloguj się",
+        "terms": {
+            "accept": "Akceptuję",
+            "terms_of_service": "Regulamin",
+            "and": "i",
+            "privacy_policy": "politykę prywatności"
+        }
     }
 }

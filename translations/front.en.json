@@ -6,5 +6,44 @@
         "hello_nickname": "Hello",
         "multiplayer": "Multiplayer",
         "admin_panel": "Admin panel"
+    },
+    "login": {
+        "title": "Sign in",
+        "header": "Sign in",
+        "subtitle": "Welcome back to our community",
+        "already_logged_in_as": "You are logged in as %username%",
+        "logout": "Log out",
+        "username": "Username",
+        "username_placeholder": "Enter your username",
+        "password": "Password",
+        "password_placeholder": "Enter your password",
+        "submit": "Log in",
+        "no_account": "Don't have an account?",
+        "register": "Register"
+    },
+    "register": {
+        "title": "Register",
+        "subtitle": "Join F1 Simulator and start your journey!",
+        "username": "Username",
+        "username_placeholder": "Enter your username",
+        "username_info": "Username must be at least 8 characters long",
+        "email": "Email address",
+        "email_placeholder": "Enter your email address",
+        "email_info": "We'll send a verification email to this address",
+        "password": "Password",
+        "password_placeholder": "Enter your password",
+        "password_info": "Password must be at least 12 characters, contain an uppercase letter and a special character",
+        "repeat_password": "Repeat password",
+        "repeat_password_placeholder": "Repeat your password",
+        "repeat_password_info": "Enter the same password again",
+        "submit": "Create account",
+        "already_have_account": "Already have an account?",
+        "login": "Log in",
+        "terms": {
+            "accept": "I accept the",
+            "terms_of_service": "terms of service",
+            "and": "and",
+            "privacy_policy": "privacy policy"
+        }
     }
 }

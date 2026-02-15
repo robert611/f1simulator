@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Functional\Security;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Common\Fixtures;
-use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -20,30 +20,67 @@ class SecurityControllerTest extends WebTestCase
         $this->fixtures = self::getContainer()->get(Fixtures::class);
     }
 
-    #[DataProvider('provideUrls')]
-    public function testBehaviorInCaseOfUnloggedUser(): void
+    #[Test]
+    public function login_page_is_successful(): void
     {
+        // when
         $this->client->request('GET', '/login');
 
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        // then
+        self::assertResponseIsSuccessful();
     }
 
-    #[DataProvider('provideUrls')]
-    public function testBehaviorInCaseOfLoggedUser(string $url): void
+    #[Test]
+    public function logged_user_cannot_access_login_page(): void
     {
+        // given
         $user = $this->fixtures->aUser();
         $this->client->loginUser($user);
 
-        $this->client->request('GET', $url);
+        // when
+        $this->client->request('GET', '/login');
 
-        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+        // then
+        self::assertResponseRedirects('/home');
     }
 
-    public static function provideUrls(): array
+    #[Test]
+    public function logging_out_works(): void
     {
-        return [
-            ['/login'],
-            ['/logout'],
-        ];
+        // given
+        $user = $this->fixtures->aUser();
+        $this->client->loginUser($user);
+
+        // when
+        $this->client->request('GET', '/logout');
+
+        // then
+        self::assertResponseRedirects('/');
+
+        // and then
+        $this->client->followRedirect();
+        $tokenStorage = static::getContainer()->get('security.token_storage');
+        self::assertNull($tokenStorage->getToken());
+    }
+
+    #[Test]
+    public function login_form_works(): void
+    {
+        // given
+        $this->fixtures->aCustomUser('John', 'test@gmail.com');
+
+        // when
+        $crawler = $this->client->request('GET', '/login');
+        $form = $crawler->selectButton('Zaloguj się')->form([
+            '_username' => 'John',
+            '_password' => 'Password1...',
+        ]);
+        $this->client->submit($form);
+        $this->client->followRedirect();
+
+        // then
+        self::assertResponseRedirects('/home');
+        $tokenStorage = static::getContainer()->get('security.token_storage');
+        self::assertNotNull($tokenStorage->getToken());
     }
 }

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}F1Simulator - Rejestracja{% endblock %}
+{% block title %}F1Simulator - {{ 'register.title'|trans({}, 'front') }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -10,78 +10,169 @@
 {% block body %}
     <div class="auth-container">
         <div class="container">
-            {% if app.session.flashBag.has('auth_success') %}
-                {% for msg in app.session.flashBag.get('auth_success') %}
-                    <div class="auth-alert auth-alert-success mb-5">
-                        {{ msg }}
-                    </div>
-                {% endfor %}
-            {% endif %}
+            {% for message in app.flashes('auth_success') %}
+                <div class="auth-alert auth-alert-success mb-5">
+                    {{ message }}
+                </div>
+            {% endfor %}
 
             <div class="row justify-content-center align-items-center">
                 <div class="col-lg-6 col-md-8 col-sm-10">
                     <div class="auth-card">
                         <div class="auth-header">
                             <h1 class="auth-title">
-                                <i class="fas fa-flag-checkered"></i> Rejestracja
+                                <i class="fas fa-flag-checkered"></i> {{ 'register.title'|trans({}, 'front') }}
                             </h1>
-                            <p class="auth-subtitle">Dołącz do F1 Simulator i rozpocznij swoją przygodę!</p>
+                            <p class="auth-subtitle">{{ 'register.subtitle'|trans({}, 'front') }}</p>
                         </div>
 
                         <div class="auth-form-container">
+                            <!-- Global form errors -->
+                            {% if form_errors(registrationForm) %}
+                                <div class="alert alert-danger alert-dismissible fade show rounded-3" role="alert">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    {{ form_errors(registrationForm) }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                            {% endif %}
+
                             {{ form_start(registrationForm) }}
+
+                            <!-- Username field -->
                             <div class="auth-form-group">
                                 <label class="auth-form-label" for="{{ registrationForm.username.vars.id }}">
-                                    <i class="fas fa-user"></i> Nazwa użytkownika
+                                    <i class="fas fa-user"></i> {{ 'register.username'|trans({}, 'front') }}
                                 </label>
                                 {{ form_widget(registrationForm.username, {
                                     'attr': {
                                         'class': 'auth-form-control',
-                                        'placeholder': 'Wprowadź nazwę użytkownika'
+                                        'placeholder': 'register.username_placeholder'|trans({}, 'front')
                                     }
                                 }) }}
+                                <div class="form-text">
+                                    <small class="text-muted">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        {{ 'register.username_info'|trans({}, 'front') }}
+                                    </small>
+                                </div>
                                 <div class="auth-form-error text-sm mt-2">
                                     {{ form_errors(registrationForm.username) }}
                                 </div>
                             </div>
 
+                            <!-- Email field -->
                             <div class="auth-form-group">
                                 <label class="auth-form-label" for="{{ registrationForm.email.vars.id }}">
-                                    <i class="fas fa-envelope"></i> Adres email
+                                    <i class="fas fa-envelope"></i> {{ 'register.email'|trans({}, 'front') }}
                                 </label>
                                 {{ form_widget(registrationForm.email, {
                                     'attr': {
                                         'class': 'auth-form-control',
-                                        'placeholder': 'Wprowadź adres email'
+                                        'placeholder': 'register.email_placeholder'|trans({}, 'front')
                                     }
                                 }) }}
+                                <div class="form-text">
+                                    <small class="text-muted">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        {{ 'register.email_info'|trans({}, 'front') }}
+                                    </small>
+                                </div>
                                 <div class="auth-form-error text-sm mt-2">
                                     {{ form_errors(registrationForm.email) }}
                                 </div>
                             </div>
 
+                            <!-- Password field -->
                             <div class="auth-form-group">
-                                <label class="auth-form-label" for="{{ registrationForm.plainPassword.vars.id }}">
-                                    <i class="fas fa-lock"></i> Hasło
+                                <label class="auth-form-label" for="{{ registrationForm.plainPassword.first.vars.id }}">
+                                    <i class="fas fa-lock"></i> {{ 'register.password'|trans({}, 'front') }}
                                 </label>
-                                {{ form_widget(registrationForm.plainPassword, {
-                                    'attr': {
-                                        'class': 'auth-form-control',
-                                        'placeholder': 'Wprowadź hasło (minimum 6 znaków)'
-                                    }
-                                }) }}
+                                <div class="input-group password-group">
+                                    {{ form_widget(registrationForm.plainPassword.first, {
+                                        'attr': {
+                                            'class': 'auth-form-control form-control password-input',
+                                            'placeholder': 'register.password_placeholder'|trans({}, 'front')
+                                        }
+                                    }) }}
+                                    <span class="input-group-text toggle-password">
+                                        <i class="fas fa-eye"></i>
+                                    </span>
+                                </div>
+                                <div class="form-text">
+                                    <small class="text-muted">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        {{ 'register.password_info'|trans({}, 'front') }}
+                                    </small>
+                                </div>
                                 <div class="auth-form-error text-sm mt-2">
-                                    {{ form_errors(registrationForm.plainPassword) }}
+                                    {{ form_errors(registrationForm.plainPassword.first) }}
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn auth-btn">
-                                <i class="fas fa-flag-checkered"></i> Zarejestruj się
+                            <!-- Repeat password -->
+                            <div class="auth-form-group">
+                                <label class="auth-form-label" for="{{ registrationForm.plainPassword.second.vars.id }}">
+                                    <i class="fas fa-lock"></i> {{ 'register.repeat_password'|trans({}, 'front') }}
+                                </label>
+                                <div class="input-group password-group">
+                                    {{ form_widget(registrationForm.plainPassword.second, {
+                                        'attr': {
+                                            'class': 'auth-form-control form-control password-input',
+                                            'placeholder': 'register.repeat_password_placeholder'|trans({}, 'front')
+                                        }
+                                    }) }}
+                                    <span class="input-group-text toggle-password">
+                                        <i class="fas fa-eye"></i>
+                                    </span>
+                                </div>
+                                <div class="form-text">
+                                    <small class="text-muted">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        {{ 'register.repeat_password_info'|trans({}, 'front') }}
+                                    </small>
+                                </div>
+                                <div class="auth-form-error text-sm mt-2">
+                                    {{ form_errors(registrationForm.plainPassword.second) }}
+                                </div>
+                                {% if form_errors(registrationForm.plainPassword) %}
+                                    <div class="auth-form-error text-sm mt-2">
+                                        {{ form_errors(registrationForm.plainPassword) }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Terms checkbox -->
+                            <div class="mb-4">
+                                <div class="registration-agree-terms form-check">
+                                    {{ form_widget(registrationForm.agreeTerms, {
+                                        'attr': {
+                                            'class': 'form-check-input rounded-2'
+                                        }
+                                    }) }}
+                                    <label class="form-check-label" for="{{ registrationForm.agreeTerms.vars.id }}">
+                                        {{ 'register.terms.accept'|trans({}, 'front') }}
+                                        <a href="{{ path('app_terms_of_service') }}" target="_blank" rel="noopener noreferrer" class="auth-link">{{ 'register.terms.terms_of_service'|trans({}, 'front') }}</a>
+                                        {{ 'register.terms.and'|trans({}, 'front') }}
+                                        <a href="#" target="_blank" rel="noopener noreferrer" class="auth-link">{{ 'register.terms.privacy_policy'|trans({}, 'front') }}</a>
+                                    </label>
+                                </div>
+                                {% if form_errors(registrationForm.agreeTerms) %}
+                                    <div class="auth-form-error text-sm mt-2">
+                                        {{ form_errors(registrationForm.agreeTerms) }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <button type="submit" name="submit_button" class="btn auth-btn">
+                                <i class="fas fa-flag-checkered"></i> {{ 'register.submit'|trans({}, 'front') }}
                             </button>
                             {{ form_end(registrationForm) }}
 
                             <div class="login-link">
-                                <p>Masz już konto? <a href="{{ path('app_login') }}">Zaloguj się</a></p>
+                                <p>
+                                    {{ 'register.already_have_account'|trans({}, 'front') }}
+                                    <a href="{{ path('app_login') }}">{{ 'register.login'|trans({}, 'front') }} </a>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -89,4 +180,9 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="module" src="{{ asset('assets/js/app/TogglePassword.js') }}"></script>
 {% endblock %}
