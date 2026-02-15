@@ -176,6 +176,27 @@ class RegisterControllerTest extends WebTestCase
             ],
             [
                 [
+                    // first two letters "а" is in cyrylica, homoglyph attack
+                    'registration_form[username]' => 'ааdmin12356',
+                    'registration_form[email]' => 'test@gmail.com',
+                    'registration_form[plainPassword][first]' => 'Password1...',
+                    'registration_form[plainPassword][second]' => 'Password1...',
+                    'registration_form[agreeTerms]' => true,
+                ],
+                'Nazwa użytkownika zawiera niedozwolone słowo',
+            ],
+            [
+                [
+                    'registration_form[username]' => 'michał8240',
+                    'registration_form[email]' => 'test@gmail.com',
+                    'registration_form[plainPassword][first]' => 'Password1...',
+                    'registration_form[plainPassword][second]' => 'Password1...',
+                    'registration_form[agreeTerms]' => true,
+                ],
+                'Nazwa użytkownika zawiera niedozwolone słowo',
+            ],
+            [
+                [
                     'registration_form[username]' => 'john1doe3546',
                     'registration_form[email]' => '',
                     'registration_form[plainPassword][first]' => 'Password1...',

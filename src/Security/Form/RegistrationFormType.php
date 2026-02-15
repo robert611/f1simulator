@@ -43,7 +43,7 @@ class RegistrationFormType extends AbstractType
                         maxMessage: 'username.max_length',
                     ),
                     new Regex(
-                        pattern: '/^(?!.*(admin|support|obsługa|moderator)).*$/i',
+                        pattern: '/^(?!.*(?:admin|support|obsługa|moderator))[a-zA-Z0-9_\-]+$/iu',
                         message: 'username.forbidden_words',
                     ),
                 ],
