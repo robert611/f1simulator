@@ -8,7 +8,22 @@
         "admin_panel": "Panel administratora"
     },
     "register": {
+        "title": "Rejestracja",
+        "subtitle": "Dołącz do F1 Simulator i rozpocznij swoją przygodę!",
+        "username": "Nazwa użytkownika",
+        "username_placeholder": "Wprowadź nazwę użytkownika",
+        "username_info": "Nazwa użytkownika musi zawierać minimum 8 znaków",
+        "email": "Adres email",
+        "email_placeholder": "Wprowadź adres email",
+        "email_info": "Na ten adres wyślemy email weryfikacyjny",
+        "password": "Hasło",
+        "password_placeholder": "Wprowadź hasło",
         "password_info": "Hasło musi zawierać co najmniej 12 znaków, jedną dużą literę oraz jeden znak specjalny",
-        "repeat_password_info": "Wprowadź ponownie to samo hasło"
+        "repeat_password": "Powtórz hasło",
+        "repeat_password_placeholder": "Powtórz hasło",
+        "repeat_password_info": "Wprowadź ponownie to samo hasło",
+        "submit": "Zarejestruj się",
+        "already_have_account": "Masz już konto?",
+        "login": "Zaloguj się"
     }
 }

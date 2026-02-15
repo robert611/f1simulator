@@ -68,7 +68,6 @@ class RegistrationFormType extends AbstractType
                 // this is read and encoded in the controller
                 'type' => PasswordType::class,
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
                 'invalid_message' => 'password.mismatch',
                 'constraints' => [
                     new NotBlank(
@@ -98,6 +97,7 @@ class RegistrationFormType extends AbstractType
                         'maxlength' => 64,
                         'pattern' => '(?=.*[A-Z])(?=.*[\W_]).{12,64}',
                         'title' => $this->translator->trans('password.front_validation', [], 'validators'),
+                        'autocomplete' => 'new-password',
                     ],
                 ],
                 'second_options' => [
@@ -107,6 +107,7 @@ class RegistrationFormType extends AbstractType
                         'maxlength' => 64,
                         'pattern' => '(?=.*[A-Z])(?=.*[\W_]).{12,64}',
                         'title' => $this->translator->trans('password.front_validation', [], 'validators'),
+                        'autocomplete' => 'new-password',
                     ],
                 ],
             ])

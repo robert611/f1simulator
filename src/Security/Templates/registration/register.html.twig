@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}F1Simulator - Rejestracja{% endblock %}
+{% block title %}F1Simulator - {{ 'register.title'|trans({}, 'front') }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -21,9 +21,9 @@
                     <div class="auth-card">
                         <div class="auth-header">
                             <h1 class="auth-title">
-                                <i class="fas fa-flag-checkered"></i> Rejestracja
+                                <i class="fas fa-flag-checkered"></i> {{ 'register.title'|trans({}, 'front') }}
                             </h1>
-                            <p class="auth-subtitle">Dołącz do F1 Simulator i rozpocznij swoją przygodę!</p>
+                            <p class="auth-subtitle">{{ 'register.subtitle'|trans({}, 'front') }}</p>
                         </div>
 
                         <div class="auth-form-container">
@@ -32,14 +32,20 @@
                             <!-- Username field -->
                             <div class="auth-form-group">
                                 <label class="auth-form-label" for="{{ registrationForm.username.vars.id }}">
-                                    <i class="fas fa-user"></i> Nazwa użytkownika
+                                    <i class="fas fa-user"></i> {{ 'register.username'|trans({}, 'front') }}
                                 </label>
                                 {{ form_widget(registrationForm.username, {
                                     'attr': {
                                         'class': 'auth-form-control',
-                                        'placeholder': 'Wprowadź nazwę użytkownika'
+                                        'placeholder': 'register.username_placeholder'|trans({}, 'front')
                                     }
                                 }) }}
+                                <div class="form-text">
+                                    <small class="text-muted">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        {{ 'register.username_info'|trans({}, 'front') }}
+                                    </small>
+                                </div>
                                 <div class="auth-form-error text-sm mt-2">
                                     {{ form_errors(registrationForm.username) }}
                                 </div>
@@ -48,14 +54,20 @@
                             <!-- Email field -->
                             <div class="auth-form-group">
                                 <label class="auth-form-label" for="{{ registrationForm.email.vars.id }}">
-                                    <i class="fas fa-envelope"></i> Adres email
+                                    <i class="fas fa-envelope"></i> {{ 'register.email'|trans({}, 'front') }}
                                 </label>
                                 {{ form_widget(registrationForm.email, {
                                     'attr': {
                                         'class': 'auth-form-control',
-                                        'placeholder': 'Wprowadź adres email'
+                                        'placeholder': 'register.email_placeholder'|trans({}, 'front')
                                     }
                                 }) }}
+                                <div class="form-text">
+                                    <small class="text-muted">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        {{ 'register.email_info'|trans({}, 'front') }}
+                                    </small>
+                                </div>
                                 <div class="auth-form-error text-sm mt-2">
                                     {{ form_errors(registrationForm.email) }}
                                 </div>
@@ -64,13 +76,13 @@
                             <!-- Password field -->
                             <div class="auth-form-group">
                                 <label class="auth-form-label" for="{{ registrationForm.plainPassword.first.vars.id }}">
-                                    <i class="fas fa-lock"></i> Hasło
+                                    <i class="fas fa-lock"></i> {{ 'register.password'|trans({}, 'front') }}
                                 </label>
                                 <div class="input-group password-group">
                                     {{ form_widget(registrationForm.plainPassword.first, {
                                         'attr': {
                                             'class': 'auth-form-control form-control password-input',
-                                            'placeholder': 'Wprowadź hasło (minimum 12 znaków)'
+                                            'placeholder': 'register.password_placeholder'|trans({}, 'front')
                                         }
                                     }) }}
                                     <span class="input-group-text toggle-password">
@@ -91,13 +103,13 @@
                             <!-- Repeat password -->
                             <div class="auth-form-group">
                                 <label class="auth-form-label" for="{{ registrationForm.plainPassword.second.vars.id }}">
-                                    <i class="fas fa-lock"></i> Powtórz hasło
+                                    <i class="fas fa-lock"></i> {{ 'register.repeat_password'|trans({}, 'front') }}
                                 </label>
                                 <div class="input-group password-group">
                                     {{ form_widget(registrationForm.plainPassword.second, {
                                         'attr': {
                                             'class': 'auth-form-control form-control password-input',
-                                            'placeholder': 'Wprowadź hasło (minimum 12 znaków)'
+                                            'placeholder': 'register.repeat_password_placeholder'|trans({}, 'front')
                                         }
                                     }) }}
                                     <span class="input-group-text toggle-password">
@@ -121,12 +133,15 @@
                             </div>
 
                             <button type="submit" name="submit_button" class="btn auth-btn">
-                                <i class="fas fa-flag-checkered"></i> Zarejestruj się
+                                <i class="fas fa-flag-checkered"></i> {{ 'register.submit'|trans({}, 'front') }}
                             </button>
                             {{ form_end(registrationForm) }}
 
                             <div class="login-link">
-                                <p>Masz już konto? <a href="{{ path('app_login') }}">Zaloguj się</a></p>
+                                <p>
+                                    {{ 'register.already_have_account'|trans({}, 'front') }}
+                                    <a href="{{ path('app_login') }}">{{ 'register.login'|trans({}, 'front') }} </a>
+                                </p>
                             </div>
                         </div>
                     </div>
