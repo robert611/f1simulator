@@ -26,7 +26,7 @@
         "subtitle": "Dołącz do F1 Simulator i rozpocznij swoją przygodę!",
         "username": "Nazwa użytkownika",
         "username_placeholder": "Wprowadź nazwę użytkownika",
-        "username_info": "Nazwa użytkownika musi zawierać minimum 8 znaków",
+        "username_info": "Nazwa użytkownika musi zawierać minimum 8 znaków, bez polskich znaków specjalnych",
         "email": "Adres email",
         "email_placeholder": "Wprowadź adres email",
         "email_info": "Na ten adres wyślemy email weryfikacyjny",

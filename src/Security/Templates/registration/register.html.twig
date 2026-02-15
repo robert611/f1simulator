@@ -27,6 +27,15 @@
                         </div>
 
                         <div class="auth-form-container">
+                            <!-- Global form errors -->
+                            {% if form_errors(registrationForm) %}
+                                <div class="alert alert-danger alert-dismissible fade show rounded-3" role="alert">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    {{ form_errors(registrationForm) }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                            {% endif %}
+
                             {{ form_start(registrationForm) }}
 
                             <!-- Username field -->
