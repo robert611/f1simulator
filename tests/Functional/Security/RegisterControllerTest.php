@@ -185,6 +185,78 @@ class RegisterControllerTest extends WebTestCase
                 ],
                 'Proszę podać poprawny adres e-mail',
             ],
+            [
+                [
+                    'registration_form[username]' => 'john1doe3546',
+                    'registration_form[email]' => 'test@gmail.com',
+                    'registration_form[plainPassword][first]' => '',
+                    'registration_form[plainPassword][second]' => '',
+                ],
+                'Proszę wprowadzić hasło',
+            ],
+            [
+                [
+                    'registration_form[username]' => 'john1doe3546',
+                    'registration_form[email]' => 'test@gmail.com',
+                    'registration_form[plainPassword][first]' => 'Ce5!',
+                    'registration_form[plainPassword][second]' => 'Ce5!',
+                ],
+                'Hasło musi zawierać co najmniej 12 znaków',
+            ],
+            [
+                [
+                    'registration_form[username]' => 'john1doe3546',
+                    'registration_form[email]' => 'test@gmail.com',
+                    'registration_form[plainPassword][first]' => str_repeat('A1.', 23),
+                    'registration_form[plainPassword][second]' => str_repeat('A1.', 23),
+                ],
+                'Hasło może mieć maksymalnie 64 znaków',
+            ],
+            [
+                [
+                    'registration_form[username]' => 'john1doe3546',
+                    'registration_form[email]' => 'test@gmail.com',
+                    'registration_form[plainPassword][first]' => 'abc1234567890.',
+                    'registration_form[plainPassword][second]' => 'abc1234567890.',
+                ],
+                'Hasło musi zawierać co najmniej jedną wielką literę',
+            ],
+            [
+                [
+                    'registration_form[username]' => 'john1doe3546',
+                    'registration_form[email]' => 'test@gmail.com',
+                    'registration_form[plainPassword][first]' => 'Abc1234567890',
+                    'registration_form[plainPassword][second]' => 'Abc1234567890',
+                ],
+                'Hasło musi zawierać co najmniej jeden znak specjalny',
+            ],
+            [
+                [
+                    'registration_form[username]' => 'john1doe3546',
+                    'registration_form[email]' => 'test@gmail.com',
+                    'registration_form[plainPassword][first]' => 'john1doe3546A.',
+                    'registration_form[plainPassword][second]' => 'john1doe3546A.',
+                ],
+                'Hasło nie może zawierać nazwy użytkownika ani adresu e-mail',
+            ],
+            [
+                [
+                    'registration_form[username]' => 'john1doe3546',
+                    'registration_form[email]' => 'test@gmail.com',
+                    'registration_form[plainPassword][first]' => 'test@gmail.comA',
+                    'registration_form[plainPassword][second]' => 'test@gmail.comA',
+                ],
+                'Hasło nie może zawierać nazwy użytkownika ani adresu e-mail',
+            ],
+            [
+                [
+                    'registration_form[username]' => 'john1doe3546',
+                    'registration_form[email]' => 'test@gmail.com',
+                    'registration_form[plainPassword][first]' => 'Mi35lik9..!klo9i',
+                    'registration_form[plainPassword][second]' => 'Mi35lik9..!klo9iC',
+                ],
+                'Podane hasła się różnią',
+            ],
         ];
     }
 }

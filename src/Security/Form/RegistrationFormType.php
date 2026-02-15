@@ -77,7 +77,7 @@ class RegistrationFormType extends AbstractType
                     new Length(
                         min: 12,
                         max: 64,
-                        minMessage: 'password.too_long',
+                        minMessage: 'password.too_short',
                         maxMessage: 'password.too_long',
                     ),
                     new Regex(
