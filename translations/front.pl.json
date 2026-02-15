@@ -7,6 +7,20 @@
         "multiplayer": "Gra wieloosobowa",
         "admin_panel": "Panel administratora"
     },
+    "login": {
+        "title": "Logowanie",
+        "header": "Logowanie",
+        "subtitle": "Witaj z powrotem w F1 Simulator!",
+        "already_logged_in_as": "Jesteś zalogowany jako %username%",
+        "logout": "Wyloguj się",
+        "username": "Nazwa użytkownika",
+        "username_placeholder": "Wprowadź nazwę użytkownika",
+        "password": "Hasło",
+        "password_placeholder": "Wprowadź hasło",
+        "submit": "Zaloguj się",
+        "no_account": "Nie masz konta?",
+        "register": "Zarejestruj się"
+    },
     "register": {
         "title": "Rejestracja",
         "subtitle": "Dołącz do F1 Simulator i rozpocznij swoją przygodę!",

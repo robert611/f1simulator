@@ -7,6 +7,20 @@
         "multiplayer": "Multiplayer",
         "admin_panel": "Admin panel"
     },
+    "login": {
+        "title": "Sign in",
+        "header": "Sign in",
+        "subtitle": "Welcome back to our community",
+        "already_logged_in_as": "You are logged in as %username%",
+        "logout": "Log out",
+        "username": "Username",
+        "username_placeholder": "Enter your username",
+        "password": "Password",
+        "password_placeholder": "Enter your password",
+        "submit": "Log in",
+        "no_account": "Don't have an account?",
+        "register": "Register"
+    },
     "register": {
         "title": "Register",
         "subtitle": "Join F1 Simulator and start your journey!",

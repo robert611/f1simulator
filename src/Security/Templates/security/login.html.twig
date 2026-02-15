@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}F1Simulator - Logowanie{% endblock %}
+{% block title %}F1Simulator - {{ 'login.title'|trans({}, 'front') }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -15,9 +15,9 @@
                     <div class="auth-card">
                         <div class="auth-header">
                             <h1 class="auth-title">
-                                <i class="fas fa-sign-in-alt"></i> Logowanie
+                                <i class="fas fa-sign-in-alt"></i> {{ 'login.header'|trans({}, 'front') }}
                             </h1>
-                            <p class="auth-subtitle">Witaj z powrotem w F1 Simulator!</p>
+                            <p class="auth-subtitle">{{ 'login.subtitle'|trans({}, 'front') }}</p>
                         </div>
 
                         <div class="auth-form-container">
@@ -32,35 +32,35 @@
                                 {% if app.user %}
                                     <div class="mb-4 p-3 bg-success text-white rounded">
                                         <i class="fas fa-check-circle"></i>
-                                        Jesteś zalogowany jako {{ app.user.username }}, 
-                                        <a href="{{ path('app_logout') }}" class="text-white font-weight-bold">Wyloguj się</a>
+                                        {{ 'login.already_logged_in_as'|trans({'%username%': app.user.username}, 'front') }},
+                                        <a href="{{ path('app_logout') }}" class="text-white font-weight-bold">{{ 'login.logout'|trans({}, 'front') }}</a>
                                     </div>
                                 {% endif %}
 
                                 <div class="auth-form-group">
                                     <label class="auth-form-label" for="inputUsername">
-                                        <i class="fas fa-user"></i> Nazwa użytkownika
+                                        <i class="fas fa-user"></i> {{ 'login.username'|trans({}, 'front') }}
                                     </label>
                                     <input type="text" 
                                            value="{{ last_username }}" 
                                            name="_username" 
                                            id="inputUsername" 
                                            class="auth-form-control"
-                                           placeholder="Wprowadź nazwę użytkownika"
+                                           placeholder="{{ 'login.username_placeholder'|trans({}, 'front') }}"
                                            required 
                                            autofocus>
                                 </div>
 
                                 <div class="auth-form-group">
                                     <label class="auth-form-label" for="inputPassword">
-                                        <i class="fas fa-lock"></i> Hasło
+                                        <i class="fas fa-lock"></i> {{ 'login.password'|trans({}, 'front') }}
                                     </label>
                                     <div class="input-group password-group">
                                         <input type="password"
                                                name="_password"
                                                id="inputPassword"
                                                class="auth-form-control form-control password-input"
-                                               placeholder="Wprowadź hasło"
+                                               placeholder="{{ 'login.password_placeholder'|trans({}, 'front') }}"
                                                required>
                                         <span class="input-group-text toggle-password">
                                             <i class="fas fa-eye"></i>
@@ -71,12 +71,15 @@
                                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
                                 <button type="submit" class="btn auth-btn">
-                                    <i class="fas fa-sign-in-alt"></i> Zaloguj się
+                                    <i class="fas fa-sign-in-alt"></i> {{ 'login.submit'|trans({}, 'front') }}
                                 </button>
                             </form>
 
                             <div class="login-link">
-                                <p>Nie masz konta? <a href="{{ path('app_register') }}">Zarejestruj się</a></p>
+                                <p>
+                                    {{ 'login.no_account'|trans({}, 'front') }}
+                                    <a href="{{ path('app_register') }}">{{ 'login.register'|trans({}, 'front') }}</a>
+                                </p>
                             </div>
                         </div>
                     </div>
