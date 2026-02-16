@@ -8,6 +8,7 @@ use Computer\Entity\Qualification;
 use Computer\Entity\Race;
 use Computer\Entity\RaceResult;
 use Computer\Entity\Season;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Domain\Entity\Driver;
 use Domain\Entity\Team;
@@ -35,6 +36,9 @@ class Fixtures
         $user->setEmail('tommy123@gmail.com');
         $user->setPassword('password');
         $user->setRoles(['ROLE_USER']);
+        $user->setIsVerified(true);
+        $user->setCreatedAt(new DateTimeImmutable());
+        $user->setUpdatedAt(new DateTimeImmutable());
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
@@ -49,6 +53,9 @@ class Fixtures
         $user->setEmail('admin@gmail.com');
         $user->setPassword('Password1...');
         $user->setRoles(['ROLE_ADMIN']);
+        $user->setIsVerified(true);
+        $user->setCreatedAt(new DateTimeImmutable());
+        $user->setUpdatedAt(new DateTimeImmutable());
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
@@ -68,6 +75,9 @@ class Fixtures
             ),
         );
         $user->setRoles(['ROLE_USER']);
+        $user->setIsVerified(true);
+        $user->setCreatedAt(new DateTimeImmutable());
+        $user->setUpdatedAt(new DateTimeImmutable());
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();

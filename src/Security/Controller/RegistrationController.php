@@ -2,6 +2,7 @@
 
 namespace Security\Controller;
 
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Security\Entity\User;
 use Security\Event\UserRegisteredEvent;
@@ -41,6 +42,9 @@ class RegistrationController extends BaseController
                     $form->get('plainPassword')->getData(),
                 ),
             );
+            $user->setIsVerified(false);
+            $user->setCreatedAt(new DateTimeImmutable());
+            $user->setUpdatedAt(new DateTimeImmutable());
 
             $this->entityManager->persist($user);
             $this->entityManager->flush();
