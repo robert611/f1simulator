@@ -221,7 +221,7 @@
     color: #b71c1c;
 }
 
-.registration-agree-terms .form-check-input {
+.auth-checkbox .form-check-input {
     width: 1.1rem;
     height: 1.1rem;
     cursor: pointer;
@@ -230,27 +230,27 @@
     transition: all .2s ease;
 }
 
-.registration-agree-terms .form-check-input:hover {
+.auth-checkbox .form-check-input:hover {
     border-color: #d32f2f;
     box-shadow: 0 0 0 3px rgba(183, 28, 28, 0.1);
 }
 
-.registration-agree-terms .form-check-input:checked {
+.auth-checkbox .form-check-input:checked {
     background-color: #b71c1c;
     border-color: #b71c1c;
 }
 
-.registration-agree-terms .form-check-input:checked:hover {
+.auth-checkbox .form-check-input:checked:hover {
     background-color: #d32f2f;
     border-color: #d32f2f;
 }
 
-.registration-agree-terms .form-check-input:focus {
+.auth-checkbox .form-check-input:focus {
     border-color: #b71c1c;
     box-shadow: 0 0 0 0.25rem rgba(183, 28, 28, 0.25);
 }
 
-.registration-agree-terms .form-check-label {
+.auth-checkbox .form-check-label {
     cursor: pointer;
     user-select: none;
 }

@@ -68,6 +68,18 @@
                                     </div>
                                 </div>
 
+                                <div class="mb-4">
+                                    <div class="auth-checkbox form-check">
+                                        <input type="checkbox"
+                                               name="_remember_me"
+                                               id="_remember_me"
+                                               class="form-check-input rounded-2">
+                                        <label class="form-check-label" for="_remember_me">
+                                            {{ 'login.remember_me'|trans({}, 'front') }}
+                                        </label>
+                                    </div>
+                                </div>
+
                                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
                                 <button type="submit" class="btn auth-btn">

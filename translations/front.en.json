@@ -17,6 +17,7 @@
         "username_placeholder": "Enter your username",
         "password": "Password",
         "password_placeholder": "Enter your password",
+        "remember_me": "Remember me",
         "submit": "Log in",
         "no_account": "Don't have an account?",
         "register": "Register"
