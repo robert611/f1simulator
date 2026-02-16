@@ -17,6 +17,7 @@
         "username_placeholder": "Wprowadź nazwę użytkownika",
         "password": "Hasło",
         "password_placeholder": "Wprowadź hasło",
+        "remember_me": "Zapamiętaj mnie",
         "submit": "Zaloguj się",
         "no_account": "Nie masz konta?",
         "register": "Zarejestruj się"
