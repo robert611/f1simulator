@@ -29,8 +29,8 @@ class MailerFacadeTest extends KernelTestCase
         $genericEmail = new GenericEmail(
             ['email@example.com'],
             'Test Email',
-            '@mailer/welcome-email.html.twig',
-            '@mailer/welcome-email.txt.twig',
+            '@mailer/welcome_email/welcome_email_pl.html.twig',
+            '@mailer/welcome_email/welcome_email_pl.txt.twig',
             [
                 'username' => 'Test User',
                 'homepageUrl' => 'https://example.com/',

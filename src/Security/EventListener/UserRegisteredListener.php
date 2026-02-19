@@ -27,8 +27,8 @@ readonly class UserRegisteredListener
             new GenericEmail(
                 [$user->getEmail()],
                 'Mail powitalny',
-                '@mailer/welcome-email.html.twig',
-                '@mailer/welcome-email.txt.twig',
+                '@mailer/welcome_email/welcome_email_pl.html.twig',
+                '@mailer/welcome_email/welcome_email_pl.txt.twig',
                 [
                     'username' => $user->getUsername(),
                     'homepageUrl' => $this->parameterBag->get('app_domain'),
