@@ -155,4 +155,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->username;
     }
+
+    public function confirm(): void
+    {
+        $this->isVerified = true;
+        $this->updatedAt = new DateTimeImmutable();
+    }
 }

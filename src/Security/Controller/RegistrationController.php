@@ -5,6 +5,7 @@ namespace Security\Controller;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Security\Entity\User;
+use Security\Event\UserConfirmedEvent;
 use Security\Event\UserRegisteredEvent;
 use Security\Form\RegistrationFormType;
 use Shared\Controller\BaseController;
@@ -61,5 +62,13 @@ class RegistrationController extends BaseController
         return $this->render('@security/registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
+    }
+
+    #[Route('/confirm-email/{token}', name: 'app_confirm_email', methods: ['GET'])]
+    public function confirmEmail(string $token): Response
+    {
+        // $this->eventDispatcher->dispatch(new UserConfirmedEvent());
+
+        return new Response('Account confirmed');
     }
 }

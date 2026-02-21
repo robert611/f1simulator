@@ -41,4 +41,18 @@ class UserTest extends TestCase
         self::assertContains('ROLE_ADMIN', $user->getRoles());
         self::assertContains('ROLE_USER', $user->getRoles());
     }
+
+    #[Test]
+    public function account_can_be_confirmed(): void
+    {
+        // given
+        $user = new User();
+
+        // when
+        $user->confirm();
+
+        // then
+        self::assertTrue($user->isVerified());
+        self::assertNotNull($user->getUpdatedAt());
+    }
 }
