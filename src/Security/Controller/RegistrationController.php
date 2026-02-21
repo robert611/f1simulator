@@ -8,6 +8,7 @@ use Security\Entity\User;
 use Security\Event\UserConfirmedEvent;
 use Security\Event\UserRegisteredEvent;
 use Security\Form\RegistrationFormType;
+use Security\Repository\UserConfirmationTokenRepository;
 use Shared\Controller\BaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,12 +16,15 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RegistrationController extends BaseController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly UserConfirmationTokenRepository $userConfirmationTokenRepository,
+        private readonly TranslatorInterface $translator,
     ) {
     }
 
@@ -67,8 +71,28 @@ class RegistrationController extends BaseController
     #[Route('/confirm-email/{token}', name: 'app_confirm_email', methods: ['GET'])]
     public function confirmEmail(string $token): Response
     {
-        // $this->eventDispatcher->dispatch(new UserConfirmedEvent());
+        $userConfirmationToken = $this->userConfirmationTokenRepository->findOneBy(['token' => $token]);
 
-        return new Response('Account confirmed');
+        if (null === $userConfirmationToken || false === $userConfirmationToken->isValidAndNotExpired()) {
+            if (isset($userConfirmationToken)) {
+                $userConfirmationToken->invalidate();
+                $this->entityManager->flush();
+            }
+
+            $this->addFlash('warning', $this->translator->trans('not_existent_confirmation_link', [], 'security'));
+
+            return $this->redirectToRoute('app_login');
+        }
+
+        $user = $userConfirmationToken->getUser();
+        $userConfirmationToken->invalidate();
+        $user->confirm();
+        $this->entityManager->flush();
+
+        $this->eventDispatcher->dispatch(new UserConfirmedEvent($user));
+
+        $this->addFlash('success', $this->translator->trans('account_confirmed', [], 'security'));
+
+        return $this->redirectToRoute('app_login');
     }
 }

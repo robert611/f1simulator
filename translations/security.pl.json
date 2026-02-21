@@ -1,3 +1,5 @@
 {
-    "Invalid credentials.": "Podany login i hasło są nieprawidłowe."
+    "Invalid credentials.": "Podany login i hasło są nieprawidłowe.",
+    "not_existent_confirmation_link": "Link potwierdzający jest nieprawidłowy",
+    "account_confirmed": "Konto zostało potwierdzone, możesz się teraz zalogować"
 }

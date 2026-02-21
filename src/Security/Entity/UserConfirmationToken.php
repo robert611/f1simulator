@@ -6,12 +6,12 @@ namespace Security\Entity;
 
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
-use Security\Repository\UserConfirmationRepository;
+use Security\Repository\UserConfirmationTokenRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: UserConfirmationRepository::class)]
-#[ORM\Table(name: 'user_confirmation')]
-class UserConfirmation
+#[ORM\Entity(repositoryClass: UserConfirmationTokenRepository::class)]
+#[ORM\Table(name: 'user_confirmation_token')]
+class UserConfirmationToken
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -77,14 +77,32 @@ class UserConfirmation
         string $token,
         DateTimeImmutable $expiryAt,
     ): self {
-        $userConfirmation = new self();
-        $userConfirmation->user = $user;
-        $userConfirmation->token = $token;
-        $userConfirmation->isValid = true;
-        $userConfirmation->expiryAt = $expiryAt;
-        $userConfirmation->createdAt = new DateTimeImmutable();
-        $userConfirmation->updatedAt = new DateTimeImmutable();
+        $userConfirmationToken = new self();
+        $userConfirmationToken->user = $user;
+        $userConfirmationToken->token = $token;
+        $userConfirmationToken->isValid = true;
+        $userConfirmationToken->expiryAt = $expiryAt;
+        $userConfirmationToken->createdAt = new DateTimeImmutable();
+        $userConfirmationToken->updatedAt = new DateTimeImmutable();
 
-        return $userConfirmation;
+        return $userConfirmationToken;
+    }
+
+    public function isValidAndNotExpired(): bool
+    {
+        if (false === $this->isValid()) {
+            return false;
+        }
+
+        if ($this->expiryAt < new DateTimeImmutable()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function invalidate(): void
+    {
+        $this->isValid = false;
     }
 }

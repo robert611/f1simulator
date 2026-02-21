@@ -8,7 +8,7 @@ use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Mailer\Contract\GenericEmail;
 use Mailer\MailerFacadeInterface;
-use Security\Entity\UserConfirmation;
+use Security\Entity\UserConfirmationToken;
 use Security\Event\UserRegisteredEvent;
 use Shared\Service\TokenGenerator;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
@@ -37,13 +37,13 @@ readonly class UserRegisteredListener
             UrlGeneratorInterface::ABSOLUTE_URL,
         );
 
-        $userConfirmation = UserConfirmation::create(
+        $userConfirmationToken = UserConfirmationToken::create(
             $user,
             $token,
             new DateTimeImmutable('+1 hour'),
         );
 
-        $this->entityManager->persist($userConfirmation);
+        $this->entityManager->persist($userConfirmationToken);
         $this->entityManager->flush();
 
         $this->mailerFacade->send(

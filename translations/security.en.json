@@ -1,3 +1,5 @@
 {
-    "Invalid credentials.": "Provided login and password are incorrect."
+    "Invalid credentials.": "Provided login and password are incorrect.",
+    "not_existent_confirmation_link": "Confirmation link is invalid",
+    "account_confirmed": "Account has been confirmed, you may now sign in"
 }

@@ -19,6 +19,7 @@ use Multiplayer\Entity\UserSeasonQualification;
 use Multiplayer\Entity\UserSeasonRace;
 use Multiplayer\Entity\UserSeasonRaceResult;
 use Security\Entity\User;
+use Security\Entity\UserConfirmationToken;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class Fixtures
@@ -76,6 +77,23 @@ class Fixtures
         );
         $user->setRoles(['ROLE_USER']);
         $user->setIsVerified(true);
+        $user->setCreatedAt(new DateTimeImmutable());
+        $user->setUpdatedAt(new DateTimeImmutable());
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        return $user;
+    }
+
+    public function anUnverifiedUser(): User
+    {
+        $user = new User();
+        $user->setUsername('super_fast_driver');
+        $user->setEmail('super.fast@gmail.com');
+        $user->setPassword('password');
+        $user->setRoles(['ROLE_USER']);
+        $user->setIsVerified(false);
         $user->setCreatedAt(new DateTimeImmutable());
         $user->setUpdatedAt(new DateTimeImmutable());
 
@@ -272,5 +290,22 @@ class Fixtures
         $this->entityManager->flush();
 
         return $qualification;
+    }
+
+    public function aUserConfirmationToken(
+        User $user,
+        string $token,
+        DateTimeImmutable $expiryAt,
+    ): UserConfirmationToken {
+        $userConfirmationToken = UserConfirmationToken::create(
+            $user,
+            $token,
+            $expiryAt,
+        );
+
+        $this->entityManager->persist($userConfirmationToken);
+        $this->entityManager->flush();
+
+        return $userConfirmationToken;
     }
 }
