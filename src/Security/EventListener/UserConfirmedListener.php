@@ -6,7 +6,7 @@ namespace Security\EventListener;
 
 use Mailer\Contract\GenericEmail;
 use Mailer\MailerFacadeInterface;
-use Security\Event\UserRegisteredEvent;
+use Security\Event\UserConfirmedEvent;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
@@ -19,7 +19,7 @@ readonly class UserConfirmedListener
     ) {
     }
 
-    public function __invoke(UserRegisteredEvent $event): void
+    public function __invoke(UserConfirmedEvent $event): void
     {
         $user = $event->getUser();
 
