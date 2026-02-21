@@ -14,7 +14,7 @@ final class UserChecker implements UserCheckerInterface
     {
         /** @var User $user */
         if (false === $user->isVerified()) {
-            throw new UserNotConfirmedException('account_not_confirmed_checker');
+            throw new UserNotConfirmedException('account_not_confirmed_checker', $user->getId());
         }
     }
 

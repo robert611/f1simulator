@@ -46,5 +46,8 @@
             "and": "i",
             "privacy_policy": "politykę prywatności"
         }
+    },
+    "resend_confirmation_email": {
+        "title": "Wyślij ponownie email weryfikacyjny"
     }
 }

@@ -21,6 +21,7 @@ security:
                 login_path: app_login
                 check_path: app_login
                 enable_csrf: true
+                failure_handler: Security\Service\AuthenticationFailureHandler
             logout:
                 path: app_logout
             access_denied_handler: Security\AccessDeniedHandler

@@ -8,4 +8,16 @@ use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusExce
 
 final class UserNotConfirmedException extends CustomUserMessageAccountStatusException
 {
+    private int $userId;
+
+    public function __construct(string $message, int $userId)
+    {
+        parent::__construct($message);
+        $this->userId = $userId;
+    }
+
+    public function getUserId(): int
+    {
+        return $this->userId;
+    }
 }
