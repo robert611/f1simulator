@@ -55,6 +55,7 @@ readonly class UserRegisteredListener
                 [
                     'username' => $user->getUsername(),
                     'verificationUrl' => $verificationUrl,
+                    'expiresInMinutes' => 60,
                 ],
             ),
         );
