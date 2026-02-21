@@ -35,7 +35,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(name: 'password', type: 'string', nullable: false)]
     private string $password;
 
-    #[ORM\Column(name: 'is_verified', type: 'boolean', nullable: false)]
+    #[ORM\Column(name: 'is_verified', type: 'boolean', nullable: false, options: ['default' => false])]
     private bool $isVerified = false;
 
     #[ORM\Column(name: 'created_at', type: Types::DATETIME_IMMUTABLE, nullable: false)]
