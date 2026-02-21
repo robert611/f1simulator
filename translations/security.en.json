@@ -1,5 +1,6 @@
 {
     "Invalid credentials.": "Provided login and password are incorrect.",
     "not_existent_confirmation_link": "Confirmation link is invalid or expired.",
-    "account_confirmed": "Account has been confirmed, you may now sign in."
+    "account_confirmed": "Account has been confirmed, you may now sign in.",
+    "account_not_confirmed_checker": "You must first confirm you account using verification link in your email."
 }
