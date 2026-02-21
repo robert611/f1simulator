@@ -6,6 +6,7 @@ namespace Tests\Functional\Security;
 
 use Mailer\AsyncCommand\SendEmail;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Security\Repository\UserConfirmationRepository;
 use Security\Repository\UserRepository;
 use Symfony\Component\Messenger\Transport\InMemory\InMemoryTransport;
 use Tests\Common\Fixtures;
@@ -18,12 +19,14 @@ class RegisterControllerTest extends WebTestCase
     private KernelBrowser $client;
     private Fixtures $fixtures;
     private UserRepository $userRepository;
+    private UserConfirmationRepository $userConfirmationRepository;
 
     public function setUp(): void
     {
         $this->client = static::createClient();
         $this->fixtures = self::getContainer()->get(Fixtures::class);
         $this->userRepository = self::getContainer()->get(UserRepository::class);
+        $this->userConfirmationRepository = self::getContainer()->get(UserConfirmationRepository::class);
     }
 
     #[Test]
@@ -68,6 +71,11 @@ class RegisterControllerTest extends WebTestCase
         self::assertCount(1, $messages);
         self::assertInstanceOf(SendEmail::class, $command);
         self::assertSame(['test@gmail.com'], $command->to);
+
+        // and then (User confirmation token was created)
+        $userConfirmation = $this->userConfirmationRepository->findOneBy([]);
+        self::assertEquals(1, $this->userConfirmationRepository->count());
+        self::assertEquals($user, $userConfirmation->getUser());
     }
 
     #[Test]
