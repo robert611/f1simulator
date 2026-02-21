@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Security\EventListener;
 
+use DateTimeImmutable;
+use Doctrine\ORM\EntityManagerInterface;
 use Mailer\Contract\GenericEmail;
 use Mailer\MailerFacadeInterface;
+use Security\Entity\UserConfirmation;
 use Security\Event\UserRegisteredEvent;
 use Shared\Service\TokenGenerator;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
@@ -18,6 +21,7 @@ readonly class UserRegisteredListener
     public function __construct(
         private MailerFacadeInterface $mailerFacade,
         private RouterInterface $router,
+        private EntityManagerInterface $entityManager,
     ) {
     }
 
@@ -32,6 +36,15 @@ readonly class UserRegisteredListener
             ['token' => $token],
             UrlGeneratorInterface::ABSOLUTE_URL,
         );
+
+        $userConfirmation = UserConfirmation::create(
+            $user,
+            $token,
+            new DateTimeImmutable('+1 hour'),
+        );
+
+        $this->entityManager->persist($userConfirmation);
+        $this->entityManager->flush();
 
         $this->mailerFacade->send(
             new GenericEmail(
