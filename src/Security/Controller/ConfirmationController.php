@@ -55,6 +55,8 @@ final class ConfirmationController extends BaseController
     #[Route('/resend-confirmation-email/{userId}', name: 'app_resend_confirm_email', methods: ['GET'])]
     public function resendEmail(int $userId): Response
     {
-        return $this->render('@security/registration/resend_confirmation_email.html.twig');
+        return $this->render('@security/registration/resend_confirmation_email.html.twig', [
+            'userId' => $userId,
+        ]);
     }
 }

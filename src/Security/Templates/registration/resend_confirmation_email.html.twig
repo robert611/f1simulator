@@ -2,6 +2,32 @@
 
 {% block title %}F1Simulator - {{ 'resend_confirmation_email.title'|trans({}, 'front') }}{% endblock %}
 
-{% block body %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/auth.css') }}">
+{% endblock %}
 
+{% block body %}
+<div class="auth-container">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-6 col-md-8 col-sm-10">
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <h2>
+                            {{ 'resend_confirmation_email.your_account_is_unverified'|trans({}, 'front') }}
+                        </h2>
+                        <p class="auth-subtitle">{{ 'resend_confirmation_email.check_your_email_inbox'|trans({}, 'front') }}</p>
+                    </div>
+                    <div class="card-body p-4">
+                        <p class="fs-5">
+                            {{ 'resend_confirmation_email.description'|trans({}, 'front') }}
+                        </p>
+                        <button class="btn auth-btn">{{ 'resend_confirmation_email.resend_button'|trans({}, 'front') }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

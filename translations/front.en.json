@@ -48,6 +48,10 @@
         }
     },
     "resend_confirmation_email": {
-        "title": "Resend confirmation email"
+        "title": "Resend confirmation email",
+        "your_account_is_unverified": "You account is unverified",
+        "check_your_email_inbox": "Check your email inbox for verification link",
+        "description": "If you can't find an email or your verification link expired, please click the link below to resend a verification email.",
+        "resend_button": "Resend verification email"
     }
 }
