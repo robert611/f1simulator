@@ -23,7 +23,9 @@
                         <p class="fs-5">
                             {{ 'resend_confirmation_email.description'|trans({}, 'front') }}
                         </p>
-                        <a href="{{ path('app_resend_confirm_email', {'userId': userId}) }}" class="btn auth-btn">{{ 'resend_confirmation_email.resend_button'|trans({}, 'front') }}</a>
+                        <a href="{{ path('app_resend_confirm_email', {'userId': userId}) }}" class="btn auth-btn block-button-js" data-storage-key="email-confirmation-button-blockade">
+                            {{ 'resend_confirmation_email.resend_button'|trans({}, 'front') }}
+                        </a>
                     </div>
                 </div>
             </div>
