@@ -46,5 +46,12 @@
             "and": "i",
             "privacy_policy": "politykę prywatności"
         }
+    },
+    "resend_confirmation_email": {
+        "title": "Wyślij ponownie email weryfikacyjny",
+        "your_account_is_unverified": "Twoje konto jest nie potwierdzone",
+        "check_your_email_inbox": "Sprawdź swoją skrzynkę pocztową w celu potwierdzenia konta",
+        "description": "Jeśli nie możesz znaleźć maila bądź link weryfikacyjny wygasł, kliknij w link poniżej, żeby wysłać nowy email.",
+        "resend_button": "Wyślij link weryfikacyjny"
     }
 }

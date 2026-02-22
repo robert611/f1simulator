@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm Your Email Address – F1Simulator</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color:#0f1115;
+            font-family: Arial, Helvetica, sans-serif;
+            color:#ffffff;
+        }
+
+        #main-table {
+            width: 100%;
+            border-spacing: 0;
+            background-color: #0f1115;
+            padding:40px 0;
+        }
+
+        #main-table th, #main-table td {
+            padding: 0;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        #sub-table {
+            width: 600px;
+            border-spacing: 0;
+            background-color: #151922;
+            border-radius:12px;
+            padding:40px;
+        }
+
+        #sub-table th, #main-table td {
+            padding: 0;
+        }
+
+        #title {
+            margin: 0;
+            color: #e10600;
+            font-size: 32px;
+            letter-spacing: 1px;
+        }
+
+        #sub-title {
+            margin: 8px 0 0 0;
+            color: #9aa4b2;
+            font-size:14px;
+        }
+
+        #homepage-button {
+            background-color: #e10600;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+<table id="main-table">
+    <tr>
+        <td align="center">
+            <table id="sub-table">
+                <tr>
+                    <td class="text-center" style="padding-bottom:20px;">
+                        <h1 id="title">
+                            F1Simulator
+                        </h1>
+                        <p id="sub-title">
+                            Your alternative Formula 1 reality
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-top:20px;">
+                        <p style="font-size:18px;margin:0 0 16px 0;">
+                            Hi <strong>{{ username }}</strong> 👋
+                        </p>
+
+                        <p style="font-size:15px;line-height:1.6;color:#d6dbe3;margin:0 0 16px 0;">
+                            Thank you for registering with <strong>F1Simulator</strong>.
+                            Before you hit the track, we need to confirm your email address.
+                        </p>
+
+                        <p style="font-size:15px;line-height:1.6;color:#d6dbe3;margin:0 0 24px 0;">
+                            Click the button below to activate your account and start creating your own racing scenarios.
+                        </p>
+
+                        <p style="font-size:15px;line-height:1.6;color:#d6dbe3;margin:0 0 24px 0;">
+                            The link will expire in {{ expiresInMinutes }} minutes.
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center" style="padding:30px 0;">
+                        <a id="homepage-button" href="{{ verificationUrl }}">
+                            Confirm Email Address
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border-top:1px solid #2a2f3a;padding-top:20px;">
+                        <p style="font-size:13px;line-height:1.6;color:#9aa4b2;margin:0 0 12px 0;text-align:center;">
+                            If the button doesn’t work, copy and paste the link below into your browser:
+                        </p>
+                        <p style="font-size:12px;line-height:1.6;color:#7b8594;word-break:break-all;margin:0 0 20px 0;text-align:center;">
+                            {{ verificationUrl }}
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border-top:1px solid #2a2f3a;padding-top:20px;text-align:center;">
+                        <p style="font-size:12px;color:#7b8594;margin:0;">
+                            See you on the track 🏁<br>
+                            <strong>The F1Simulator Team</strong>
+                        </p>
+                        <p style="font-size:11px;color:#5f6875;margin-top:12px;">
+                            If you didn’t create this account, please ignore this email.
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

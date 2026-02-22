@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DataFixtures;
 
+use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Security\Entity\User;
@@ -31,6 +32,9 @@ class UserFixtures extends Fixture
             $user->setRoles($data['roles']);
             $user->setPassword($this->encoder->hashPassword($user, $data['password']));
             $user->setEmail($data['email']);
+            $user->setIsVerified(true);
+            $user->setCreatedAt(new DateTimeImmutable());
+            $user->setUpdatedAt(new DateTimeImmutable());
 
             $manager->persist($user);
             $manager->flush();

@@ -83,4 +83,26 @@ class SecurityControllerTest extends WebTestCase
         $tokenStorage = static::getContainer()->get('security.token_storage');
         self::assertNotNull($tokenStorage->getToken());
     }
+
+    #[Test]
+    public function unverified_user_will_be_redirected_to_verification_page(): void
+    {
+        // given
+        $user = $this->fixtures->anUnverifiedUser();
+
+        // when
+        $crawler = $this->client->request('GET', '/login');
+        $form = $crawler->selectButton('Zaloguj się')->form([
+            '_username' => 'super_fast_driver',
+            '_password' => 'password',
+        ]);
+        $this->client->submit($form);
+
+        // then
+        self::assertResponseRedirects("/resend-confirmation-email/view/{$user->getId()}");
+
+        // and then
+        $tokenStorage = static::getContainer()->get('security.token_storage');
+        self::assertNull($tokenStorage->getToken());
+    }
 }

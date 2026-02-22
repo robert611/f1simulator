@@ -1,3 +1,8 @@
 {
-    "Invalid credentials.": "Podany login i hasło są nieprawidłowe."
+    "Invalid credentials.": "Podany login i hasło są nieprawidłowe.",
+    "not_existent_confirmation_link": "Link potwierdzający jest nieprawidłowy lub wygasł.",
+    "account_confirmed": "Konto zostało potwierdzone, możesz się teraz zalogować.",
+    "account_not_confirmed_checker": "Musisz najpierw potwierdzić swoje konto przez link weryfikacyjny w mailu.",
+    "confirmation_email_resent": "Link potwierdzający został ponownie wysłany na twój adres email.",
+    "resend_email_rate_limit": "Musisz poczekać minutę przed ponownym wysłaniem maila."
 }
