@@ -28,7 +28,7 @@ class GameController extends BaseController
     #[Route('/game/season/start', name: 'game_season_start', methods: ['GET', 'POST'])]
     public function startSeason(Request $request): RedirectResponse
     {
-        $team = $this->domainFacade->getTeamById((int) $request->get('teamId'));
+        $team = $this->domainFacade->getTeamById((int) $request->request->get('teamId'));
 
         $driver = $team->drawDriverToReplace();
 
