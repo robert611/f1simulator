@@ -54,7 +54,7 @@ final class UserConfirmationServiceTest extends KernelTestCase
     }
 
     #[Test]
-    public function test_isUserAllowedToResendEmail_should_return_false_when_user_has_token_created_less_than_minute_ago(): void
+    public function user_cannot_resend_email_within_one_minute(): void
     {
         // given
         $user = $this->fixtures->aUser();

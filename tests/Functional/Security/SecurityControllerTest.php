@@ -99,7 +99,7 @@ class SecurityControllerTest extends WebTestCase
         $this->client->submit($form);
 
         // then
-        self::assertResponseRedirects("/resend-confirmation-email/{$user->getId()}");
+        self::assertResponseRedirects("/resend-confirmation-email/view/{$user->getId()}");
 
         // and then
         $tokenStorage = static::getContainer()->get('security.token_storage');

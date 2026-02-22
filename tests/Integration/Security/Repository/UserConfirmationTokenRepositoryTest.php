@@ -32,12 +32,12 @@ final class UserConfirmationTokenRepositoryTest extends KernelTestCase
         $user2 = $this->fixtures->aCustomUser('john_doe', 'john.doe@example.com');
 
         $expiryAt = new DateTimeImmutable('+1 hour');
-        
+
         // and given - create multiple tokens for user1
         $token1 = $this->fixtures->aUserConfirmationToken($user1, 'token1', $expiryAt);
         $token2 = $this->fixtures->aUserConfirmationToken($user1, 'token2', $expiryAt);
         $token3 = $this->fixtures->aUserConfirmationToken($user1, 'token3', $expiryAt);
-        
+
         // and given - create token for user2 (should not be affected)
         $token4 = $this->fixtures->aUserConfirmationToken($user2, 'token4', $expiryAt);
 
@@ -61,7 +61,7 @@ final class UserConfirmationTokenRepositoryTest extends KernelTestCase
         self::assertFalse($token1->isValid());
         self::assertFalse($token2->isValid());
         self::assertFalse($token3->isValid());
-        
+
         // then - user2 token should remain valid
         self::assertTrue($token4->isValid());
     }

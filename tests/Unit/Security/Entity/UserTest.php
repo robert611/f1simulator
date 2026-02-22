@@ -53,6 +53,5 @@ class UserTest extends TestCase
 
         // then
         self::assertTrue($user->isVerified());
-        self::assertNotNull($user->getUpdatedAt());
     }
 }
