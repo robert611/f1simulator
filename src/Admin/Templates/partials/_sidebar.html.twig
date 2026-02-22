@@ -4,28 +4,28 @@
     <ul class="nav nav-pills flex-column gap-1 mb-auto">
         <li>
             <a href="{{ path('admin_dashboard') }}"
-               class="nav-link d-flex align-items-center rounded {% if app.request.get('_route') starts with 'admin_dashboard' %}active{% endif %}">
+               class="nav-link d-flex align-items-center rounded {% if app.request.attributes.get('_route') starts with 'admin_dashboard' %}active{% endif %}">
                 <i class="bi bi-speedometer2 me-2"></i>
                 <span class="ml-2">Dashboard</span>
             </a>
         </li>
         <li>
             <a href="{{ path('admin_driver') }}"
-               class="nav-link d-flex align-items-center rounded {% if app.request.get('_route') starts with 'admin_driver' %}active{% endif %}">
+               class="nav-link d-flex align-items-center rounded {% if app.request.attributes.get('_route') starts with 'admin_driver' %}active{% endif %}">
                 <i class="fa-solid fa-helmet-un me-2"></i>
                 <span class="ml-2">Kierowcy</span>
             </a>
         </li>
         <li>
             <a href=""
-               class="nav-link d-flex align-items-center rounded {% if app.request.get('_route') starts with 'admin_user' %}active{% endif %}">
+               class="nav-link d-flex align-items-center rounded {% if app.request.attributes.get('_route') starts with 'admin_user' %}active{% endif %}">
                 <i class="bi bi-people me-2"></i>
                 <span class="ml-2">Użytkownicy</span>
             </a>
         </li>
         <li>
             <a href=""
-               class="nav-link d-flex align-items-center rounded {% if app.request.get('_route') starts with 'admin_product' %}active{% endif %}">
+               class="nav-link d-flex align-items-center rounded {% if app.request.attributes.get('_route') starts with 'admin_product' %}active{% endif %}">
                 <i class="bi bi-flag me-2"></i>
                 <span class="ml-2">Tory</span>
             </a>

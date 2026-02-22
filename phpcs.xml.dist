@@ -24,6 +24,7 @@
     <exclude-pattern>config/bootstrap.php</exclude-pattern>
     <exclude-pattern>src/Kernel.php</exclude-pattern>
     <exclude-pattern>config/secrets/dev/</exclude-pattern>
+    <exclude-pattern>config/reference.php</exclude-pattern>
 
     <file>bin/</file>
     <file>config/</file>
