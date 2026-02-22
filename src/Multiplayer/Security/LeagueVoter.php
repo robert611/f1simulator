@@ -11,15 +11,16 @@ use Security\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class LeagueVoter extends Voter
 {
-    public const START = 'START';
-    public const END = 'END';
-    public const JOIN = 'JOIN';
-    public const SHOW_SEASON = 'SHOW_SEASON';
-    public const SIMULATE_RACE = 'SIMULATE_RACE';
+    public const string START = 'START';
+    public const string END = 'END';
+    public const string JOIN = 'JOIN';
+    public const string SHOW_SEASON = 'SHOW_SEASON';
+    public const string SIMULATE_RACE = 'SIMULATE_RACE';
 
     public function __construct(
         private readonly DomainFacadeInterface $domainFacade,
@@ -35,7 +36,7 @@ class LeagueVoter extends Voter
         return true;
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token, ?Vote $vote = null): bool
     {
         $user = $token->getUser();
 
@@ -71,7 +72,7 @@ class LeagueVoter extends Voter
 
         if (false === $enoughPlayers) {
             // phpcs:ignore
-            (new Session())->getFlashBag()->add('warning', 'Do rozpoczęcia ligi potrzebujesz przynajmniej dwóch użytkowników.');
+            new Session()->getFlashBag()->add('warning', 'Do rozpoczęcia ligi potrzebujesz przynajmniej dwóch użytkowników.');
 
             return false;
         }
@@ -86,7 +87,7 @@ class LeagueVoter extends Voter
 
     public function canShow(UserSeason $league, User $user): bool
     {
-        /* This function checks if race, which results should be displayed in a page belongs to that league */
+        /* This function checks if race, which results should be displayed in a page, belongs to that league */
         if (!$this->doesRaceBelongToLeague($league)) {
             return false;
         }
@@ -123,7 +124,7 @@ class LeagueVoter extends Voter
         }
 
         if ($league->getRaces()->count() >= $this->domainFacade->getTracksCount()) {
-            (new Session())->getFlashBag()->add('warning', 'Wszystkie wyścigi zostały już rozegrane.');
+            new Session()->getFlashBag()->add('warning', 'Wszystkie wyścigi zostały już rozegrane.');
 
             return false;
         }
@@ -135,7 +136,7 @@ class LeagueVoter extends Voter
     {
         if ($user !== $league->getOwner()) {
             // phpcs:ignore
-            (new Session())->getFlashBag()->add('warning', 'Nie możesz wykonać tej operacji, ponieważ nie jesteś założycielem tej ligi.');
+            new Session()->getFlashBag()->add('warning', 'Nie możesz wykonać tej operacji, ponieważ nie jesteś założycielem tej ligi.');
 
             return false;
         }
@@ -146,7 +147,7 @@ class LeagueVoter extends Voter
     private function leagueExists(?UserSeason $league): bool
     {
         if (null === $league) {
-            (new Session())->getFlashBag()->add('warning', 'Nie istnieje liga o takim kluczu.');
+            new Session()->getFlashBag()->add('warning', 'Nie istnieje liga o takim kluczu.');
 
             return false;
         }
@@ -163,7 +164,7 @@ class LeagueVoter extends Voter
         $access = $alreadyIn->count() > 0;
 
         if ($access) {
-            (new Session())->getFlashBag()->add('warning', 'Należysz już do: ' . $league->getName());
+            new Session()->getFlashBag()->add('warning', 'Należysz już do: ' . $league->getName());
         }
 
         return $access;
@@ -174,7 +175,7 @@ class LeagueVoter extends Voter
         $reached = count($league->getPlayers()) >= $league->getMaxPlayers();
 
         if ($reached) {
-            (new Session())->getFlashBag()->add('warning', 'Ta liga osiągnęła swoją maksymalną liczbę graczy');
+            new Session()->getFlashBag()->add('warning', 'Ta liga osiągnęła swoją maksymalną liczbę graczy');
         }
 
         return $reached;
@@ -187,7 +188,7 @@ class LeagueVoter extends Voter
         // @todo to jest skomplikowany kod, podatny na błędy, żeby tak głęboko w voterze korzystać z request
         $raceId = $request->query->get('race_id');
 
-        /* In this case, user does not display race results, therefore it does not matter */
+        /* In this case, user does not display race results, therefore, it does not matter */
         if ($raceId === null) {
             return true;
         }

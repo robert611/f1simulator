@@ -15,14 +15,19 @@ security:
             security: false
         main:
             lazy: true
+            user_checker: Security\Service\UserChecker
             provider: app_user_provider
             form_login:
                 login_path: app_login
                 check_path: app_login
                 enable_csrf: true
+                failure_handler: Security\Service\AuthenticationFailureHandler
             logout:
                 path: app_logout
             access_denied_handler: Security\AccessDeniedHandler
+            remember_me:
+                secret: '%env(APP_SECRET)%'
+                lifetime: 86400 # 24 hours in seconds
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

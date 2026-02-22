@@ -40,8 +40,8 @@ final class SendEmailHandlerTest extends KernelTestCase
         $command = new SendEmail(
             ['test@example.com'],
             'Welcome!',
-            '@mailer/welcome-email.html.twig',
-            '@mailer/welcome-email.txt.twig',
+            '@mailer/welcome_email/welcome_email_pl.html.twig',
+            '@mailer/welcome_email/welcome_email_pl.txt.twig',
             [
                 'username' => 'John',
                 'homepageUrl' => 'https://example.com',
@@ -73,8 +73,8 @@ final class SendEmailHandlerTest extends KernelTestCase
         $command = new SendEmail(
             ['test@example.com'],
             'Welcome!',
-            '@mailer/welcome-email.html.twig',
-            '@mailer/welcome-email.txt.twig',
+            '@mailer/welcome_email/welcome_email_pl.html.twig',
+            '@mailer/welcome_email/welcome_email_pl.txt.twig',
             [
                 'username' => 'John',
                 'homepageUrl' => 'https://example.com',

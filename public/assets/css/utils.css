@@ -46,3 +46,9 @@
 .spacier-table tbody td {
     padding: 0.75rem;
 }
+
+.blocked-link {
+    pointer-events: none;
+    opacity: 0.6;
+    cursor: not-allowed;
+}

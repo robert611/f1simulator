@@ -1,3 +1,8 @@
 {
-    "Invalid credentials.": "Provided login and password are incorrect."
+    "Invalid credentials.": "Provided login and password are incorrect.",
+    "not_existent_confirmation_link": "Confirmation link is invalid or expired.",
+    "account_confirmed": "Account has been confirmed, you may now sign in.",
+    "account_not_confirmed_checker": "You must first confirm you account using verification link in your email.",
+    "confirmation_email_resent": "Confirmation email has been resent.",
+    "resend_email_rate_limit": "You must wait one minute before resending the email."
 }

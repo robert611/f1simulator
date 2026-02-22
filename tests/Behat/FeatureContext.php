@@ -5,10 +5,12 @@ namespace Tests\Behat;
 use Behat\Behat\Context\Context;
 use Behat\Step\Given;
 use Behat\Step\Then;
+use Exception;
 use Kernel;
-use PHPUnit\Framework\Assert;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Defines application features from the specific context.
@@ -17,6 +19,7 @@ class FeatureContext implements Context
 {
     private KernelBrowser $client;
     private ?string $responseContent = null;
+    private Response $response;
 
     /**
      * Initializes context.
@@ -27,6 +30,14 @@ class FeatureContext implements Context
      */
     public function __construct()
     {
+        if (file_exists(__DIR__ . '/../../.env.test')) {
+            new Dotenv()->usePutenv()->load(__DIR__ . '/../../.env.test');
+        }
+
+        if (file_exists(__DIR__ . '/../../.env.test.local')) {
+            new Dotenv()->usePutenv()->load(__DIR__ . '/../../.env.test.local');
+        }
+
         // Tworzymy klienta ręcznie
         $kernel = new Kernel('test', true); // environment 'test', debug true
         $kernel->boot();
@@ -39,30 +50,53 @@ class FeatureContext implements Context
     {
         $this->client->request(Request::METHOD_GET, $path);
         $this->responseContent = $this->client->getResponse()->getContent();
+        $this->response = $this->client->getResponse();
     }
 
+    /**
+     * @throws Exception
+     */
     #[Then('I should see :text')]
     public function iShouldSee(string $text): void
     {
-        Assert::assertNotNull($this->responseContent, 'Response content is null');
-        Assert::assertStringContainsString($text, $this->responseContent);
+        if (null === $this->responseContent) {
+            throw new Exception('Response content is null');
+        }
+
+        if (str_contains($text, $this->responseContent)) {
+            throw new Exception("Expected text not found: $text");
+        }
     }
 
+    /**
+     * @throws Exception
+     */
     #[Then('the response status should be :status')]
     public function theResponseStatusShouldBe(int $status): void
     {
-        Assert::assertSame(
-            $status,
-            $this->client->getResponse()->getStatusCode(),
-        );
+        $responseStatus = $this->response->getStatusCode();
+
+        if ($status !== $responseStatus) {
+            throw new Exception("Response status is: $responseStatus");
+        }
     }
 
+    /**
+     * @throws Exception
+     */
     #[Then('the page title should be :title')]
     public function thePageTitleShouldBe(string $title): void
     {
-        preg_match('/<title>(.*?)<\/title>/', $this->responseContent, $matches);
+        if (!preg_match('/<title>(.*?)<\/title>/', $this->responseContent, $matches)) {
+            throw new Exception('No <title> tag found');
+        }
 
-        Assert::assertNotEmpty($matches, 'No <title> tag found');
-        Assert::assertSame($title, trim($matches[1]));
+        if (trim($matches[1]) !== $title) {
+            throw new Exception(sprintf(
+                'Expected title "%s" but got "%s"',
+                $title,
+                trim($matches[1]),
+            ));
+        }
     }
 }
