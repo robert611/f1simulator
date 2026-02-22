@@ -20,4 +20,28 @@ class UserConfirmationTokenRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, UserConfirmationToken::class);
     }
+
+    public function invalidateUserTokens(int $userId): void
+    {
+        $this->createQueryBuilder('t')
+            ->update()
+            ->set('t.isValid', 'false')
+            ->where('t.user = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findLastTokenForUser(int $userId): ?UserConfirmationToken
+    {
+        $result = $this->createQueryBuilder('t')
+            ->where('t.user = :userId')
+            ->setParameter('userId', $userId)
+            ->orderBy('t.createdAt', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $result ?? null;
+    }
 }

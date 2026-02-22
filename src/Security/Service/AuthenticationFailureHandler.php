@@ -22,7 +22,7 @@ final readonly class AuthenticationFailureHandler implements AuthenticationFailu
     {
         if ($exception instanceof UserNotConfirmedException) {
             return new RedirectResponse(
-                $this->router->generate('app_resend_confirm_email', ['userId' => $exception->getUserId()]),
+                $this->router->generate('app_resend_confirm_email_view', ['userId' => $exception->getUserId()]),
             );
         }
 

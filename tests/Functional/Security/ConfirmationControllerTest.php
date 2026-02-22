@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Tests\Functional\Security;
 
 use DateTimeImmutable;
+use Mailer\AsyncCommand\SendEmail;
 use Security\Repository\UserConfirmationTokenRepository;
 use Security\Repository\UserRepository;
 use Shared\Service\TokenGenerator;
+use Symfony\Component\Messenger\Transport\InMemory\InMemoryTransport;
 use Tests\Common\Fixtures;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -19,6 +21,7 @@ class ConfirmationControllerTest extends WebTestCase
     private Fixtures $fixtures;
     private UserRepository $userRepository;
     private UserConfirmationTokenRepository $userConfirmationTokenRepository;
+    private InMemoryTransport $inMemoryTransport;
 
     public function setUp(): void
     {
@@ -26,6 +29,7 @@ class ConfirmationControllerTest extends WebTestCase
         $this->fixtures = self::getContainer()->get(Fixtures::class);
         $this->userRepository = self::getContainer()->get(UserRepository::class);
         $this->userConfirmationTokenRepository = self::getContainer()->get(UserConfirmationTokenRepository::class);
+        $this->inMemoryTransport = self::getContainer()->get('messenger.transport.async');
     }
 
     #[Test]
@@ -106,9 +110,57 @@ class ConfirmationControllerTest extends WebTestCase
         $user = $this->fixtures->anUnverifiedUser();
 
         // when
-        $this->client->request('GET', "/resend-confirmation-email/{$user->getId()}");
+        $this->client->request('GET', "/resend-confirmation-email/view/{$user->getId()}");
 
         // then
         self::assertResponseIsSuccessful();
+    }
+
+    #[Test]
+    public function email_will_be_resent(): void
+    {
+        // given
+        $user = $this->fixtures->anUnverifiedUser();
+
+        // when
+        $this->client->request('GET', "/resend-confirmation-email/{$user->getId()}");
+
+        // then
+        self::assertResponseRedirects("/resend-confirmation-email/view/{$user->getId()}");
+
+        // and then
+        $newToken = $this->userConfirmationTokenRepository->findOneBy(['user' => $user]);
+        self::assertEquals(1, $this->userConfirmationTokenRepository->count());
+        self::assertNotNull($newToken);
+
+        // and then
+        $sent = $this->inMemoryTransport->getSent();
+        /** @var SendEmail $message */
+        $message = $sent[0]->getMessage();
+        self::assertCount(1, $sent);
+        self::assertInstanceOf(SendEmail::class, $message);
+    }
+
+    #[Test]
+    public function user_must_wait_a_minute_for_another_resend(): void
+    {
+        // given
+        $user = $this->fixtures->anUnverifiedUser();
+        $this->fixtures->aUserConfirmationToken(
+            $user,
+            TokenGenerator::bin2hex(24),
+            new DateTimeImmutable('-1 hour'),
+        );
+
+        // when
+        $this->client->request('GET', "/resend-confirmation-email/{$user->getId()}");
+
+        // then
+        self::assertResponseRedirects("/resend-confirmation-email/view/{$user->getId()}");
+
+        // and then
+        $this->client->followRedirect();
+        self::assertSelectorTextContains('body', 'Musisz poczekać minutę przed ponownym wysłaniem maila.');
+        self::assertEquals(1, $this->userConfirmationTokenRepository->count());
     }
 }

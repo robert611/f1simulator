@@ -23,7 +23,7 @@
                         <p class="fs-5">
                             {{ 'resend_confirmation_email.description'|trans({}, 'front') }}
                         </p>
-                        <button class="btn auth-btn">{{ 'resend_confirmation_email.resend_button'|trans({}, 'front') }}</button>
+                        <a href="{{ path('app_resend_confirm_email', {'userId': userId}) }}" class="btn auth-btn">{{ 'resend_confirmation_email.resend_button'|trans({}, 'front') }}</a>
                     </div>
                 </div>
             </div>

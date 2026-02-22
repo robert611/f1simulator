@@ -105,4 +105,9 @@ class UserConfirmationToken
     {
         $this->isValid = false;
     }
+
+    public function overwriteCreatedAt(DateTimeImmutable $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
 }
