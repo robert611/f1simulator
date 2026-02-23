@@ -11,30 +11,32 @@
         {% endblock %}
         <meta name="Description" content="Simulate your f1 season as one of the drivers against computer, or compete against players.">
     </head>
-    <body>
+    <body class="d-flex flex-column min-vh-100">
         {{ include('navbar.html.twig') }}
 
-        <div class="container">
-            {% block messages %}
-                {% for msg in app.flashes('success') %}
-                    <div class="alert alert-success mt-3">
-                        {{ msg }}
-                    </div>
-                {% endfor %}
-                {% for msg in app.flashes('error') %}
-                    <div class="alert alert-danger mt-3">
-                        {{ msg }}
-                    </div>
-                {% endfor %}
-                {% for msg in app.flashes('warning') %}
-                    <div class="alert alert-warning mt-3">
-                        {{ msg }}
-                    </div>
-                {% endfor %}
-            {% endblock %}
-        </div>
+        <main class="flex-shrink-0 w-100">
+            <div class="container">
+                {% block messages %}
+                    {% for msg in app.flashes('success') %}
+                        <div class="alert alert-success mt-3">
+                            {{ msg }}
+                        </div>
+                    {% endfor %}
+                    {% for msg in app.flashes('error') %}
+                        <div class="alert alert-danger mt-3">
+                            {{ msg }}
+                        </div>
+                    {% endfor %}
+                    {% for msg in app.flashes('warning') %}
+                        <div class="alert alert-warning mt-3">
+                            {{ msg }}
+                        </div>
+                    {% endfor %}
+                {% endblock %}
+            </div>
 
-        {% block body %}{% endblock %}
+            {% block body %}{% endblock %}
+        </main>
 
         {{ include('footer.html.twig') }}
 
