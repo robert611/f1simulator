@@ -35,7 +35,8 @@
         "symfony/messenger": "8.0.*",
         "symfony/doctrine-messenger": "8.0.*",
         "symfony/monolog-bundle": "^4.0",
-        "elasticsearch/elasticsearch": "^8.13"
+        "elasticsearch/elasticsearch": "^8.13",
+        "symfony/stimulus-bundle": "^2.32"
     },
     "require-dev": {
         "behat/behat": "4.*",
