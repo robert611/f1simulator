@@ -19,3 +19,7 @@ import './styles/utils.css';
 // JS scripts
 import './js/app/BlockButton.js';
 import './js/app/Dropdown.js';
+
+// Symfony Ux React
+import { registerReactControllerComponents } from '@symfony/ux-react';
+registerReactControllerComponents();
