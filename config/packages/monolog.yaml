@@ -56,6 +56,10 @@ when@prod:
                 action_level: error
                 handler: mailer_nested
                 channels: [mailer]
+            mailer_nested:
+                type: stream
+                path: "%kernel.logs_dir%/mailer/mailer_%kernel.environment%.log"
+                level: debug
             mailer_elastic:
                 type: service
                 id: Elastic\ElasticMailerHandler

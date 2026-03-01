@@ -2,7 +2,7 @@
 
 {% block javascripts %}
     {{ parent() }} 
-    <script src="{{ asset('assets/js/app/Dropdown.js') }}"></script>
+    <script src="{{ asset('js/app/Dropdown.js') }}"></script>
 {% endblock %}
 
 {% block body %}
@@ -47,7 +47,7 @@
                         </div>
                         <div class="card-body flow-text text-center"> 
                             <h4 class="display-inline">{{ track.name }}</h4>
-                            <img class="f1-track mt-3" src="{{ asset('assets/tracks/'~track.picture) }}"/> 
+                            <img class="f1-track mt-3" src="{{ asset('images/tracks/'~track.picture) }}" alt="track picture"/> 
                         </div> 
                     </div>
                 {% else %}    
@@ -57,7 +57,7 @@
                         </div>
                         <div class="card-body flow-text text-center"> 
                             <h4 class="display-inline">{{ lastTrack.name }}</h4>
-                            <img class="f1-track mt-3" src="{{ asset('assets/tracks/'~lastTrack.picture) }}"/>
+                            <img class="f1-track mt-3" src="{{ asset('images/tracks/'~lastTrack.picture) }}" alt="track picture"/>
                         </div> 
                     </div>
                 {% endif %}
@@ -189,7 +189,7 @@
                                                         <tr>
                                                             <td>{{ teamResult.position }}</td>
                                                             <td>{{ teamResult.team.name }}</td>
-                                                            <td><img class="f1-car-picture" src="{{ asset('/assets/cars/'~teamResult.team.picture) }}" alt="{{ teamResult.team.name }}"/></td>
+                                                            <td><img class="f1-car-picture" src="{{ asset('/images/cars/'~teamResult.team.picture) }}" alt="{{ teamResult.team.name }}"/></td>
                                                             <td>{{ teamResult.points }}</td>
                                                         </tr>
                                                     {% endfor %}

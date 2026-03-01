@@ -1,16 +1,58 @@
 # f1simulator
-It is a website which allows a user to become an f1 driver and simulate f1 seasons. It is also possible to create custom league and compete against other users.
 
-![alt text](https://i.postimg.cc/zG94NBKv/F1-Simulator.png)
+Ten plik opisuje **jak postawić aplikację lokalnie po sklonowaniu repozytorium**.
 
-Click http://f1simulator.robert611.beep.pl/ to see the website
+---
 
-## Project Specifications
-- Create authentication functionality
-- Create offline f1 season simulation, with user account as one of the drivers
-- Show user's driver data
-- Show results of every simulated race and it's qualification and drivers and teams standing after each race
-- Add functionality for creating online f1 season(called league) by a user 
-- Let other users join to someone's league by a key generated after league creation and given to league owner
-- Let league owner to start the league and simulate races
-- Display information about user owned leagues and leagues to which he belongs
+## 1. Wymagania wstępne
+
+Na swojej maszynie potrzebujesz:
+
+- **Docker** (zalecana najnowsza stabilna wersja)
+- **Docker Compose** (wbudowany w nowsze wersje Dockera jako `docker compose`)
+- (opcjonalnie) **Make** – jeśli chcesz używać gotowych komend z `Makefile`
+
+---
+
+### 2. Uruchom kontenery Dockera (z budowaniem obrazów)
+
+```bash
+docker compose up -d --build
+```
+
+### 3. Zainstaluj zależności PHP (Composer)
+
+```bash
+docker compose exec php composer install --no-interaction --prefer-dist
+```
+
+### 4. Wykonaj migracje bazy danych
+
+```bash
+docker compose exec php php bin/console doctrine:migrations:migrate
+docker compose exec php php bin/console doctrine:migrations:migrate --env="test"
+```
+
+### 5. Załaduj fixtures do bazy deweloperskiej
+
+```bash
+docker compose exec php php bin/console doctrine:fixtures:load -n
+```
+
+### 6. Zainstaluj Importmap (assets / JavaScript)
+
+```bash
+docker compose exec php php bin/console importmap:install
+```
+
+### 7. Sprawdź działanie aplikacji w przeglądarc pod adresem:
+
+```text
+http://localhost:8000
+```
+
+### 8. Wykonaj testy
+
+```bash
+docker compose exec php composer code-check
+```
