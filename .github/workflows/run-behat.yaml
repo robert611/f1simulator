@@ -9,6 +9,7 @@ jobs:
         runs-on: ubuntu-latest
 
         env:
+            APP_ENV: test
             DATABASE_URL: mysql://root:root@127.0.0.1:3306/f1_simulator_test
 
         services:
@@ -39,6 +40,9 @@ jobs:
 
             -   name: Install dependencies
                 run: composer install --prefer-dist --no-progress --no-suggest
+
+            -   name: Install importmap
+                run: php bin/console importmap:install
 
             -   name: Wait for MySQL
                 run: |

@@ -75,9 +75,10 @@ class FeatureContext implements Context
     public function theResponseStatusShouldBe(int $status): void
     {
         $responseStatus = $this->response->getStatusCode();
+        $error = $this->response->getContent();
 
         if ($status !== $responseStatus) {
-            throw new Exception("Response status is: $responseStatus");
+            throw new Exception("Response status is: $responseStatus, error: $error");
         }
     }
 
