@@ -1,2 +1,6 @@
-// register any custom, 3rd party controllers here
-// app.register('some_controller_name', SomeImportedController);
+import { startStimulusApp } from '@symfony/stimulus-bundle';
+
+// Startuje aplikację Stimulus.
+// Symfony UX (w tym React) podłączają swoje kontrolery automatycznie.
+export const app = startStimulusApp();
+

@@ -1,0 +1,13 @@
+{
+    "name": "react-components",
+    "private": true,
+    "license": "MIT",
+    "devDependencies": {
+        "@babel/cli": "^7.25.6",
+        "@babel/core": "^7.25.2",
+        "@babel/preset-react": "^7.24.7"
+    },
+    "scripts": {
+        "build": "babel controllers --out-dir ./build --extensions .jsx --presets=@babel/preset-react --no-babelrc"
+    }
+}

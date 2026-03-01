@@ -70,4 +70,7 @@ return [
     '@symfony/ux-react' => [
         'path' => './vendor/symfony/ux-react/assets/dist/loader.js',
     ],
+    '@symfony/stimulus-bridge' => [
+        'version' => '4.0.1',
+    ],
 ];

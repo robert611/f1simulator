@@ -9,3 +9,6 @@ when@prod:
     framework:
         asset_mapper:
             missing_import_mode: warn
+
+react:
+    controllers_path: '%kernel.project_dir%/assets/react/build'

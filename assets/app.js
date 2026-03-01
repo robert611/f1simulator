@@ -20,6 +20,9 @@ import './styles/utils.css';
 import './js/app/BlockButton.js';
 import './js/app/Dropdown.js';
 
-// Symfony Ux React
-import { registerReactControllerComponents } from '@symfony/ux-react';
+// Stimulus
+import './stimulus_bootstrap.js';
+
+// Symfony Ux-React
+import {registerReactControllerComponents} from '@symfony/ux-react';
 registerReactControllerComponents();

@@ -1,5 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-export default function (props) {
-    return <div>Hello {props.fullName}</div>;
+export default class extends Component {
+    constructor() {
+        super();
+    }
+
+    render() {
+        return (
+            <div>
+                <h1>Hello World</h1>
+            </div>
+        );
+    }
 }
