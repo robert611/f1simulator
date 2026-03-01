@@ -8,6 +8,7 @@ class Teams extends React.Component {
             .then((response) => {
                 return response.json();
             }).then((data) => {
+                console.log(data);
                 this.setState({teams: data});
             });
     }
@@ -29,7 +30,7 @@ class Teams extends React.Component {
                 return (
                     <tr key={team.id}>
                         <td>{team.name}</td>
-                        <td><img alt={ team.name } className="f1-car-picture" src={`/assets/cars/${team.picture}`} /></td>
+                        <td><img alt={ team.name } className="f1-car-picture" src={team.pictureUrl} /></td>
                         <td>
                             <button className="btn btn-primary btn-sm choose-team-button"
                                     data-teamId={team.id}

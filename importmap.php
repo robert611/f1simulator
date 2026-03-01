@@ -16,10 +16,43 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
+    'admin' => [
+        'path' => './assets/admin.js',
+        'entrypoint' => true,
+    ],
+    'auth' => [
+        'path' => './assets/auth.js',
+        'entrypoint' => true,
+    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],
     '@symfony/stimulus-bundle' => [
         'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
+    ],
+    'bootstrap' => [
+        'version' => '5.3.8',
+    ],
+    '@popperjs/core' => [
+        'version' => '2.11.8',
+    ],
+    'bootstrap/dist/css/bootstrap.min.css' => [
+        'version' => '5.3.8',
+        'type' => 'css',
+    ],
+    '@fortawesome/fontawesome-free' => [
+        'version' => '7.2.0',
+    ],
+    '@fortawesome/fontawesome-free/css/fontawesome.min.css' => [
+        'version' => '7.2.0',
+        'type' => 'css',
+    ],
+    '@fortawesome/fontawesome-free/css/all.min.css' => [
+        'version' => '7.2.0',
+        'type' => 'css',
+    ],
+    'bootstrap-icons/font/bootstrap-icons.css' => [
+        'version' => '1.13.1',
+        'type' => 'css',
     ],
 ];

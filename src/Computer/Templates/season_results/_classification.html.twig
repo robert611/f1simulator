@@ -23,7 +23,7 @@
                             {% endif %}
 
                             <td>{{ driverRaceResult.driver.team.name }}</td>
-                            <td><img alt="{{ driverRaceResult.driver.team.name }}-car" class="f1-car-picture" src="{{ asset('/assets/cars/'~driverRaceResult.driver.team.picture) }}"/></td>
+                            <td><img alt="{{ driverRaceResult.driver.team.name }}-car" class="f1-car-picture" src="{{ asset('/images/cars/'~driverRaceResult.driver.team.picture) }}"/></td>
                             <td>{{ driverRaceResult.points }}</td>
                         </tr>
                     {% endfor %}
@@ -35,7 +35,7 @@
                             <td>{{ driverRaceResult.driver.team.name }}</td>
                             <td>
                                 <img alt="{{ driverRaceResult.driver.team.name }}-car" class="f1-car-picture"
-                                     src="{{ asset('/assets/cars/'~driverRaceResult.driver.team.picture) }}"/>
+                                     src="{{ asset('/images/cars/'~driverRaceResult.driver.team.picture) }}"/>
                             </td>
                             <td>{{ driverRaceResult.points }}</td>
                         </tr>

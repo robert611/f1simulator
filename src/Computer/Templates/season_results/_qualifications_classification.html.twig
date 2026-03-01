@@ -20,7 +20,7 @@
                         {% endif %}
                         <td>{{ drivers[result.driverId].team.name }}</td>
                         <td>
-                            <img alt="{{ drivers[result.driverId].team.name }}-car" class="f1-car-picture" src="/assets/cars/{{drivers[result.driverId].team.picture}}"/>
+                            <img alt="{{ drivers[result.driverId].team.name }}-car" class="f1-car-picture" src="{{ asset('/images/cars/'~drivers[result.driverId].team.picture) }}"/>
                         </td>
                     </tr>
                 {% endfor %}

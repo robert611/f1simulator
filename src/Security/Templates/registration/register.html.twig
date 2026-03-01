@@ -2,9 +2,9 @@
 
 {% block title %}F1Simulator - {{ 'register.title'|trans({}, 'front') }}{% endblock %}
 
-{% block stylesheets %}
+{% block importmap %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('assets/css/auth.css') }}">
+    {{ importmap('auth') }}
 {% endblock %}
 
 {% block body %}
@@ -184,5 +184,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="module" src="{{ asset('assets/js/app/TogglePassword.js') }}"></script>
+    <script type="module" src="{{ asset('js/app/TogglePassword.js') }}"></script>
 {% endblock %}
