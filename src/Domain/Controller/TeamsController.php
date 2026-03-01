@@ -27,7 +27,7 @@ class TeamsController extends BaseController
                 'id' => $team->getId(),
                 'name' => $team->getName(),
                 'picture' => $team->getPicture(),
-                'pictureUrl' => $assetMapper->getPublicPath('images/cars/'.$team->getPicture()),
+                'pictureUrl' => $assetMapper->getPublicPath('images/cars/' . $team->getPicture()),
             ];
         }, $this->repository->findAll());
 
