@@ -55,4 +55,22 @@ return [
         'version' => '1.13.1',
         'type' => 'css',
     ],
+    'react' => [
+        'version' => '18.3.1',
+    ],
+    'react-dom/client' => [
+        'version' => '18.3.1',
+    ],
+    'react-dom' => [
+        'version' => '18.3.1',
+    ],
+    'scheduler' => [
+        'version' => '0.23.2',
+    ],
+    '@symfony/ux-react' => [
+        'path' => './vendor/symfony/ux-react/assets/dist/loader.js',
+    ],
+    '@symfony/stimulus-bridge' => [
+        'version' => '4.0.1',
+    ],
 ];
