@@ -33,6 +33,11 @@ input {
 .highlight-driver {
     color: blue;
 }
+
+.highlight-driver td {
+    color: blue;
+}
+
 .card-header {
     background: rgba(182,33,7,1);
     background: -moz-linear-gradient(left, rgba(182,33,7,1) 0%, rgba(157,23,6,1) 36%, rgba(192,40,17,1) 71%, rgba(188,39,17,1) 74%, rgba(151,28,17,1) 100%);

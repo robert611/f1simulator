@@ -4,3 +4,4 @@
 ## 1.0.1 (2026-03-00)
 - Wprowadzono stopkę z wersją systemu
 - Dodano symfony/importmap-php do projektu wraz z przebudową pobierania plików css i js
+- Zainstalowano paczkę symfony/ux-react w miejsce pobierania skryptów react przez cdn

@@ -521,7 +521,7 @@
             "ref": "e970076b31d602ae6e2106cf91a82c7e1f7ddff2"
         },
         "files": [
-            "assets/react/controllers/Hello.jsx"
+            "assets/react/controllers/Teams.tsx"
         ]
     },
     "symfony/validator": {
