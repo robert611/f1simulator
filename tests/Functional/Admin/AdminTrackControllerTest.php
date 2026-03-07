@@ -50,6 +50,46 @@ final class AdminTrackControllerTest extends WebTestCase
     }
 
     #[Test]
+    public function admin_track_page_is_successful(): void
+    {
+        // given
+        $user = $this->fixtures->anAdmin();
+        $this->client->loginUser($user);
+
+        // when
+        $this->client->request('GET', '/admin-track');
+
+        // then
+        self::assertResponseIsSuccessful();
+    }
+
+    #[Test]
+    public function admin_track_page_displays_all_tracks(): void
+    {
+        // given
+        $user = $this->fixtures->anAdmin();
+        $this->client->loginUser($user);
+
+        // and given
+        $this->fixtures->aTrack('Silverstone', 'Silverstone.png');
+        $this->fixtures->aTrack('Spain', 'Spain.png');
+        $this->fixtures->aTrack('Belgium', 'Belgium.png');
+        $this->fixtures->aTrack('Netherlands', 'Netherlands.png');
+
+        // when
+        $this->client->request('GET', '/admin-track');
+
+        // then
+        self::assertResponseIsSuccessful();
+
+        // and then
+        self::assertSelectorTextContains('body', 'Silverstone');
+        self::assertSelectorTextContains('body', 'Spain');
+        self::assertSelectorTextContains('body', 'Belgium');
+        self::assertSelectorTextContains('body', 'Netherlands');
+    }
+
+    #[Test]
     public function new_track_form_can_be_displayed(): void
     {
         // given
