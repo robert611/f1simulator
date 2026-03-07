@@ -80,4 +80,14 @@ class AdminTrackController extends BaseController
             'trackFormModel' => $trackFormModel,
         ]);
     }
+
+    #[Route('/{id}', name: 'admin_track_show', methods: ['GET'])]
+    public function show(int $id): Response
+    {
+        $track = $this->domainFacade->getTrackById($id);
+
+        return $this->render('@admin/admin_track/show.html.twig', [
+            'track' => $track,
+        ]);
+    }
 }

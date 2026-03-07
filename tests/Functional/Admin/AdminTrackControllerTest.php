@@ -177,6 +177,28 @@ final class AdminTrackControllerTest extends WebTestCase
         $this->trackPictureService->remove($picture->getClientOriginalName());
     }
 
+    #[Test]
+    public function admin_track_show_page_can_be_displayed(): void
+    {
+        // given
+        $user = $this->fixtures->anAdmin();
+        $this->client->loginUser($user);
+
+        // and given
+        $track = $this->fixtures->aTrack('Silverstone', 'Silverstone.png');
+
+        // when
+        $this->client->request('GET', "/admin-track/{$track->getId()}");
+
+        // then
+        self::assertResponseIsSuccessful();
+
+        // and then
+        self::assertSelectorTextContains('body', (string) $track->getId());
+        self::assertSelectorTextContains('body', $track->getName());
+        self::assertSelectorTextContains('body', $track->getPicture());
+    }
+
     public static function provideUrls(): array
     {
         return [
