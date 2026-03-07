@@ -6,6 +6,7 @@ namespace Tests\Functional\Admin;
 
 use Admin\Service\TrackPictureService;
 use Domain\Repository\TrackRepository;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -31,6 +32,21 @@ final class AdminTrackControllerTest extends WebTestCase
         $this->trackRepository = self::getContainer()->get(TrackRepository::class);
         $this->trackPictureService = self::getContainer()->get(TrackPictureService::class);
         $this->parameterBag = self::getContainer()->get(ParameterBagInterface::class);
+    }
+
+    #[Test]
+    #[DataProvider('provideUrls')]
+    public function only_admin_can_access_admin_driver_endpoints(string $method, string $url): void
+    {
+        // given
+        $user = $this->fixtures->aUser();
+        $this->client->loginUser($user);
+
+        // when
+        $this->client->request($method, $url);
+
+        // then
+        self::assertResponseStatusCodeSame(302);
     }
 
     #[Test]
@@ -119,5 +135,14 @@ final class AdminTrackControllerTest extends WebTestCase
 
         // and then (remove added file)
         $this->trackPictureService->remove($picture->getClientOriginalName());
+    }
+
+    public static function provideUrls(): array
+    {
+        return [
+            ['GET', '/admin-track'],
+            ['GET', '/admin-track/new'],
+            ['POST', '/admin-track/new'],
+        ];
     }
 }
