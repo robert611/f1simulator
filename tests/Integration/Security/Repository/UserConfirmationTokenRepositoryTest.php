@@ -77,7 +77,7 @@ final class UserConfirmationTokenRepositoryTest extends KernelTestCase
 
         // and given
         $this->fixtures->aUserConfirmationToken($user1, 'token1', $expiryAt);
-        sleep(1);
+        sleep(2);
         $secondToken = $this->fixtures->aUserConfirmationToken($user1, 'token2', $expiryAt);
 
         // and given - create token for user2 (should not affect user1 result)

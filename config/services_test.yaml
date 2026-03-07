@@ -6,6 +6,9 @@ services:
     Tests\Common\Fixtures:
         public: true
 
+    Tests\Common\TestFileHelper:
+        public: true
+
     Multiplayer\Service\SecretGenerator:
         public: true
 

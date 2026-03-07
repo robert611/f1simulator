@@ -1,0 +1,43 @@
+{% extends '@admin/dashboard.html.twig' %}
+
+{% block title %}Panel administratora - Nowy tor | {{ parent() }}{% endblock %}
+
+{% block admin_content %}
+    <h3 class="text-center mt-4 mb-4">Dodanie nowego toru</h3>
+    <div class="card bg-dark text-white mb-4">
+        <div class="card-body">
+            {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+
+            <div class="row">
+                <div class="form-group mb-3">
+                    {{ form_label(form.name) }}
+                    {{ form_widget(form.name, {'attr': {'class': 'form-control bg-dark text-white mt-1'}}) }}
+                    {% if form_errors(form.name) %}
+                        <div class="form-field-error text-danger mt-1">
+                            {{ form_errors(form.name) }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group mb-3">
+                    {{ form_label(form.pictureFile) }}
+                    {{ form_widget(form.pictureFile, {'attr': {'class': 'form-control bg-dark text-white mt-1'}}) }}
+                    {% if form_errors(form.pictureFile) %}
+                        <div class="form-field-error text-danger mt-1">
+                            {{ form_errors(form.pictureFile) }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="admin-form-errors text-danger">
+                    {{ form_errors(form) }}
+                </div>
+            </div>
+
+            <button class="btn btn-success mt-2">{{ button_label|default('Zapisz') }}</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+    <a href="{{ path('admin_track_index') }}" class="btn btn-outline-secondary">Powrót</a>
+{% endblock %}

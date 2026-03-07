@@ -4,8 +4,17 @@ declare(strict_types=1);
 
 namespace Admin\Controller;
 
+use Admin\Exception\TrackFilenameTakenException;
+use Admin\Form\TrackFormModel;
+use Admin\Form\TrackType;
+use Admin\Service\TrackPictureService;
+use Domain\Contract\TrackServiceFacadeInterface;
 use Domain\DomainFacadeInterface;
 use Shared\Controller\BaseController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -14,6 +23,9 @@ class AdminTrackController extends BaseController
 {
     public function __construct(
         private readonly DomainFacadeInterface $domainFacade,
+        private readonly TrackServiceFacadeInterface $trackServiceFacade,
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly TrackPictureService $trackPictureService,
     ) {
     }
 
@@ -24,6 +36,48 @@ class AdminTrackController extends BaseController
 
         return $this->render('@admin/admin_track/index.html.twig', [
             'tracks' => $tracks,
+        ]);
+    }
+
+    #[Route('/new', name: 'admin_track_new', methods: ['GET', 'POST'])]
+    public function new(Request $request): Response
+    {
+        $trackFormModel = new TrackFormModel();
+        $form = $this->createForm(TrackType::class, $trackFormModel);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var TrackFormModel $trackFormModel */
+            $trackFormModel = $form->getData();
+            $uploadedFile = $trackFormModel->pictureFile;
+
+            try {
+                if ($this->trackPictureService->isFilenameTaken($uploadedFile->getClientOriginalName())) {
+                    throw new TrackFilenameTakenException();
+                }
+
+                $trackPicturesDirectory = $this->parameterBag->get('track_pictures_directory');
+
+                $uploadedFile->move($trackPicturesDirectory, $uploadedFile->getClientOriginalName());
+
+                $this->trackServiceFacade->add(
+                    $trackFormModel->name,
+                    $uploadedFile->getClientOriginalName(),
+                );
+
+                $this->addFlash('admin_success', 'Dodano nowy tor');
+
+                return $this->redirectToRoute('admin_track_index');
+            } catch (TrackFilenameTakenException) {
+                $form->addError(new FormError('Nazwa pliku jest już zajęta. Wybierz inną nazwę.'));
+            } catch (FileException) {
+                $this->addFlash('admin_error', 'Nie udało się zapisać pliku na serwerze. Spróbuj ponownie.');
+            }
+        }
+
+        return $this->render('@admin/admin_track/new.html.twig', [
+            'form' => $form->createView(),
+            'trackFormModel' => $trackFormModel,
         ]);
     }
 }
