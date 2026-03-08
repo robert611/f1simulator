@@ -199,6 +199,91 @@ final class AdminTrackControllerTest extends WebTestCase
         self::assertSelectorTextContains('body', $track->getPicture());
     }
 
+    #[Test]
+    public function admin_track_edit_form_can_be_displayed(): void
+    {
+        // given
+        $user = $this->fixtures->anAdmin();
+        $this->client->loginUser($user);
+
+        // and given
+        $track = $this->fixtures->aTrack('Silverstone', 'Silverstone.png');
+
+        // when
+        $this->client->request('GET', "/admin-track/{$track->getId()}/edit");
+
+        // then
+        self::assertResponseIsSuccessful();
+        $crawler = $this->client->getCrawler();
+
+        // and then
+        self::assertSame(
+            $track->getName(),
+            $crawler->filter('input[name="track_edit[name]"]')->attr('value'),
+        );
+        self::assertSelectorTextContains('body', $track->getPicture());
+    }
+
+    #[Test]
+    public function admin_track_edition_works(): void
+    {
+        // given
+        $user = $this->fixtures->anAdmin();
+        $this->client->loginUser($user);
+
+        // and given
+        $track = $this->fixtures->aTrack('Silverstone', 'Silverstone.png');
+
+        // and given
+        $picture = $this->fileHelper->anImageFile();
+        $picturePath = $picture->getPathname();
+
+        // when
+        $crawler = $this->client->request('GET', "/admin-track/{$track->getId()}/edit");
+        $form = $crawler->selectButton('Zapisz')->form([
+            'track_edit[name]' => 'Silverstone (edition)',
+        ]);
+        $form['track_edit[pictureFile]']->setValue($picturePath);
+        $this->client->submit($form);
+
+        // then
+        self::assertResponseRedirects("/admin-track/{$track->getId()}/edit");
+
+        // and then
+        $track = $this->trackRepository->find($track->getId());
+        self::assertSame('Silverstone (edition)', $track->getName());
+        self::assertSame($picture->getClientOriginalName(), $track->getPicture());
+
+        // and then (remove added file)
+        $this->trackPictureService->remove($picture->getClientOriginalName());
+    }
+
+    #[Test]
+    public function admin_track_edition_without_new_picture_works(): void
+    {
+        // given
+        $user = $this->fixtures->anAdmin();
+        $this->client->loginUser($user);
+
+        // and given
+        $track = $this->fixtures->aTrack('Silverstone', 'Silverstone.png');
+
+        // when
+        $crawler = $this->client->request('GET', "/admin-track/{$track->getId()}/edit");
+        $form = $crawler->selectButton('Zapisz')->form([
+            'track_edit[name]' => 'Silverstone (edition)',
+        ]);
+        $this->client->submit($form);
+
+        // then
+        self::assertResponseRedirects("/admin-track/{$track->getId()}/edit");
+
+        // and then
+        $track = $this->trackRepository->find($track->getId());
+        self::assertSame('Silverstone (edition)', $track->getName());
+        self::assertSame('Silverstone.png', $track->getPicture());
+    }
+
     public static function provideUrls(): array
     {
         return [
