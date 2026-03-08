@@ -10,6 +10,7 @@ use Admin\Form\TrackEditType;
 use Admin\Form\TrackFormModel;
 use Admin\Form\TrackType;
 use Admin\Service\TrackPictureService;
+use Domain\Contract\Exception\TrackCannotBeDeletedException;
 use Domain\Contract\TrackServiceFacadeInterface;
 use Domain\DomainFacadeInterface;
 use Shared\Controller\BaseController;
@@ -147,5 +148,25 @@ class AdminTrackController extends BaseController
             'track' => $track,
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/{id}', name: 'admin_track_delete', methods: ["POST", "DELETE"])]
+    public function delete(Request $request, int $id): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $id, $request->request->get('_token'))) {
+            try {
+                $track = $this->domainFacade->getTrackById($id);
+                $this->trackServiceFacade->delete($id);
+                $this->trackPictureService->remove($track->getPicture());
+                $this->addFlash('admin_success', 'Tor został usunięty');
+            } catch (TrackCannotBeDeletedException) {
+                $this->addFlash(
+                    'admin_error',
+                    'Tor nie może zostać usunięty ponieważ był użyty w istniejących sezonach',
+                );
+            }
+        }
+
+        return $this->redirectToRoute('admin_track_index');
     }
 }

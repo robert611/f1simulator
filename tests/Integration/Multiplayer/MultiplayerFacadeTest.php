@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Integration\Multiplayer;
+namespace Tests\Integration\Multiplayer;
 
 use Multiplayer\MultiplayerFacade;
 use PHPUnit\Framework\Attributes\Test;
@@ -106,5 +106,46 @@ class MultiplayerFacadeTest extends KernelTestCase
 
         // then
         self::assertEquals(2, $result->getSeasonsPlayed());
+    }
+
+    #[Test]
+    public function track_cannot_be_safely_deleted_if_there_was_race_on_it(): void
+    {
+        // given
+        $user = $this->fixtures->aUser();
+
+        // and given
+        $track = $this->fixtures->aTrack('Silverstone', 'Silverstone.png');
+
+        // and given
+        $secret = "J783NMS092C";
+        $userSeason = $this->fixtures->aUserSeason(
+            $secret,
+            10,
+            $user,
+            "Liga szybkich kierowców",
+            false,
+            false,
+        );
+        $this->fixtures->aUserSeasonRace($track->getId(), $userSeason);
+
+        // when
+        $result = $this->facade->canTrackBeSafelyDeleted($track->getId());
+
+        // then
+        self::assertFalse($result);
+    }
+
+    #[Test]
+    public function track_can_be_safely_deleted(): void
+    {
+        // given
+        $track = $this->fixtures->aTrack('Silverstone', 'Silverstone.png');
+
+        // when
+        $result = $this->facade->canTrackBeSafelyDeleted($track->getId());
+
+        // then
+        self::assertTrue($result);
     }
 }

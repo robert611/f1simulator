@@ -284,12 +284,107 @@ final class AdminTrackControllerTest extends WebTestCase
         self::assertSame('Silverstone.png', $track->getPicture());
     }
 
+    #[Test]
+    public function delete_csrf_token_must_be_valid(): void
+    {
+        // given
+        $user = $this->fixtures->anAdmin();
+        $this->client->loginUser($user);
+
+        // and given
+        $track = $this->fixtures->aTrack('Silverstone', 'Silverstone.png');
+
+        // when
+        $this->client->request('DELETE', "/admin-track/{$track->getId()}", [
+            '_token' => 'invalid_token',
+        ]);
+
+        // then
+        self::assertResponseRedirects("/admin-track");
+
+        // and then
+        self::assertEquals(1, $this->trackRepository->count());
+    }
+
+    #[Test]
+    public function track_cannot_be_used_to_be_deleted(): void
+    {
+        // given
+        $user = $this->fixtures->anAdmin();
+        $this->client->loginUser($user);
+
+        // and given
+        $team = $this->fixtures->aTeam();
+        $driver = $this->fixtures->aDriver("Lewis", "Hamilton", $team, 44);
+        $track = $this->fixtures->aTrack('Silverstone', 'Silverstone.png');
+
+        // and given
+        $season = $this->fixtures->aSeason($user, $driver);
+        $this->fixtures->aRace($track, $season);
+
+        // and given
+        $crawler = $this->client->request('GET', "/admin-track");
+
+        // when
+        $form = $crawler->selectButton('Usuń')->form([]);
+        $this->client->submit($form);
+
+        // then
+        self::assertResponseRedirects("/admin-track");
+
+        // follow redirection
+        $this->client->followRedirect();
+
+        // and then
+        self::assertSelectorTextContains(
+            '.alert-danger',
+            'Tor nie może zostać usunięty ponieważ był użyty w istniejących sezonach'
+        );
+
+        // and then
+        self::assertEquals(1, $this->trackRepository->count());
+    }
+
+    #[Test]
+    public function driver_can_be_deleted(): void
+    {
+        // given
+        $user = $this->fixtures->anAdmin();
+        $this->client->loginUser($user);
+
+        // and given
+        $this->fixtures->aTrack('Silverstone', 'Silverstone.png');
+
+        // and given
+        $crawler = $this->client->request('GET', "/admin-track");
+
+        // when
+        $form = $crawler->selectButton('Usuń')->form([]);
+        $this->client->submit($form);
+
+        // follow redirection
+        $this->client->followRedirect();
+
+        // and then
+        self::assertSelectorTextContains(
+            '.alert-success',
+            'Tor został usunięty'
+        );
+
+        // and then
+        self::assertEquals(0, $this->trackRepository->count());
+    }
+
     public static function provideUrls(): array
     {
         return [
             ['GET', '/admin-track'],
             ['GET', '/admin-track/new'],
             ['POST', '/admin-track/new'],
+            ['GET', '/admin-track/1/edit'],
+            ['POST', '/admin-track/1/edit'],
+            ['POST', '/admin-track/1'],
+            ['DELETE', '/admin-track/1'],
         ];
     }
 }

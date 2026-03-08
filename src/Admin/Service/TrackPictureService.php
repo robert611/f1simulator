@@ -32,6 +32,10 @@ final readonly class TrackPictureService
         $currentPath = Path::join($trackPicturesDirectory, $filename);
         $temporaryPath = Path::join($trackPicturesDirectory, $temporaryFilename);
 
+        if (!is_file($currentPath)) {
+            return '';
+        }
+
         rename($currentPath, $temporaryPath);
 
         return $temporaryFilename;
@@ -45,6 +49,10 @@ final readonly class TrackPictureService
 
         $temporaryPath = Path::join($trackPicturesDirectory, $temporaryFilename);
         $originalPath = Path::join($trackPicturesDirectory, $filename);
+
+        if (!is_file($temporaryPath)) {
+            return;
+        }
 
         rename($temporaryPath, $originalPath);
     }
