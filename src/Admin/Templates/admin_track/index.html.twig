@@ -30,7 +30,7 @@
                                 <td>{{ track.picture }}</td>
                                 <td>
                                     <a class="btn btn-outline-success mb-1 mb-md-0" href="{{ path('admin_track_show', {id: track.id}) }}">Wyświetl</a>
-                                    <a class="btn btn-outline-info mb-1 mb-md-0" href="">Edycja</a>
+                                    <a class="btn btn-outline-info mb-1 mb-md-0" href="{{ path('admin_track_edit', {id: track.id}) }}">Edycja</a>
                                     <form method="post" class="display-inline" action="" onsubmit="return confirm('Are you sure you want to delete this item?');">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ track.id) }}">

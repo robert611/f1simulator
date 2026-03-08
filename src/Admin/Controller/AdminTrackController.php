@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace Admin\Controller;
 
 use Admin\Exception\TrackFilenameTakenException;
+use Admin\Form\TrackEditFormModel;
+use Admin\Form\TrackEditType;
 use Admin\Form\TrackFormModel;
 use Admin\Form\TrackType;
 use Admin\Service\TrackPictureService;
 use Domain\Contract\TrackServiceFacadeInterface;
 use Domain\DomainFacadeInterface;
 use Shared\Controller\BaseController;
+use Shared\Service\FilenameSanitizer;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -52,17 +55,19 @@ class AdminTrackController extends BaseController
             $uploadedFile = $trackFormModel->pictureFile;
 
             try {
-                if ($this->trackPictureService->isFilenameTaken($uploadedFile->getClientOriginalName())) {
+                $pictureFilename = FilenameSanitizer::sanitize($uploadedFile);
+
+                if ($this->trackPictureService->isFilenameTaken($pictureFilename)) {
                     throw new TrackFilenameTakenException();
                 }
 
                 $trackPicturesDirectory = $this->parameterBag->get('track_pictures_directory');
 
-                $uploadedFile->move($trackPicturesDirectory, $uploadedFile->getClientOriginalName());
+                $uploadedFile->move($trackPicturesDirectory, $pictureFilename);
 
                 $this->trackServiceFacade->add(
                     $trackFormModel->name,
-                    $uploadedFile->getClientOriginalName(),
+                    $pictureFilename,
                 );
 
                 $this->addFlash('admin_success', 'Dodano nowy tor');
@@ -88,6 +93,59 @@ class AdminTrackController extends BaseController
 
         return $this->render('@admin/admin_track/show.html.twig', [
             'track' => $track,
+        ]);
+    }
+
+    #[Route('/{id}/edit', name: 'admin_track_edit', methods: ["GET", "POST"])]
+    public function edit(Request $request, int $id): Response
+    {
+        $track = $this->domainFacade->getTrackById($id);
+
+        $form = $this->createForm(TrackEditType::class, TrackEditFormModel::fromTrack($track));
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var TrackEditFormModel $trackFormModel */
+            $trackFormModel = $form->getData();
+            $uploadedFile = $trackFormModel->pictureFile;
+            $pictureFilename = null;
+
+            try {
+                if ($uploadedFile) {
+                    $pictureFilename = FilenameSanitizer::sanitize($uploadedFile);
+
+                    $oldPictureTemporaryFilename = $this->trackPictureService->temporaryRename($track->getPicture());
+
+                    if ($this->trackPictureService->isFilenameTaken($pictureFilename)) {
+                        throw new TrackFilenameTakenException();
+                    }
+
+                    $trackPicturesDirectory = $this->parameterBag->get('track_pictures_directory');
+
+                    $uploadedFile->move($trackPicturesDirectory, $pictureFilename);
+
+                    $this->trackPictureService->remove($oldPictureTemporaryFilename);
+                }
+
+                $this->trackServiceFacade->update(
+                    $track->getId(),
+                    $trackFormModel->name,
+                    $pictureFilename,
+                );
+            } catch (TrackFilenameTakenException) {
+                $form->addError(new FormError('Nazwa pliku jest już zajęta. Wybierz inną nazwę.'));
+                $this->trackPictureService->revertTemporaryRename($track->getPicture());
+            } catch (FileException) {
+                $this->addFlash('admin_error', 'Nie udało się zapisać pliku na serwerze. Spróbuj ponownie.');
+                $this->trackPictureService->revertTemporaryRename($track->getPicture());
+            }
+
+            return $this->redirectToRoute('admin_track_edit', ['id' => $id]);
+        }
+
+        return $this->render('@admin/admin_track/edit.html.twig', [
+            'track' => $track,
+            'form' => $form->createView(),
         ]);
     }
 }

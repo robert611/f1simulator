@@ -3,7 +3,7 @@
 {% block title %}Panel administratora - Tory | {{ parent() }}{% endblock %}
 
 {% block admin_content %}
-    <h3 class="text-center mt-4 mb-4">Dodanie nowego toru</h3>
+    <h3 class="text-center mt-4 mb-4">Edycja toru</h3>
     <div class="card bg-dark text-white mb-4">
         <div class="card-body">
             {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
@@ -22,6 +22,9 @@
                 <div class="form-group mb-3">
                     {{ form_label(form.pictureFile) }}
                     {{ form_widget(form.pictureFile, {'attr': {'class': 'form-control bg-dark text-white mt-1'}}) }}
+                    <div class="mt-1">
+                        <span class="text-small">Obecne zdjęcie: {{ track.picture }}</span>
+                    </div>
                     {% if form_errors(form.pictureFile) %}
                         <div class="form-field-error text-danger mt-1">
                             {{ form_errors(form.pictureFile) }}

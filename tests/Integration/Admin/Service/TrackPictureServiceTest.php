@@ -41,6 +41,67 @@ final class TrackPictureServiceTest extends KernelTestCase
     }
 
     #[Test]
+    public function will_temporarily_rename_existing_file(): void
+    {
+        // given
+        $directory = $this->parameterBag->get('kernel.project_dir') . '/assets/images/tracks';
+        $filename = 'track-picture-test.png';
+
+        $originalPath = Path::join($directory, $filename);
+        $temporaryPath = Path::join($directory, 'track-picture-test_temporary.png');
+
+        try {
+            touch($originalPath);
+
+            // when
+            $result = $this->trackPictureService->temporaryRename($filename);
+
+            // then
+            self::assertSame('track-picture-test_temporary.png', $result);
+            self::assertFileDoesNotExist($originalPath);
+            self::assertFileExists($temporaryPath);
+        } finally {
+            if (is_file($originalPath)) {
+                unlink($originalPath);
+            }
+
+            if (is_file($temporaryPath)) {
+                unlink($temporaryPath);
+            }
+        }
+    }
+
+    #[Test]
+    public function will_revert_temporary_rename(): void
+    {
+        // given
+        $directory = $this->parameterBag->get('kernel.project_dir') . '/assets/images/tracks';
+        $filename = 'track-picture-test.png';
+
+        $originalPath = Path::join($directory, $filename);
+        $temporaryPath = Path::join($directory, 'track-picture-test_temporary.png');
+
+        try {
+            touch($temporaryPath);
+
+            // when
+            $this->trackPictureService->revertTemporaryRename($filename);
+
+            // then
+            self::assertFileDoesNotExist($temporaryPath);
+            self::assertFileExists($originalPath);
+        } finally {
+            if (is_file($temporaryPath)) {
+                unlink($temporaryPath);
+            }
+
+            if (is_file($originalPath)) {
+                unlink($originalPath);
+            }
+        }
+    }
+
+    #[Test]
     public function will_verify_that_filename_is_not_taken(): void
     {
         // given

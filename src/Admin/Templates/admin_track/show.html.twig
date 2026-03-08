@@ -11,7 +11,7 @@
         <a href="{{ path('admin_track_index') }}" class="btn btn-dark">
             Powrót do listy
         </a>
-        <a href="" class="btn btn-info">
+        <a href="{{ path('admin_track_edit', {id: track.id}) }}" class="btn btn-info">
             Edytuj tor
         </a>
     </div>
