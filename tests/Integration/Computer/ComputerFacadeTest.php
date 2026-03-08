@@ -74,4 +74,39 @@ class ComputerFacadeTest extends KernelTestCase
         // then
         self::assertEquals(2, $result->getSeasonsPlayed());
     }
+
+    #[Test]
+    public function track_cannot_be_safely_deleted_if_there_was_race_on_it(): void
+    {
+        // given
+        $user = $this->fixtures->aUser();
+
+        // and given
+        $team = $this->fixtures->aTeam();
+        $driver = $this->fixtures->aDriver("Lewis", "Hamilton", $team, 44);
+        $track = $this->fixtures->aTrack('Silverstone', 'Silverstone.png');
+
+        // and given
+        $season = $this->fixtures->aSeason($user, $driver);
+        $this->fixtures->aRace($track, $season);
+
+        // when
+        $result = $this->facade->canTrackBeSafelyDeleted($track->getId());
+
+        // then
+        self::assertFalse($result);
+    }
+
+    #[Test]
+    public function track_can_be_safely_deleted(): void
+    {
+        // given
+        $track = $this->fixtures->aTrack('Silverstone', 'Silverstone.png');
+
+        // when
+        $result = $this->facade->canTrackBeSafelyDeleted($track->getId());
+
+        // then
+        self::assertTrue($result);
+    }
 }
