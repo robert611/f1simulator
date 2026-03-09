@@ -9,7 +9,6 @@
 .custom-card .card-header {
   padding: 0.75rem 1.25rem;
 }
-
 .custom-card .card-body {
   padding: 1.25rem;
 }
@@ -18,7 +17,6 @@
   color: #17a2b8;
   border-color: #17a2b8;
 }
-
 .btn-outline-info-darker:hover {
   color: white;
   background-color: #17a2b8;
@@ -28,7 +26,6 @@
 .hover-underline {
   text-decoration: none;
 }
-
 .hover-underline:hover {
   text-decoration: underline;
 }
@@ -42,7 +39,6 @@
   border-top: 1px solid #dee2e6;
   padding: 0.75rem;
 }
-
 .spacier-table tbody td {
   padding: 0.75rem;
 }
