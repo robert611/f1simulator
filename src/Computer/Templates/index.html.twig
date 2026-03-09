@@ -10,7 +10,7 @@
                         <div class="card-header">
                             <h4>Wybierz zespół i rozpocznij sezon</h4>
                         </div>
-                        <div class="card-body flow-text">
+                        <div class="card-body fs-5">
                             <form class="form-inline" id="start-season-form" method="post" action="{{ path('game_season_start') }}">
                                 <input type="hidden" name="teamId" id="start-season-form-team-input">
                             </form>
@@ -21,7 +21,7 @@
                         <div class="card-header">
                             <h4>Obecny sezon</h4>
                         </div>
-                        <div class="card-body flow-text">
+                        <div class="card-body fs-5">
                             <span>Kierowca: {{ currentDriverSeason.season.user.username }} </span><br>
                             <span>Zespół: {{ currentDriverSeason.driver.team.name }}</span><br>
                             <span>Numer samochodu: {{ currentDriverSeason.driver.carNumber }}</span><br>
@@ -54,7 +54,7 @@
                             <div class="card-header">
                                 <h4>Kolejny wyścig</h4>
                             </div>
-                            <div class="card-body flow-text">
+                            <div class="card-body fs-5">
                                 <span>{{ currentDriverSeason.currentTrack.name }} - <a href="{{ path('game_simulate_race') }}" class="btn btn-outline-info">Symuluj</a></span><br>
                                 <img alt="{{ currentDriverSeason.currentTrack.name }}" class="f1-track mt-3" src="{{ asset('images/tracks/'~currentDriverSeason.currentTrack.picture) }}"/>
                             </div>
@@ -62,7 +62,7 @@
                             <div class="card-header">
                                 <h4>Koniec sezonu</h4>
                             </div>
-                            <div class="card-body flow-text">
+                            <div class="card-body fs-5">
                                 <a href="{{ path('game_season_end') }}" class="btn btn-outline-info-darker">Zakończ sezon</a>
                             </div>
                         {% endif %}

@@ -14,7 +14,7 @@
                     <div class="card-header">
                         <h4>Statystyki</h4>
                     </div>
-                    <div class="card-body flow-text">
+                    <div class="card-body fs-5">
                         <span>Kierowca: {{ player.user.username }} </span><br>
                         <span>Zespół: {{ drivers[player.driverId].team.name }}</span><br>
                         <span>Numer samochodu: {{ drivers[player.driverId].carNumber }}</span><br>
@@ -45,7 +45,7 @@
                         <div class="card-header"> 
                             <h4>Kolejny wyścig</h4> 
                         </div>
-                        <div class="card-body flow-text text-center"> 
+                        <div class="card-body fs-5 text-center">
                             <h4 class="display-inline">{{ track.name }}</h4>
                             <img class="f1-track mt-3" src="{{ asset('images/tracks/'~track.picture) }}" alt="track picture"/> 
                         </div> 
@@ -55,7 +55,7 @@
                         <div class="card-header"> 
                             <h4>Poprzedni wyścig</h4> 
                         </div>
-                        <div class="card-body flow-text text-center"> 
+                        <div class="card-body fs-5 text-center">
                             <h4 class="display-inline">{{ lastTrack.name }}</h4>
                             <img class="f1-track mt-3" src="{{ asset('images/tracks/'~lastTrack.picture) }}" alt="track picture"/>
                         </div> 
@@ -130,7 +130,7 @@
                         <div class="row">
                             {% if league.owner == player.getUser() %}
                                 <div class="col-xs-12 col-md-12 mb-5">
-                                    <div class="card custom-card flow-text">
+                                    <div class="card custom-card fs-5">
                                         <div class="card-header">
                                             <h4 class="text-center">Zarządzanie {{ league.getName() }}</h4>
                                         </div>
