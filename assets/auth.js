@@ -1,5 +1,5 @@
 // CSS scripts
-import './styles/auth.css';
+import './styles/build/auth.css';
 
 // JS scripts
 import './js/app/TogglePassword.js';

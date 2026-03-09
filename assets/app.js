@@ -13,8 +13,8 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 // CSS scripts
-import './styles/app.css';
-import './styles/utils.css';
+import './styles/build/app.css';
+import './styles/build/utils.css';
 
 // JS scripts
 import './js/app/BlockButton.js';

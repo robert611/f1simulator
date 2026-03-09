@@ -1,2 +1,2 @@
 // CSS scripts
-import './styles/admin.css';
+import './styles/build/admin.css';
