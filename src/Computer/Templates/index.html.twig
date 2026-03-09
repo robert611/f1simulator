@@ -72,39 +72,45 @@
             <div class="col-xs-12 col-md-9">
                 <div class="row position-relative">
                     <div class="col-xs-12 col-md-8">
-                        <div class="middle-section-menu mb-3">
-                            <div>
-                                <a class="custom-dropdown" data-target="div-for-race-results-anchors">#Wyniki Wyścigów <i class="fas fa-arrow-down ms-1" data-destiny="races"></i></a>
-                                <div class="div-for-classification-results-anchors" id="div-for-race-results-anchors">
-                                    {% if currentDriverSeason and currentDriverSeason.season.races|length != 0 %}
-                                        {% for race in currentDriverSeason.season.races %}
-                                            <a href="{{ path('app_index' , {'classificationType' : 'RACE', 'raceId' : race.id}) }}">
-                                                {{ tracks[race.trackId()].name }}
-                                            </a>
-                                        {% endfor %}
-                                    {% else %}
-                                        <a>Żaden wyścig nie został jeszcze rozegrany</a>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div>
-                                <a class="custom-dropdown" data-target="div-for-qualifications-results-anchors">#Wyniki kwalifikacji <i class="fas fa-arrow-down ms-1" data-destiny="qualifications"></i></a>
-                                <div class="div-for-classification-results-anchors" id="div-for-qualifications-results-anchors">
-                                    {% if currentDriverSeason and currentDriverSeason.season.races|length != 0 %}
-                                        {% for race in currentDriverSeason.season.races %}
-                                            <a href="{{ path('app_index' , {'classificationType' : 'QUALIFICATIONS', 'raceId' : race.id}) }}">
-                                                {{ tracks[race.trackId].name }}
-                                            </a>
-                                        {% endfor %}
-                                    {% else %}
-                                        <a>Żaden wyścig nie został jeszcze rozegrany</a>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div>
-                                <a class="hover-underline" href="{{ path('app_index') }}">#Klasyfikacja kierowców</a>
-                            </div>
-                        </div>
+                        <nav class="middle-section-menu mb-3">
+                            <ul>
+                                <li>
+                                    <a class="custom-dropdown" data-target="race-results-anchors">
+                                        #Wyniki Wyścigów <i class="fas fa-arrow-down ms-1" data-destiny="races"></i>
+                                    </a>
+                                    <div class="classification-anchors-container" id="race-results-anchors">
+                                        {% if currentDriverSeason and currentDriverSeason.season.races|length != 0 %}
+                                            {% for race in currentDriverSeason.season.races %}
+                                                <a href="{{ path('app_index' , {'classificationType' : 'RACE', 'raceId' : race.id}) }}">
+                                                    {{ tracks[race.trackId()].name }}
+                                                </a>
+                                            {% endfor %}
+                                        {% else %}
+                                            <a>Żaden wyścig nie został jeszcze rozegrany</a>
+                                        {% endif %}
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="custom-dropdown" data-target="qualifications-results-anchors">
+                                        #Wyniki kwalifikacji <i class="fas fa-arrow-down ms-1" data-destiny="qualifications"></i>
+                                    </a>
+                                    <div class="classification-anchors-container" id="qualifications-results-anchors">
+                                        {% if currentDriverSeason and currentDriverSeason.season.races|length != 0 %}
+                                            {% for race in currentDriverSeason.season.races %}
+                                                <a href="{{ path('app_index' , {'classificationType' : 'QUALIFICATIONS', 'raceId' : race.id}) }}">
+                                                    {{ tracks[race.trackId].name }}
+                                                </a>
+                                            {% endfor %}
+                                        {% else %}
+                                            <a>Żaden wyścig nie został jeszcze rozegrany</a>
+                                        {% endif %}
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="hover-underline" href="{{ path('app_index') }}">#Klasyfikacja kierowców</a>
+                                </li>
+                            </ul>
+                        </nav>
                         <div class="card custom-card mb-2">
                             {% if classificationType == enum('Computer\\Service\\ClassificationType').DRIVERS %}
                                 <div class="card-header">

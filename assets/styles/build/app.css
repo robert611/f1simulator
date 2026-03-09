@@ -1,5 +1,6 @@
 :root {
   --layoutColor: #b71c1c;
+  --bronze: #cd7f32;
 }
 
 .navbar {
@@ -33,23 +34,14 @@ input {
 .highlight-driver {
   color: blue;
 }
-
 .highlight-driver td {
   color: blue;
 }
 
 .card-header {
-  background: rgb(182, 33, 7);
-  background: -moz-linear-gradient(left, rgb(182, 33, 7) 0%, rgb(157, 23, 6) 36%, rgb(192, 40, 17) 71%, rgb(188, 39, 17) 74%, rgb(151, 28, 17) 100%);
-  background: -webkit-gradient(left top, right top, color-stop(0%, rgb(182, 33, 7)), color-stop(36%, rgb(157, 23, 6)), color-stop(71%, rgb(192, 40, 17)), color-stop(74%, rgb(188, 39, 17)), color-stop(100%, rgb(151, 28, 17)));
-  background: -webkit-linear-gradient(left, rgb(182, 33, 7) 0%, rgb(157, 23, 6) 36%, rgb(192, 40, 17) 71%, rgb(188, 39, 17) 74%, rgb(151, 28, 17) 100%);
-  background: -o-linear-gradient(left, rgb(182, 33, 7) 0%, rgb(157, 23, 6) 36%, rgb(192, 40, 17) 71%, rgb(188, 39, 17) 74%, rgb(151, 28, 17) 100%);
-  background: -ms-linear-gradient(left, rgb(182, 33, 7) 0%, rgb(157, 23, 6) 36%, rgb(192, 40, 17) 71%, rgb(188, 39, 17) 74%, rgb(151, 28, 17) 100%);
   background: linear-gradient(to right, rgb(182, 33, 7) 0%, rgb(157, 23, 6) 36%, rgb(192, 40, 17) 71%, rgb(188, 39, 17) 74%, rgb(151, 28, 17) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b62107', endColorstr='#971c11', GradientType=1 );
   color: white;
 }
-
 .card-header > h4 {
   margin-bottom: 6px;
   margin-top: 6px;
@@ -66,63 +58,51 @@ input {
 }
 
 .bronze-medal {
-  color: bronze;
+  color: var(--bronze);
   text-align: center;
 }
 
-.middle-section-menu {
+.middle-section-menu ul {
   display: flex;
   justify-content: space-around;
+  padding-left: 0;
 }
-
-.middle-section-menu > div {
+.middle-section-menu ul li {
+  background: linear-gradient(to right, rgb(182, 33, 7) 0%, rgb(157, 23, 6) 36%, rgb(192, 40, 17) 71%, rgb(188, 39, 17) 74%, rgb(151, 28, 17) 100%);
+  color: white;
   text-align: center;
   padding-top: 15px;
   padding-bottom: 15px;
   font-size: 1.2rem;
   width: 100%;
-  background: rgb(182, 33, 7);
-  background: -moz-linear-gradient(left, rgb(182, 33, 7) 0%, rgb(157, 23, 6) 36%, rgb(192, 40, 17) 71%, rgb(188, 39, 17) 74%, rgb(151, 28, 17) 100%);
-  background: -webkit-gradient(left top, right top, color-stop(0%, rgb(182, 33, 7)), color-stop(36%, rgb(157, 23, 6)), color-stop(71%, rgb(192, 40, 17)), color-stop(74%, rgb(188, 39, 17)), color-stop(100%, rgb(151, 28, 17)));
-  background: -webkit-linear-gradient(left, rgb(182, 33, 7) 0%, rgb(157, 23, 6) 36%, rgb(192, 40, 17) 71%, rgb(188, 39, 17) 74%, rgb(151, 28, 17) 100%);
-  background: -o-linear-gradient(left, rgb(182, 33, 7) 0%, rgb(157, 23, 6) 36%, rgb(192, 40, 17) 71%, rgb(188, 39, 17) 74%, rgb(151, 28, 17) 100%);
-  background: -ms-linear-gradient(left, rgb(182, 33, 7) 0%, rgb(157, 23, 6) 36%, rgb(192, 40, 17) 71%, rgb(188, 39, 17) 74%, rgb(151, 28, 17) 100%);
-  background: linear-gradient(to right, rgb(182, 33, 7) 0%, rgb(157, 23, 6) 36%, rgb(192, 40, 17) 71%, rgb(188, 39, 17) 74%, rgb(151, 28, 17) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b62107', endColorstr='#971c11', GradientType=1 );
   display: flex;
   justify-content: center; /* align horizontal */
   align-items: center; /* align vertical */
 }
-
-.middle-section-menu > div > a {
+.middle-section-menu ul li > a {
   color: white;
 }
-
-.middle-section-menu > div > a:hover {
+.middle-section-menu ul li > a:hover {
   color: white;
   text-decoration: underline;
   cursor: pointer;
 }
+.middle-section-menu ul li .custom-dropdown {
+  text-decoration: none;
+}
 
 /* Dropdown Content (Hidden by Default) */
-.div-for-classification-results-anchors {
+.classification-anchors-container {
+  background: linear-gradient(to right, rgb(182, 33, 7) 0%, rgb(157, 23, 6) 36%, rgb(192, 40, 17) 71%, rgb(188, 39, 17) 74%, rgb(151, 28, 17) 100%);
+  color: white;
   display: none;
   position: absolute;
-  background: rgb(182, 33, 7);
-  background: -moz-linear-gradient(left, rgb(182, 33, 7) 0%, rgb(157, 23, 6) 36%, rgb(192, 40, 17) 71%, rgb(188, 39, 17) 74%, rgb(151, 28, 17) 100%);
-  background: -webkit-gradient(left top, right top, color-stop(0%, rgb(182, 33, 7)), color-stop(36%, rgb(157, 23, 6)), color-stop(71%, rgb(192, 40, 17)), color-stop(74%, rgb(188, 39, 17)), color-stop(100%, rgb(151, 28, 17)));
-  background: -webkit-linear-gradient(left, rgb(182, 33, 7) 0%, rgb(157, 23, 6) 36%, rgb(192, 40, 17) 71%, rgb(188, 39, 17) 74%, rgb(151, 28, 17) 100%);
-  background: -o-linear-gradient(left, rgb(182, 33, 7) 0%, rgb(157, 23, 6) 36%, rgb(192, 40, 17) 71%, rgb(188, 39, 17) 74%, rgb(151, 28, 17) 100%);
-  background: -ms-linear-gradient(left, rgb(182, 33, 7) 0%, rgb(157, 23, 6) 36%, rgb(192, 40, 17) 71%, rgb(188, 39, 17) 74%, rgb(151, 28, 17) 100%);
-  background: linear-gradient(to right, rgb(182, 33, 7) 0%, rgb(157, 23, 6) 36%, rgb(192, 40, 17) 71%, rgb(188, 39, 17) 74%, rgb(151, 28, 17) 100%);
   min-width: 25%;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   z-index: 1;
   top: 50px;
 }
-
-/* Links inside the dropdown */
-.div-for-classification-results-anchors a {
+.classification-anchors-container a {
   color: white;
   padding: 12px 16px;
   text-decoration: none;
@@ -130,125 +110,13 @@ input {
   font-size: 1.1rem;
   border-top: 0.02px solid white;
 }
-
-/* Change color of dropdown links on hover */
-.div-for-classification-results-anchors a:hover {
+.classification-anchors-container a:hover {
   background: rgb(165, 44, 23);
   color: white;
 }
 
-.custom-dropdown {
-  text-decoration: none;
-}
-
 .form-field-error ul {
   margin-bottom: 0;
-}
-
-@media only screen and (min-width: 960px) {
-  .flow-text {
-    font-size: 1.68rem;
-  }
-}
-@media only screen and (min-width: 930px) {
-  .flow-text {
-    font-size: 1.656rem;
-  }
-}
-@media only screen and (min-width: 900px) {
-  .flow-text {
-    font-size: 1.632rem;
-  }
-}
-@media only screen and (min-width: 870px) {
-  .flow-text {
-    font-size: 1.608rem;
-  }
-}
-@media only screen and (min-width: 840px) {
-  .flow-text {
-    font-size: 1.584rem;
-  }
-}
-@media only screen and (min-width: 810px) {
-  .flow-text {
-    font-size: 1.56rem;
-  }
-}
-@media only screen and (min-width: 780px) {
-  .flow-text {
-    font-size: 1.536rem;
-  }
-}
-@media only screen and (min-width: 750px) {
-  .flow-text {
-    font-size: 1.512rem;
-  }
-}
-@media only screen and (min-width: 720px) {
-  .flow-text {
-    font-size: 1.488rem;
-  }
-}
-@media only screen and (min-width: 690px) {
-  .flow-text {
-    font-size: 1.464rem;
-  }
-}
-@media only screen and (min-width: 660px) {
-  .flow-text {
-    font-size: 1.44rem;
-  }
-}
-@media only screen and (min-width: 630px) {
-  .flow-text {
-    font-size: 1.416rem;
-  }
-}
-@media only screen and (min-width: 600px) {
-  .flow-text {
-    font-size: 1.392rem;
-  }
-}
-@media only screen and (min-width: 570px) {
-  .flow-text {
-    font-size: 1.368rem;
-  }
-}
-@media only screen and (min-width: 540px) {
-  .flow-text {
-    font-size: 1.344rem;
-  }
-}
-@media only screen and (min-width: 510px) {
-  .flow-text {
-    font-size: 1.32rem;
-  }
-}
-@media only screen and (min-width: 480px) {
-  .flow-text {
-    font-size: 1.296rem;
-  }
-}
-@media only screen and (min-width: 450px) {
-  .flow-text {
-    font-size: 1.272rem;
-  }
-}
-@media only screen and (min-width: 420px) {
-  .flow-text {
-    font-size: 1.248rem;
-  }
-}
-@media only screen and (min-width: 390px) {
-  .flow-text {
-    font-size: 1.224rem;
-  }
-}
-@media only screen and (min-width: 360px) {
-  .flow-text {
-    font-size: 1.2rem;
-  }
 }
 
 /*# sourceMappingURL=app.css.map */

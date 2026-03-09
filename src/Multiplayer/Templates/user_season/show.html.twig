@@ -66,37 +66,45 @@
                 <div class="row position-relative">
                     <div class="col-xs-12 col-md-8">
                         <div class="middle-section-menu">
-                            <div>
-                                <a class="custom-dropdown" data-target="div-for-race-results-anchors">#Wyniki Wyścigów <i class="fas fa-arrow-down ml-1" data-destiny="races"></i></a>
-                                <div class="div-for-classification-results-anchors" id="div-for-race-results-anchors">
-                                    {% if league.getRaces()|length != 0 %}
-                                        {% for race in league.getRaces() %}
-                                            <a href="{{ path('user_season_show' , {'id' : league.getId(), 'classificationType' : 'RACE', 'race_id' : race.id}) }}">
-                                                {{ tracks[race.getTrackId()].name }}
-                                            </a>
-                                        {% endfor %}
-                                    {% else %}
-                                        <a>Żaden wyścig nie został jeszcze rozegrany</a>
-                                    {% endif %}
-                                </div>
-                            </div> 
-                            <div>
-                                <a class="custom-dropdown" data-target="div-for-qualifications-results-anchors">#Wyniki kwalifikacji <i class="fas fa-arrow-down ml-1" data-destiny="qualifications"></i></a>
-                                <div class="div-for-classification-results-anchors" id="div-for-qualifications-results-anchors">
-                                    {% if league.getRaces()|length != 0 %}
-                                        {% for race in league.getRaces() %}
-                                            <a href="{{ path('user_season_show' , {'id' : league.getId(), 'classificationType' : 'QUALIFICATIONS', 'race_id' : race.id}) }}">
-                                                {{ tracks[race.getTrackId()].name }}
-                                            </a>
-                                        {% endfor %}
-                                    {% else %}
-                                        <a>Żaden wyścig nie został jeszcze rozegrany</a>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div>
-                                <a href="{{ path('user_season_show' , {'id' : league.getId(), 'classificationType' : 'PLAYERS'}) }}">#Klasyfikacja kierowców</a>
-                            </div>
+                            <ul>
+                                <li>
+                                    <a class="custom-dropdown" data-target="race-results-anchors">
+                                        #Wyniki Wyścigów
+                                        <i class="fas fa-arrow-down ml-1" data-destiny="races"></i>
+                                    </a>
+                                    <div class="classification-anchors-container" id="race-results-anchors">
+                                        {% if league.getRaces()|length != 0 %}
+                                            {% for race in league.getRaces() %}
+                                                <a href="{{ path('user_season_show' , {'id' : league.getId(), 'classificationType' : 'RACE', 'race_id' : race.id}) }}">
+                                                    {{ tracks[race.getTrackId()].name }}
+                                                </a>
+                                            {% endfor %}
+                                        {% else %}
+                                            <a>Żaden wyścig nie został jeszcze rozegrany</a>
+                                        {% endif %}
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="custom-dropdown" data-target="qualifications-results-anchors">
+                                        #Wyniki kwalifikacji
+                                        <i class="fas fa-arrow-down ml-1" data-destiny="qualifications"></i>
+                                    </a>
+                                    <div class="classification-anchors-container" id="qualifications-results-anchors">
+                                        {% if league.getRaces()|length != 0 %}
+                                            {% for race in league.getRaces() %}
+                                                <a href="{{ path('user_season_show' , {'id' : league.getId(), 'classificationType' : 'QUALIFICATIONS', 'race_id' : race.id}) }}">
+                                                    {{ tracks[race.getTrackId()].name }}
+                                                </a>
+                                            {% endfor %}
+                                        {% else %}
+                                            <a>Żaden wyścig nie został jeszcze rozegrany</a>
+                                        {% endif %}
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="{{ path('user_season_show', {'id' : league.getId(), 'classificationType' : 'PLAYERS'}) }}">#Klasyfikacja kierowców</a>
+                                </li>
+                            </ul>
                         </div>
                         <div class="middle-section-dropdown-content">
 
