@@ -53,5 +53,47 @@
         "check_your_email_inbox": "Sprawdź swoją skrzynkę pocztową w celu potwierdzenia konta",
         "description": "Jeśli nie możesz znaleźć maila bądź link weryfikacyjny wygasł, kliknij w link poniżej, żeby wysłać nowy email.",
         "resend_button": "Wyślij link weryfikacyjny"
+    },
+    "homepage": {
+        "header": "#F1Simulator to strona pozwalająca na symulacje sezonu formuły 1",
+        "start_season": "Wybierz zespół i rozpocznij sezon",
+        "loading": "Ładowanie...",
+        "current_season": {
+            "header": "Obecny sezon",
+            "driver": "Kierowca",
+            "team": "Zespół",
+            "car_number": "Numer samochodu",
+            "races_played": "Rozegrane wyścigi",
+            "points_won": "Zdobyte punkty"
+        },
+        "next_race": {
+            "header": "Kolejny wyścig",
+            "simulate": "Symuluj",
+            "season_end": "Koniec sezonu",
+            "finish_season": "Zakończ sezon"
+        },
+        "middle_section_menu": {
+            "races_results": "#Wyniki wyścigów",
+            "qualifications_results": "#Wyniki kwalifikacji",
+            "drivers_classification": "#Klasyfikacja kierowców",
+            "no_races_played": "Żaden wyścig nie został jeszcze rozegrany"
+        },
+        "results_table": {
+            "drivers_classification": "Klasyfikacja kierowców",
+            "classification": "Klasyfikacja",
+            "qualifications_results": "Wyniki kwalifikacji",
+            "place": "Miejsce",
+            "driver": "Kierowca",
+            "team": "Zespół",
+            "car": "Bolid",
+            "points": "Punkty"
+        },
+        "constructors": {
+            "header": "Klasyfikacja konstruktorów",
+            "place": "Miejsce",
+            "team": "Zespół",
+            "car": "Bolid",
+            "points": "Punkty"
+        }
     }
 }
