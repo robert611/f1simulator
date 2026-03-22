@@ -1,32 +1,34 @@
 {% extends 'base.html.twig' %}
 
+{% trans_default_domain 'front' %}
+
 {% block body %}
     <div class="container-fluid mt-5 mb-5">
-        <h3 class="text-justify text-center mb-5">#F1Simulator to strona pozwalająca na symulacje sezonu formuły 1</h3>
+        <h3 class="text-justify text-center mb-5">{{ 'homepage.header'|trans }}</h3>
         <div class="row">
             <div class="col-xs-12 col-md-3">
                 <div class="card custom-card">
                     {% if currentDriverSeason is same as(null) %}
                         <div class="card-header">
-                            <h4>Wybierz zespół i rozpocznij sezon</h4>
+                            <h4>{{ 'homepage.start_season'|trans }}</h4>
                         </div>
-                        <div class="card-body flow-text">
+                        <div class="card-body fs-5">
                             <form class="form-inline" id="start-season-form" method="post" action="{{ path('game_season_start') }}">
                                 <input type="hidden" name="teamId" id="start-season-form-team-input">
                             </form>
-                            <div {{ react_component('Teams') }}>Ładowanie...</div>
+                            <div {{ react_component('Teams', { locale: app.request.locale }) }}>{{ 'homepage.loading'|trans }}</div>
                             <div id="f1-teams"></div>
                         </div>
                     {% else %}
                         <div class="card-header">
-                            <h4>Obecny sezon</h4>
+                            <h4>{{ 'homepage.current_season.header'|trans }}</h4>
                         </div>
-                        <div class="card-body flow-text">
-                            <span>Kierowca: {{ currentDriverSeason.season.user.username }} </span><br>
-                            <span>Zespół: {{ currentDriverSeason.driver.team.name }}</span><br>
-                            <span>Numer samochodu: {{ currentDriverSeason.driver.carNumber }}</span><br>
-                            <span>Rozegrane wyścigi: {{ currentDriverSeason.season.races|length }} / {{ currentDriverSeason.numberOfRaces }}</span><br>
-                            <span>Zdobyte punkty: {{ currentDriverSeason.driverPoints }} </span><br>
+                        <div class="card-body fs-5">
+                            <span>{{ 'homepage.current_season.driver'|trans }}: {{ currentDriverSeason.season.user.username }} </span><br>
+                            <span>{{ 'homepage.current_season.team'|trans }}: {{ currentDriverSeason.driver.team.name }}</span><br>
+                            <span>{{ 'homepage.current_season.car_number'|trans }}: {{ currentDriverSeason.driver.carNumber }}</span><br>
+                            <span>{{ 'homepage.current_season.races_played'|trans }}: {{ currentDriverSeason.season.races|length }} / {{ currentDriverSeason.numberOfRaces }}</span><br>
+                            <span>{{ 'homepage.current_season.points_won'|trans }}: {{ currentDriverSeason.driverPoints }} </span><br>
 
                             <hr class="light-hr">
                             <div class="driver-medals mt-2">
@@ -52,18 +54,20 @@
                     <div class="card custom-card mt-5 mb-2">
                         {% if currentDriverSeason and currentDriverSeason.currentTrack %}
                             <div class="card-header">
-                                <h4>Kolejny wyścig</h4>
+                                <h4>{{ 'homepage.next_race.header'|trans }}</h4>
                             </div>
-                            <div class="card-body flow-text">
-                                <span>{{ currentDriverSeason.currentTrack.name }} - <a href="{{ path('game_simulate_race') }}" class="btn btn-outline-info">Symuluj</a></span><br>
+                            <div class="card-body fs-5">
+                                <span>{{ currentDriverSeason.currentTrack.name }} - <a href="{{ path('game_simulate_race') }}" class="btn btn-outline-info">{{ 'homepage.next_race.simulate'|trans }}</a></span><br>
                                 <img alt="{{ currentDriverSeason.currentTrack.name }}" class="f1-track mt-3" src="{{ asset('images/tracks/'~currentDriverSeason.currentTrack.picture) }}"/>
                             </div>
                         {% elseif currentDriverSeason %}
                             <div class="card-header">
-                                <h4>Koniec sezonu</h4>
+                                <h4>{{ 'homepage.next_race.season_end'|trans }}</h4>
                             </div>
-                            <div class="card-body flow-text">
-                                <a href="{{ path('game_season_end') }}" class="btn btn-outline-info-darker">Zakończ sezon</a>
+                            <div class="card-body fs-5">
+                                <a href="{{ path('game_season_end') }}" class="btn btn-outline-info-darker">
+                                    {{ 'homepage.next_race.finish_season'|trans }}
+                                </a>
                             </div>
                         {% endif %}
                     </div>
@@ -72,57 +76,69 @@
             <div class="col-xs-12 col-md-9">
                 <div class="row position-relative">
                     <div class="col-xs-12 col-md-8">
-                        <div class="middle-section-menu mb-3">
-                            <div>
-                                <a class="custom-dropdown" data-target="div-for-race-results-anchors">#Wyniki Wyścigów <i class="fas fa-arrow-down ms-1" data-destiny="races"></i></a>
-                                <div class="div-for-classification-results-anchors" id="div-for-race-results-anchors">
-                                    {% if currentDriverSeason and currentDriverSeason.season.races|length != 0 %}
-                                        {% for race in currentDriverSeason.season.races %}
-                                            <a href="{{ path('app_index' , {'classificationType' : 'RACE', 'raceId' : race.id}) }}">
-                                                {{ tracks[race.trackId()].name }}
-                                            </a>
-                                        {% endfor %}
-                                    {% else %}
-                                        <a>Żaden wyścig nie został jeszcze rozegrany</a>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div>
-                                <a class="custom-dropdown" data-target="div-for-qualifications-results-anchors">#Wyniki kwalifikacji <i class="fas fa-arrow-down ms-1" data-destiny="qualifications"></i></a>
-                                <div class="div-for-classification-results-anchors" id="div-for-qualifications-results-anchors">
-                                    {% if currentDriverSeason and currentDriverSeason.season.races|length != 0 %}
-                                        {% for race in currentDriverSeason.season.races %}
-                                            <a href="{{ path('app_index' , {'classificationType' : 'QUALIFICATIONS', 'raceId' : race.id}) }}">
-                                                {{ tracks[race.trackId].name }}
-                                            </a>
-                                        {% endfor %}
-                                    {% else %}
-                                        <a>Żaden wyścig nie został jeszcze rozegrany</a>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div>
-                                <a class="hover-underline" href="{{ path('app_index') }}">#Klasyfikacja kierowców</a>
-                            </div>
-                        </div>
+                        <nav class="middle-section-menu mb-3">
+                            <ul>
+                                <li>
+                                    <a class="custom-dropdown" data-target="race-results-anchors">
+                                        {{ 'homepage.middle_section_menu.races_results'|trans }}
+                                        <i class="fas fa-arrow-down ms-1" data-destiny="races"></i>
+                                    </a>
+                                    <div class="classification-anchors-container" id="race-results-anchors">
+                                        {% if currentDriverSeason and currentDriverSeason.season.races|length != 0 %}
+                                            {% for race in currentDriverSeason.season.races %}
+                                                <a href="{{ path('app_index' , {'classificationType' : 'RACE', 'raceId' : race.id}) }}">
+                                                    {{ tracks[race.trackId()].name }}
+                                                </a>
+                                            {% endfor %}
+                                        {% else %}
+                                            <a>{{ 'homepage.middle_section_menu.no_races_played'|trans }}</a>
+                                        {% endif %}
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="custom-dropdown" data-target="qualifications-results-anchors">
+                                        {{ 'homepage.middle_section_menu.qualifications_results'|trans }}
+                                        <i class="fas fa-arrow-down ms-1" data-destiny="qualifications"></i>
+                                    </a>
+                                    <div class="classification-anchors-container" id="qualifications-results-anchors">
+                                        {% if currentDriverSeason and currentDriverSeason.season.races|length != 0 %}
+                                            {% for race in currentDriverSeason.season.races %}
+                                                <a href="{{ path('app_index' , {'classificationType' : 'QUALIFICATIONS', 'raceId' : race.id}) }}">
+                                                    {{ tracks[race.trackId].name }}
+                                                </a>
+                                            {% endfor %}
+                                        {% else %}
+                                            <a>{{ 'homepage.middle_section_menu.no_races_played'|trans }}</a>
+                                        {% endif %}
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="hover-underline" href="{{ path('app_index') }}">{{ 'homepage.middle_section_menu.drivers_classification'|trans }}</a>
+                                </li>
+                            </ul>
+                        </nav>
                         <div class="card custom-card mb-2">
                             {% if classificationType == enum('Computer\\Service\\ClassificationType').DRIVERS %}
                                 <div class="card-header">
-                                    <h4 class="text-center">Klasyfikacja kierowców</h4>
+                                    <h4 class="text-center">{{ 'homepage.results_table.drivers_classification'|trans }}</h4>
                                 </div>
                                 <div class="card-body">
                                     {% include '@computer/season_results/_classification.html.twig' %}
                                 </div>
                             {% elseif classificationType == enum('Computer\\Service\\ClassificationType').RACE %}
                                 <div class="card-header">
-                                    <h4 class="text-center">Klasyfikacja - {{ currentDriverSeason ? tracks[currentDriverSeason.classificationRace.trackId].name }}</h4>
+                                    <h4 class="text-center">
+                                        {{ 'homepage.results_table.classification'|trans }} - {{ currentDriverSeason ? tracks[currentDriverSeason.classificationRace.trackId].name }}
+                                    </h4>
                                 </div>
                                 <div class="card-body">
                                     {% include '@computer/season_results/_classification.html.twig' %}
                                 </div>
                             {% elseif classificationType == enum('Computer\\Service\\ClassificationType').QUALIFICATIONS %}
                                 <div class="card-header">
-                                    <h4 class="text-center">Wyniki kwalifikacji - {{ currentDriverSeason ? tracks[currentDriverSeason.classificationRace.trackId].name }} </h4>
+                                    <h4 class="text-center">
+                                        {{ 'homepage.results_table.qualifications_results'|trans }} - {{ currentDriverSeason ? tracks[currentDriverSeason.classificationRace.trackId].name }}
+                                    </h4>
                                 </div>
                                 <div class="card-body">
                                     {% include '@computer/season_results/_qualifications_classification.html.twig' %}
@@ -133,17 +149,17 @@
                     <div class="col-xs-12 col-md-4">
                         <div class="card custom-card">
                             <div class="card-header">
-                                <h4 class="text-center">Klasyfikacja konstruktorów</h4>
+                                <h4 class="text-center">{{ 'homepage.constructors.header'|trans }}</h4>
                             </div>
                             <div class="card-body">
                                <div class="table-responsive">
                                     <table class="table spacier-table">
                                         <thead>
                                             <tr>
-                                                <th>Miejsce</th>
-                                                <th>Zespół</th>
-                                                <th>Bolid</th>
-                                                <th>Punkty</th>
+                                                <th>{{ 'homepage.constructors.place'|trans }}</th>
+                                                <th>{{ 'homepage.constructors.team'|trans }}</th>
+                                                <th>{{ 'homepage.constructors.car'|trans }}</th>
+                                                <th>{{ 'homepage.constructors.points'|trans }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>

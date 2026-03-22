@@ -42,6 +42,7 @@ class DriverType extends AbstractType
             ->add('teamId', ChoiceType::class, [
                 'choices' => $teamsChoiceList,
                 'label' => 'Zespół',
+                'required' => true,
             ])
         ;
     }

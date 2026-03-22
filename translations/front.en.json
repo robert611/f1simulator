@@ -53,5 +53,47 @@
         "check_your_email_inbox": "Check your email inbox for verification link",
         "description": "If you can't find an email or your verification link expired, please click the link below to resend a verification email.",
         "resend_button": "Resend verification email"
+    },
+    "homepage": {
+        "header": "#F1Simulator is a website that lets you simulate a Formula 1 season",
+        "start_season": "Choose a team and start the season",
+        "loading": "Loading...",
+        "current_season": {
+            "header": "Current season",
+            "driver": "Driver",
+            "team": "Team",
+            "car_number": "Car number",
+            "races_played": "Races played",
+            "points_won": "Points earned"
+        },
+        "next_race": {
+            "header": "Next race",
+            "simulate": "Simulate",
+            "season_end": "Season end",
+            "finish_season": "Finish season"
+        },
+        "middle_section_menu": {
+            "races_results": "#Race results",
+            "qualifications_results": "#Qualifying results",
+            "drivers_classification": "#Drivers standings",
+            "no_races_played": "No race has been run yet"
+        },
+        "results_table": {
+            "drivers_classification": "Drivers standings",
+            "classification": "Standings",
+            "qualifications_results": "Qualifying results",
+            "place": "Place",
+            "driver": "Driver",
+            "team": "Team",
+            "car": "Car",
+            "points": "Points"
+        },
+        "constructors": {
+            "header": "Constructors standings",
+            "place": "Place",
+            "team": "Team",
+            "car": "Car",
+            "points": "Points"
+        }
     }
 }

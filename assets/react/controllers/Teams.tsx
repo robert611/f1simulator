@@ -1,10 +1,16 @@
 import React, {useEffect, useState} from 'react';
+import { useTranslation } from 'react-i18next';
+import { initI18n } from '../i18n.js';
 
 type Team = {
     id: number;
     name: string;
     picture: string;
     pictureUrl: string;
+};
+
+type TeamsProps = {
+    locale: string;
 };
 
 function useTeams() {
@@ -23,8 +29,13 @@ function useTeams() {
     return teams;
 }
 
-export default function TeamsTable() {
+export default function TeamsTable({ locale }: TeamsProps) {
     const teams = useTeams();
+    const { t } = useTranslation();
+
+    useEffect(() => {
+        initI18n(locale).then();
+    }, []);
 
     function startSeason(teamId: Number) {
         let form= document.getElementById('start-season-form') as HTMLFormElement;
@@ -43,7 +54,7 @@ export default function TeamsTable() {
                     <button className="btn btn-primary btn-sm choose-team-button"
                             data-teamId={team.id}
                             onClick={() => startSeason(team.id)}>
-                        Wybierz
+                        { t('choose') }
                     </button>
                 </td>
             </tr>

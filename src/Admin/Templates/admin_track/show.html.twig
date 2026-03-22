@@ -1,0 +1,59 @@
+{% extends '@admin/dashboard.html.twig' %}
+
+{% block title %}
+    Panel administratora – Tor {{ track.name }} | {{ parent() }}
+{% endblock %}
+
+{% block admin_content %}
+    <h3 class="text-center mt-4 mb-4">Szczegóły toru</h3>
+
+    <div class="mb-3 d-flex gap-2">
+        <a href="{{ path('admin_track_index') }}" class="btn btn-dark">
+            Powrót do listy
+        </a>
+        <a href="{{ path('admin_track_edit', {id: track.id}) }}" class="btn btn-info">
+            Edytuj tor
+        </a>
+    </div>
+
+    <div class="card bg-dark text-white mb-5">
+        <div class="card-body">
+            <h4 class="mb-4 text-center text-lg-start">
+                {{ track.name }}
+            </h4>
+            <div class="row g-4 align-items-start">
+                {# LEFT – TRACK INFO #}
+                <div class="col-12 col-lg-8">
+                    <div class="list-group list-group-flush bg-dark">
+                        <div class="list-group-item bg-dark text-white d-flex justify-content-between">
+                            <span class="fw-semibold">ID</span>
+                            <span>{{ track.id }}</span>
+                        </div>
+                        <div class="list-group-item bg-dark text-white d-flex justify-content-between">
+                            <span class="fw-semibold">Nazwa</span>
+                            <span>{{ track.name }}</span>
+                        </div>
+                        <div class="list-group-item bg-dark text-white d-flex justify-content-between">
+                            <span class="fw-semibold">Zdjęcie</span>
+                            <span>{{ track.picture }}</span>
+                        </div>
+                    </div>
+                </div>
+                {# RIGHT – TRACK PICTURE #}
+                <div class="col-12 col-lg-4">
+                    <div class="card bg-secondary text-white h-100 text-center p-3">
+                        <img
+                                src="{{ asset('/images/tracks/' ~ track.picture) }}"
+                                alt="{{ track.picture }}"
+                                class="img-fluid rounded mb-3"
+                                style="max-height: 160px;"
+                        >
+                        <div class="fw-semibold fs-5">
+                            {{ track.name }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -7,9 +7,6 @@
     <div class="card bg-dark mb-5">
         <div class="card-body">
             {{ form_start(form, {'attr': {'class': 'text-white'}}) }}
-                <div class="admin-form-errors text-danger">
-                    {{ form_errors(form) }}
-                </div>
 
                 <div class="row">
                     <div class="form-group mb-3">
@@ -50,6 +47,10 @@
                                 {{ form_errors(form.teamId) }}
                             </div>
                         {% endif %}
+                    </div>
+
+                    <div class="admin-form-errors text-danger">
+                        {{ form_errors(form) }}
                     </div>
                 </div>
 

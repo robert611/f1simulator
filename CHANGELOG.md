@@ -5,3 +5,9 @@
 - Wprowadzono stopkę z wersją systemu
 - Dodano symfony/importmap-php do projektu wraz z przebudową pobierania plików css i js
 - Zainstalowano paczkę symfony/ux-react w miejsce pobierania skryptów react przez cdn
+
+## 1.0.2 (2026-03-22 20:00)
+- Dodano crud encji tor w panelu administratora
+- Dodano rozszerzenie sass do css
+- Przetłumaczono stronę główną na język angielski
+- Dodano tłumaczenia językowe do konfiguracji react

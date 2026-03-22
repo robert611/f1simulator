@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Computer;
 
 use Computer\Contract\DriverComputerStatisticsDTO;
+use Computer\Repository\RaceRepository;
 use Computer\Repository\SeasonRepository;
 
 readonly class ComputerFacade implements ComputerFacadeInterface
 {
     public function __construct(
         private SeasonRepository $seasonRepository,
+        private RaceRepository $raceRepository,
     ) {
     }
 
@@ -28,5 +30,14 @@ readonly class ComputerFacade implements ComputerFacadeInterface
         $seasonsPlayed = $this->seasonRepository->count(['driverId' => $driverId]);
 
         return DriverComputerStatisticsDTO::create($seasonsPlayed);
+    }
+
+    public function canTrackBeSafelyDeleted(int $trackId): bool
+    {
+        if ($this->raceRepository->count(['trackId' => $trackId]) > 0) {
+            return false;
+        }
+
+        return true;
     }
 }

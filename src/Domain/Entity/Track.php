@@ -32,19 +32,9 @@ class Track
         return $this->name;
     }
 
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
-
     public function getPicture(): string
     {
         return $this->picture;
-    }
-
-    public function setPicture(string $picture): void
-    {
-        $this->picture = $picture;
     }
 
     public static function create(string $name, string $picture): self
@@ -54,5 +44,14 @@ class Track
         $track->picture = $picture;
 
         return $track;
+    }
+
+    public function update(string $name, ?string $picture): void
+    {
+        $this->name = $name;
+
+        if ($picture) {
+            $this->picture = $picture;
+        }
     }
 }

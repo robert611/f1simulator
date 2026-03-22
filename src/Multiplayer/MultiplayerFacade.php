@@ -6,11 +6,13 @@ namespace Multiplayer;
 
 use Multiplayer\Contract\DriverMultiplayerStatisticsDTO;
 use Multiplayer\Repository\UserSeasonPlayersRepository;
+use Multiplayer\Repository\UserSeasonRaceRepository;
 
 readonly class MultiplayerFacade implements MultiplayerFacadeInterface
 {
     public function __construct(
         private UserSeasonPlayersRepository $userSeasonPlayersRepository,
+        private UserSeasonRaceRepository $userSeasonRaceRepository,
     ) {
     }
 
@@ -28,5 +30,14 @@ readonly class MultiplayerFacade implements MultiplayerFacadeInterface
         $userSeasonsPlayed = $this->userSeasonPlayersRepository->count(['driverId' => $driverId]);
 
         return DriverMultiplayerStatisticsDTO::create($userSeasonsPlayed);
+    }
+
+    public function canTrackBeSafelyDeleted(int $trackId): bool
+    {
+        if ($this->userSeasonRaceRepository->count(['trackId' => $trackId]) > 0) {
+            return false;
+        }
+
+        return true;
     }
 }

@@ -5,6 +5,7 @@ framework:
             - assets/
         excluded_patterns:
             - '%kernel.project_dir%/assets/react/node_modules/**'
+            - '%kernel.project_dir%/assets/styles/node_modules/**'
         missing_import_mode: strict
 
 when@prod:

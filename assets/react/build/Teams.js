@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { initI18n } from '../i18n.js';
 function useTeams() {
   const [teams, setTeams] = useState([]);
   useEffect(() => {
@@ -11,8 +13,16 @@ function useTeams() {
   }, []);
   return teams;
 }
-export default function TeamsTable() {
+export default function TeamsTable({
+  locale
+}) {
   const teams = useTeams();
+  const {
+    t
+  } = useTranslation();
+  useEffect(() => {
+    initI18n(locale).then();
+  }, []);
   function startSeason(teamId) {
     let form = document.getElementById('start-season-form');
     let formTeamInput = document.getElementById('start-season-form-team-input');
@@ -31,7 +41,7 @@ export default function TeamsTable() {
       className: "btn btn-primary btn-sm choose-team-button",
       "data-teamId": team.id,
       onClick: () => startSeason(team.id)
-    }, "Wybierz")));
+    }, t('choose'))));
   });
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "table-responsive"
