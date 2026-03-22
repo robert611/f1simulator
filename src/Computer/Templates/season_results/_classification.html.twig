@@ -1,13 +1,15 @@
+{% trans_default_domain 'front' %}
+
 <div>
     <div class="table-responsive">
         <table class="table spacier-table">
             <thead>
                 <tr>
-                    <th>Miejsce</th>
-                    <th>Kierowca</th>
-                    <th>Zespół</th>
-                    <th>Bolid</th>
-                    <th>Punkty</th>
+                    <th>{{ 'homepage.results_table.place'|trans }}</th>
+                    <th>{{ 'homepage.results_table.driver'|trans }}</th>
+                    <th>{{ 'homepage.results_table.team'|trans }}</th>
+                    <th>{{ 'homepage.results_table.car'|trans }}</th>
+                    <th>{{ 'homepage.results_table.points'|trans }}</th>
                 </tr>
             </thead>
             <tbody>

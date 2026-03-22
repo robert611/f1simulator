@@ -56,21 +56,36 @@ return [
         'type' => 'css',
     ],
     'react' => [
-        'version' => '18.3.1',
-    ],
-    'react-dom/client' => [
-        'version' => '18.3.1',
-    ],
-    'react-dom' => [
-        'version' => '18.3.1',
+        'version' => '19.2.4',
     ],
     'scheduler' => [
-        'version' => '0.23.2',
+        'version' => '0.27.0',
     ],
     '@symfony/ux-react' => [
         'path' => './vendor/symfony/ux-react/assets/dist/loader.js',
     ],
     '@symfony/stimulus-bridge' => [
         'version' => '4.0.1',
+    ],
+    'i18next' => [
+        'version' => '25.8.14',
+    ],
+    'react-i18next' => [
+        'version' => '16.5.6',
+    ],
+    'html-parse-stringify' => [
+        'version' => '3.0.1',
+    ],
+    'use-sync-external-store/shim' => [
+        'version' => '1.6.0',
+    ],
+    'void-elements' => [
+        'version' => '3.1.0',
+    ],
+    'react-dom' => [
+        'version' => '19.2.4',
+    ],
+    'react-dom/client' => [
+        'version' => '19.2.4',
     ],
 ];

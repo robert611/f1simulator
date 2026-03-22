@@ -9,3 +9,5 @@
 ## 1.0.2 (0000-00-00 00:00)
 - Dodano crud encji tor w panelu administratora
 - Dodano rozszerzenie sass do css
+- Przetłumaczono stronę główną na język angielski
+- Dodano tłumaczenia językowe do konfiguracji react
