@@ -16,7 +16,7 @@
                             <form class="form-inline" id="start-season-form" method="post" action="{{ path('game_season_start') }}">
                                 <input type="hidden" name="teamId" id="start-season-form-team-input">
                             </form>
-                            <div {{ react_component('Teams') }}>{{ 'homepage.loading'|trans }}</div>
+                            <div {{ react_component('Teams', { locale: app.request.locale }) }}>{{ 'homepage.loading'|trans }}</div>
                             <div id="f1-teams"></div>
                         </div>
                     {% else %}

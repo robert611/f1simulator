@@ -8,6 +8,11 @@
     "strict": false,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "moduleResolution": "bundler"
+    "moduleResolution": "bundler",
+
+    "paths": {
+      "i18next": ["../vendor/i18next/i18next.index.js"],
+      "react-i18next": ["../vendor/react-i18next/react-i18next.index.js"],
+    }
   }
 }
