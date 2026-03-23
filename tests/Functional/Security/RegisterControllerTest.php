@@ -54,6 +54,7 @@ class RegisterControllerTest extends WebTestCase
             'registration_form[email]' => 'test@gmail.com',
             'registration_form[plainPassword][first]' => 'Password1...',
             'registration_form[plainPassword][second]' => 'Password1...',
+            'registration_form[country]' => 'PL',
             'registration_form[agreeTerms]' => true,
         ]);
         $this->client->submit($form);

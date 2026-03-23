@@ -5,6 +5,7 @@ namespace Security\Controller;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Security\Entity\User;
+use Security\Entity\UserCountry;
 use Security\Event\UserRegisteredEvent;
 use Security\Form\RegistrationFormType;
 use Shared\Controller\BaseController;
@@ -35,6 +36,8 @@ class RegistrationController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UserCountry $userCountry */
+            $userCountry = $form->get('country')->getData();
             // encode the plain password
             $user->setPassword(
                 $passwordEncoder->hashPassword(
@@ -43,13 +46,14 @@ class RegistrationController extends BaseController
                 ),
             );
             $user->setIsVerified(false);
+            $user->setCountry($userCountry);
             $user->setCreatedAt(new DateTimeImmutable());
             $user->setUpdatedAt(new DateTimeImmutable());
 
             $this->entityManager->persist($user);
             $this->entityManager->flush();
 
-            // do anything else you need here, like send an email
+            // do anything else you need here, like to send an email
             $session = new Session();
             $session->getFlashBag()->add('auth_success', 'Rejestracja przebiegła pomyślnie');
 
