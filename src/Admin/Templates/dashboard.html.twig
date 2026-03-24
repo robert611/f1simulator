@@ -61,6 +61,7 @@
 
                 {% block admin_content %}
                     {# tutaj pojawi się treść poszczególnych widoków #}
+                    {{ render(controller('Admin\\Controller\\AdminController::userCountryMap')) }}
                 {% endblock %}
             </div>
         </div>

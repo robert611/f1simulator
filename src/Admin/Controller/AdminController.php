@@ -16,4 +16,10 @@ class AdminController extends BaseController
     {
         return $this->render('@admin/dashboard.html.twig');
     }
+
+    #[Route('/user-country-map', name: 'admin_user_country_map', methods: ['GET'])]
+    public function userCountryMap(): Response
+    {
+        return $this->render('@admin/dashboard/user_country_map.html.twig');
+    }
 }
