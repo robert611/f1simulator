@@ -17,5 +17,5 @@
     "password.front_validation": "Twoje hasło nie spełnia wszystkich wymagań",
     "password.mismatch": "Podane hasła się różnią",
     "terms.not_accepted": "Musisz zaakceptować nasz regulamin",
-    "country.not_blank": "Proszę wybrać kraj"
+    "country.not_blank": "Proszę wybrać państwo"
 }
