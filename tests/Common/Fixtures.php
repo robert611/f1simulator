@@ -67,7 +67,7 @@ class Fixtures
         return $user;
     }
 
-    public function aCustomUser(string $username, string $email): User
+    public function aCustomUser(string $username, string $email, UserCountry $country = UserCountry::PL): User
     {
         $user = new User();
         $user->setUsername($username);
@@ -79,7 +79,7 @@ class Fixtures
             ),
         );
         $user->setRoles(['ROLE_USER']);
-        $user->setCountry(UserCountry::PL);
+        $user->setCountry($country);
         $user->setIsVerified(true);
         $user->setCreatedAt(new DateTimeImmutable());
         $user->setUpdatedAt(new DateTimeImmutable());

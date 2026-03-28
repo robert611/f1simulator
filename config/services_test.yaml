@@ -20,3 +20,6 @@ services:
 
     Elastic\ElasticMailerHandler:
         public: true
+
+    Security\Service\UserCountryService:
+        public: true

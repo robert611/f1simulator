@@ -3,9 +3,11 @@
 namespace Security\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Security\Entity\User;
+use Security\Entity\UserCountry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -38,5 +40,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $user->setPassword($newHashedPassword);
         $this->entityManager->persist($user);
         $this->entityManager->flush();
+    }
+
+    /**
+     * @return array<int, array{country: UserCountry, users: int}>
+     */
+    public function getUserCountryMapData(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->select('u.country', 'count(u) as users')
+            ->groupBy('u.country')
+            ->orderBy('u.country', 'ASC')
+            ->getQuery()
+            ->getResult(AbstractQuery::HYDRATE_ARRAY);
     }
 }
