@@ -141,6 +141,21 @@
                                 {% endif %}
                             </div>
 
+                            <!-- Country field -->
+                            <div class="auth-form-group">
+                                <label class="auth-form-label" for="{{ registrationForm.country.vars.id }}">
+                                    <i class="fas fa-globe"></i> {{ 'register.country'|trans({}, 'front') }}
+                                </label>
+                                {{ form_widget(registrationForm.country, {
+                                    'attr': {
+                                        'class': 'auth-form-control'
+                                    }
+                                }) }}
+                                <div class="auth-form-error text-sm mt-2">
+                                    {{ form_errors(registrationForm.country) }}
+                                </div>
+                            </div>
+
                             <!-- Terms checkbox -->
                             <div class="mb-4">
                                 <div class="auth-checkbox form-check">

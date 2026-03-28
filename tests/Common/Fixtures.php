@@ -20,6 +20,7 @@ use Multiplayer\Entity\UserSeasonRace;
 use Multiplayer\Entity\UserSeasonRaceResult;
 use Security\Entity\User;
 use Security\Entity\UserConfirmationToken;
+use Security\Entity\UserCountry;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class Fixtures
@@ -37,6 +38,7 @@ class Fixtures
         $user->setEmail('tommy123@gmail.com');
         $user->setPassword('password');
         $user->setRoles(['ROLE_USER']);
+        $user->setCountry(UserCountry::PL);
         $user->setIsVerified(true);
         $user->setCreatedAt(new DateTimeImmutable());
         $user->setUpdatedAt(new DateTimeImmutable());
@@ -54,6 +56,7 @@ class Fixtures
         $user->setEmail('admin@gmail.com');
         $user->setPassword('Password1...');
         $user->setRoles(['ROLE_ADMIN']);
+        $user->setCountry(UserCountry::PL);
         $user->setIsVerified(true);
         $user->setCreatedAt(new DateTimeImmutable());
         $user->setUpdatedAt(new DateTimeImmutable());
@@ -64,7 +67,7 @@ class Fixtures
         return $user;
     }
 
-    public function aCustomUser(string $username, string $email): User
+    public function aCustomUser(string $username, string $email, UserCountry $country = UserCountry::PL): User
     {
         $user = new User();
         $user->setUsername($username);
@@ -76,6 +79,7 @@ class Fixtures
             ),
         );
         $user->setRoles(['ROLE_USER']);
+        $user->setCountry($country);
         $user->setIsVerified(true);
         $user->setCreatedAt(new DateTimeImmutable());
         $user->setUpdatedAt(new DateTimeImmutable());
@@ -93,6 +97,7 @@ class Fixtures
         $user->setEmail('super.fast@gmail.com');
         $user->setPassword('password');
         $user->setRoles(['ROLE_USER']);
+        $user->setCountry(UserCountry::PL);
         $user->setIsVerified(false);
         $user->setCreatedAt(new DateTimeImmutable());
         $user->setUpdatedAt(new DateTimeImmutable());

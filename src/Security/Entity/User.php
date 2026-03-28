@@ -38,6 +38,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(name: 'is_verified', type: 'boolean', nullable: false, options: ['default' => false])]
     private bool $isVerified = false;
 
+    #[ORM\Column(name: 'country', type: 'string', nullable: false, enumType: UserCountry::class)]
+    private UserCountry $country;
+
     #[ORM\Column(name: 'created_at', type: Types::DATETIME_IMMUTABLE, nullable: false)]
     private DateTimeImmutable $createdAt;
 
@@ -112,6 +115,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): void
     {
         $this->isVerified = $isVerified;
+    }
+
+    public function getCountry(): UserCountry
+    {
+        return $this->country;
+    }
+
+    public function setCountry(UserCountry $country): void
+    {
+        $this->country = $country;
     }
 
     public function getCreatedAt(): DateTimeImmutable

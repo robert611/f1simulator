@@ -37,6 +37,8 @@
         "repeat_password": "Repeat password",
         "repeat_password_placeholder": "Repeat your password",
         "repeat_password_info": "Enter the same password again",
+        "country": "Country",
+        "country_placeholder": "Select your country",
         "submit": "Create account",
         "already_have_account": "Already have an account?",
         "login": "Log in",
