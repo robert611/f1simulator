@@ -14,3 +14,4 @@
 
 ## 1.0.3 (0000-00-00 00:00)
 - Dodano pole "country" do encji użytkownika
+- Dodano interaktywną mapę do panelu administratora, gdzie można sprawdzić kraj pochodzenia użytkowników
