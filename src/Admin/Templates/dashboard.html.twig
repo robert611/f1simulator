@@ -60,6 +60,7 @@
                     <div id="dashboard-first-row-grid-container">
                         <div id="dashboard-first-row-grid-inline-container">
                             <div id="dashboard-first-row-grid">
+                                {{ render(controller('Admin\\Controller\\AdminController::seasonsPlayedChart')) }}
                                 {{ render(controller('Admin\\Controller\\AdminController::userCountryMap')) }}
                             </div>
                         </div>

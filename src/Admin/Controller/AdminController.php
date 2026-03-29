@@ -32,4 +32,12 @@ class AdminController extends BaseController
             'userCountryMapData' => $userCountryMapData,
         ]);
     }
+
+    #[Route('/seasons-played-chart', name: 'admin_seasons_played_chart', methods: ['GET'])]
+    public function seasonsPlayedChart(): Response
+    {
+        return $this->render('@admin/dashboard/seasons_played_chart.html.twig', [
+            'seasonsPlayedChartData' => [],
+        ]);
+    }
 }
