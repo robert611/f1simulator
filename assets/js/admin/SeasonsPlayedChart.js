@@ -3,6 +3,14 @@ import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 
 function buildSeasonsPlayedChart(container) {
+    const seasonsPlayedData = JSON.parse(container.dataset.seasonsPlayedChartData);
+
+    const multiplayerData = [].fill(0, 0, 12);
+
+    Array.from(seasonsPlayedData['multiplayer']).map(function (element) {
+        multiplayerData[element['month'] - 1] = element['seasonsPlayed'];
+    });
+
     const data = {
         labels: [
             'Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec',
@@ -16,7 +24,7 @@ function buildSeasonsPlayedChart(container) {
             },
             {
                 label: 'Vs gracze',
-                data: [3, 4, 5, 6, 8, 7, 10, 9, 5, 6, 4, 7],
+                data: multiplayerData,
                 backgroundColor: 'rgba(255, 99, 132, 0.7)'
             }
         ]

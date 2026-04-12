@@ -180,6 +180,8 @@ class UserSeason
         int $maxPlayers,
         User $owner,
         string $name,
+        DateTimeImmutable $createdAt,
+        DateTimeImmutable $updatedAt,
         bool $started = false,
         bool $completed = false,
     ): self {
@@ -192,22 +194,22 @@ class UserSeason
         $userSeason->completed = $completed;
         $userSeason->startedAt = null;
         $userSeason->completedAt = null;
-        $userSeason->createdAt = new DateTimeImmutable();
-        $userSeason->updatedAt = new DateTimeImmutable();
+        $userSeason->createdAt = $createdAt;
+        $userSeason->updatedAt = $updatedAt;
 
         return $userSeason;
     }
 
-    public function start(): void
+    public function start(DateTimeImmutable $startedAt): void
     {
         $this->started = true;
-        $this->startedAt = new DateTimeImmutable();
+        $this->startedAt = $startedAt;
     }
 
-    public function end(): void
+    public function end(DateTimeImmutable $completedAt): void
     {
         $this->completed = true;
-        $this->completedAt = new DateTimeImmutable();
+        $this->completedAt = $completedAt;
     }
 
     /**

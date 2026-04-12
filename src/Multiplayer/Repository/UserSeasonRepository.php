@@ -6,6 +6,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Multiplayer\Entity\UserSeason;
 use Multiplayer\Entity\UserSeasonPlayer;
+use Shared\Clock\Clock;
 
 /**
  * @method UserSeason|null find($id, $lockMode = null, $lockVersion = null)
@@ -15,8 +16,10 @@ use Multiplayer\Entity\UserSeasonPlayer;
  */
 class UserSeasonRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        private readonly Clock $clock,
+    ) {
         parent::__construct($registry, UserSeason::class);
     }
 
@@ -31,6 +34,22 @@ class UserSeasonRepository extends ServiceEntityRepository
             ->where('p.user = :userId')
             ->setParameter('userId', $userId)
             ->orderBy('us.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return array<array{month: int, seasonsPlayed: int}>
+     */
+    public function getLast12MonthsSeasonsPlayed(): array
+    {
+        return $this->createQueryBuilder('us')
+            ->select('MONTH(us.completedAt) as month, COUNT(us.id) as seasonsPlayed')
+            ->where('us.completedAt IS NOT NULL')
+            ->andWhere('us.completedAt >= :fromDate')
+            ->setParameter('fromDate', $this->clock->now('-12 months 00:00:00'))
+            ->groupBy('month')
+            ->orderBy('month', 'ASC')
             ->getQuery()
             ->getResult();
     }

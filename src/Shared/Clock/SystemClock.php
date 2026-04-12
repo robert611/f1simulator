@@ -8,7 +8,7 @@ use DateTimeImmutable;
 
 final class SystemClock implements Clock
 {
-    public static function now(string $string = 'now'): DateTimeImmutable
+    public function now(string $string = 'now'): DateTimeImmutable
     {
         return new DateTimeImmutable($string);
     }

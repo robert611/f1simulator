@@ -8,5 +8,5 @@ use DateTimeImmutable;
 
 interface Clock
 {
-    public static function now(string $string = 'now'): DateTimeImmutable;
+    public function now(string $string = 'now'): DateTimeImmutable;
 }

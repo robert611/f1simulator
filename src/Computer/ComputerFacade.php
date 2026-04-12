@@ -40,4 +40,9 @@ readonly class ComputerFacade implements ComputerFacadeInterface
 
         return true;
     }
+
+    public function getLast12MonthsSeasonPlayed(): array
+    {
+        return [];
+    }
 }

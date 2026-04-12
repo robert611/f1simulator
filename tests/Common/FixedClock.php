@@ -9,25 +9,25 @@ use Shared\Clock\Clock;
 
 final class FixedClock implements Clock
 {
-    private static ?DateTimeImmutable $dateTime = null;
+    private ?DateTimeImmutable $dateTime = null;
 
-    public static function now(string $string = 'now'): DateTimeImmutable
+    public function now(string $string = 'now'): DateTimeImmutable
     {
-        if (null === self::$dateTime) {
+        if (null === $this->dateTime) {
             return new DateTimeImmutable($string);
         }
 
         if ('now' !== $string) {
-            return self::$dateTime->modify($string);
+            return $this->dateTime->modify($string);
         }
 
-        return self::$dateTime;
+        return $this->dateTime;
     }
 
-    public static function setNow(string $dateTime): DateTimeImmutable
+    public function setNow(string $dateTime): DateTimeImmutable
     {
-        self::$dateTime = new DateTimeImmutable($dateTime);
+        $this->dateTime = new DateTimeImmutable($dateTime);
 
-        return self::$dateTime;
+        return $this->dateTime;
     }
 }

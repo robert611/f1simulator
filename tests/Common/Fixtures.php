@@ -28,6 +28,7 @@ class Fixtures
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly UserPasswordHasherInterface $passwordEncoder,
+        private readonly FixedClock $clock,
     ) {
     }
 
@@ -178,12 +179,14 @@ class Fixtures
         bool $started,
     ): UserSeason {
         $userSeason = UserSeason::create(
-            $secret,
-            $maxPlayers,
-            $owner,
-            $name,
-            $started,
-            $completed,
+            secret: $secret,
+            maxPlayers: $maxPlayers,
+            owner: $owner,
+            name: $name,
+            createdAt: $this->clock->now(),
+            updatedAt: $this->clock->now(),
+            started: $started,
+            completed: $completed,
         );
 
         $this->entityManager->persist($userSeason);
