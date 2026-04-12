@@ -5,7 +5,12 @@ Chart.register(...registerables);
 function buildSeasonsPlayedChart(container) {
     const seasonsPlayedData = JSON.parse(container.dataset.seasonsPlayedChartData);
 
+    const computerData = [].fill(0, 0, 12);
     const multiplayerData = [].fill(0, 0, 12);
+
+    Array.from(seasonsPlayedData['computer']).map(function (element) {
+        computerData[element['month'] - 1] = element['seasonsPlayed'];
+    });
 
     Array.from(seasonsPlayedData['multiplayer']).map(function (element) {
         multiplayerData[element['month'] - 1] = element['seasonsPlayed'];
@@ -14,12 +19,12 @@ function buildSeasonsPlayedChart(container) {
     const data = {
         labels: [
             'Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec',
-            'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'
+            'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień',
         ],
         datasets: [
             {
                 label: 'Vs komputer',
-                data: [5, 8, 6, 10, 7, 12, 9, 11, 6, 8, 7, 10],
+                data: computerData,
                 backgroundColor: 'rgba(54, 162, 235, 0.7)'
             },
             {
@@ -38,18 +43,18 @@ function buildSeasonsPlayedChart(container) {
             plugins: {
                 title: {
                     display: true,
-                    text: 'Sezony rozegrane w miesiącach'
-                }
+                    text: 'Sezony rozegrane w miesiącach',
+                },
             },
             scales: {
                 x: {
                     stacked: false // ważne — żeby były obok siebie, nie na sobie
                 },
                 y: {
-                    beginAtZero: true
-                }
-            }
-        }
+                    beginAtZero: true,
+                },
+            },
+        },
     };
 
     new Chart(container, config);

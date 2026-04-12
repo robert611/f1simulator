@@ -7,6 +7,7 @@ namespace Tests\Unit\Computer\Entity;
 use Computer\Entity\Race;
 use Computer\Entity\RaceResult;
 use Computer\Entity\Season;
+use DateTimeImmutable;
 use Domain\Entity\Driver;
 use Domain\Entity\Team;
 use Domain\Entity\Track;
@@ -41,13 +42,14 @@ class SeasonTest extends TestCase
     {
         // given
         $season = Season::create(new User(), 1);
+        $dateTime = new DateTimeImmutable();
 
         // when
-        $season->endSeason();
+        $season->endSeason($dateTime);
 
         // then
         self::assertTrue($season->getCompleted());
-        self::assertNotNull($season->getCompletedAt());
+        self::assertSame($dateTime, $season->getCompletedAt());
     }
 
     #[Test]

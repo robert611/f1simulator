@@ -156,10 +156,10 @@ class Season
         return $season;
     }
 
-    public function endSeason(): void
+    public function endSeason(DateTimeImmutable $completedAt): void
     {
         $this->completed = true;
-        $this->completedAt = new DateTimeImmutable();
+        $this->completedAt = $completedAt;
     }
 
     public function getDriverPodiumsDTO(): DriverPodiumsDTO

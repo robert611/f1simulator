@@ -41,8 +41,11 @@ readonly class ComputerFacade implements ComputerFacadeInterface
         return true;
     }
 
+    /**
+     * @return array<array{month: int, seasonsPlayed: int}>
+     */
     public function getLast12MonthsSeasonPlayed(): array
     {
-        return [];
+        return $this->seasonRepository->getLast12MonthsSeasonPlayed();
     }
 }

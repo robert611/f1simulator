@@ -40,9 +40,8 @@ class AdminController extends BaseController
     #[Route('/seasons-played-chart', name: 'admin_seasons_played_chart', methods: ['GET'])]
     public function seasonsPlayedChart(): Response
     {
-        $computerSeasonsPlayed = [];
+        $computerSeasonsPlayed = $this->computerFacade->getLast12MonthsSeasonPlayed();
         $multiplayerSeasonsPlayed = $this->multiplayerFacade->getLast12MonthsSeasonPlayed();
-
 
         return $this->render('@admin/dashboard/seasons_played_chart.html.twig', [
             'seasonsPlayedChartData' => [
