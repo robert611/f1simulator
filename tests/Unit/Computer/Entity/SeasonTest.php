@@ -47,6 +47,7 @@ class SeasonTest extends TestCase
 
         // then
         self::assertTrue($season->getCompleted());
+        self::assertNotNull($season->getCompletedAt());
     }
 
     #[Test]

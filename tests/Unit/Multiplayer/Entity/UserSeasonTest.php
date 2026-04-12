@@ -68,8 +68,6 @@ class UserSeasonTest extends TestCase
             10,
             $user1,
             "Liga szybkich kierowców",
-            false,
-            false,
         );
 
         // and given

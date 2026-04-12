@@ -24,8 +24,8 @@ class UserSeasonFixtures extends Fixture implements DependentFixtureInterface
                 $data['max_players'],
                 $owner,
                 $data['name'],
-                $data['completed'],
                 $data['started'],
+                $data['completed'],
             );
 
             $manager->persist($userSeason);

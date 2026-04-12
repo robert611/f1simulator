@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Computer\Entity;
 
 use Computer\Repository\SeasonRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Domain\Contract\Model\DriverPodiumsDictionary;
 use Domain\Contract\Model\DriverPodiumsDTO;
@@ -30,6 +32,15 @@ class Season
 
     #[ORM\Column(name: 'completed', type: 'boolean', nullable: false)]
     private bool $completed;
+
+    #[ORM\Column(name: 'completed_at', type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?DateTimeImmutable $completedAt;
+
+    #[ORM\Column(name: 'created_at', type: Types::DATETIME_IMMUTABLE, nullable: false)]
+    private DateTimeImmutable $createdAt;
+
+    #[ORM\Column(name: 'updated_at', type: Types::DATETIME_IMMUTABLE, nullable: false)]
+    private DateTimeImmutable $updatedAt;
 
     #[ORM\OneToMany(targetEntity: Race::class, mappedBy: 'season')]
     private Collection $races;
@@ -62,6 +73,21 @@ class Season
     public function setCompleted(bool $completed): void
     {
         $this->completed = $completed;
+    }
+
+    public function getCompletedAt(): ?DateTimeImmutable
+    {
+        return $this->completedAt;
+    }
+
+    public function getCreatedAt(): DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): DateTimeImmutable
+    {
+        return $this->updatedAt;
     }
 
     /**
@@ -123,6 +149,9 @@ class Season
         $season->user = $user;
         $season->driverId = $driverId;
         $season->completed = false;
+        $season->completedAt = null;
+        $season->createdAt = new DateTimeImmutable();
+        $season->updatedAt = new DateTimeImmutable();
 
         return $season;
     }
@@ -130,6 +159,7 @@ class Season
     public function endSeason(): void
     {
         $this->completed = true;
+        $this->completedAt = new DateTimeImmutable();
     }
 
     public function getDriverPodiumsDTO(): DriverPodiumsDTO

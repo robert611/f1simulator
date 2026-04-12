@@ -182,8 +182,8 @@ class Fixtures
             $maxPlayers,
             $owner,
             $name,
-            $completed,
             $started,
+            $completed,
         );
 
         $this->entityManager->persist($userSeason);
