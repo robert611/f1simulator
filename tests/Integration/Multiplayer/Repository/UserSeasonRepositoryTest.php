@@ -116,11 +116,19 @@ class UserSeasonRepositoryTest extends KernelTestCase
             false,
             true,
         );
+        $userSeason4 = $this->fixtures->aUserSeason(
+            "C71OKLFS014C",
+            10,
+            $user3,
+            "Liga szybkich kierowców 4",
+            false,
+            true,
+        );
         $this->fixtures->aUserSeason(
             "RL13KIO5S01DC",
             10,
             $user3,
-            "Liga szybkich kierowców 4",
+            "Liga szybkich kierowców 5",
             false,
             true,
         );
@@ -128,7 +136,8 @@ class UserSeasonRepositoryTest extends KernelTestCase
         // and given
         $userSeason1->end(new DateTimeImmutable('2025-09-10 10:00:00'));
         $userSeason2->end(new DateTimeImmutable('2025-04-10 12:30:00'));
-        $userSeason3->end(new DateTimeImmutable('2024-10-09 17:50:00'));
+        $userSeason3->end(new DateTimeImmutable('2024-12-03 17:50:00'));
+        $userSeason4->end(new DateTimeImmutable('2024-10-21 17:50:00'));
 
         // and given
         $this->entityManager->flush();
@@ -140,8 +149,9 @@ class UserSeasonRepositoryTest extends KernelTestCase
         $result = $this->userSeasonRepository->getLast12MonthsSeasonsPlayed();
 
         // then
-        self::assertCount(2, $result);
-        self::assertSame(['month' => 4, 'seasonsPlayed' => 1], $result[0]);
-        self::assertSame(['month' => 9, 'seasonsPlayed' => 1], $result[1]);
+        self::assertCount(3, $result);
+        self::assertSame(['month' => 12, 'year' => 2024, 'seasonsPlayed' => 1], $result[0]);
+        self::assertSame(['month' => 4, 'year' => 2025, 'seasonsPlayed' => 1], $result[1]);
+        self::assertSame(['month' => 9, 'year' => 2025, 'seasonsPlayed' => 1], $result[2]);
     }
 }

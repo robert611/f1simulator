@@ -28,7 +28,7 @@ interface ComputerFacadeInterface
     /**
      * Returns computer season played in the last 12 months
      *
-     * @return array<array{month: int, seasonsPlayed: int}>
+     * @return array<array{month: int, year: int, seasonsPlayed: int}>
      */
     public function getLast12MonthsSeasonPlayed(): array;
 }

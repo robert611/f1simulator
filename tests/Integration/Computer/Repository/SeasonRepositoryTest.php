@@ -51,13 +51,17 @@ final class SeasonRepositoryTest extends KernelTestCase
         $season2 = $this->fixtures->aSeason($user2, $driver2);
         $season3 = $this->fixtures->aSeason($user3, $driver3);
         $season4 = $this->fixtures->aSeason($user3, $driver4);
+        $season5 = $this->fixtures->aSeason($user3, $driver4);
+        $season6 = $this->fixtures->aSeason($user3, $driver4);
         $this->fixtures->aSeason($user3, $driver5);
 
         // and given
         $season1->endSeason($this->clock->now('2025-07-10 10:00:00'));
         $season2->endSeason($this->clock->now('2025-02-10 12:30:00'));
-        $season3->endSeason($this->clock->now('2024-10-11 08:00:00'));
-        $season4->endSeason($this->clock->now('2024-10-09 17:50:00'));
+        $season3->endSeason($this->clock->now('2025-01-09 17:50:00'));
+        $season4->endSeason($this->clock->now('2024-11-09 17:50:00'));
+        $season5->endSeason($this->clock->now('2024-11-01 08:00:00'));
+        $season6->endSeason($this->clock->now('2024-10-09 17:50:00'));
 
         // and given
         $this->entityManager->flush();
@@ -69,9 +73,10 @@ final class SeasonRepositoryTest extends KernelTestCase
         $result = $this->seasonRepository->getLast12MonthsSeasonPlayed();
 
         // then
-        self::assertCount(3, $result);
-        self::assertSame(['month' => 2, 'seasonsPlayed' => 1], $result[0]);
-        self::assertSame(['month' => 7, 'seasonsPlayed' => 1], $result[1]);
-        self::assertSame(['month' => 10, 'seasonsPlayed' => 1], $result[2]);
+        self::assertCount(4, $result);
+        self::assertSame(['month' => 11, 'year' => 2024, 'seasonsPlayed' => 2], $result[0]);
+        self::assertSame(['month' => 1, 'year' => 2025, 'seasonsPlayed' => 1], $result[1]);
+        self::assertSame(['month' => 2, 'year' => 2025, 'seasonsPlayed' => 1], $result[2]);
+        self::assertSame(['month' => 7, 'year' => 2025, 'seasonsPlayed' => 1], $result[3]);
     }
 }

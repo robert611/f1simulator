@@ -9,18 +9,32 @@ function buildSeasonsPlayedChart(container) {
     const multiplayerData = [].fill(0, 0, 12);
 
     Array.from(seasonsPlayedData['computer']).map(function (element) {
-        computerData[element['month'] - 1] = element['seasonsPlayed'];
+        const index = monthToDatasetIndex(element['month']);
+        computerData[index] = element['seasonsPlayed'];
     });
 
     Array.from(seasonsPlayedData['multiplayer']).map(function (element) {
-        multiplayerData[element['month'] - 1] = element['seasonsPlayed'];
+        const index = monthToDatasetIndex(element['month']);
+        multiplayerData[index] = element['seasonsPlayed'];
     });
 
+    function monthToDatasetIndex(month) {
+        const currentMonth = new Date().getMonth() + 1;
+        const lastArrayIndex = 11;
+
+        if (currentMonth === month) {
+            return lastArrayIndex;
+        }
+
+        if (month < currentMonth) {
+            return lastArrayIndex - (currentMonth - month);
+        }
+
+        return month - currentMonth - 1;
+    }
+
     const data = {
-        labels: [
-            'Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec',
-            'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień',
-        ],
+        labels: getLast12Months(),
         datasets: [
             {
                 label: 'Vs komputer',
@@ -58,6 +72,30 @@ function buildSeasonsPlayedChart(container) {
     };
 
     new Chart(container, config);
+}
+
+function getLast12Months() {
+    const months = [
+        'Styczeń',
+        'Luty',
+        'Marzec',
+        'Kwiecień',
+        'Maj',
+        'Czerwiec',
+        'Lipiec',
+        'Sierpień',
+        'Wrzesień',
+        'Październik',
+        'Listopad',
+        'Grudzień',
+    ];
+
+    const currentMonth = new Date().getMonth() + 1;
+
+    const lastYearMonths = months.slice(currentMonth, 12);
+    const currentYearMonth = months.slice(0, currentMonth);
+
+    return lastYearMonths.concat(currentYearMonth);
 }
 
 addEventListener("DOMContentLoaded", () => {

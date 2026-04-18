@@ -42,7 +42,7 @@ readonly class ComputerFacade implements ComputerFacadeInterface
     }
 
     /**
-     * @return array<array{month: int, seasonsPlayed: int}>
+     * @return array<array{month: int, year: int, seasonsPlayed: int}>
      */
     public function getLast12MonthsSeasonPlayed(): array
     {

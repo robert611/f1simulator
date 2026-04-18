@@ -39,17 +39,18 @@ class UserSeasonRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return array<array{month: int, seasonsPlayed: int}>
+     * @return array<array{month: int, year: int, seasonsPlayed: int}>
      */
     public function getLast12MonthsSeasonsPlayed(): array
     {
         return $this->createQueryBuilder('us')
-            ->select('MONTH(us.completedAt) as month, COUNT(us.id) as seasonsPlayed')
+            ->select('MONTH(us.completedAt) as month, YEAR(us.completedAt) as year, COUNT(us.id) as seasonsPlayed')
             ->where('us.completedAt IS NOT NULL')
             ->andWhere('us.completedAt >= :fromDate')
-            ->setParameter('fromDate', $this->clock->now('-12 months 00:00:00'))
-            ->groupBy('month')
-            ->orderBy('month', 'ASC')
+            ->setParameter('fromDate', $this->clock->now('-12 months first day of next month 00:00:00'))
+            ->groupBy('month', 'year')
+            ->orderBy('year', 'ASC')
+            ->addOrderBy('month', 'ASC')
             ->getQuery()
             ->getResult();
     }
