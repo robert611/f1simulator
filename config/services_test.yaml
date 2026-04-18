@@ -20,3 +20,11 @@ services:
 
     Elastic\ElasticMailerHandler:
         public: true
+
+    Security\Service\UserCountryService:
+        public: true
+
+    Tests\Common\FixedClock:
+        public: true
+
+    Shared\Clock\Clock: '@Tests\Common\FixedClock'

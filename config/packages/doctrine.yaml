@@ -30,3 +30,7 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Security/Entity'
                 prefix: 'Security\Entity'
                 alias: Security
+        dql:
+            string_functions:
+                MONTH: DoctrineExtensions\Query\Mysql\Month
+                YEAR: DoctrineExtensions\Query\Mysql\Year

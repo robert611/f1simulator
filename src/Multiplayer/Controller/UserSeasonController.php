@@ -20,6 +20,7 @@ use Multiplayer\Service\GameSimulation\SimulateLeagueRace;
 use Multiplayer\Service\LeagueClassifications;
 use Multiplayer\Service\LeagueTeamsClassification;
 use Multiplayer\Service\SecretGenerator;
+use Shared\Clock\Clock;
 use Shared\Controller\BaseController;
 use Shared\HashTable;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -40,6 +41,7 @@ class UserSeasonController extends BaseController
         private readonly LeagueTeamsClassification $leagueTeamsClassification,
         private readonly LeagueClassifications $leagueClassification,
         private readonly EntityManagerInterface $entityManager,
+        private readonly Clock $clock,
     ) {
     }
 
@@ -127,6 +129,8 @@ class UserSeasonController extends BaseController
                 $userSeasonFormDTO->maxPlayers,
                 $this->getUser(),
                 $userSeasonFormDTO->name,
+                $this->clock->now(),
+                $this->clock->now(),
             );
 
             $driver = $this->drawDriverToReplace->getDriverToReplaceInUserLeague($userSeason);
@@ -172,7 +176,7 @@ class UserSeasonController extends BaseController
     {
         $this->denyAccessUnlessGranted(LeagueVoter::START, $season);
 
-        $season->start();
+        $season->start($this->clock->now());
 
         $this->entityManager->flush();
 
@@ -184,7 +188,7 @@ class UserSeasonController extends BaseController
     {
         $this->denyAccessUnlessGranted(LeagueVoter::END, $season);
 
-        $season->end();
+        $season->end($this->clock->now());
 
         $this->entityManager->flush();
 

@@ -43,5 +43,26 @@
     display: none;
   }
 }
+#dashboard-first-row-grid-container {
+  width: 100%;
+  display: grid;
+}
+
+#dashboard-first-row-grid-inline-container {
+  container-type: inline-size;
+  container-name: dashboard-first-row-grid-inline-container;
+}
+
+#dashboard-first-row-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 2rem;
+  row-gap: 2rem;
+}
+@container dashboard-first-row-grid-inline-container (width < 1000px) {
+  #dashboard-first-row-grid {
+    grid-template-columns: 1fr;
+  }
+}
 
 /*# sourceMappingURL=admin.css.map */

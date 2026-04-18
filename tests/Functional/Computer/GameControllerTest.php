@@ -100,6 +100,7 @@ class GameControllerTest extends WebTestCase
         // and then (Season is ended)
         $season = $this->seasonRepository->findOneBy(['user' => $user->getId()]);
         self::assertTrue($season->getCompleted());
+        self::assertNotNull($season->getCompletedAt());
     }
 
     #[Test]

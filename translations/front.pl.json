@@ -37,6 +37,8 @@
         "repeat_password": "Powtórz hasło",
         "repeat_password_placeholder": "Powtórz hasło",
         "repeat_password_info": "Wprowadź ponownie to samo hasło",
+        "country": "Państwo",
+        "country_placeholder": "Wybierz państwo",
         "submit": "Zarejestruj się",
         "already_have_account": "Masz już konto?",
         "login": "Zaloguj się",

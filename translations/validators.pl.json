@@ -16,5 +16,6 @@
     "password.contains_user_data": "Hasło nie może zawierać nazwy użytkownika ani adresu e-mail",
     "password.front_validation": "Twoje hasło nie spełnia wszystkich wymagań",
     "password.mismatch": "Podane hasła się różnią",
-    "terms.not_accepted": "Musisz zaakceptować nasz regulamin"
+    "terms.not_accepted": "Musisz zaakceptować nasz regulamin",
+    "country.not_blank": "Proszę wybrać państwo"
 }

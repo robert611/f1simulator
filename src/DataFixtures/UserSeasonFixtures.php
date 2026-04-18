@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DataFixtures;
 
+use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -24,8 +25,10 @@ class UserSeasonFixtures extends Fixture implements DependentFixtureInterface
                 $data['max_players'],
                 $owner,
                 $data['name'],
-                $data['completed'],
+                new DateTimeImmutable(),
+                new DateTimeImmutable(),
                 $data['started'],
+                $data['completed'],
             );
 
             $manager->persist($userSeason);

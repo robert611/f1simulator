@@ -88,4 +88,17 @@ return [
     'react-dom/client' => [
         'version' => '19.2.4',
     ],
+    'svgmap' => [
+        'version' => '2.19.2',
+    ],
+    'svgmap/dist/svg-map.min.css' => [
+        'version' => '2.19.2',
+        'type' => 'css',
+    ],
+    'chart.js' => [
+        'version' => '4.5.1',
+    ],
+    '@kurkle/color' => [
+        'version' => '0.3.4',
+    ],
 ];

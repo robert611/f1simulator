@@ -9,6 +9,7 @@ use Computer\Repository\SeasonRepository;
 use Computer\Service\GameSimulation\SimulateRaceService;
 use Doctrine\ORM\EntityManagerInterface;
 use Domain\DomainFacadeInterface;
+use Shared\Clock\Clock;
 use Shared\Controller\BaseController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +23,7 @@ class GameController extends BaseController
         private readonly SimulateRaceService $simulateRaceService,
         private readonly EntityManagerInterface $entityManager,
         private readonly DomainFacadeInterface $domainFacade,
+        private readonly Clock $clock,
     ) {
     }
 
@@ -58,7 +60,7 @@ class GameController extends BaseController
         $tracksCount = $this->domainFacade->getTracksCount();
 
         if ($season->getRaces()->count() === $tracksCount) {
-            $season->endSeason();
+            $season->endSeason($this->clock->now());
             $this->entityManager->flush();
         }
 
@@ -82,7 +84,7 @@ class GameController extends BaseController
             /* phpcs:ignore */
             $session->getFlashBag()->add('error', 'Wystąpił problem z rozegraniem wyścigu, ze względu bezpieczeństwa danych twój sezon został zakończony.');
 
-            $season->endSeason();
+            $season->endSeason($this->clock->now());
 
             $this->entityManager->flush();
 

@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Security\Form;
 
 use Security\Entity\User;
+use Security\Entity\UserCountry;
 use Security\Validator\PasswordDoesNotContainUserData;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -112,6 +114,15 @@ class RegistrationFormType extends AbstractType
                         'autocomplete' => 'new-password',
                     ],
                 ],
+            ])
+            ->add('country', EnumType::class, [
+                'class' => UserCountry::class,
+                'choice_label' => static fn (UserCountry $country): string => $country->getLabel(),
+                'constraints' => [
+                    new NotBlank(message: 'country.not_blank'),
+                ],
+                'required' => true,
+                'placeholder' => $this->translator->trans('register.country_placeholder', [], 'front'),
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,

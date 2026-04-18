@@ -38,6 +38,9 @@ services:
         exclude:
             - '../src/Security/Entity'
 
+    Shared\:
+        resource: '../src/Shared/*'
+
     Admin\:
         resource: '../src/Admin/*'
 
