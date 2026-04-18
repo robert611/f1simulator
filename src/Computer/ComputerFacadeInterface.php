@@ -24,4 +24,11 @@ interface ComputerFacadeInterface
      * in this module, that makes it impossible to delete a track without breaking database integrity
      */
     public function canTrackBeSafelyDeleted(int $trackId): bool;
+
+    /**
+     * Returns computer season played in the last 12 months
+     *
+     * @return array<array{month: int, year: int, seasonsPlayed: int}>
+     */
+    public function getLast12MonthsSeasonPlayed(): array;
 }

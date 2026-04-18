@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Multiplayer\Entity;
 
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Multiplayer\Repository\UserSeasonRepository;
 use Security\Entity\User;
@@ -17,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[UniqueEntity(fields: ['name'], message: 'Istnieje już liga z taką nazwą')]
 class UserSeason
 {
-    public const MINIMUM_PLAYERS = 2;
+    public const int MINIMUM_PLAYERS = 2;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -42,11 +44,23 @@ class UserSeason
     #[ORM\Column(name: 'name', type: 'string', length: 255, unique: true, nullable: false)]
     private string $name;
 
+    #[ORM\Column(name: 'started', type: 'boolean', nullable: false)]
+    private bool $started;
+
     #[ORM\Column(name: 'completed', type: 'boolean', nullable: false)]
     private bool $completed;
 
-    #[ORM\Column(name: 'started', type: 'boolean', nullable: false)]
-    private bool $started;
+    #[ORM\Column(name: 'started_at', type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?DateTimeImmutable $startedAt;
+
+    #[ORM\Column(name: 'completed_at', type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?DateTimeImmutable $completedAt;
+
+    #[ORM\Column(name: 'created_at', type: Types::DATETIME_IMMUTABLE, nullable: false)]
+    private DateTimeImmutable $createdAt;
+
+    #[ORM\Column(name: 'updated_at', type: Types::DATETIME_IMMUTABLE, nullable: false)]
+    private DateTimeImmutable $updatedAt;
 
     #[ORM\OneToMany(targetEntity: UserSeasonPlayer::class, mappedBy: 'season', orphanRemoval: true)]
     private Collection $players;
@@ -93,6 +107,26 @@ class UserSeason
     public function getStarted(): bool
     {
         return $this->started;
+    }
+
+    public function getCompletedAt(): ?DateTimeImmutable
+    {
+        return $this->completedAt;
+    }
+
+    public function getStartedAt(): ?DateTimeImmutable
+    {
+        return $this->startedAt;
+    }
+
+    public function getCreatedAt(): DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): DateTimeImmutable
+    {
+        return $this->updatedAt;
     }
 
     /**
@@ -146,28 +180,36 @@ class UserSeason
         int $maxPlayers,
         User $owner,
         string $name,
-        bool $completed = false,
+        DateTimeImmutable $createdAt,
+        DateTimeImmutable $updatedAt,
         bool $started = false,
+        bool $completed = false,
     ): self {
         $userSeason = new self();
         $userSeason->secret = $secret;
         $userSeason->maxPlayers = $maxPlayers;
         $userSeason->owner = $owner;
         $userSeason->name = $name;
-        $userSeason->completed = $completed;
         $userSeason->started = $started;
+        $userSeason->completed = $completed;
+        $userSeason->startedAt = null;
+        $userSeason->completedAt = null;
+        $userSeason->createdAt = $createdAt;
+        $userSeason->updatedAt = $updatedAt;
 
         return $userSeason;
     }
 
-    public function start(): void
+    public function start(DateTimeImmutable $startedAt): void
     {
         $this->started = true;
+        $this->startedAt = $startedAt;
     }
 
-    public function end(): void
+    public function end(DateTimeImmutable $completedAt): void
     {
         $this->completed = true;
+        $this->completedAt = $completedAt;
     }
 
     /**

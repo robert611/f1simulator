@@ -322,6 +322,7 @@ class UserSeasonControllerTest extends WebTestCase
 
         // then
         self::assertTrue($userSeason->getStarted());
+        self::assertNotNull($userSeason->getStartedAt());
     }
 
     #[Test]
@@ -433,6 +434,7 @@ class UserSeasonControllerTest extends WebTestCase
 
         // then
         self::assertTrue($userSeason->getCompleted());
+        self::assertNotNull($userSeason->getCompletedAt());
     }
 
     #[Test]

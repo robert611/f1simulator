@@ -10,13 +10,13 @@
 
 #dashboard-first-row-grid {
   display: grid;
-  grid-template-columns: 3fr 3fr;
+  grid-template-columns: repeat(2, 1fr);
   column-gap: 2rem;
   row-gap: 2rem;
 }
 @container dashboard-first-row-grid-inline-container (width < 1000px) {
   #dashboard-first-row-grid {
-    grid-template-columns: 100% 100%;
+    grid-template-columns: 1fr;
   }
 }
 

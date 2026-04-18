@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DataFixtures;
 
 use Computer\Entity\Season;
+use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -24,7 +25,7 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
             $season = Season::create($user, $driver->getId());
 
             if ($data['completed']) {
-                $season->endSeason();
+                $season->endSeason(new DateTimeImmutable());
             }
 
             $manager->persist($season);

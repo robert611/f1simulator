@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Multiplayer\Entity;
 
+use DateTimeImmutable;
 use Domain\Entity\Driver;
 use Domain\Entity\Team;
 use Multiplayer\Entity\UserSeason;
@@ -68,8 +69,8 @@ class UserSeasonTest extends TestCase
             10,
             $user1,
             "Liga szybkich kierowców",
-            false,
-            false,
+            new DateTimeImmutable(),
+            new DateTimeImmutable(),
         );
 
         // and given
