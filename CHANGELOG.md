@@ -12,6 +12,8 @@
 - Przetłumaczono stronę główną na język angielski
 - Dodano tłumaczenia językowe do konfiguracji react
 
-## 1.0.3 (0000-00-00 00:00)
+## 1.0.3 (2026-04-18 22:45)
 - Dodano pole "country" do encji użytkownika
 - Dodano interaktywną mapę do panelu administratora, gdzie można sprawdzić kraj pochodzenia użytkowników
+- Rozbudowane encje sezonu i sezonu multiplayer o pola z datami tworzenia rekordów i rozpoczęcia/zakończenia sezonu
+- Dodano wykres ilości rozgrywanych sezonów w panelu administratora
