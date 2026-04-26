@@ -89,33 +89,20 @@ class Team
         return $team;
     }
 
-    public function drawDriverToReplace(): ?Driver
-    {
-        /** @var Driver[] $drivers */
-        $drivers = $this->getDrivers()->toArray();
-
-        return self::drawDriverToReplaceMethod($drivers);
-    }
-
-    /**
-     * @param Driver[] $drivers
-     */
-    public static function drawDriverToReplaceMethod(array $drivers): ?Driver
-    {
-        if (empty($drivers)) {
-            return null;
-        }
-
-        // Reindex array to make sure it starts from 0
-        $drivers = array_values($drivers);
-
-        $randomKey = array_rand($drivers);
-
-        return $drivers[$randomKey];
-    }
-
     public function getHighResolutionPicture(): string
     {
         return 'high_resolution/' . str_replace('png', 'avif', $this->picture);
+    }
+
+    public function getDriversWithoutDependencies(): array
+    {
+        return array_map(function (Driver $driver) {
+            return [
+                'id' => $driver->getId(),
+                'name' => $driver->getName(),
+                'surname' => $driver->getSurname(),
+                'carNumber' => $driver->getCarNumber(),
+            ];
+        }, $this->drivers->toArray());
     }
 }

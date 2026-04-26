@@ -15,6 +15,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 // CSS scripts
 import './styles/build/app.css';
 import './styles/build/utils.css';
+import './styles/build/buttons.css';
 
 // JS scripts
 import './js/app/BlockButton.js';

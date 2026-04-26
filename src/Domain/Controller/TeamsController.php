@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Controller;
 
 use Domain\Entity\Team;
@@ -28,6 +30,7 @@ class TeamsController extends BaseController
                 'name' => $team->getName(),
                 'picture' => $team->getPicture(),
                 'pictureUrl' => $assetMapper->getPublicPath('images/cars/' . $team->getPicture()),
+                'drivers' => $team->getDriversWithoutDependencies(),
             ];
         }, $this->repository->findAll());
 
