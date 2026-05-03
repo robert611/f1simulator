@@ -512,6 +512,18 @@
             "./templates/base.html.twig"
         ]
     },
+    "symfony/ux-map": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "2.19",
+            "ref": "04de870967555f00bd82f542e9e2d29683c3d39e"
+        },
+        "files": [
+            "config/packages/ux_map.yaml"
+        ]
+    },
     "symfony/ux-react": {
         "version": "2.32",
         "recipe": {
