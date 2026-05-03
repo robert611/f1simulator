@@ -42,7 +42,8 @@
         "twig/twig": "^2.12|^3.0",
         "symfony/ux-react": "^2.32",
         "beberlei/doctrineextensions": "^1.5",
-        "symfony/ux-map": "^3.0"
+        "symfony/ux-map": "^3.0",
+        "symfony/ux-leaflet-map": "^3.0"
     },
     "require-dev": {
         "behat/behat": "4.*",
