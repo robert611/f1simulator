@@ -17,14 +17,12 @@ class GameControllerTest extends WebTestCase
     private KernelBrowser $client;
     private Fixtures $fixtures;
     private SeasonRepository $seasonRepository;
-    private DriverRepository $driverRepository;
 
     public function setUp(): void
     {
         $this->client = self::createClient();
         $this->fixtures = self::getContainer()->get(Fixtures::class);
         $this->seasonRepository = self::getContainer()->get(SeasonRepository::class);
-        $this->driverRepository = self::getContainer()->get(DriverRepository::class);
     }
 
     #[Test]
@@ -35,10 +33,11 @@ class GameControllerTest extends WebTestCase
         $this->client->loginUser($user);
 
         // and given
-        $team = $this->fixtures->aTeamWithDrivers();
+        $team = $this->fixtures->aTeamWithName('Ferrari');
+        $driver = $this->fixtures->aDriver("Robert", "Kubica", $team, 88);
 
         // when
-        $this->client->request('POST', '/game/season/start', ['teamId' => $team->getId()]);
+        $this->client->request('POST', '/game/season/start', ['driverId' => $driver->getId()]);
         self::assertResponseRedirects('/home');
 
         // then (User will be redirected back to index page)
@@ -46,9 +45,8 @@ class GameControllerTest extends WebTestCase
 
         // and then (User season is created in the database)
         $dbSeason = $this->seasonRepository->findOneBy([]);
-        $driver = $this->driverRepository->find($dbSeason->getDriverId());
         self::assertEquals($dbSeason->getUser()->getId(), $user->getId());
-        self::assertEquals($driver->getTeam()->getId(), $team->getId());
+        self::assertEquals($dbSeason->getDriverId(), $driver->getId());
         self::assertFalse($dbSeason->getCompleted());
     }
 

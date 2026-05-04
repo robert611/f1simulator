@@ -8,7 +8,7 @@ use Domain\Contract\Exception\TrackCannotBeDeletedException;
 
 interface TrackServiceFacadeInterface
 {
-    public function add(string $name, string $picture): void;
+    public function add(string $name, string $picture, string $latitude, string $longitude): void;
 
     public function update(int $trackId, string $name, ?string $picture): void;
 

@@ -69,6 +69,8 @@ class AdminTrackController extends BaseController
                 $this->trackServiceFacade->add(
                     $trackFormModel->name,
                     $pictureFilename,
+                    $trackFormModel->latitude,
+                    $trackFormModel->longitude,
                 );
 
                 $this->addFlash('admin_success', 'Dodano nowy tor');

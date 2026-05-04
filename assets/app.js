@@ -15,6 +15,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 // CSS scripts
 import './styles/build/app.css';
 import './styles/build/utils.css';
+import './styles/build/buttons.css';
 
 // JS scripts
 import './js/app/BlockButton.js';
@@ -22,6 +23,10 @@ import './js/app/Dropdown.js';
 
 // Stimulus
 import './stimulus_bootstrap.js';
+
+// Leaflet map
+import 'leaflet';
+import 'leaflet/dist/leaflet.min.css';
 
 // Symfony Ux-React
 import {registerReactControllerComponents} from '@symfony/ux-react';

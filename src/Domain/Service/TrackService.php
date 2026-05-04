@@ -22,9 +22,9 @@ final readonly class TrackService implements TrackServiceFacadeInterface
     ) {
     }
 
-    public function add(string $name, string $picture): void
+    public function add(string $name, string $picture, string $latitude, string $longitude): void
     {
-        $track = Track::create($name, $picture);
+        $track = Track::create($name, $picture, $latitude, $longitude);
 
         $this->entityManager->persist($track);
         $this->entityManager->flush();

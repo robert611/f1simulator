@@ -19,10 +19,10 @@ class HashTableTest extends TestCase
         // given
         /** @var Track[] $array */
         $array = [
-            Track::create('Australian', 'australian.png'),
-            Track::create('Silverstone', 'silverstone.png'),
-            Track::create('Belgium', 'belgium.png'),
-            Track::create('Mexico', 'mexico.png'),
+            Track::create('Australian', 'australian.png', '-37.849722', '144.968333'),
+            Track::create('Silverstone', 'silverstone.png', '52.071', '-1.016'),
+            Track::create('Belgium', 'belgium.png', '50.437222', '5.971389'),
+            Track::create('Mexico', 'mexico.png', '19.406111', '-99.0925'),
         ];
 
         // when

@@ -123,6 +123,8 @@ final class AdminTrackControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', "/admin-track/new");
         $form = $crawler->selectButton('Zapisz')->form([
             'track[name]' => 'Silverstone',
+            'track[latitude]' => '52.071',
+            'track[longitude]' => '-1.016',
         ]);
         $form['track[pictureFile]']->setValue($picturePath);
         $this->client->submit($form);
@@ -140,6 +142,8 @@ final class AdminTrackControllerTest extends WebTestCase
         // and then
         $track = $this->trackRepository->findOneBy([]);
         self::assertEquals('Silverstone', $track->getName());
+        self::assertEquals('52.071', $track->getLatitude());
+        self::assertEquals('-1.016', $track->getLongitude());
         self::assertEquals($picture->getClientOriginalName(), $track->getPicture());
 
         // and then (remove added file)
@@ -165,6 +169,8 @@ final class AdminTrackControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', "/admin-track/new");
         $form = $crawler->selectButton('Zapisz')->form([
             'track[name]' => 'Silverstone',
+            'track[latitude]' => '52.071',
+            'track[longitude]' => '-1.016',
         ]);
         $form['track[pictureFile]']->setValue($picturePath);
         $this->client->submit($form);

@@ -17,3 +17,7 @@
 - Dodano interaktywną mapę do panelu administratora, gdzie można sprawdzić kraj pochodzenia użytkowników
 - Rozbudowane encje sezonu i sezonu multiplayer o pola z datami tworzenia rekordów i rozpoczęcia/zakończenia sezonu
 - Dodano wykres ilości rozgrywanych sezonów w panelu administratora
+
+## 1.0.4 (0000-00-00 --:--)
+- Dodano możliwość wybierania konkretnego zawodnika, pod którego wciela się użytkownik w sezonie offline
+zamiast losowania zawodnika w wybranym zespole

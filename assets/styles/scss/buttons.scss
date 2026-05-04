@@ -1,0 +1,11 @@
+.btn-dark-red {
+    background-color: rgb(151 44 27);
+    border-color: rgb(103 28 16);
+    color: white;
+}
+
+.btn-dark-red:hover, .btn-dark-red:active {
+    background-color: rgb(172 60 38)!important;
+    border-color: rgb(103 28 16)!important;
+    color: white!important;
+}

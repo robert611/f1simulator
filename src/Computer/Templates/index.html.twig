@@ -15,6 +15,7 @@
                         <div class="card-body fs-5">
                             <form class="form-inline" id="start-season-form" method="post" action="{{ path('game_season_start') }}">
                                 <input type="hidden" name="teamId" id="start-season-form-team-input">
+                                <input type="hidden" name="driverId" id="start-season-form-driver-input">
                             </form>
                             <div {{ react_component('Teams', { locale: app.request.locale }) }}>{{ 'homepage.loading'|trans }}</div>
                             <div id="f1-teams"></div>
