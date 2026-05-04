@@ -62,11 +62,11 @@ class SeasonTest extends TestCase
         $season = Season::create(new User(), $driver->getId());
 
         // and given
-        $track1 = Track::create('silverstone', 'silverstone.png');
-        $track2 = Track::create('hungary', 'hungary.png');
-        $track3 = Track::create('spain', 'spain.png');
-        $track4 = Track::create('usa', 'usa.png');
-        $track5 = Track::create('belgium', 'belgium.png');
+        $track1 = Track::create('Silverstone', 'silverstone.png', '52.071', '-1.016');
+        $track2 = Track::create('Hungaroring', 'hungary.png', '47.582222', '19.251111');
+        $track3 = Track::create('Spain', 'spain.png', '40.465278', '-3.615278');
+        $track4 = Track::create('Usa', 'usa.png', '30.132778', '-97.641111');
+        $track5 = Track::create('Belgium', 'belgium.png', '50.437222', '5.971389');
 
         PrivateProperty::set($track1, 'id', 1);
         PrivateProperty::set($track2, 'id', 2);

@@ -256,7 +256,7 @@ class Fixtures
 
     public function aTrack(string $name, string $picture): Track
     {
-        $track = Track::create($name, $picture);
+        $track = Track::create($name, $picture, '100', '100');
 
         $this->entityManager->persist($track);
         $this->entityManager->flush();

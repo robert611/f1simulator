@@ -22,6 +22,12 @@ class Track
     #[ORM\Column(name: 'picture', type: 'string', length: 255, nullable: false)]
     private string $picture;
 
+    #[ORM\Column(name: 'latitude', type: 'string', length: 64, nullable: false)]
+    private string $latitude;
+
+    #[ORM\Column(name: 'longitude', type: 'string', length: 64, nullable: false)]
+    private string $longitude;
+
     public function getId(): int
     {
         return $this->id;
@@ -37,11 +43,23 @@ class Track
         return $this->picture;
     }
 
-    public static function create(string $name, string $picture): self
+    public function getLatitude(): string
+    {
+        return $this->latitude;
+    }
+
+    public function getLongitude(): string
+    {
+        return $this->longitude;
+    }
+
+    public static function create(string $name, string $picture, string $latitude, string $longitude): self
     {
         $track = new self();
         $track->name = $name;
         $track->picture = $picture;
+        $track->latitude = $latitude;
+        $track->longitude = $longitude;
 
         return $track;
     }

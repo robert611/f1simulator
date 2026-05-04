@@ -29,6 +29,26 @@
                     {% endif %}
                 </div>
 
+                <div class="form-group mb-3">
+                    {{ form_label(form.latitude) }}
+                    {{ form_widget(form.latitude, {'attr': {'class': 'form-control bg-dark text-white mt-1'}}) }}
+                    {% if form_errors(form.latitude) %}
+                        <div class="form-field-error text-danger mt-1">
+                            {{ form_errors(form.latitude) }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group mb-3">
+                    {{ form_label(form.longitude) }}
+                    {{ form_widget(form.longitude, {'attr': {'class': 'form-control bg-dark text-white mt-1'}}) }}
+                    {% if form_errors(form.longitude) %}
+                        <div class="form-field-error text-danger mt-1">
+                            {{ form_errors(form.longitude) }}
+                        </div>
+                    {% endif %}
+                </div>
+
                 <div class="admin-form-errors text-danger">
                     {{ form_errors(form) }}
                 </div>

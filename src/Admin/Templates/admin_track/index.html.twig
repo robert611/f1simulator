@@ -19,6 +19,8 @@
                             <th>Id</th>
                             <th>Nazwa</th>
                             <th>Zdjęcie</th>
+                            <th>Dł. Geograficzna</th>
+                            <th>Sz. Geograficzna</th>
                             <th>Akcje</th>
                         </tr>
                     </thead>
@@ -28,6 +30,8 @@
                                 <td>{{ track.id }}</td>
                                 <td>{{ track.name }}</td>
                                 <td>{{ track.picture }}</td>
+                                <td>{{ track.latitude }}</td>
+                                <td>{{ track.longitude }}</td>
                                 <td>
                                     <a class="btn btn-outline-success mb-1 mb-md-0" href="{{ path('admin_track_show', {id: track.id}) }}">Wyświetl</a>
                                     <a class="btn btn-outline-info mb-1 mb-md-0" href="{{ path('admin_track_edit', {id: track.id}) }}">Edycja</a>

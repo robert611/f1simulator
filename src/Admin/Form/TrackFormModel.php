@@ -21,4 +21,12 @@ final class TrackFormModel
         extensions: ['jpg', 'jpeg', 'png', 'webp']
     )]
     public UploadedFile $pictureFile;
+
+    #[Assert\NotBlank(message: 'Szerokość geograficzna jest wymagana.')]
+    #[Assert\Length(max: 64, maxMessage: 'Szerokość geograficzna może mieć maksymalnie 64 znaki.')]
+    public string $latitude;
+
+    #[Assert\NotBlank(message: 'Długość geograficzna jest wymagana.')]
+    #[Assert\Length(max: 64, maxMessage: 'Długość geograficzna może mieć maksymalnie 64 znaki.')]
+    public string $longitude;
 }

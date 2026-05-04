@@ -11,6 +11,8 @@ class TrackDTO
     private int $id;
     private string $name;
     private string $picture;
+    private string $latitude;
+    private string $longitude;
 
     public function getId(): int
     {
@@ -27,12 +29,24 @@ class TrackDTO
         return $this->picture;
     }
 
+    public function getLatitude(): string
+    {
+        return $this->latitude;
+    }
+
+    public function getLongitude(): string
+    {
+        return $this->longitude;
+    }
+
     public static function fromEntity(Track $track): self
     {
         $trackDTO = new TrackDTO();
         $trackDTO->id = $track->getId();
         $trackDTO->name = $track->getName();
         $trackDTO->picture = $track->getPicture();
+        $trackDTO->latitude = $track->getLatitude();
+        $trackDTO->longitude = $track->getLongitude();
 
         return $trackDTO;
     }
