@@ -22,6 +22,14 @@ final class TrackEditType extends AbstractType
             ->add('pictureFile', FileType::class, [
                 'label' => 'Zdjęcie toru',
                 'required' => false,
+            ])
+            ->add('latitude', TextType::class, [
+                'label' => 'Szerokość geograficzna',
+                'required' => true,
+            ])
+            ->add('longitude', TextType::class, [
+                'label' => 'Długość geograficzna',
+                'required' => true,
             ]);
     }
 

@@ -22,11 +22,21 @@ final class TrackEditFormModel
     )]
     public ?UploadedFile $pictureFile = null;
 
+    #[Assert\NotBlank(message: 'Szerokość geograficzna jest wymagana.')]
+    #[Assert\Length(max: 64, maxMessage: 'Szerokość geograficzna może mieć maksymalnie 64 znaki.')]
+    public string $latitude;
+
+    #[Assert\NotBlank(message: 'Długość geograficzna jest wymagana.')]
+    #[Assert\Length(max: 64, maxMessage: 'Długość geograficzna może mieć maksymalnie 64 znaki.')]
+    public string $longitude;
+
     public static function fromTrack(TrackDto $trackDto): self
     {
         $model = new self();
         $model->name = $trackDto->getName();
         $model->pictureFile = null;
+        $model->latitude = $trackDto->getLatitude();
+        $model->longitude = $trackDto->getLongitude();
 
         return $model;
     }

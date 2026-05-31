@@ -248,6 +248,8 @@ final class AdminTrackControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', "/admin-track/{$track->getId()}/edit");
         $form = $crawler->selectButton('Zapisz')->form([
             'track_edit[name]' => 'Silverstone (edition)',
+            'track_edit[latitude]' => '20.055',
+            'track_edit[longitude]' => '110.055',
         ]);
         $form['track_edit[pictureFile]']->setValue($picturePath);
         $this->client->submit($form);
@@ -259,6 +261,8 @@ final class AdminTrackControllerTest extends WebTestCase
         $track = $this->trackRepository->find($track->getId());
         self::assertSame('Silverstone (edition)', $track->getName());
         self::assertSame($picture->getClientOriginalName(), $track->getPicture());
+        self::assertSame('20.055', $track->getLatitude());
+        self::assertSame('110.055', $track->getLongitude());
 
         // and then (remove added file)
         $this->trackPictureService->remove($picture->getClientOriginalName());

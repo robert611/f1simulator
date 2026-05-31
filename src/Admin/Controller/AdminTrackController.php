@@ -134,6 +134,8 @@ class AdminTrackController extends BaseController
                     $track->getId(),
                     $trackFormModel->name,
                     $pictureFilename,
+                    $trackFormModel->latitude,
+                    $trackFormModel->longitude,
                 );
             } catch (TrackFilenameTakenException) {
                 $form->addError(new FormError('Nazwa pliku jest już zajęta. Wybierz inną nazwę.'));

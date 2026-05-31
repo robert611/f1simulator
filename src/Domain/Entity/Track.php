@@ -64,12 +64,15 @@ class Track
         return $track;
     }
 
-    public function update(string $name, ?string $picture): void
+    public function update(string $name, ?string $picture, string $latitude, string $longitude): void
     {
         $this->name = $name;
 
         if ($picture) {
             $this->picture = $picture;
         }
+
+        $this->latitude = $latitude;
+        $this->longitude = $longitude;
     }
 }
