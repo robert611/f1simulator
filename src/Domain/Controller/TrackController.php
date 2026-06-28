@@ -19,13 +19,13 @@ final class TrackController extends AbstractController
     public function leafletMap(Track $track): Response
     {
         $map = new Map('default')
-            ->center(new Point(47.578889, 19.248611))
+            ->center(new Point((float) $track->getLatitude(), (float) $track->getLongitude()))
             ->zoom(6)
             ->addMarker(new Marker(
-                position: new Point(47.578889, 19.248611),
+                position: new Point((float) $track->getLatitude(), (float) $track->getLongitude()),
                 title: 'Lyon',
                 infoWindow: new InfoWindow(
-                    content: '<p>Thank you <a href="https://github.com/Kocal">@Kocal</a> for this component!</p>',
+                    content: $track->getName(),
                 )
             ));
 
