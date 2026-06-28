@@ -35,7 +35,6 @@ final class TeamsControllerTest extends WebTestCase
         $maxVerstappen = $this->fixtures->aDriver('Max', 'Verstappen', $teamRedBull, 33);
         $sergioPerez = $this->fixtures->aDriver('Sergio', 'Perez', $teamRedBull, 11);
 
-
         // when
         $this->client->request('GET', '/teams');
         $responseData = json_decode($this->client->getResponse()->getContent(), true);

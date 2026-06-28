@@ -256,7 +256,17 @@ class Fixtures
 
     public function aTrack(string $name, string $picture): Track
     {
-        $track = Track::create($name, $picture, '100', '100');
+        $track = Track::create($name, $picture, '90', '100');
+
+        $this->entityManager->persist($track);
+        $this->entityManager->flush();
+
+        return $track;
+    }
+
+    public function aTrackWithCoordinates(string $name, string $picture, string $latitude, string $longitude): Track
+    {
+        $track = Track::create($name, $picture, $latitude, $longitude);
 
         $this->entityManager->persist($track);
         $this->entityManager->flush();
