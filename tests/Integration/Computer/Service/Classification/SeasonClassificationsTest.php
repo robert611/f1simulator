@@ -43,8 +43,8 @@ class SeasonClassificationsTest extends KernelTestCase
         $season = $this->fixtures->aSeason($user, $driver1);
 
         // and given
-        $track1 = $this->fixtures->aTrack('silverstone', 'silverstone.png');
-        $track2 = $this->fixtures->aTrack('belgium', 'belgium.png');
+        $track1 = $this->fixtures->aTrack('British Grand Prix', 'silverstone', 'silverstone.png');
+        $track2 = $this->fixtures->aTrack('Belgium Grand Prix', 'belgium', 'belgium.png');
         $race1 = $this->fixtures->aRace($track1, $season);
         $race2 = $this->fixtures->aRace($track2, $season);
         $this->fixtures->aRaceResult(5, $race1, $driver1);
@@ -77,7 +77,7 @@ class SeasonClassificationsTest extends KernelTestCase
         $season = $this->fixtures->aSeason($user, $driver1);
 
         // and given
-        $track1 = $this->fixtures->aTrack('silverstone', 'silverstone.png');
+        $track1 = $this->fixtures->aTrack('British Grand Prix', 'silverstone', 'silverstone.png');
         $race1 = $this->fixtures->aRace($track1, $season);
         $this->fixtures->aRaceResult(5, $race1, $driver1);
         $this->fixtures->aRaceResult(9, $race1, $driver2);
@@ -111,7 +111,7 @@ class SeasonClassificationsTest extends KernelTestCase
         $season = $this->fixtures->aSeason($user, $driver1);
 
         // and given
-        $track1 = $this->fixtures->aTrack('silverstone', 'silverstone.png');
+        $track1 = $this->fixtures->aTrack('British Grand Prix', 'silverstone', 'silverstone.png');
         $race1 = $this->fixtures->aRace($track1, $season);
         $this->fixtures->aRaceResult(5, $race1, $driver1);
         $this->fixtures->aRaceResult(9, $race1, $driver2);
@@ -192,8 +192,8 @@ class SeasonClassificationsTest extends KernelTestCase
         $season = $this->fixtures->aSeason($user, $driver1);
 
         // and given
-        $track1 = $this->fixtures->aTrack('silverstone', 'silverstone.png');
-        $track2 = $this->fixtures->aTrack('belgium', 'belgium.png');
+        $track1 = $this->fixtures->aTrack('British Grand Prix', 'silverstone', 'silverstone.png');
+        $track2 = $this->fixtures->aTrack('Beligum Grand Prix', 'belgium', 'belgium.png');
         $race1 = $this->fixtures->aRace($track1, $season);
         $race2 = $this->fixtures->aRace($track2, $season);
 
@@ -282,8 +282,8 @@ class SeasonClassificationsTest extends KernelTestCase
         $season = $this->fixtures->aSeason($user, $driver1);
 
         // and given
-        $track1 = $this->fixtures->aTrack('silverstone', 'silverstone.png');
-        $track2 = $this->fixtures->aTrack('belgium', 'belgium.png');
+        $track1 = $this->fixtures->aTrack('British Grand Prix', 'silverstone', 'silverstone.png');
+        $track2 = $this->fixtures->aTrack('Belgium Grand Prix', 'belgium', 'belgium.png');
         $race1 = $this->fixtures->aRace($track1, $season);
         $race2 = $this->fixtures->aRace($track2, $season);
 
@@ -348,8 +348,8 @@ class SeasonClassificationsTest extends KernelTestCase
         $season = $this->fixtures->aSeason($user, $driver1);
 
         // and given
-        $track1 = $this->fixtures->aTrack('silverstone', 'silverstone.png');
-        $track2 = $this->fixtures->aTrack('belgium', 'belgium.png');
+        $track1 = $this->fixtures->aTrack('British Grand Prix', 'silverstone', 'silverstone.png');
+        $track2 = $this->fixtures->aTrack('Belgium Grand Prix', 'belgium', 'belgium.png');
         $race1 = $this->fixtures->aRace($track1, $season);
         $race2 = $this->fixtures->aRace($track2, $season);
 

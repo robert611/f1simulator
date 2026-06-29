@@ -71,10 +71,10 @@ final class AdminTrackControllerTest extends WebTestCase
         $this->client->loginUser($user);
 
         // and given
-        $this->fixtures->aTrack('Silverstone', 'Silverstone.png');
-        $this->fixtures->aTrack('Spain', 'Spain.png');
-        $this->fixtures->aTrack('Belgium', 'Belgium.png');
-        $this->fixtures->aTrack('Netherlands', 'Netherlands.png');
+        $this->fixtures->aTrack('British Grand Prix', 'Silverstone', 'Silverstone.png');
+        $this->fixtures->aTrack('Spanish Gran Prix', 'Spain', 'Spain.png');
+        $this->fixtures->aTrack('Belgium Grand Prix', 'Belgium', 'Belgium.png');
+        $this->fixtures->aTrack('Dutch Grand Prix', 'Netherlands', 'Netherlands.png');
 
         // when
         $this->client->request('GET', '/admin-track');
@@ -122,6 +122,7 @@ final class AdminTrackControllerTest extends WebTestCase
         // when
         $crawler = $this->client->request('GET', "/admin-track/new");
         $form = $crawler->selectButton('Zapisz')->form([
+            'track[raceName]' => 'British Grand Prix',
             'track[name]' => 'Silverstone',
             'track[latitude]' => '52.071',
             'track[longitude]' => '-1.016',
@@ -168,6 +169,7 @@ final class AdminTrackControllerTest extends WebTestCase
         // when
         $crawler = $this->client->request('GET', "/admin-track/new");
         $form = $crawler->selectButton('Zapisz')->form([
+            'track[raceName]' => 'British Grand Prix',
             'track[name]' => 'Silverstone',
             'track[latitude]' => '52.071',
             'track[longitude]' => '-1.016',
@@ -191,7 +193,7 @@ final class AdminTrackControllerTest extends WebTestCase
         $this->client->loginUser($user);
 
         // and given
-        $track = $this->fixtures->aTrack('Silverstone', 'Silverstone.png');
+        $track = $this->fixtures->aTrack('British Grand Prix', 'Silverstone', 'Silverstone.png');
 
         // when
         $this->client->request('GET', "/admin-track/{$track->getId()}");
@@ -213,7 +215,7 @@ final class AdminTrackControllerTest extends WebTestCase
         $this->client->loginUser($user);
 
         // and given
-        $track = $this->fixtures->aTrack('Silverstone', 'Silverstone.png');
+        $track = $this->fixtures->aTrack('British Grand Prix', 'Silverstone', 'Silverstone.png');
 
         // when
         $this->client->request('GET', "/admin-track/{$track->getId()}/edit");
@@ -238,7 +240,7 @@ final class AdminTrackControllerTest extends WebTestCase
         $this->client->loginUser($user);
 
         // and given
-        $track = $this->fixtures->aTrack('Silverstone', 'Silverstone.png');
+        $track = $this->fixtures->aTrack('British Grand Prix', 'Silverstone', 'Silverstone.png');
 
         // and given
         $picture = $this->fileHelper->anImageFile();
@@ -276,7 +278,7 @@ final class AdminTrackControllerTest extends WebTestCase
         $this->client->loginUser($user);
 
         // and given
-        $track = $this->fixtures->aTrack('Silverstone', 'Silverstone.png');
+        $track = $this->fixtures->aTrack('British Grand Prix', 'Silverstone', 'Silverstone.png');
 
         // when
         $crawler = $this->client->request('GET', "/admin-track/{$track->getId()}/edit");
@@ -302,7 +304,7 @@ final class AdminTrackControllerTest extends WebTestCase
         $this->client->loginUser($user);
 
         // and given
-        $track = $this->fixtures->aTrack('Silverstone', 'Silverstone.png');
+        $track = $this->fixtures->aTrack('British Grand Prix', 'Silverstone', 'Silverstone.png');
 
         // when
         $this->client->request('DELETE', "/admin-track/{$track->getId()}", [
@@ -325,8 +327,8 @@ final class AdminTrackControllerTest extends WebTestCase
 
         // and given
         $team = $this->fixtures->aTeam();
-        $driver = $this->fixtures->aDriver("Lewis", "Hamilton", $team, 44);
-        $track = $this->fixtures->aTrack('Silverstone', 'Silverstone.png');
+        $driver = $this->fixtures->aDriver('Lewis', 'Hamilton', $team, 44);
+        $track = $this->fixtures->aTrack('British Grand Prix', 'Silverstone', 'Silverstone.png');
 
         // and given
         $season = $this->fixtures->aSeason($user, $driver);
@@ -363,7 +365,7 @@ final class AdminTrackControllerTest extends WebTestCase
         $this->client->loginUser($user);
 
         // and given
-        $this->fixtures->aTrack('Silverstone', 'Silverstone.png');
+        $this->fixtures->aTrack('British Grand Prix', 'Silverstone', 'Silverstone.png');
 
         // and given
         $crawler = $this->client->request('GET', "/admin-track");

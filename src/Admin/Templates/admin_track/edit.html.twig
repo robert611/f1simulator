@@ -10,6 +10,16 @@
 
             <div class="row">
                 <div class="form-group mb-3">
+                    {{ form_label(form.raceName) }}
+                    {{ form_widget(form.raceName, {'attr': {'class': 'form-control bg-dark text-white mt-1'}}) }}
+                    {% if form_errors(form.raceName) %}
+                        <div class="form-field-error text-danger mt-1">
+                            {{ form_errors(form.raceName) }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group mb-3">
                     {{ form_label(form.name) }}
                     {{ form_widget(form.name, {'attr': {'class': 'form-control bg-dark text-white mt-1'}}) }}
                     {% if form_errors(form.name) %}

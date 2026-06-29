@@ -17,6 +17,7 @@
                     <thead>
                         <tr>
                             <th>Id</th>
+                            <th>Nazwa wyścigu</th>
                             <th>Nazwa</th>
                             <th>Zdjęcie</th>
                             <th>Sz. Geograficzna</th>
@@ -28,6 +29,7 @@
                         {% for track in tracks %}
                             <tr>
                                 <td>{{ track.id }}</td>
+                                <td>{{ track.raceName }}</td>
                                 <td>{{ track.name }}</td>
                                 <td>{{ track.picture }}</td>
                                 <td>{{ track.latitude }}</td>

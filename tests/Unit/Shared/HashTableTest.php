@@ -19,10 +19,34 @@ class HashTableTest extends TestCase
         // given
         /** @var Track[] $array */
         $array = [
-            Track::create('Australian', 'australian.png', '-37.849722', '144.968333'),
-            Track::create('Silverstone', 'silverstone.png', '52.071', '-1.016'),
-            Track::create('Belgium', 'belgium.png', '50.437222', '5.971389'),
-            Track::create('Mexico', 'mexico.png', '19.406111', '-99.0925'),
+            Track::create(
+                raceName: 'Australian Grand Prix',
+                name: 'Albert Park Grand Prix Circuit',
+                picture: 'australian.png',
+                latitude: '-37.849722',
+                longitude: '144.968333',
+            ),
+            Track::create(
+                raceName: 'Bahrain Grand Prix',
+                name: 'Bahrain International Circuit',
+                picture: 'bahrain.png',
+                latitude: '52.071',
+                longitude: '-1.016',
+            ),
+            Track::create(
+                raceName: 'China Grand Prix',
+                name: 'Shanghai International Circuit',
+                picture: 'china.png',
+                latitude: '50.437222',
+                longitude: '5.971389',
+            ),
+            Track::create(
+                'Azerbaijan Grand Prix',
+                'Baku City Circuit',
+                'azerbaijan.png',
+                '19.406111',
+                '-99.0925',
+            ),
         ];
 
         // when

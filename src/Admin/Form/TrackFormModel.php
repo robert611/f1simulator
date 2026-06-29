@@ -9,8 +9,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 final class TrackFormModel
 {
+    #[Assert\NotBlank(message: 'Nazwa wyścigu jest wymagana.')]
+    #[Assert\Length(max: 255, maxMessage: 'Nazwa wyścigu może mieć maksymalnie 255 znaków.')]
+    public string $raceName;
+
     #[Assert\NotBlank(message: 'Nazwa toru jest wymagana.')]
-    #[Assert\Length(max: 86, maxMessage: 'Nazwa toru może mieć maksymalnie 86 znaków.')]
+    #[Assert\Length(max: 255, maxMessage: 'Nazwa toru może mieć maksymalnie 255 znaków.')]
     public string $name;
 
     #[Assert\NotNull(message: 'Wgraj zdjęcie toru.')]

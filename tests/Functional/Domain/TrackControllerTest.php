@@ -25,7 +25,8 @@ final class TrackControllerTest extends WebTestCase
     {
         // given
         $track = $this->fixtures->aTrackWithCoordinates(
-            name: 'Australian Grand Prix',
+            raceName: 'Dutch Grand Prix',
+            name: 'Belgium',
             picture: 'Belgium.png',
             latitude: '-37.849722',
             longitude: '144.968333',

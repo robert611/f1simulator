@@ -39,7 +39,7 @@ class SeasonTeamsClassificationTest extends KernelTestCase
         $season = $this->fixtures->aSeason($user, $kubica);
 
         // and given
-        $track = $this->fixtures->aTrack("Monaco Grand Prix", "monaco.png");
+        $track = $this->fixtures->aTrack('Monaco Grand Prix', 'monaco', 'monaco.png');
         $race = $this->fixtures->aRace($track, $season);
 
         // and given (Williams drivers results)

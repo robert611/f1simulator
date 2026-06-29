@@ -16,6 +16,9 @@ class Track
     #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
     private int $id;
 
+    #[ORM\Column(name: 'race_name', type: 'string', length: 255, nullable: false)]
+    private string $raceName;
+
     #[ORM\Column(name: 'name', type: 'string', length: 255, nullable: false)]
     private string $name;
 
@@ -31,6 +34,11 @@ class Track
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function getRaceName(): string
+    {
+        return $this->raceName;
     }
 
     public function getName(): string
@@ -53,9 +61,15 @@ class Track
         return $this->longitude;
     }
 
-    public static function create(string $name, string $picture, string $latitude, string $longitude): self
-    {
+    public static function create(
+        string $raceName,
+        string $name,
+        string $picture,
+        string $latitude,
+        string $longitude,
+    ): self {
         $track = new self();
+        $track->raceName = $raceName;
         $track->name = $name;
         $track->picture = $picture;
         $track->latitude = $latitude;
@@ -64,8 +78,9 @@ class Track
         return $track;
     }
 
-    public function update(string $name, ?string $picture, string $latitude, string $longitude): void
+    public function update(string $raceName, string $name, ?string $picture, string $latitude, string $longitude): void
     {
+        $this->raceName = $raceName;
         $this->name = $name;
 
         if ($picture) {

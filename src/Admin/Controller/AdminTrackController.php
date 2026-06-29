@@ -67,6 +67,7 @@ class AdminTrackController extends BaseController
                 $uploadedFile->move($trackPicturesDirectory, $pictureFilename);
 
                 $this->trackServiceFacade->add(
+                    $trackFormModel->raceName,
                     $trackFormModel->name,
                     $pictureFilename,
                     $trackFormModel->latitude,
@@ -132,6 +133,7 @@ class AdminTrackController extends BaseController
 
                 $this->trackServiceFacade->update(
                     $track->getId(),
+                    $trackFormModel->raceName,
                     $trackFormModel->name,
                     $pictureFilename,
                     $trackFormModel->latitude,
