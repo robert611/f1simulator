@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Controller;
 
 use Domain\Entity\Team;
@@ -22,12 +24,14 @@ class TeamsController extends BaseController
     {
         $assetMapper = $this->assetMapper;
 
+        // TODO, fix n+1 which is caused by fetching drivers
         $teams = array_map(function (Team $team) use ($assetMapper) {
             return [
                 'id' => $team->getId(),
                 'name' => $team->getName(),
                 'picture' => $team->getPicture(),
                 'pictureUrl' => $assetMapper->getPublicPath('images/cars/' . $team->getPicture()),
+                'drivers' => $team->getDriversWithoutDependencies(),
             ];
         }, $this->repository->findAll());
 

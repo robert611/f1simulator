@@ -145,7 +145,7 @@ class LeagueClassificationsTest extends KernelTestCase
         $player1 = $this->fixtures->aUserSeasonPlayer($userSeason, $user1, $driver1);
         $player2 = $this->fixtures->aUserSeasonPlayer($userSeason, $user2, $driver2);
 
-        $track = $this->fixtures->aTrack('Monza', 'monza.png');
+        $track = $this->fixtures->aTrack('Italian Grand Prix', 'Monza', 'monza.png');
         $race = $this->fixtures->aUserSeasonRace($track->getId(), $userSeason);
 
         $this->fixtures->aUserSeasonRaceResult(1, 25, $race, $player1);
@@ -181,7 +181,7 @@ class LeagueClassificationsTest extends KernelTestCase
         $player1 = $this->fixtures->aUserSeasonPlayer($league, $user1, $driver1);
         $player2 = $this->fixtures->aUserSeasonPlayer($league, $user2, $driver2);
 
-        $track = $this->fixtures->aTrack('Spa', 'spa.png');
+        $track = $this->fixtures->aTrack('Belgium Grand Prix', 'Spa', 'spa.png');
         $race = $this->fixtures->aUserSeasonRace($track->getId(), $league);
 
         $qualification1 = $this->fixtures->aUserSeasonQualification($player1, $race, 1);

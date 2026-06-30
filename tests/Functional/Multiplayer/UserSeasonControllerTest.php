@@ -42,12 +42,12 @@ class UserSeasonControllerTest extends WebTestCase
         $this->client->loginUser($user);
 
         // and given
-        $track1 = $this->fixtures->aTrack('Australian Grand Prix', 'australia.png');
-        $track2 = $this->fixtures->aTrack('Bahrain Grand Prix', 'bahrain.png');
-        $track3 = $this->fixtures->aTrack('China Grand Prix', 'chinese.png');
-        $track4 = $this->fixtures->aTrack('Azerbaijan Grand Prix', 'azerbaijan.png');
-        $track5 = $this->fixtures->aTrack('Spain Grand Prix', 'spanish.png');
-        $track6 = $this->fixtures->aTrack('Monaco Grand Prix', 'monaco.png');
+        $track1 = $this->fixtures->aTrack('Australian Grand Prix', 'Australia', 'australia.png');
+        $track2 = $this->fixtures->aTrack('Bahrain Grand Prix', 'Bahrain', 'bahrain.png');
+        $track3 = $this->fixtures->aTrack('China Grand Prix', 'China', 'chinese.png');
+        $track4 = $this->fixtures->aTrack('Azerbaijan Grand Prix', 'Azerbaijan', 'azerbaijan.png');
+        $track5 = $this->fixtures->aTrack('Spain Grand Prix', 'Spain', 'spanish.png');
+        $track6 = $this->fixtures->aTrack('Monaco Grand Prix', 'Monaco', 'monaco.png');
 
         // and given
         $team = $this->fixtures->aTeam();
@@ -501,7 +501,7 @@ class UserSeasonControllerTest extends WebTestCase
         $this->fixtures->aUserSeasonPlayer($userSeason, $user, $driver);
 
         // and given
-        $this->fixtures->aTrack('silverstone', 'silverstone.png');
+        $this->fixtures->aTrack('British Grand Prix', 'silverstone', 'silverstone.png');
 
         // when
         $this->client->request('GET', "/player-league/{$userSeason->getId()}/simulate/race");

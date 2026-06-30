@@ -67,8 +67,11 @@ class AdminTrackController extends BaseController
                 $uploadedFile->move($trackPicturesDirectory, $pictureFilename);
 
                 $this->trackServiceFacade->add(
+                    $trackFormModel->raceName,
                     $trackFormModel->name,
                     $pictureFilename,
+                    $trackFormModel->latitude,
+                    $trackFormModel->longitude,
                 );
 
                 $this->addFlash('admin_success', 'Dodano nowy tor');
@@ -130,8 +133,11 @@ class AdminTrackController extends BaseController
 
                 $this->trackServiceFacade->update(
                     $track->getId(),
+                    $trackFormModel->raceName,
                     $trackFormModel->name,
                     $pictureFilename,
+                    $trackFormModel->latitude,
+                    $trackFormModel->longitude,
                 );
             } catch (TrackFilenameTakenException) {
                 $form->addError(new FormError('Nazwa pliku jest już zajęta. Wybierz inną nazwę.'));

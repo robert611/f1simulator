@@ -15,6 +15,7 @@
                         <div class="card-body fs-5">
                             <form class="form-inline" id="start-season-form" method="post" action="{{ path('game_season_start') }}">
                                 <input type="hidden" name="teamId" id="start-season-form-team-input">
+                                <input type="hidden" name="driverId" id="start-season-form-driver-input">
                             </form>
                             <div {{ react_component('Teams', { locale: app.request.locale }) }}>{{ 'homepage.loading'|trans }}</div>
                             <div id="f1-teams"></div>
@@ -57,8 +58,11 @@
                                 <h4>{{ 'homepage.next_race.header'|trans }}</h4>
                             </div>
                             <div class="card-body fs-5">
-                                <span>{{ currentDriverSeason.currentTrack.name }} - <a href="{{ path('game_simulate_race') }}" class="btn btn-outline-info">{{ 'homepage.next_race.simulate'|trans }}</a></span><br>
+                                <span>{{ currentDriverSeason.currentTrack.raceName }} - <a href="{{ path('game_simulate_race') }}" class="btn btn-outline-info">{{ 'homepage.next_race.simulate'|trans }}</a></span><br>
                                 <img alt="{{ currentDriverSeason.currentTrack.name }}" class="f1-track mt-3" src="{{ asset('images/tracks/'~currentDriverSeason.currentTrack.picture) }}"/>
+                                <div class="mt-4">
+                                    {{ render(controller('Domain\\Controller\\TrackController::leafletMap', {track: currentDriverSeason.currentTrack.id})) }}
+                                </div>
                             </div>
                         {% elseif currentDriverSeason %}
                             <div class="card-header">
@@ -87,7 +91,7 @@
                                         {% if currentDriverSeason and currentDriverSeason.season.races|length != 0 %}
                                             {% for race in currentDriverSeason.season.races %}
                                                 <a href="{{ path('app_index' , {'classificationType' : 'RACE', 'raceId' : race.id}) }}">
-                                                    {{ tracks[race.trackId()].name }}
+                                                    {{ tracks[race.trackId()].raceName }}
                                                 </a>
                                             {% endfor %}
                                         {% else %}
@@ -104,7 +108,7 @@
                                         {% if currentDriverSeason and currentDriverSeason.season.races|length != 0 %}
                                             {% for race in currentDriverSeason.season.races %}
                                                 <a href="{{ path('app_index' , {'classificationType' : 'QUALIFICATIONS', 'raceId' : race.id}) }}">
-                                                    {{ tracks[race.trackId].name }}
+                                                    {{ tracks[race.trackId].raceName }}
                                                 </a>
                                             {% endfor %}
                                         {% else %}
@@ -128,7 +132,7 @@
                             {% elseif classificationType == enum('Computer\\Service\\ClassificationType').RACE %}
                                 <div class="card-header">
                                     <h4 class="text-center">
-                                        {{ 'homepage.results_table.classification'|trans }} - {{ currentDriverSeason ? tracks[currentDriverSeason.classificationRace.trackId].name }}
+                                        {{ 'homepage.results_table.classification'|trans }} - {{ currentDriverSeason ? tracks[currentDriverSeason.classificationRace.trackId].raceName }}
                                     </h4>
                                 </div>
                                 <div class="card-body">
@@ -137,7 +141,7 @@
                             {% elseif classificationType == enum('Computer\\Service\\ClassificationType').QUALIFICATIONS %}
                                 <div class="card-header">
                                     <h4 class="text-center">
-                                        {{ 'homepage.results_table.qualifications_results'|trans }} - {{ currentDriverSeason ? tracks[currentDriverSeason.classificationRace.trackId].name }}
+                                        {{ 'homepage.results_table.qualifications_results'|trans }} - {{ currentDriverSeason ? tracks[currentDriverSeason.classificationRace.trackId].raceName }}
                                     </h4>
                                 </div>
                                 <div class="card-body">

@@ -11,11 +11,15 @@ export function initI18n(locale) {
                 pl: {
                     translation: {
                         choose: 'Wybierz',
+                        choose_driver: 'Wybierz kierowcę',
+                        hide_drivers: 'Ukryj kierowców',
                     },
                 },
                 en: {
                     translation: {
                         choose: 'Choose',
+                        choose_driver: 'Choose a driver',
+                        hide_drivers: 'Hide drivers',
                     },
                 },
             },

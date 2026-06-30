@@ -254,9 +254,24 @@ class Fixtures
         return $userSeasonQualification;
     }
 
-    public function aTrack(string $name, string $picture): Track
+    public function aTrack(string $raceName, string $name, string $picture): Track
     {
-        $track = Track::create($name, $picture);
+        $track = Track::create($raceName, $name, $picture, '90', '100');
+
+        $this->entityManager->persist($track);
+        $this->entityManager->flush();
+
+        return $track;
+    }
+
+    public function aTrackWithCoordinates(
+        string $raceName,
+        string $name,
+        string $picture,
+        string $latitude,
+        string $longitude
+    ): Track {
+        $track = Track::create($raceName, $name, $picture, $latitude, $longitude);
 
         $this->entityManager->persist($track);
         $this->entityManager->flush();
