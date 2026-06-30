@@ -24,6 +24,7 @@ class TeamsController extends BaseController
     {
         $assetMapper = $this->assetMapper;
 
+        // TODO, fix n+1 which is caused by fetching drivers
         $teams = array_map(function (Team $team) use ($assetMapper) {
             return [
                 'id' => $team->getId(),
