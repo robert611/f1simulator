@@ -21,3 +21,5 @@
 ## 1.0.4 (0000-00-00 --:--)
 - Dodano możliwość wybierania konkretnego zawodnika, pod którego wciela się użytkownik w sezonie offline
 zamiast losowania zawodnika w wybranym zespole
+- Dodano mapę z pinezką gdzie znajduje się dany tor do widoku na stronie głównej
+- Dodano pole z nazwą toru obok nazwy wyścigu
