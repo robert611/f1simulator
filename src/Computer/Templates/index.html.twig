@@ -60,6 +60,9 @@
                             <div class="card-body fs-5">
                                 <span>{{ currentDriverSeason.currentTrack.raceName }} - <a href="{{ path('game_simulate_race') }}" class="btn btn-outline-info">{{ 'homepage.next_race.simulate'|trans }}</a></span><br>
                                 <img alt="{{ currentDriverSeason.currentTrack.name }}" class="f1-track mt-3" src="{{ asset('images/tracks/'~currentDriverSeason.currentTrack.picture) }}"/>
+                                <div class="mt-4">
+                                    {{ render(controller('Domain\\Controller\\TrackController::leafletMap', {track: currentDriverSeason.currentTrack.id})) }}
+                                </div>
                             </div>
                         {% elseif currentDriverSeason %}
                             <div class="card-header">
