@@ -83,8 +83,8 @@ class ComputerFacadeTest extends KernelTestCase
 
         // and given
         $team = $this->fixtures->aTeam();
-        $driver = $this->fixtures->aDriver("Lewis", "Hamilton", $team, 44);
-        $track = $this->fixtures->aTrack('Silverstone', 'Silverstone.png');
+        $driver = $this->fixtures->aDriver('Lewis', 'Hamilton', $team, 44);
+        $track = $this->fixtures->aTrack('British Grand Prix', 'Silverstone', 'Silverstone.png');
 
         // and given
         $season = $this->fixtures->aSeason($user, $driver);
@@ -101,7 +101,7 @@ class ComputerFacadeTest extends KernelTestCase
     public function track_can_be_safely_deleted(): void
     {
         // given
-        $track = $this->fixtures->aTrack('Silverstone', 'Silverstone.png');
+        $track = $this->fixtures->aTrack('British Grand Prix', 'Silverstone', 'Silverstone.png');
 
         // when
         $result = $this->facade->canTrackBeSafelyDeleted($track->getId());

@@ -30,9 +30,7 @@ class GameController extends BaseController
     #[Route('/game/season/start', name: 'game_season_start', methods: ['GET', 'POST'])]
     public function startSeason(Request $request): RedirectResponse
     {
-        $team = $this->domainFacade->getTeamById((int) $request->request->get('teamId'));
-
-        $driver = $team->drawDriverToReplace();
+        $driver = $this->domainFacade->getDriverById((int) $request->request->get('driverId'));
 
         if (null === $driver) {
             $this->addFlash('error', 'Ten zespół nie posiada kierowców. Wybierz inny zespół.');

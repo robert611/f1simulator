@@ -24,9 +24,9 @@ class TrackRepositoryTest extends KernelTestCase
     public function it_checks_if_first_track_will_be_returned(): void
     {
         // given
-        $australianTrack = $this->fixtures->aTrack('Australian Grand Prix', 'australia.png');
-        $this->fixtures->aTrack('Bahrain Grand Prix', 'bahrain.png');
-        $this->fixtures->aTrack('China Grand Prix', 'china.png');
+        $australianTrack = $this->fixtures->aTrack('Australian Grand Prix', 'Australia', 'australia.png');
+        $this->fixtures->aTrack('Bahrain Grand Prix', 'Bahrain', 'bahrain.png');
+        $this->fixtures->aTrack('China Grand Prix', 'China', 'china.png');
 
         // when
         $firstTrack = $this->trackRepository->getFirstTrack();
@@ -49,9 +49,9 @@ class TrackRepositoryTest extends KernelTestCase
     public function it_checks_if_next_track_will_be_returned(): void
     {
         // given
-        $this->fixtures->aTrack('Australian Grand Prix', 'australia.png');
-        $bahrainTrack = $this->fixtures->aTrack('Bahrain Grand Prix', 'bahrain.png');
-        $chinaTrack = $this->fixtures->aTrack('China Grand Prix', 'china.png');
+        $this->fixtures->aTrack('Australian Grand Prix', 'Australia', 'australia.png');
+        $bahrainTrack = $this->fixtures->aTrack('Bahrain Grand Prix', 'Bahrain', 'bahrain.png');
+        $chinaTrack = $this->fixtures->aTrack('China Grand Prix', 'China', 'china.png');
 
         // when
         $nextTrack = $this->trackRepository->getNextTrack($bahrainTrack->getId());
@@ -64,9 +64,9 @@ class TrackRepositoryTest extends KernelTestCase
     public function it_checks_if_not_existing_next_track_can_be_handled(): void
     {
         // given
-        $this->fixtures->aTrack('Australian Grand Prix', 'australia.png');
-        $this->fixtures->aTrack('Bahrain Grand Prix', 'bahrain.png');
-        $chinaTrack = $this->fixtures->aTrack('China Grand Prix', 'china.png');
+        $this->fixtures->aTrack('Australian Grand Prix', 'Australia', 'australia.png');
+        $this->fixtures->aTrack('Bahrain Grand Prix', 'Bahrain', 'bahrain.png');
+        $chinaTrack = $this->fixtures->aTrack('China Grand Prix', 'China', 'china.png');
 
         // when
         $nextTrack = $this->trackRepository->getNextTrack($chinaTrack->getId());

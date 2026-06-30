@@ -72,15 +72,4 @@ class TeamDTO
 
         return $teamsDTO;
     }
-
-    public function drawDriverToReplace(): ?DriverDTO
-    {
-        $driver = Team::drawDriverToReplaceMethod($this->drivers);
-
-        if (null === $driver) {
-            return null;
-        }
-
-        return DriverDTO::fromEntity($driver);
-    }
 }

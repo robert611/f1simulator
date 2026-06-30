@@ -16,15 +16,29 @@ class Track
     #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
     private int $id;
 
+    #[ORM\Column(name: 'race_name', type: 'string', length: 255, nullable: false)]
+    private string $raceName;
+
     #[ORM\Column(name: 'name', type: 'string', length: 255, nullable: false)]
     private string $name;
 
     #[ORM\Column(name: 'picture', type: 'string', length: 255, nullable: false)]
     private string $picture;
 
+    #[ORM\Column(name: 'latitude', type: 'string', length: 64, nullable: false)]
+    private string $latitude;
+
+    #[ORM\Column(name: 'longitude', type: 'string', length: 64, nullable: false)]
+    private string $longitude;
+
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function getRaceName(): string
+    {
+        return $this->raceName;
     }
 
     public function getName(): string
@@ -37,21 +51,43 @@ class Track
         return $this->picture;
     }
 
-    public static function create(string $name, string $picture): self
+    public function getLatitude(): string
     {
+        return $this->latitude;
+    }
+
+    public function getLongitude(): string
+    {
+        return $this->longitude;
+    }
+
+    public static function create(
+        string $raceName,
+        string $name,
+        string $picture,
+        string $latitude,
+        string $longitude,
+    ): self {
         $track = new self();
+        $track->raceName = $raceName;
         $track->name = $name;
         $track->picture = $picture;
+        $track->latitude = $latitude;
+        $track->longitude = $longitude;
 
         return $track;
     }
 
-    public function update(string $name, ?string $picture): void
+    public function update(string $raceName, string $name, ?string $picture, string $latitude, string $longitude): void
     {
+        $this->raceName = $raceName;
         $this->name = $name;
 
         if ($picture) {
             $this->picture = $picture;
         }
+
+        $this->latitude = $latitude;
+        $this->longitude = $longitude;
     }
 }

@@ -115,7 +115,7 @@ class MultiplayerFacadeTest extends KernelTestCase
         $user = $this->fixtures->aUser();
 
         // and given
-        $track = $this->fixtures->aTrack('Silverstone', 'Silverstone.png');
+        $track = $this->fixtures->aTrack('British Grand Prix', 'Silverstone', 'Silverstone.png');
 
         // and given
         $secret = "J783NMS092C";
@@ -140,7 +140,7 @@ class MultiplayerFacadeTest extends KernelTestCase
     public function track_can_be_safely_deleted(): void
     {
         // given
-        $track = $this->fixtures->aTrack('Silverstone', 'Silverstone.png');
+        $track = $this->fixtures->aTrack('British Grand Prix', 'Silverstone', 'Silverstone.png');
 
         // when
         $result = $this->facade->canTrackBeSafelyDeleted($track->getId());

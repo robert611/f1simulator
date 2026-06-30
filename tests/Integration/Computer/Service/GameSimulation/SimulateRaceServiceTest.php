@@ -34,8 +34,8 @@ class SimulateRaceServiceTest extends KernelTestCase
         $season = $this->fixtures->aSeason($user, $driver);
 
         // and given
-        $track1 = $this->fixtures->aTrack('Monaco', 'monaco.png');
-        $this->fixtures->aTrack('Silverstone', 'silverstone.png');
+        $track1 = $this->fixtures->aTrack('Monaco Grand Prix', 'Monaco', 'monaco.png');
+        $this->fixtures->aTrack('British Grand Prix', 'Silverstone', 'silverstone.png');
 
         // when
         $this->simulateRaceService->simulateRace($season);
@@ -58,8 +58,8 @@ class SimulateRaceServiceTest extends KernelTestCase
         $season = $this->fixtures->aSeason($user, $driver);
 
         // and given
-        $track1 = $this->fixtures->aTrack('Monaco', 'monaco.png');
-        $track2 = $this->fixtures->aTrack('Silverstone', 'silverstone.png');
+        $track1 = $this->fixtures->aTrack('Monaco Grand Prix', 'Monaco', 'monaco.png');
+        $track2 = $this->fixtures->aTrack('British Grand Prix', 'Silverstone', 'silverstone.png');
 
         // and given
         $firstRace = $this->fixtures->aRace($track1, $season);
@@ -92,7 +92,7 @@ class SimulateRaceServiceTest extends KernelTestCase
         $driver3 = $this->fixtures->aDriver('Max', 'Verstappen', $redBull, 33);
 
         // and given
-        $this->fixtures->aTrack('Monaco', 'monaco.png');
+        $this->fixtures->aTrack('Monaco Grand Prix', 'Monaco', 'monaco.png');
 
         // when
         $this->simulateRaceService->simulateRace($season);
@@ -130,7 +130,7 @@ class SimulateRaceServiceTest extends KernelTestCase
         $driver3 = $this->fixtures->aDriver('Max', 'Verstappen', $redBull, 33);
 
         // and given
-        $this->fixtures->aTrack('Monaco', 'monaco.png');
+        $this->fixtures->aTrack('Monaco Grand Prix', 'Monaco', 'monaco.png');
 
         // when
         $this->simulateRaceService->simulateRace($season);
@@ -167,9 +167,9 @@ class SimulateRaceServiceTest extends KernelTestCase
         $season = $this->fixtures->aSeason($user, $driver1);
 
         // and given
-        $track1 = $this->fixtures->aTrack('Monaco', 'monaco.png');
-        $track2 = $this->fixtures->aTrack('Silverstone', 'silverstone.png');
-        $this->fixtures->aTrack('Spa', 'spa.png');
+        $track1 = $this->fixtures->aTrack('Monaco Grand Prix', 'Monaco', 'monaco.png');
+        $track2 = $this->fixtures->aTrack('British Grand Prix', 'Silverstone', 'silverstone.png');
+        $this->fixtures->aTrack('Belgium Grand Prix', 'Spa', 'spa.png');
 
         // when
         $this->simulateRaceService->simulateRace($season);
