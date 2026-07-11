@@ -14,7 +14,7 @@ final class UserDTO
     private string $username;
     private string $email;
     private array $roles = [];
-    private bool $isVerified = false;
+    private bool $isVerified;
     private UserCountry $country;
     private DateTimeImmutable $createdAt;
     private DateTimeImmutable $updatedAt;
