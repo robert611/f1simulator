@@ -11,12 +11,12 @@ use Domain\Repository\DriverRepository;
 use Domain\Repository\TeamRepository;
 use Domain\Repository\TrackRepository;
 
-class DomainFacade implements DomainFacadeInterface
+readonly class DomainFacade implements DomainFacadeInterface
 {
     public function __construct(
-        private readonly TeamRepository $teamRepository,
-        private readonly DriverRepository $driverRepository,
-        private readonly TrackRepository $trackRepository,
+        private TeamRepository $teamRepository,
+        private DriverRepository $driverRepository,
+        private TrackRepository $trackRepository,
     ) {
     }
 
