@@ -39,6 +39,11 @@ final class UserDTO
         return $this->roles;
     }
 
+    public function getRolesAsString(): string
+    {
+        return implode(', ', $this->roles);
+    }
+
     public function isVerified(): bool
     {
         return $this->isVerified;
