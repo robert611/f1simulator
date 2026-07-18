@@ -50,6 +50,33 @@ final class AdminUserControllerTest extends WebTestCase
         self::assertResponseIsSuccessful();
     }
 
+    #[Test]
+    public function admin_user_page_displays_all_users(): void
+    {
+        // given
+        $admin = $this->fixtures->anAdmin();
+        $this->client->loginUser($admin);
+
+        // and given
+        $this->fixtures->aCustomUser('edmund', 'edmund@gmail.com');
+        $this->fixtures->aCustomUser('fernand', 'fernand@gmail.com');
+        $this->fixtures->aCustomUser('kacper', 'kacper@gmail.com');
+        $this->fixtures->aCustomUser('maximilian', 'maximilian@gmail.com');
+
+        // when
+        $this->client->request('GET', '/admin-user');
+
+        // then
+        self::assertResponseIsSuccessful();
+
+        // and then
+        self::assertSelectorTextContains('body', 'admin@gmail.com');
+        self::assertSelectorTextContains('body', 'edmund@gmail.com');
+        self::assertSelectorTextContains('body', 'fernand@gmail.com');
+        self::assertSelectorTextContains('body', 'kacper@gmail.com');
+        self::assertSelectorTextContains('body', 'maximilian@gmail.com');
+    }
+
     public static function provideUrls(): array
     {
         return [
