@@ -26,4 +26,14 @@ class AdminUserController extends BaseController
             'users' => $users,
         ]);
     }
+
+    #[Route('/{id}', name: 'admin_user_show', methods: ['GET'])]
+    public function show(int $id): Response
+    {
+        $user = $this->securityFacade->getUserById($id);
+
+        return $this->render('@admin/admin_user/show.html.twig', [
+            'user' => $user,
+        ]);
+    }
 }

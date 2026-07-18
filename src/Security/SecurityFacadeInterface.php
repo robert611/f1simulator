@@ -12,4 +12,6 @@ interface SecurityFacadeInterface
      * @return UserDTO[]
      */
     public function getUsers(): array;
+
+    public function getUserById(int $id): ?UserDTO;
 }

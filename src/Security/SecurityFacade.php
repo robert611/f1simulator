@@ -23,4 +23,15 @@ final readonly class SecurityFacade implements SecurityFacadeInterface
 
         return UserDTO::fromEntityCollection($users);
     }
+
+    public function getUserById(int $id): ?UserDTO
+    {
+        $user = $this->userRepository->find($id);
+
+        if (null === $user) {
+            return null;
+        }
+
+        return UserDTO::fromEntity($user);
+    }
 }
