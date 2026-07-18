@@ -4,12 +4,6 @@
 
 {% block admin_content %}
     <h3 class="text-center mt-4 mb-4">Zarządzanie użytkownikami</h3>
-    <a href="{{ path('admin_track_index') }}">
-        <button class="btn btn-success mb-3">
-            <i class="fa-solid fa-plus"></i>
-            Dodaj użytkownika
-        </button>
-    </a>
     <div class="card bg-dark mb-5">
         <div class="card-body">
             <div class="table-responsive">
@@ -24,6 +18,7 @@
                             <th>Państwo</th>
                             <th>Utworzony</th>
                             <th>Edytowany</th>
+                            <th>Akcje</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,6 +32,9 @@
                                 <td>{{ user.country.value }}</td>
                                 <td>{{ user.createdAt|date('Y-m-d H:i:s') }}</td>
                                 <td>{{ user.updatedAt|date('Y-m-d H:i:s') }}</td>
+                                <td>
+                                    <a class="btn btn-outline-success mb-1 mb-md-0" href="{{ path('admin_user_show', {id: user.id}) }}">Wyświetl</a>
+                                </td>
                             </tr>
                         {% else %}
                             <tr>

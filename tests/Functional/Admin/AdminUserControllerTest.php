@@ -77,6 +77,25 @@ final class AdminUserControllerTest extends WebTestCase
         self::assertSelectorTextContains('body', 'maximilian@gmail.com');
     }
 
+    #[Test]
+    public function admin_user_show_page_can_be_displayed(): void
+    {
+        // given
+        $user = $this->fixtures->anAdmin();
+        $this->client->loginUser($user);
+
+        // when
+        $this->client->request('GET', "/admin-user/{$user->getId()}");
+
+        // then
+        self::assertResponseIsSuccessful();
+
+        // and then
+        self::assertSelectorTextContains('body', (string) $user->getId());
+        self::assertSelectorTextContains('body', $user->getUsername());
+        self::assertSelectorTextContains('body', $user->getEmail());
+    }
+
     public static function provideUrls(): array
     {
         return [
