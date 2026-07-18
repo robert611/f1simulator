@@ -14,4 +14,6 @@ interface SecurityFacadeInterface
     public function getUsers(): array;
 
     public function getUserById(int $id): ?UserDTO;
+
+    public function updateUser(int $id, bool $isVerified): void;
 }

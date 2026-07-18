@@ -11,7 +11,7 @@
         <a href="{{ path('admin_user_index') }}" class="btn btn-dark">
             Powrót do listy
         </a>
-        <a href="" class="btn btn-info">
+        <a href="{{ path('admin_user_edit', {id: user.id}) }}" class="btn btn-info">
             Edytuj użytkownika
         </a>
     </div>

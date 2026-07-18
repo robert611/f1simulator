@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Admin\Controller;
 
+use Admin\Form\UserEditFormModel;
+use Admin\Form\UserEditType;
 use Security\SecurityFacadeInterface;
 use Shared\Controller\BaseController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -34,6 +37,30 @@ class AdminUserController extends BaseController
 
         return $this->render('@admin/admin_user/show.html.twig', [
             'user' => $user,
+        ]);
+    }
+
+    #[Route('/{id}/edit', name: 'admin_user_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, int $id): Response
+    {
+        $user = $this->securityFacade->getUserById($id);
+
+        $form = $this->createForm(UserEditType::class, UserEditFormModel::fromUser($user));
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UserEditFormModel $userEditFormModel */
+            $userEditFormModel = $form->getData();
+
+            $this->securityFacade->updateUser($id, $userEditFormModel->isVerified);
+            $this->addFlash('admin_success', 'Użytkownik został zaktualizowany');
+
+            return $this->redirectToRoute('admin_user_edit', ['id' => $id]);
+        }
+
+        return $this->render('@admin/admin_user/edit.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
         ]);
     }
 }
