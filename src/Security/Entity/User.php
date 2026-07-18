@@ -174,4 +174,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->isVerified = true;
         $this->updatedAt = new DateTimeImmutable();
     }
+
+    public function update(bool $isVerified): void
+    {
+        $this->isVerified = $isVerified;
+        $this->updatedAt = new DateTimeImmutable();
+    }
 }
