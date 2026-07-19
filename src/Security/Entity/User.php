@@ -38,6 +38,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(name: 'is_verified', type: 'boolean', nullable: false, options: ['default' => false])]
     private bool $isVerified = false;
 
+    #[ORM\Column(name: 'is_blocked', type: 'boolean', nullable: false, options: ['default' => false])]
+    private bool $isBlocked = false;
+
     #[ORM\Column(name: 'country', type: 'string', nullable: false, enumType: UserCountry::class)]
     private UserCountry $country;
 
@@ -115,6 +118,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): void
     {
         $this->isVerified = $isVerified;
+    }
+
+    public function isBlocked(): bool
+    {
+        return $this->isBlocked;
+    }
+
+    public function setIsBlocked(bool $isBlocked): void
+    {
+        $this->isBlocked = $isBlocked;
     }
 
     public function getCountry(): UserCountry
