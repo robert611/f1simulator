@@ -15,6 +15,7 @@
                             <th>Email</th>
                             <th>Role</th>
                             <th>Jest zweryfikowany?</th>
+                            <th>Jest zablokowany?</th>
                             <th>Państwo</th>
                             <th>Utworzony</th>
                             <th>Edytowany</th>
@@ -29,12 +30,13 @@
                                 <td>{{ user.email }}</td>
                                 <td>{{ user.rolesAsString }}</td>
                                 <td>{{ user.isVerified ? 'Tak' : 'Nie'}}</td>
+                                <td>{{ user.isBlocked ? 'Tak' : 'Nie'}}</td>
                                 <td>{{ user.country.value }}</td>
                                 <td>{{ user.createdAt|date('Y-m-d H:i:s') }}</td>
                                 <td>{{ user.updatedAt|date('Y-m-d H:i:s') }}</td>
                                 <td>
-                                    <a class="btn btn-outline-success mb-1 mb-md-0" href="{{ path('admin_user_show', {id: user.id}) }}">Wyświetl</a>
-                                    <a class="btn btn-outline-info mb-1 mb-md-0" href="{{ path('admin_user_edit', {id: user.id}) }}">Edytuj</a>
+                                    <a class="btn btn-outline-success mb-1" href="{{ path('admin_user_show', {id: user.id}) }}">Wyświetl</a>
+                                    <a class="btn btn-outline-info mb-1" href="{{ path('admin_user_edit', {id: user.id}) }}">Edytuj</a>
                                 </td>
                             </tr>
                         {% else %}

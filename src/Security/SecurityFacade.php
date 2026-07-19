@@ -38,7 +38,7 @@ final readonly class SecurityFacade implements SecurityFacadeInterface
         return UserDTO::fromEntity($user);
     }
 
-    public function updateUser(int $id, bool $isVerified): void
+    public function updateUser(int $id, bool $isVerified, bool $isBlocked): void
     {
         $user = $this->userRepository->find($id);
 
@@ -46,7 +46,7 @@ final readonly class SecurityFacade implements SecurityFacadeInterface
             return;
         }
 
-        $user->update($isVerified);
+        $user->update($isVerified, $isBlocked);
         $this->entityManager->flush();
     }
 }

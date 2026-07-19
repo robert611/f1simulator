@@ -17,6 +17,10 @@ final class UserEditType extends AbstractType
             ->add('isVerified', CheckboxType::class, [
                 'label' => 'Czy jest zweryfikowany?',
                 'required' => false,
+            ])
+            ->add('isBlocked', CheckboxType::class, [
+                'label' => 'Czy jest zablokowany?',
+                'required' => false,
             ]);
     }
 

@@ -21,6 +21,18 @@
                     {% endif %}
                 </div>
 
+                <div class="form-group mb-3">
+                    {{ form_label(form.isBlocked) }}
+                    <div class="form-check mt-2">
+                        {{ form_widget(form.isBlocked, {'attr': {'class': 'form-check-input'}}) }}
+                    </div>
+                    {% if form_errors(form.isBlocked) %}
+                        <div class="form-field-error text-danger mt-1">
+                            {{ form_errors(form.isBlocked) }}
+                        </div>
+                    {% endif %}
+                </div>
+
                 <div class="admin-form-errors text-danger">
                     {{ form_errors(form) }}
                 </div>

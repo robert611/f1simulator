@@ -12,10 +12,14 @@ final class UserEditFormModel
     #[Assert\Type('boolean')]
     public bool $isVerified;
 
+    #[Assert\Type('boolean')]
+    public bool $isBlocked;
+
     public static function fromUser(UserDTO $userDTO): self
     {
         $model = new self();
         $model->isVerified = $userDTO->isVerified();
+        $model->isBlocked = $userDTO->isBlocked();
 
         return $model;
     }
