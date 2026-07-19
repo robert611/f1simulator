@@ -119,11 +119,16 @@ final class AdminUserControllerTest extends WebTestCase
         // and then
         self::assertSelectorTextContains('body', 'Edycja użytkownika');
         self::assertSelectorTextContains('body', 'Czy jest zweryfikowany?');
+        self::assertSelectorTextContains('body', 'Czy jest zablokowany?');
 
         // and then
         self::assertSame(
             (string) $userToEdit->isVerified(),
             $crawler->filter('input[name="user_edit[isVerified]"]')->attr('value'),
+        );
+        self::assertSame(
+            (string) $userToEdit->isBlocked(),
+            $crawler->filter('input[name="user_edit[isBlocked]"]')->attr('value'),
         );
     }
 
@@ -137,12 +142,14 @@ final class AdminUserControllerTest extends WebTestCase
         // and given
         $userToEdit = $this->fixtures->aCustomUser('user_to_edit', 'user_to_edit@gmail.com');
         $userToEdit->setIsVerified(false);
+        $userToEdit->setIsBlocked(false);
         $this->userRepository->upgradePassword($userToEdit, $userToEdit->getPassword());
 
         // when
         $crawler = $this->client->request('GET', "/admin-user/{$userToEdit->getId()}/edit");
         $form = $crawler->selectButton('Zapisz')->form([
             'user_edit[isVerified]' => true,
+            'user_edit[isBlocked]' => true,
         ]);
         $this->client->submit($form);
 
@@ -152,6 +159,7 @@ final class AdminUserControllerTest extends WebTestCase
         // and then
         $updatedUser = $this->userRepository->find($userToEdit->getId());
         self::assertTrue($updatedUser->isVerified());
+        self::assertTrue($updatedUser->isBlocked());
     }
 
     public static function provideUrls(): array

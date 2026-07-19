@@ -45,6 +45,10 @@
                             <span>{{ user.isVerified ? 'Tak' : 'Nie' }}</span>
                         </div>
                         <div class="list-group-item bg-dark text-white d-flex justify-content-between">
+                            <span class="fw-semibold">Jest zablokowany?</span>
+                            <span>{{ user.isBlocked ? 'Tak' : 'Nie' }}</span>
+                        </div>
+                        <div class="list-group-item bg-dark text-white d-flex justify-content-between">
                             <span class="fw-semibold">Państwo</span>
                             <span>{{ user.country.value }}</span>
                         </div>

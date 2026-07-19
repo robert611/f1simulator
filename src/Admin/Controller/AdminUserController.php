@@ -52,7 +52,7 @@ class AdminUserController extends BaseController
             /** @var UserEditFormModel $userEditFormModel */
             $userEditFormModel = $form->getData();
 
-            $this->securityFacade->updateUser($id, $userEditFormModel->isVerified);
+            $this->securityFacade->updateUser($id, $userEditFormModel->isVerified, $userEditFormModel->isBlocked);
             $this->addFlash('admin_success', 'Użytkownik został zaktualizowany');
 
             return $this->redirectToRoute('admin_user_edit', ['id' => $id]);

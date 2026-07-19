@@ -15,6 +15,7 @@ final class UserDTO
     private string $email;
     private array $roles = [];
     private bool $isVerified;
+    private bool $isBlocked;
     private UserCountry $country;
     private DateTimeImmutable $createdAt;
     private DateTimeImmutable $updatedAt;
@@ -49,6 +50,11 @@ final class UserDTO
         return $this->isVerified;
     }
 
+    public function isBlocked(): bool
+    {
+        return $this->isBlocked;
+    }
+
     public function getCountry(): UserCountry
     {
         return $this->country;
@@ -72,6 +78,7 @@ final class UserDTO
         $userDTO->email = $user->getEmail();
         $userDTO->roles = $user->getRoles();
         $userDTO->isVerified = $user->isVerified();
+        $userDTO->isBlocked = $user->isBlocked();
         $userDTO->country = $user->getCountry();
         $userDTO->createdAt = $user->getCreatedAt();
         $userDTO->updatedAt = $user->getUpdatedAt();

@@ -61,14 +61,16 @@ class UserTest extends TestCase
         // given
         $user = new User();
         $user->setIsVerified(false);
+        $user->setIsBlocked(false);
         $originalUpdatedAt = new DateTimeImmutable('2024-01-01 10:00:00');
         $user->setUpdatedAt($originalUpdatedAt);
 
         // when
-        $user->update(true);
+        $user->update(true, true);
 
         // then
         self::assertTrue($user->isVerified());
+        self::assertTrue($user->isBlocked());
         self::assertGreaterThan($originalUpdatedAt, $user->getUpdatedAt());
     }
 }
