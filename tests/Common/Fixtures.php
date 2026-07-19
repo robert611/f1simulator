@@ -41,6 +41,7 @@ class Fixtures
         $user->setRoles(['ROLE_USER']);
         $user->setCountry(UserCountry::PL);
         $user->setIsVerified(true);
+        $user->setIsBlocked(false);
         $user->setCreatedAt(new DateTimeImmutable());
         $user->setUpdatedAt(new DateTimeImmutable());
 
@@ -59,6 +60,7 @@ class Fixtures
         $user->setRoles(['ROLE_ADMIN']);
         $user->setCountry(UserCountry::PL);
         $user->setIsVerified(true);
+        $user->setIsBlocked(false);
         $user->setCreatedAt(new DateTimeImmutable());
         $user->setUpdatedAt(new DateTimeImmutable());
 
@@ -82,6 +84,7 @@ class Fixtures
         $user->setRoles(['ROLE_USER']);
         $user->setCountry($country);
         $user->setIsVerified(true);
+        $user->setIsBlocked(false);
         $user->setCreatedAt(new DateTimeImmutable());
         $user->setUpdatedAt(new DateTimeImmutable());
 
@@ -100,6 +103,7 @@ class Fixtures
         $user->setRoles(['ROLE_USER']);
         $user->setCountry(UserCountry::PL);
         $user->setIsVerified(false);
+        $user->setIsBlocked(false);
         $user->setCreatedAt(new DateTimeImmutable());
         $user->setUpdatedAt(new DateTimeImmutable());
 
