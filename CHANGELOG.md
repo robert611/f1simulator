@@ -23,3 +23,7 @@
 zamiast losowania zawodnika w wybranym zespole
 - Dodano mapę z pinezką gdzie znajduje się dany tor do widoku na stronie głównej
 - Dodano pole z nazwą toru obok nazwy wyścigu
+
+## 1.0.5 (0000-00-00 00:00)
+- Dodano crud encji użytkownik w panelu administratora
+- Dodano możliwość blokowania użytkowników
