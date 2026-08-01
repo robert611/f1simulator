@@ -25,6 +25,7 @@
     <exclude-pattern>src/Kernel.php</exclude-pattern>
     <exclude-pattern>config/secrets/dev/</exclude-pattern>
     <exclude-pattern>config/reference.php</exclude-pattern>
+    <exclude-pattern>bin/.phpunit/</exclude-pattern>
 
     <file>bin/</file>
     <file>config/</file>

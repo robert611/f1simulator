@@ -97,5 +97,13 @@
             "car": "Car",
             "points": "Points"
         }
+    },
+    "blocked_account": {
+        "title": "Account blocked",
+        "header": "Account blocked",
+        "subtitle": "Unfortunately, you cannot log in",
+        "message": "Your account has been blocked by an administrator. If you believe this is a mistake, please contact us.",
+        "contact_support": "If you have any questions or want to appeal this decision, please contact our technical support.",
+        "back_to_login": "Back to login"
     }
 }

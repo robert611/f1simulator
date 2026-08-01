@@ -26,6 +26,12 @@ final readonly class AuthenticationFailureHandler implements AuthenticationFailu
             );
         }
 
+        if ($exception instanceof UserIsBlockedException) {
+            return new RedirectResponse(
+                $this->router->generate('app_account_blocked'),
+            );
+        }
+
         return new RedirectResponse($this->router->generate('app_login'));
     }
 }

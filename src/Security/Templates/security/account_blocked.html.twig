@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}F1Simulator - {{ 'blocked_account.title'|trans({}, 'front') }}{% endblock %}
+
+{% block importmap %}
+    {{ parent() }}
+    {{ importmap('auth') }}
+{% endblock %}
+
+{% block body %}
+<div class="auth-container">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-6 col-md-8 col-sm-10">
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <h1 class="auth-title">
+                            <i class="fas fa-ban"></i> {{ 'blocked_account.header'|trans({}, 'front') }}
+                        </h1>
+                        <p class="auth-subtitle">{{ 'blocked_account.subtitle'|trans({}, 'front') }}</p>
+                    </div>
+
+                    <div class="auth-form-container">
+                        <div class="mb-4 p-3 bg-warning text-dark rounded">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            {{ 'blocked_account.message'|trans({}, 'front') }}
+                        </div>
+
+                        <a href="{{ path('app_login') }}" class="btn auth-btn">
+                            <i class="fas fa-arrow-left"></i> {{ 'blocked_account.back_to_login'|trans({}, 'front') }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

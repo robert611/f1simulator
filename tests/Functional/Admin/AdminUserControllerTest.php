@@ -123,12 +123,12 @@ final class AdminUserControllerTest extends WebTestCase
 
         // and then
         self::assertSame(
-            (string) $userToEdit->isVerified(),
-            $crawler->filter('input[name="user_edit[isVerified]"]')->attr('value'),
+            $userToEdit->isVerified(),
+            $crawler->filter('input[name="user_edit[isVerified]"]')->attr('checked') === 'checked',
         );
         self::assertSame(
-            (string) $userToEdit->isBlocked(),
-            $crawler->filter('input[name="user_edit[isBlocked]"]')->attr('value'),
+            $userToEdit->isBlocked(),
+            $crawler->filter('input[name="user_edit[isBlocked]"]')->attr('checked') === 'checked',
         );
     }
 
