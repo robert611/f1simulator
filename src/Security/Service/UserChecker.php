@@ -17,6 +17,10 @@ final class UserChecker implements UserCheckerInterface
         if (false === $user->isVerified()) {
             throw new UserNotConfirmedException('account_not_confirmed_checker', $user->getId());
         }
+
+        if (true === $user->isBlocked()) {
+            throw new UserIsBlockedException('account_blocked_checker');
+        }
     }
 
     public function checkPostAuth(UserInterface $user, ?TokenInterface $token = null): void

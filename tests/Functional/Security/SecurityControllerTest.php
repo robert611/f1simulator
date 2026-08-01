@@ -107,6 +107,33 @@ class SecurityControllerTest extends WebTestCase
     }
 
     #[Test]
+    public function blocked_user_will_be_redirected_to_account_blocked_page(): void
+    {
+        // given
+        $this->fixtures->aBlockedUser();
+
+        // when
+        $crawler = $this->client->request('GET', '/login');
+        $form = $crawler->selectButton('Zaloguj się')->form([
+            '_username' => 'blocked_user',
+            '_password' => 'password',
+        ]);
+        $this->client->submit($form);
+
+        // then
+        self::assertResponseRedirects('/account-blocked');
+
+        // and then
+        $this->client->followRedirect();
+        self::assertResponseIsSuccessful();
+        self::assertSelectorTextContains('h1', 'Konto zablokowane');
+
+        // and then
+        $tokenStorage = static::getContainer()->get('security.token_storage');
+        self::assertNull($tokenStorage->getToken());
+    }
+
+    #[Test]
     public function wrong_password_shows_error_message_on_login_page(): void
     {
         // given

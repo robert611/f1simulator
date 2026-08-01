@@ -97,5 +97,13 @@
             "car": "Bolid",
             "points": "Punkty"
         }
+    },
+    "blocked_account": {
+        "title": "Konto zablokowane",
+        "header": "Konto zablokowane",
+        "subtitle": "Niestety nie możesz się zalogować",
+        "message": "Twoje konto zostało zablokowane przez administratora. Jeśli uważasz, że to błąd, skontaktuj się z nami.",
+        "contact_support": "Jeśli masz pytania lub chcesz odwołać się od tej decyzji, prosimy o kontakt ze wsparciem technicznym.",
+        "back_to_login": "Powrót do logowania"
     }
 }
