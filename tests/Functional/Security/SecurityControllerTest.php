@@ -105,4 +105,56 @@ class SecurityControllerTest extends WebTestCase
         $tokenStorage = static::getContainer()->get('security.token_storage');
         self::assertNull($tokenStorage->getToken());
     }
+
+    #[Test]
+    public function wrong_password_shows_error_message_on_login_page(): void
+    {
+        // given
+        $this->fixtures->aCustomUser('John', 'test@gmail.com');
+
+        // when
+        $crawler = $this->client->request('GET', '/login');
+        $form = $crawler->selectButton('Zaloguj się')->form([
+            '_username' => 'John',
+            '_password' => 'wrong-password',
+        ]);
+        $this->client->submit($form);
+
+        // then
+        self::assertResponseRedirects();
+
+        // and then
+        $crawler = $this->client->followRedirect();
+        self::assertSame('/login', $this->client->getRequest()->getPathInfo());
+        self::assertSelectorTextContains('form .alert-danger', 'Podany login i hasło są nieprawidłowe.');
+        self::assertSame('John', $crawler->filter('input[name="_username"]')->attr('value'));
+
+        // and then
+        $tokenStorage = static::getContainer()->get('security.token_storage');
+        self::assertNull($tokenStorage->getToken());
+    }
+
+    #[Test]
+    public function unknown_username_shows_error_message_on_login_page(): void
+    {
+        // when
+        $crawler = $this->client->request('GET', '/login');
+        $form = $crawler->selectButton('Zaloguj się')->form([
+            '_username' => 'nobody',
+            '_password' => 'Password1...',
+        ]);
+        $this->client->submit($form);
+
+        // then
+        self::assertResponseRedirects();
+
+        // and then
+        $this->client->followRedirect();
+        self::assertSame('/login', $this->client->getRequest()->getPathInfo());
+        self::assertSelectorTextContains('form .alert-danger', 'Podany login i hasło są nieprawidłowe.');
+
+        // and then
+        $tokenStorage = static::getContainer()->get('security.token_storage');
+        self::assertNull($tokenStorage->getToken());
+    }
 }
