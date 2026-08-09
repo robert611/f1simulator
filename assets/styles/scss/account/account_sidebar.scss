@@ -1,0 +1,258 @@
+$account-accent: var(--layoutColor);
+$account-border: #dee2e6;
+$account-surface: #f8f9fa;
+
+/* ---------- DESKTOP SIDEBAR ---------- */
+
+.account-sidebar {
+    position: sticky;
+    top: 24px;
+    background-color: $account-surface;
+    border: 1px solid $account-border;
+    border-radius: 8px;
+    overflow: hidden;
+
+    .account-sidebar-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 20px 20px 18px;
+        background-color: #fff;
+        border-bottom: 1px solid $account-border;
+    }
+
+    .account-avatar {
+        flex: 0 0 44px;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background-color: $account-accent;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.05rem;
+    }
+
+    .account-identity {
+        min-width: 0;
+
+        &-name {
+            font-weight: 600;
+            font-size: .98rem;
+            color: #212529;
+        }
+
+        &-email {
+            font-size: .82rem;
+            color: #6c757d;
+        }
+
+        &-name,
+        &-email {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    .account-sidebar-body {
+        padding: 14px 12px 16px;
+    }
+
+    .account-sidebar-title {
+        text-transform: uppercase;
+        color: #6c757d;
+        font-size: .75rem;
+        letter-spacing: .04em;
+        font-weight: 600;
+        padding: 0 8px 10px;
+        margin: 0;
+    }
+
+    .account-sidebar-divider {
+        margin: 12px 8px;
+        border: 0;
+        border-top: 1px solid $account-border;
+        opacity: 1;
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #000;
+        font-weight: 500;
+        font-size: .95rem;
+        padding: .5rem .75rem;
+        border-radius: .375rem;
+        transition: all .2s ease;
+
+        i {
+            font-size: 1rem;
+            width: 20px;
+        }
+
+        &:hover {
+            background-color: #e9ecef;
+            color: #212529;
+        }
+
+        &.active {
+            background-color: $account-accent;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        &.nav-link-danger {
+            color: #b02a37;
+
+            &:hover {
+                background-color: #f8d7da;
+                color: #842029;
+            }
+
+            &.active {
+                background-color: #b02a37;
+                color: #fff;
+            }
+        }
+    }
+}
+
+/* ---------- MOBILE TABS ---------- */
+
+.account-tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    border-bottom: 1px solid $account-border;
+
+    .account-tab {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+        padding: .5rem .9rem;
+        border: 1px solid $account-border;
+        border-bottom: none;
+        border-radius: .375rem .375rem 0 0;
+        background-color: $account-surface;
+        color: #212529;
+        font-size: .9rem;
+        font-weight: 500;
+        text-decoration: none;
+
+        &:hover {
+            background-color: #e9ecef;
+        }
+
+        &.active {
+            background-color: $account-accent;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        &.account-tab-danger:not(.active) {
+            color: #b02a37;
+        }
+
+        &.account-tab-danger.active {
+            background-color: #b02a37;
+        }
+    }
+}
+
+/* ---------- CONTENT ---------- */
+
+.account-details {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    margin: 0;
+
+    dt,
+    dd {
+        padding: 14px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, .1);
+        margin: 0;
+    }
+
+    dt {
+        color: #6c757d;
+        font-weight: 500;
+    }
+
+    dd {
+        color: #212529;
+        font-weight: 600;
+    }
+
+    > :nth-last-child(-n + 2) {
+        border-bottom: 0;
+    }
+
+    @media (max-width: 575.98px) {
+        grid-template-columns: minmax(0, 1fr);
+
+        dt {
+            padding-bottom: 0;
+            border-bottom: 0;
+        }
+    }
+}
+
+.account-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    border-radius: 999px;
+    padding: 3px 10px;
+    font-size: .8rem;
+    font-weight: 600;
+
+    &-verified {
+        background-color: #e8f5e8;
+        color: #2e7d32;
+        border: 1px solid #c8e6c9;
+    }
+
+    &-unverified {
+        background-color: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeeba;
+    }
+}
+
+.account-alert-danger {
+    background-color: #ffebee;
+    color: #c62828;
+    border-left: 4px solid #d32f2f;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    font-weight: 500;
+}
+
+.account-form {
+    max-width: 520px;
+
+    .form-control {
+        padding: .8rem 1rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        background-color: #fafafa;
+        font-size: 1rem;
+
+        &:focus {
+            border-color: var(--layoutColor);
+            background-color: #fff;
+            box-shadow: none;
+        }
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #333;
+    }
+}

@@ -1,7 +1,45 @@
-{% extends 'base.html.twig' %}
+{% extends '@account/layout.html.twig' %}
+{% trans_default_domain 'front' %}
 
-{% block title %}Account{% endblock %}
+{% block title %}{{ 'account.overview.header'|trans }} | {{ parent() }}{% endblock %}
 
-{% block body %}
-{# Empty Account view - to be implemented #}
+{% block account_content %}
+    <div class="card">
+        <div class="card-header">
+            <h4>{{ 'account.overview.header'|trans }}</h4>
+        </div>
+        <div class="card-body">
+            <dl class="account-details mb-0">
+                <dt>{{ 'account.overview.username'|trans }}</dt>
+                <dd>{{ app.user.username }}</dd>
+
+                <dt>{{ 'account.overview.email'|trans }}</dt>
+                <dd>
+                    {{ app.user.email }}
+                    {% if app.user.isVerified %}
+                        <span class="account-badge account-badge-verified">
+                            <i class="bi bi-patch-check-fill"></i>{{ 'account.overview.verified'|trans }}
+                        </span>
+                    {% else %}
+                        <span class="account-badge account-badge-unverified">
+                            <i class="bi bi-exclamation-circle-fill"></i>{{ 'account.overview.unverified'|trans }}
+                        </span>
+                        <a href="{{ path('app_resend_confirm_email_view') }}" class="ms-2">
+                            {{ 'account.overview.resend_confirmation'|trans }}
+                        </a>
+                    {% endif %}
+                </dd>
+
+                <dt>{{ 'account.overview.country'|trans }}</dt>
+                <dd>
+                    <img src="{{ asset('images/flags/' ~ app.user.country.value|lower ~ '.png') }}"
+                         alt="{{ app.user.country.value }}" width="20" height="15" class="me-2">
+                    {{ app.user.country.getLabel() }}
+                </dd>
+
+                <dt>{{ 'account.overview.registered_at'|trans }}</dt>
+                <dd>{{ app.user.createdAt|date('d.m.Y') }}</dd>
+            </dl>
+        </div>
+    </div>
 {% endblock %}

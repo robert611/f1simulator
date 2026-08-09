@@ -1,0 +1,60 @@
+{% trans_default_domain 'front' %}
+{% set route = app.request.attributes.get('_route') %}
+
+<aside class="account-sidebar d-none d-lg-block">
+    <div class="account-sidebar-header">
+        <div class="account-avatar">{{ app.user.username|first|upper }}</div>
+        <div class="account-identity">
+            <div class="account-identity-name">{{ app.user.username }}</div>
+            <div class="account-identity-email">{{ app.user.email }}</div>
+        </div>
+    </div>
+
+    <div class="account-sidebar-body">
+        <h6 class="account-sidebar-title">{{ 'account.menu.header'|trans }}</h6>
+
+        <ul class="nav flex-column gap-1">
+            <li>
+                <a href="{{ path('account_index') }}" class="nav-link {{ route == 'account_index' ? 'active' }}">
+                    <i class="bi bi-person-circle"></i>
+                    <span>{{ 'account.menu.overview'|trans }}</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('account_password') }}" class="nav-link {{ route == 'account_password' ? 'active' }}">
+                    <i class="bi bi-shield-lock"></i>
+                    <span>{{ 'account.menu.password'|trans }}</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('account_email') }}" class="nav-link {{ route == 'account_email' ? 'active' }}">
+                    <i class="bi bi-envelope"></i>
+                    <span>{{ 'account.menu.email'|trans }}</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('account_username') }}" class="nav-link {{ route == 'account_username' ? 'active' }}">
+                    <i class="bi bi-person-badge"></i>
+                    <span>{{ 'account.menu.username'|trans }}</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('account_history') }}" class="nav-link {{ route == 'account_history' ? 'active' }}">
+                    <i class="bi bi-clock-history"></i>
+                    <span>{{ 'account.menu.history'|trans }}</span>
+                </a>
+            </li>
+        </ul>
+
+        <hr class="account-sidebar-divider">
+
+        <ul class="nav flex-column">
+            <li>
+                <a href="{{ path('account_delete') }}" class="nav-link nav-link-danger {{ route == 'account_delete' ? 'active' }}">
+                    <i class="bi bi-trash3"></i>
+                    <span>{{ 'account.menu.delete'|trans }}</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</aside>

@@ -24,6 +24,10 @@ return [
         'path' => './assets/auth.js',
         'entrypoint' => true,
     ],
+    'account' => [
+        'path' => './assets/account.js',
+        'entrypoint' => true,
+    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],
