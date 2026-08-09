@@ -35,6 +35,12 @@ docker compose exec php php bin/console doctrine:migrations:migrate --env="test"
 
 ### 5. Załaduj fixtures do bazy deweloperskiej
 
+Upewnij się, że środowisko aplikacji jest ustawione na "dev" w pliku `.env`, bądź najlepiej `.env.local`
+
+```text
+APP_ENV=dev
+```
+
 ```bash
 docker compose exec php php bin/console doctrine:fixtures:load -n
 ```
