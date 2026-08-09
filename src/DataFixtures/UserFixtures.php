@@ -8,11 +8,12 @@ use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Security\Entity\User;
+use Security\Entity\UserCountry;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
-    public const USER_REFERENCE = 'user';
+    public const string USER_REFERENCE = 'user';
 
     private UserPasswordHasherInterface $encoder;
 
@@ -33,6 +34,7 @@ class UserFixtures extends Fixture
             $user->setPassword($this->encoder->hashPassword($user, $data['password']));
             $user->setEmail($data['email']);
             $user->setIsVerified(true);
+            $user->setCountry(UserCountry::PL);
             $user->setCreatedAt(new DateTimeImmutable());
             $user->setUpdatedAt(new DateTimeImmutable());
 
