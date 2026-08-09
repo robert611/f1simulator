@@ -147,13 +147,13 @@
     padding: 1rem 1.5rem;
     font-weight: 500;
 
-    .auth-alert-danger {
+    &.auth-alert-danger {
         background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
         color: #c62828;
         border-left: 4px solid #d32f2f;
     }
 
-    .auth-alert-success {
+    &.auth-alert-success {
         background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
         color: #2e7d32;
         border-left: 4px solid #4caf50;
