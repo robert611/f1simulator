@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Functional\Account;
 
+use HttpResponse;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\Common\Fixtures;
 
 class AccountControllerTest extends WebTestCase
@@ -32,5 +34,16 @@ class AccountControllerTest extends WebTestCase
 
         // then
         self::assertResponseIsSuccessful();
+    }
+
+    #[Test]
+    public function only_logged_user_can_access_account_page(): void
+    {
+        // when
+        $this->client->request('GET', '/account/index');
+
+        // then
+        self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
+        self::assertResponseRedirects('/login');
     }
 }
