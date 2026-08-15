@@ -144,5 +144,9 @@
             "submit": "Usuń konto"
         },
         "in_progress": "Ta sekcja jest w przygotowaniu."
+    },
+    "footer": {
+        "rights_warning": "Wszelkie prawa zastrzeżone.",
+        "app_version": "Wersja aplikacji:"
     }
 }

@@ -144,5 +144,9 @@
             "submit": "Delete account"
         },
         "in_progress": "This section is under construction."
+    },
+    "footer": {
+        "rights_warning": "All rights reserved.",
+        "app_version": "Application version:"
     }
 }
