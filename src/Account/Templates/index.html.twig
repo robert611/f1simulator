@@ -34,11 +34,11 @@
                 <dd>
                     <img src="{{ asset('images/flags/' ~ app.user.country.value|lower ~ '.png') }}"
                          alt="{{ app.user.country.value }}" width="20" height="15" class="me-2">
-                    {{ app.user.country.getLabel() }}
+                    {{ app.user.country.getLabel(locale) }}
                 </dd>
 
                 <dt>{{ 'account.overview.registered_at'|trans }}</dt>
-                <dd>{{ app.user.createdAt|date('d.m.Y') }}</dd>
+                <dd>{{ app.user.createdAt|date('d.m.Y H:i') }}</dd>
             </dl>
         </div>
     </div>

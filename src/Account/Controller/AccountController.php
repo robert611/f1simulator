@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Account\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -12,9 +13,11 @@ use Symfony\Component\Routing\Attribute\Route;
 class AccountController extends AbstractController
 {
     #[Route('/index', name: 'account_index', methods: ['GET'])]
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        return $this->render('@account/index.html.twig');
+        return $this->render('@account/index.html.twig', [
+            'locale' => $request->getLocale(),
+        ]);
     }
 
     #[Route('/password', name: 'account_password', methods: ['GET'])]

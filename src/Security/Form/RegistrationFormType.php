@@ -32,6 +32,8 @@ class RegistrationFormType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $locale = $this->translator->getLocale();
+
         $builder
             ->add('username', TextType::class, [
                 'constraints' => [
@@ -117,7 +119,9 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('country', EnumType::class, [
                 'class' => UserCountry::class,
-                'choice_label' => static fn (UserCountry $country): string => $country->getLabel(),
+                'choice_label' => function (UserCountry $country) use ($locale): string {
+                    return $country->getLabel($locale);
+                },
                 'constraints' => [
                     new NotBlank(message: 'country.not_blank'),
                 ],
