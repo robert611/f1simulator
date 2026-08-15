@@ -8,11 +8,11 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Form\FormInterface;
 
-class PasswordDoesNotContainUserDataValidator extends ConstraintValidator
+class PasswordDoesNotContainFormUserDataValidator extends ConstraintValidator
 {
     public function validate(mixed $value, Constraint $constraint): void
     {
-        if (!$constraint instanceof PasswordDoesNotContainUserData) {
+        if (!$constraint instanceof PasswordDoesNotContainFormUserData) {
             return;
         }
 

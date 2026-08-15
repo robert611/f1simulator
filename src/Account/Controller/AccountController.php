@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Account\Controller;
 
+use Account\Form\ChangePassword\ChangePasswordType;
+use Account\Form\ChangePassword\ChangePasswordTypeDTO;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,10 +22,22 @@ class AccountController extends AbstractController
         ]);
     }
 
-    #[Route('/password', name: 'account_password', methods: ['GET'])]
-    public function password(): Response
+    #[Route('/change-password', name: 'account_change_password', methods: ['GET'])]
+    public function password(Request $request): Response
     {
-        return $this->render('@account/password.html.twig');
+        $form = $this->createForm(ChangePasswordType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var ChangePasswordTypeDTO $changePasswordDTO */
+            $changePasswordDTO = $form->getData();
+
+            return $this->redirectToRoute('account_change_password');
+        }
+
+        return $this->render('@account/change_password.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     #[Route('/email', name: 'account_email', methods: ['GET'])]

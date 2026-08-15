@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Security\Form;
 
+use Security\Contract\PasswordConstraints;
 use Security\Entity\User;
 use Security\Entity\UserCountry;
-use Security\Validator\PasswordDoesNotContainUserData;
+use Security\Validator\PasswordDoesNotContainFormUserData;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -75,46 +76,24 @@ class RegistrationFormType extends AbstractType
                 'type' => PasswordType::class,
                 'mapped' => false,
                 'invalid_message' => 'password.mismatch',
-                'constraints' => [
-                    new NotBlank(
-                        message: 'password.not_blank',
-                    ),
-                    new Length(
-                        min: 12,
-                        max: 64,
-                        minMessage: 'password.too_short',
-                        maxMessage: 'password.too_long',
-                    ),
-                    new Regex(
-                        pattern: '/[A-Z]/',
-                        message: 'password.missing_uppercase',
-                    ),
-                    new Regex(
-                        pattern: '/[\W_]/',
-                        message: 'password.missing_special',
-                    ),
-                    new PasswordDoesNotContainUserData(),
-                ],
-                'required' => true,
-                'first_options'  => [
-                    'label' => 'Password',
-                    'attr' => [
-                        'minlength' => 12,
-                        'maxlength' => 64,
-                        'pattern' => '(?=.*[A-Z])(?=.*[\W_]).{12,64}',
-                        'title' => $this->translator->trans('password.front_validation', [], 'validators'),
-                        'autocomplete' => 'new-password',
+                'constraints' => array_merge(
+                    PasswordConstraints::createSymfonyValidation(),
+                    [
+                        new PasswordDoesNotContainFormUserData(),
                     ],
+                ),
+                'required' => true,
+                'first_options' => [
+                    'label' => 'Password',
+                    'attr' => PasswordConstraints::createBrowserValidation(
+                        $this->translator->trans('password.front_validation', [], 'validators'),
+                    ),
                 ],
                 'second_options' => [
                     'label' => 'Repeat Password',
-                    'attr' => [
-                        'minlength' => 12,
-                        'maxlength' => 64,
-                        'pattern' => '(?=.*[A-Z])(?=.*[\W_]).{12,64}',
-                        'title' => $this->translator->trans('password.front_validation', [], 'validators'),
-                        'autocomplete' => 'new-password',
-                    ],
+                    'attr' => PasswordConstraints::createBrowserValidation(
+                        $this->translator->trans('password.front_validation', [], 'validators'),
+                    ),
                 ],
             ])
             ->add('country', EnumType::class, [
