@@ -135,6 +135,7 @@
             "new_password_info": "Hasło musi zawierać co najmniej 12 znaków, jedną dużą literę oraz jeden znak specjalny",
             "repeat_password": "Powtórz nowe hasło",
             "repeat_password_placeholder": "Powtórz nowe hasło",
+            "repeat_password_info": "Wprowadź ponownie to samo hasło",
             "submit": "Zapisz nowe hasło",
             "cancel": "Anuluj"
         },
