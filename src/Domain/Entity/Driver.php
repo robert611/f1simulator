@@ -97,4 +97,34 @@ class Driver
         $this->team = $team;
         $this->carNumber = $carNumber;
     }
+
+    /**
+     * @param Driver[] $drivers
+     * @param int $teamId
+     *
+     * @return Driver[]
+     */
+    public static function getDriversByTeamId(array $drivers, int $teamId): array
+    {
+         return array_filter($drivers, function (Driver $driver) use ($teamId) {
+             return $driver->getTeam()->getId() === $teamId;
+         });
+    }
+
+    /**
+     * @param Driver[] $drivers
+     *
+     * @return array<array{id: int, name: string, surname: string, carNumber: int}>
+     */
+    public static function getDriversWithoutDependencies(array $drivers): array
+    {
+        return array_values(array_map(function (Driver $driver) {
+            return [
+                'id' => $driver->getId(),
+                'name' => $driver->getName(),
+                'surname' => $driver->getSurname(),
+                'carNumber' => $driver->getCarNumber(),
+            ];
+        }, $drivers));
+    }
 }
