@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Functional\Account;
 
-use HttpResponse;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -23,10 +22,13 @@ class AccountControllerTest extends WebTestCase
     }
 
     #[Test]
-    public function homepage_is_successful(): void
+    public function index_page_is_successful(): void
     {
         // given
-        $user = $this->fixtures->anAdmin();
+        $user = $this->fixtures->aCustomUser(
+            username: 'LuckyLuck',
+            email: 'lucky.luck@gmail.com',
+        );
         $this->client->loginUser($user);
 
         // when
@@ -34,6 +36,12 @@ class AccountControllerTest extends WebTestCase
 
         // then
         self::assertResponseIsSuccessful();
+
+        // and then
+        self::assertSelectorTextContains('body', 'LuckyLuck');
+        self::assertSelectorTextContains('body', 'lucky.luck@gmail.com');
+        self::assertSelectorTextContains('body', 'Polska');
+        self::assertSelectorTextContains('body', $user->getCreatedAt()->format('d.m.Y H:i'));
     }
 
     #[Test]
