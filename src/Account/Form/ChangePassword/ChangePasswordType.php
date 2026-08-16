@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Account\Form\ChangePassword;
 
 use Account\Validator\CurrentPassword;
+use Account\Validator\PasswordDoesNotContainUserData;
 use Security\Contract\PasswordConstraints;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -36,6 +37,9 @@ final class ChangePasswordType extends AbstractType
                 'invalid_message' => 'password.mismatch',
                 'constraints' => array_merge(
                     PasswordConstraints::createSymfonyValidation(),
+                    [
+                        new PasswordDoesNotContainUserData(),
+                    ],
                 ),
                 'required' => true,
                 'first_options' => [
