@@ -6,14 +6,23 @@ namespace Account\Controller;
 
 use Account\Form\ChangePassword\ChangePasswordType;
 use Account\Form\ChangePassword\ChangePasswordTypeDTO;
+use Account\Service\ChangePasswordService;
+use Security\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/account')]
 class AccountController extends AbstractController
 {
+    public function __construct(
+        private readonly ChangePasswordService $changePasswordService,
+        private readonly TranslatorInterface $translator,
+    ) {
+    }
+
     #[Route('/index', name: 'account_index', methods: ['GET'])]
     public function index(Request $request): Response
     {
@@ -31,6 +40,16 @@ class AccountController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var ChangePasswordTypeDTO $changePasswordDTO */
             $changePasswordDTO = $form->getData();
+
+            /** @var User $user */
+            $user = $this->getUser();
+
+            $this->changePasswordService->changePassword($user, $changePasswordDTO->newPassword);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('account.password.password_has_been_changed', [], 'front'),
+            );
 
             return $this->redirectToRoute('account_change_password');
         }

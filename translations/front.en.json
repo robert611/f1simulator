@@ -137,7 +137,8 @@
             "repeat_password_placeholder": "Repeat the new password",
             "repeat_password_info": "Enter the same password again",
             "submit": "Save new password",
-            "cancel": "Cancel"
+            "cancel": "Cancel",
+            "password_has_been_changed": "Your password has been changed."
         },
         "delete": {
             "header": "Delete account",
