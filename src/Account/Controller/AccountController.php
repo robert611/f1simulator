@@ -22,7 +22,7 @@ class AccountController extends AbstractController
         ]);
     }
 
-    #[Route('/change-password', name: 'account_change_password', methods: ['GET'])]
+    #[Route('/change-password', name: 'account_change_password', methods: ['GET', 'POST'])]
     public function password(Request $request): Response
     {
         $form = $this->createForm(ChangePasswordType::class);

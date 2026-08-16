@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Account\Form\ChangePassword;
 
+use Account\Validator\CurrentPassword;
 use Security\Contract\PasswordConstraints;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class ChangePasswordType extends AbstractType
@@ -24,10 +26,14 @@ final class ChangePasswordType extends AbstractType
         $builder
             ->add('currentPassword', PasswordType::class, [
                 'required' => true,
+                'constraints' => [
+                    new NotBlank(message: 'password.not_blank'),
+                    new CurrentPassword(),
+                ],
             ])
             ->add('newPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'invalid_message' => 'password.mismatch.',
+                'invalid_message' => 'password.mismatch',
                 'constraints' => array_merge(
                     PasswordConstraints::createSymfonyValidation(),
                 ),
