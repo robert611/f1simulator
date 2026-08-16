@@ -44,6 +44,9 @@ services:
     Admin\:
         resource: '../src/Admin/*'
 
+    Account\:
+        resource: '../src/Account/*'
+
     DataFixtures\:
         resource: '../src/DataFixtures/*'
 
@@ -72,6 +75,10 @@ services:
     Admin\Controller\:
         resource: '../src/Admin/Controller/'
         tags: [ 'controller.service_arguments' ]
+
+    Account\Controller\:
+        resource: '../src/Account/Controller/'
+        tags: ['controller.service_arguments']
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

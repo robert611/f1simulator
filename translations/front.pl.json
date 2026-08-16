@@ -105,5 +105,50 @@
         "message": "Twoje konto zostało zablokowane przez administratora. Jeśli uważasz, że to błąd, skontaktuj się z nami.",
         "contact_support": "Jeśli masz pytania lub chcesz odwołać się od tej decyzji, prosimy o kontakt ze wsparciem technicznym.",
         "back_to_login": "Powrót do logowania"
+    },
+    "account": {
+        "menu": {
+            "header": "Moje konto",
+            "overview": "Przegląd konta",
+            "password": "Zmiana hasła",
+            "email": "Zmiana adresu email",
+            "username": "Zmiana nazwy użytkownika",
+            "history": "Historia sezonów",
+            "delete": "Usuń konto"
+        },
+        "overview": {
+            "header": "Przegląd konta",
+            "username": "Nazwa użytkownika",
+            "email": "Adres email",
+            "country": "Państwo",
+            "registered_at": "Data rejestracji",
+            "verified": "Zweryfikowany",
+            "unverified": "Niezweryfikowany",
+            "resend_confirmation": "Wyślij link weryfikacyjny ponownie"
+        },
+        "password": {
+            "header": "Zmiana hasła",
+            "current_password": "Obecne hasło",
+            "current_password_placeholder": "Wprowadź obecne hasło",
+            "new_password": "Nowe hasło",
+            "new_password_placeholder": "Wprowadź nowe hasło",
+            "new_password_info": "Hasło musi zawierać co najmniej 12 znaków, jedną dużą literę oraz jeden znak specjalny",
+            "repeat_password": "Powtórz nowe hasło",
+            "repeat_password_placeholder": "Powtórz nowe hasło",
+            "repeat_password_info": "Wprowadź ponownie to samo hasło",
+            "submit": "Zapisz nowe hasło",
+            "cancel": "Anuluj",
+            "password_has_been_changed": "Twoje hasło zostało zmienione."
+        },
+        "delete": {
+            "header": "Usunięcie konta",
+            "warning": "Usunięcie konta jest nieodwracalne. Wszystkie rozegrane sezony i wyniki zostaną trwale usunięte.",
+            "submit": "Usuń konto"
+        },
+        "in_progress": "Ta sekcja jest w przygotowaniu."
+    },
+    "footer": {
+        "rights_warning": "Wszelkie prawa zastrzeżone.",
+        "app_version": "Wersja aplikacji:"
     }
 }

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Domain\Controller;
 
+use Domain\Entity\Driver;
 use Domain\Entity\Team;
+use Domain\Repository\DriverRepository;
 use Domain\Repository\TeamRepository;
 use Shared\Controller\BaseController;
 use Symfony\Component\AssetMapper\AssetMapperInterface;
@@ -14,7 +16,8 @@ use Symfony\Component\Routing\Attribute\Route;
 class TeamsController extends BaseController
 {
     public function __construct(
-        private readonly TeamRepository $repository,
+        private readonly TeamRepository $teamRepository,
+        private readonly DriverRepository $driverRepository,
         private readonly AssetMapperInterface $assetMapper,
     ) {
     }
@@ -24,16 +27,19 @@ class TeamsController extends BaseController
     {
         $assetMapper = $this->assetMapper;
 
-        // TODO, fix n+1 which is caused by fetching drivers
-        $teams = array_map(function (Team $team) use ($assetMapper) {
+        $drivers = $this->driverRepository->findAll();
+
+        $teams = array_map(function (Team $team) use ($assetMapper, $drivers) {
+            $teamDrivers = Driver::getDriversByTeamId($drivers, $team->getId());
+
             return [
                 'id' => $team->getId(),
                 'name' => $team->getName(),
                 'picture' => $team->getPicture(),
                 'pictureUrl' => $assetMapper->getPublicPath('images/cars/' . $team->getPicture()),
-                'drivers' => $team->getDriversWithoutDependencies(),
+                'drivers' => Driver::getDriversWithoutDependencies($teamDrivers),
             ];
-        }, $this->repository->findAll());
+        }, $this->teamRepository->findAll());
 
         return new JsonResponse($teams);
     }

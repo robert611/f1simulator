@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+{% trans_default_domain 'front' %}
+
+{% block importmap %}
+    {{ parent() }}
+    {{ importmap('account') }}
+{% endblock %}
+
+{% block body %}
+    <div class="container py-4">
+        <div class="row g-4">
+            {# MOBILE / TABLET: horizontal tabs above the content #}
+            <div class="col-12 d-lg-none">
+                {% include '@account/partials/_tabs.html.twig' %}
+            </div>
+
+            {# DESKTOP: sticky sidebar #}
+            <div class="col-lg-3">
+                {% include '@account/partials/_sidebar.html.twig' %}
+            </div>
+
+            {# CONTENT #}
+            <div class="col-lg-9">
+                {% block account_content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

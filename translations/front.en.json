@@ -105,5 +105,50 @@
         "message": "Your account has been blocked by an administrator. If you believe this is a mistake, please contact us.",
         "contact_support": "If you have any questions or want to appeal this decision, please contact our technical support.",
         "back_to_login": "Back to login"
+    },
+    "account": {
+        "menu": {
+            "header": "My account",
+            "overview": "Account overview",
+            "password": "Change password",
+            "email": "Change email address",
+            "username": "Change username",
+            "history": "Season history",
+            "delete": "Delete account"
+        },
+        "overview": {
+            "header": "Account overview",
+            "username": "Username",
+            "email": "Email address",
+            "country": "Country",
+            "registered_at": "Registered on",
+            "verified": "Verified",
+            "unverified": "Not verified",
+            "resend_confirmation": "Resend verification link"
+        },
+        "password": {
+            "header": "Change password",
+            "current_password": "Current password",
+            "current_password_placeholder": "Enter your current password",
+            "new_password": "New password",
+            "new_password_placeholder": "Enter a new password",
+            "new_password_info": "Password must contain at least 12 characters, one uppercase letter and one special character",
+            "repeat_password": "Repeat new password",
+            "repeat_password_placeholder": "Repeat the new password",
+            "repeat_password_info": "Enter the same password again",
+            "submit": "Save new password",
+            "cancel": "Cancel",
+            "password_has_been_changed": "Your password has been changed."
+        },
+        "delete": {
+            "header": "Delete account",
+            "warning": "Deleting your account is irreversible. All played seasons and results will be permanently removed.",
+            "submit": "Delete account"
+        },
+        "in_progress": "This section is under construction."
+    },
+    "footer": {
+        "rights_warning": "All rights reserved.",
+        "app_version": "Application version:"
     }
 }

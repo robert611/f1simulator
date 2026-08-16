@@ -21,3 +21,7 @@ shared:
 admin:
     resource: '../src/Admin/Controller'
     type: attribute
+
+account:
+    resource: '../src/Account/Controller'
+    type: attribute
