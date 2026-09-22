@@ -54,4 +54,25 @@ class AccountControllerTest extends WebTestCase
         self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
         self::assertResponseRedirects('/login');
     }
+
+    #[Test]
+    public function change_password_page_is_successful(): void
+    {
+        // given
+        $user = $this->fixtures->aCustomUser(
+            username: 'LuckyLuck',
+            email: 'lucky.luck@gmail.com',
+        );
+        $this->client->loginUser($user);
+
+        // when
+        $this->client->request('GET', '/account/change-password');
+
+        // then
+        self::assertResponseIsSuccessful();
+
+        // and then
+        self::assertSelectorTextContains('body', 'Zmiana hasła');
+        self::assertSelectorTextContains('body', 'Zapisz nowe hasło');
+    }
 }
