@@ -6,20 +6,26 @@ namespace Tests\Functional\Account;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
+use Security\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Tests\Common\Fixtures;
 
 class AccountControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
     private Fixtures $fixtures;
+    private UserPasswordHasherInterface $passwordHasher;
+    private UserRepository $userRepository;
 
     public function setUp(): void
     {
         $this->client = self::createClient();
         $this->fixtures = self::getContainer()->get(Fixtures::class);
+        $this->passwordHasher = self::getContainer()->get(UserPasswordHasherInterface::class);
+        $this->userRepository = self::getContainer()->get(UserRepository::class);
     }
 
     #[Test]
@@ -76,6 +82,37 @@ class AccountControllerTest extends WebTestCase
         // and then
         self::assertSelectorTextContains('body', 'Zmiana hasła');
         self::assertSelectorTextContains('body', 'Zapisz nowe hasło');
+    }
+
+    #[Test]
+    public function password_can_be_changed(): void
+    {
+        // given
+        $user = $this->fixtures->aCustomUser(
+            username: 'LuckyLuck',
+            email: 'lucky.luck@gmail.com',
+        );
+        $this->client->loginUser($user);
+
+        // when
+        $crawler = $this->client->request('GET', '/account/change-password');
+        $form = $crawler->selectButton('Zapisz nowe hasło')->form([
+            'change_password[currentPassword]' => 'Password1...',
+            'change_password[newPassword][first]' => 'Password1!!!!',
+            'change_password[newPassword][second]' => 'Password1!!!!',
+        ]);
+        $this->client->submit($form);
+
+        // then
+        self::assertResponseRedirects('/account/change-password');
+
+        // and then
+        $this->client->followRedirect();
+        self::assertSelectorTextContains('body', 'Twoje hasło zostało zmienione.');
+
+        // and then
+        $user = $this->userRepository->find($user->getId());
+        self::assertTrue($this->passwordHasher->isPasswordValid($user, 'Password1!!!!'));
     }
 
     public static function provideUrls(): array
