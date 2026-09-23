@@ -85,6 +85,33 @@ class AccountControllerTest extends WebTestCase
     }
 
     #[Test]
+    public function user_must_provide_current_password_to_change_it(): void
+    {
+        // given
+        $user = $this->fixtures->aCustomUser(
+            username: 'LuckyLuck',
+            email: 'lucky.luck@gmail.com',
+        );
+        $this->client->loginUser($user);
+
+        // when
+        $crawler = $this->client->request('GET', '/account/change-password');
+        $form = $crawler->selectButton('Zapisz nowe hasło')->form([
+            'change_password[currentPassword]' => 'wrong_current_password',
+            'change_password[newPassword][first]' => 'Password1!!!!',
+            'change_password[newPassword][second]' => 'Password1!!!!',
+        ]);
+        $this->client->submit($form);
+
+        // and then
+        self::assertSelectorTextContains('body', 'Podane obecne hasło jest nieprawidłowe');
+
+        // and then
+        $user = $this->userRepository->find($user->getId());
+        self::assertFalse($this->passwordHasher->isPasswordValid($user, 'Password1!!!!'));
+    }
+
+    #[Test]
     public function password_can_be_changed(): void
     {
         // given
