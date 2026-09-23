@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Functional\Account;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -19,6 +20,18 @@ class AccountControllerTest extends WebTestCase
     {
         $this->client = self::createClient();
         $this->fixtures = self::getContainer()->get(Fixtures::class);
+    }
+
+    #[Test]
+    #[DataProvider('provideUrls')]
+    public function only_logged_user_can_access_account_pages(string $method, string $url): void
+    {
+        // when
+        $this->client->request($method, $url);
+
+        // then
+        self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
+        self::assertResponseRedirects('/login');
     }
 
     #[Test]
@@ -45,17 +58,6 @@ class AccountControllerTest extends WebTestCase
     }
 
     #[Test]
-    public function only_logged_user_can_access_account_page(): void
-    {
-        // when
-        $this->client->request('GET', '/account/index');
-
-        // then
-        self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
-        self::assertResponseRedirects('/login');
-    }
-
-    #[Test]
     public function change_password_page_is_successful(): void
     {
         // given
@@ -74,5 +76,13 @@ class AccountControllerTest extends WebTestCase
         // and then
         self::assertSelectorTextContains('body', 'Zmiana hasła');
         self::assertSelectorTextContains('body', 'Zapisz nowe hasło');
+    }
+
+    public static function provideUrls(): array
+    {
+        return [
+            ['GET', '/account/index'],
+            ['GET', '/account/change-password'],
+        ];
     }
 }
