@@ -140,6 +140,34 @@ class AccountControllerTest extends WebTestCase
     }
 
     #[Test]
+    public function new_password_must_meet_difficulty_requirements(): void
+    {
+        // given
+        $user = $this->fixtures->aCustomUser(
+            username: 'LuckyLuck',
+            email: 'lucky.luck@gmail.com',
+        );
+        $this->client->loginUser($user);
+
+        // when
+        $crawler = $this->client->request('GET', '/account/change-password');
+        $form = $crawler->selectButton('Zapisz nowe hasło')->form([
+            'change_password[currentPassword]' => 'Password1...',
+            'change_password[newPassword][first]' => 'too_short',
+            'change_password[newPassword][second]' => 'too_short',
+        ]);
+        $this->client->submit($form);
+
+        // and then
+        self::assertSelectorTextContains('body', 'Hasło musi zawierać co najmniej 12 znaków');
+        self::assertSelectorTextContains('body', 'Hasło musi zawierać co najmniej jedną wielką literę');
+
+        // and then
+        $user = $this->userRepository->find($user->getId());
+        self::assertFalse($this->passwordHasher->isPasswordValid($user, 'too_short'));
+    }
+
+    #[Test]
     public function password_can_be_changed(): void
     {
         // given
