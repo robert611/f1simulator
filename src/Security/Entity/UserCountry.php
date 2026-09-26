@@ -10,7 +10,25 @@ enum UserCountry: string
     case GB = 'GB';
     case US = 'US';
 
-    public function getLabel(): string
+    public function getLabel(string $locale): string
+    {
+        if ('pl' === $locale) {
+            return $this->toPolish();
+        }
+
+        return $this->toEnglish();
+    }
+
+    public function toPolish(): string
+    {
+        return match ($this) {
+            self::PL => 'Polska',
+            self::GB => 'Wielka Brytania',
+            self::US => 'Stany Zjednoczone',
+        };
+    }
+
+    public function toEnglish(): string
     {
         return match ($this) {
             self::PL => 'Poland',

@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class BlockedAccountController extends BaseController
 {
-    #[Route('/account-blocked', name: 'app_account_blocked', methods: ['GET'])]
+    #[Route('/security/account-blocked', name: 'app_account_blocked', methods: ['GET'])]
     public function blocked(): Response
     {
         if ($this->getUser()) {

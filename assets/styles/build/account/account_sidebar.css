@@ -1,0 +1,140 @@
+/* ---------- DESKTOP SIDEBAR ---------- */
+.account-sidebar {
+  position: sticky;
+  top: 24px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.account-sidebar .account-sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 20px 18px;
+  background-color: #fff;
+  border-bottom: 1px solid #dee2e6;
+}
+.account-sidebar .account-avatar {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--layoutColor);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+.account-sidebar .account-identity {
+  min-width: 0;
+}
+.account-sidebar .account-identity-name {
+  font-weight: 600;
+  font-size: 0.98rem;
+  color: #212529;
+}
+.account-sidebar .account-identity-email {
+  font-size: 0.82rem;
+  color: #6c757d;
+}
+.account-sidebar .account-identity-name, .account-sidebar .account-identity-email {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.account-sidebar .account-sidebar-body {
+  padding: 14px 12px 16px;
+}
+.account-sidebar .account-sidebar-title {
+  text-transform: uppercase;
+  color: #6c757d;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+  padding: 0 8px 10px;
+  margin: 0;
+}
+.account-sidebar .account-sidebar-divider {
+  margin: 12px 8px;
+  border: 0;
+  border-top: 1px solid #dee2e6;
+  opacity: 1;
+}
+.account-sidebar .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #000;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+}
+.account-sidebar .nav-link i {
+  font-size: 1rem;
+  width: 20px;
+}
+.account-sidebar .nav-link:hover {
+  background-color: #e9ecef;
+  color: #212529;
+}
+.account-sidebar .nav-link.active {
+  background-color: var(--layoutColor);
+  color: #fff;
+  font-weight: 600;
+}
+.account-sidebar .nav-link.nav-link-danger {
+  color: #b02a37;
+}
+.account-sidebar .nav-link.nav-link-danger:hover {
+  background-color: #f8d7da;
+  color: #842029;
+}
+.account-sidebar .nav-link.nav-link-danger.active {
+  background-color: #b02a37;
+  color: #fff;
+}
+
+/* ---------- MOBILE TABS ---------- */
+.account-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #dee2e6;
+}
+.account-tabs .account-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid #dee2e6;
+  border-bottom: none;
+  border-radius: 0.375rem 0.375rem 0 0;
+  background-color: #f8f9fa;
+  color: #212529;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+.account-tabs .account-tab:hover {
+  background-color: #e9ecef;
+}
+.account-tabs .account-tab.active {
+  background-color: var(--layoutColor);
+  color: #fff;
+  font-weight: 600;
+}
+.account-tabs .account-tab.account-tab-danger:not(.active) {
+  color: #b02a37;
+}
+.account-tabs .account-tab.account-tab-danger.active {
+  background-color: #b02a37;
+}
+
+/*# sourceMappingURL=account_sidebar.css.map */

@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraint;
 /**
  * @Annotation
  */
-class PasswordDoesNotContainUserData extends Constraint
+class PasswordDoesNotContainFormUserData extends Constraint
 {
     public string $message = 'password.contains_user_data';
 }

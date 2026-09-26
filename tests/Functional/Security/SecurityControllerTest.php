@@ -121,7 +121,7 @@ class SecurityControllerTest extends WebTestCase
         $this->client->submit($form);
 
         // then
-        self::assertResponseRedirects('/account-blocked');
+        self::assertResponseRedirects('/security/account-blocked');
 
         // and then
         $this->client->followRedirect();
