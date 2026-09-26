@@ -93,16 +93,4 @@ class Team
     {
         return 'high_resolution/' . str_replace('png', 'avif', $this->picture);
     }
-
-    public function getDriversWithoutDependencies(): array
-    {
-        return array_map(function (Driver $driver) {
-            return [
-                'id' => $driver->getId(),
-                'name' => $driver->getName(),
-                'surname' => $driver->getSurname(),
-                'carNumber' => $driver->getCarNumber(),
-            ];
-        }, $this->drivers->toArray());
-    }
 }

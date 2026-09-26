@@ -41,6 +41,7 @@ class Fixtures
         $user->setRoles(['ROLE_USER']);
         $user->setCountry(UserCountry::PL);
         $user->setIsVerified(true);
+        $user->setIsBlocked(false);
         $user->setCreatedAt(new DateTimeImmutable());
         $user->setUpdatedAt(new DateTimeImmutable());
 
@@ -59,6 +60,7 @@ class Fixtures
         $user->setRoles(['ROLE_ADMIN']);
         $user->setCountry(UserCountry::PL);
         $user->setIsVerified(true);
+        $user->setIsBlocked(false);
         $user->setCreatedAt(new DateTimeImmutable());
         $user->setUpdatedAt(new DateTimeImmutable());
 
@@ -82,6 +84,7 @@ class Fixtures
         $user->setRoles(['ROLE_USER']);
         $user->setCountry($country);
         $user->setIsVerified(true);
+        $user->setIsBlocked(false);
         $user->setCreatedAt(new DateTimeImmutable());
         $user->setUpdatedAt(new DateTimeImmutable());
 
@@ -100,6 +103,26 @@ class Fixtures
         $user->setRoles(['ROLE_USER']);
         $user->setCountry(UserCountry::PL);
         $user->setIsVerified(false);
+        $user->setIsBlocked(false);
+        $user->setCreatedAt(new DateTimeImmutable());
+        $user->setUpdatedAt(new DateTimeImmutable());
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        return $user;
+    }
+
+    public function aBlockedUser(): User
+    {
+        $user = new User();
+        $user->setUsername('blocked_user');
+        $user->setEmail('blocked@gmail.com');
+        $user->setPassword('password');
+        $user->setRoles(['ROLE_USER']);
+        $user->setCountry(UserCountry::PL);
+        $user->setIsVerified(true);
+        $user->setIsBlocked(true);
         $user->setCreatedAt(new DateTimeImmutable());
         $user->setUpdatedAt(new DateTimeImmutable());
 

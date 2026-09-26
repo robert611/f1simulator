@@ -24,6 +24,9 @@ services:
     Security\Service\UserCountryService:
         public: true
 
+    Security\SecurityFacade:
+        public: true
+
     Tests\Common\FixedClock:
         public: true
 

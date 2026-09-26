@@ -43,4 +43,4 @@ security:
         - { path: ^/teams, roles: ROLE_USER }
         - { path: ^/league, roles: ROLE_USER }
         - { path: ^/multiplayer, roles: ROLE_USER }
-
+        - { path: ^/account, roles: ROLE_USER }

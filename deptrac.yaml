@@ -60,6 +60,7 @@ deptrac:
         - name: Security_Allowed
           collectors:
               - { type: class, value: ^Security\\Entity\\User }
+              - { type: class, value: ^Security\\Contract\\.* }
 
         - name: Shared
           collectors:
