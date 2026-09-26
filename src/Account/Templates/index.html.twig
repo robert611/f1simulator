@@ -24,7 +24,7 @@
                         <span class="account-badge account-badge-unverified">
                             <i class="bi bi-exclamation-circle-fill"></i>{{ 'account.overview.unverified'|trans }}
                         </span>
-                        <a href="{{ path('app_resend_confirm_email_view') }}" class="ms-2">
+                        <a href="{{ path('app_resend_confirm_email_view', {userId: app.user.id}) }}" class="ms-2">
                             {{ 'account.overview.resend_confirmation'|trans }}
                         </a>
                     {% endif %}
