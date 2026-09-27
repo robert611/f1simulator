@@ -203,6 +203,7 @@ class AccountControllerTest extends WebTestCase
         return [
             ['GET', '/account/index'],
             ['GET', '/account/change-password'],
+            ['GET', '/account/change-email'],
         ];
     }
 }
