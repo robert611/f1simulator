@@ -140,6 +140,15 @@
             "cancel": "Cancel",
             "password_has_been_changed": "Your password has been changed."
         },
+        "email": {
+            "header": "Change email",
+            "current_password": "Current password",
+            "current_password_placeholder": "Enter your current password",
+            "new_email": "New email",
+            "new_email_placeholder": "Enter new email",
+            "submit": "Save new email",
+            "cancel": "Cancel"
+        },
         "delete": {
             "header": "Delete account",
             "warning": "Deleting your account is irreversible. All played seasons and results will be permanently removed.",
