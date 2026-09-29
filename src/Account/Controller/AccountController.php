@@ -60,7 +60,7 @@ class AccountController extends AbstractController
         ]);
     }
 
-    #[Route('/change-email', name: 'account_email', methods: ['GET'])]
+    #[Route('/change-email', name: 'account_email', methods: ['GET', 'POST'])]
     public function email(Request $request): Response
     {
         $form = $this->createForm(ChangeEmailType::class);
