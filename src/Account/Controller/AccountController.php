@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Account\Controller;
 
-use Account\Form\ChangeEmail\ChangeEmailType;
 use Account\Form\ChangePassword\ChangePasswordType;
 use Account\Form\ChangePassword\ChangePasswordTypeDTO;
 use Account\Service\ChangePasswordService;
@@ -56,21 +55,6 @@ class AccountController extends AbstractController
         }
 
         return $this->render('@account/change_password.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
-
-    #[Route('/change-email', name: 'account_email', methods: ['GET', 'POST'])]
-    public function email(Request $request): Response
-    {
-        $form = $this->createForm(ChangeEmailType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // TODO, handle submitted form
-        }
-
-        return $this->render('@account/change_email.html.twig', [
             'form' => $form->createView(),
         ]);
     }
