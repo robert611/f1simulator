@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Functional\Account;
 
+use Mailer\AsyncCommand\SendEmail;
 use PHPUnit\Framework\Attributes\Test;
 use Security\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Tests\Common\Fixtures;
 
-final class ChangeEmailTest extends WebTestCase
+final class ChangeEmailControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
     private Fixtures $fixtures;
@@ -64,6 +65,53 @@ final class ChangeEmailTest extends WebTestCase
 
         // and then
         self::assertSelectorTextContains('body', 'Podane obecne hasło jest nieprawidłowe');
+
+        // and then
+        $user = $this->userRepository->find($user->getId());
+        self::assertNotEquals('new_email@gmail.com', $user->getEmail());
+    }
+
+    #[Test]
+    public function user_will_receive_email_confirming_new_email(): void
+    {
+        // given
+        $user = $this->fixtures->aCustomUser(
+            username: 'LuckyLuck',
+            email: 'lucky.luck@gmail.com',
+        );
+        $this->client->loginUser($user);
+
+        // when
+        $crawler = $this->client->request('GET', '/account/change-email');
+        $form = $crawler->selectButton('Zapisz nowy email')->form([
+            'change_email[currentPassword]' => 'Password1...',
+            'change_email[newEmail]' => 'new_email@gmail.com',
+        ]);
+        $this->client->submit($form);
+
+        // then
+        self::assertResponseRedirects('/account/change-email');
+
+        // and then
+        $inMemoryTransport = self::getContainer()->get('messenger.transport.async');
+        $sent = $inMemoryTransport->getSent();
+        /** @var SendEmail $message */
+        $message = $sent[0]->getMessage();
+        self::assertCount(1, $sent);
+        self::assertInstanceOf(SendEmail::class, $message);
+        self::assertEquals(['lucky.luck@gmail.com'], $message->to);
+        self::assertEquals('Potwierdź zmianę adresu email', $message->subject);
+        self::assertEquals('@mailer/change_email/change_email_pl.html.twig', $message->htmlTemplate);
+        self::assertEquals('@mailer/change_email/change_email_pl.txt.twig', $message->plainTemplate);
+        self::assertEquals([
+            'username' => 'LuckyLuck',
+            'newEmail' => 'new_email@gmail.com',
+            'changeEmailUrl' => '',
+        ], $message->contentParams);
+
+        // and then
+        $this->client->followRedirect();
+        self::assertSelectorTextContains('body', 'Sprawdź swój obecny adres email w celu potwierdzenia zmiany.');
 
         // and then
         $user = $this->userRepository->find($user->getId());

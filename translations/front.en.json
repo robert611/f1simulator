@@ -147,7 +147,9 @@
             "new_email": "New email",
             "new_email_placeholder": "Enter new email",
             "submit": "Save new email",
-            "cancel": "Cancel"
+            "cancel": "Cancel",
+            "confirmation_mail_subject": "Confirm you want to change your email",
+            "confirmation_mail_sent": "Check your current inbox to confirm changes."
         },
         "delete": {
             "header": "Delete account",

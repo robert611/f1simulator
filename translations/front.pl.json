@@ -147,7 +147,9 @@
             "new_email": "Nowy email",
             "new_email_placeholder": "Wprowadź nowy email",
             "submit": "Zapisz nowy email",
-            "cancel": "Anuluj"
+            "cancel": "Anuluj",
+            "confirmation_mail_subject": "Potwierdź zmianę adresu email",
+            "confirmation_mail_sent": "Sprawdź swój obecny adres email w celu potwierdzenia zmiany."
         },
         "delete": {
             "header": "Usunięcie konta",
