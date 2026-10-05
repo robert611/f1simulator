@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Functional\Account;
 
+use Account\Repository\ChangeEmailConfirmationTokenRepository;
 use Mailer\AsyncCommand\SendEmail;
 use PHPUnit\Framework\Attributes\Test;
 use Security\Repository\UserRepository;
@@ -16,12 +17,14 @@ final class ChangeEmailControllerTest extends WebTestCase
     private KernelBrowser $client;
     private Fixtures $fixtures;
     private UserRepository $userRepository;
+    private ChangeEmailConfirmationTokenRepository $tokenRepository;
 
     public function setUp(): void
     {
         $this->client = self::createClient();
         $this->fixtures = self::getContainer()->get(Fixtures::class);
         $this->userRepository = self::getContainer()->get(UserRepository::class);
+        $this->tokenRepository = self::getContainer()->get(ChangeEmailConfirmationTokenRepository::class);
     }
 
     #[Test]
@@ -116,5 +119,11 @@ final class ChangeEmailControllerTest extends WebTestCase
         // and then
         $user = $this->userRepository->find($user->getId());
         self::assertNotEquals('new_email@gmail.com', $user->getEmail());
+
+        // and then
+        $changeEmailConfirmationToken = $this->tokenRepository->findOneBy([]);
+        self::assertEquals(1, $this->tokenRepository->count());
+        self::assertEquals($user, $changeEmailConfirmationToken->getUser());
+        self::assertEquals('new_email@gmail.com', $changeEmailConfirmationToken->getNewEmail());
     }
 }

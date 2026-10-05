@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Account\Service;
 
+use Account\Entity\ChangeEmailConfirmationToken;
 use Account\Form\ChangeEmail\ChangeEmailTypeDTO;
+use DateTimeImmutable;
+use Doctrine\ORM\EntityManagerInterface;
 use Mailer\Contract\GenericEmail;
 use Mailer\MailerFacadeInterface;
 use Security\Entity\User;
+use Shared\Service\TokenGenerator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class ChangeEmailService
@@ -15,6 +19,7 @@ final readonly class ChangeEmailService
     public function __construct(
         private MailerFacadeInterface $mailerFacade,
         private TranslatorInterface $translator,
+        private EntityManagerInterface $entityManager,
     ) {
     }
 
@@ -31,6 +36,8 @@ final readonly class ChangeEmailService
             $plainTemplate = '@mailer/change_email/change_email_en.txt.twig';
         }
 
+        $token = TokenGenerator::bin2hex(24);
+
         $this->mailerFacade->send(
             new GenericEmail(
                 to: [$user->getEmail()],
@@ -44,5 +51,15 @@ final readonly class ChangeEmailService
                 ],
             ),
         );
+
+        $changeEmailConfirmationToken = ChangeEmailConfirmationToken::create(
+            user: $user,
+            newEmail: $formData->newEmail,
+            token: $token,
+            expiryAt: new DateTimeImmutable('+1 hour'),
+        );
+
+        $this->entityManager->persist($changeEmailConfirmationToken);
+        $this->entityManager->flush();
     }
 }
