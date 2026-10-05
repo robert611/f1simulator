@@ -6,8 +6,7 @@ namespace Account\Controller;
 
 use Account\Form\ChangeEmail\ChangeEmailType;
 use Account\Form\ChangeEmail\ChangeEmailTypeDTO;
-use Mailer\Contract\GenericEmail;
-use Mailer\MailerFacadeInterface;
+use Account\Service\ChangeEmailService;
 use Shared\Controller\BaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ChangeEmailController extends BaseController
 {
     public function __construct(
-        private readonly MailerFacadeInterface $mailerFacade,
+        private readonly ChangeEmailService $changeEmailService,
         private readonly TranslatorInterface $translator,
     ) {
     }
@@ -33,26 +32,10 @@ class ChangeEmailController extends BaseController
             /** @var ChangeEmailTypeDTO $formData */
             $formData = $form->getData();
 
-            if ('pl' === $request->getLocale()) {
-                $htmlTemplate = '@mailer/change_email/change_email_pl.html.twig';
-                $plainTemplate = '@mailer/change_email/change_email_pl.txt.twig';
-            } else {
-                $htmlTemplate = '@mailer/change_email/change_email_en.html.twig';
-                $plainTemplate = '@mailer/change_email/change_email_en.txt.twig';
-            }
-
-            $this->mailerFacade->send(
-                new GenericEmail(
-                    to: [$this->getUser()->getEmail()],
-                    subject: $this->translator->trans('account.email.confirmation_mail_subject', [], 'front'),
-                    htmlTemplate: $htmlTemplate,
-                    plainTemplate: $plainTemplate,
-                    contentParams: [
-                        'username' => $this->getUser()->getUsername(),
-                        'newEmail' => $formData->newEmail,
-                        'changeEmailUrl' => '',
-                    ],
-                ),
+            $this->changeEmailService->notifyUserInboxToConfirmChangingEmail(
+                formData: $formData,
+                user: $this->getUser(),
+                locale: $request->getLocale(),
             );
 
             $this->addFlash(

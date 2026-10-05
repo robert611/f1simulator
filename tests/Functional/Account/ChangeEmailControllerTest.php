@@ -118,4 +118,3 @@ final class ChangeEmailControllerTest extends WebTestCase
         self::assertNotEquals('new_email@gmail.com', $user->getEmail());
     }
 }
-
