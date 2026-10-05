@@ -149,7 +149,9 @@
             "submit": "Save new email",
             "cancel": "Cancel",
             "confirmation_mail_subject": "Confirm you want to change your email",
-            "confirmation_mail_sent": "Check your current inbox to confirm changes."
+            "confirmation_mail_sent": "Check your current inbox to confirm changes.",
+            "not_existent_confirmation_link": "Confirmation link is invalid or expired.",
+            "change_confirmed": "Your email has been changed."
         },
         "delete": {
             "header": "Delete account",

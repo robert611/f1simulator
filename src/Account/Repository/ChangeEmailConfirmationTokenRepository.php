@@ -20,4 +20,15 @@ class ChangeEmailConfirmationTokenRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, ChangeEmailConfirmationToken::class);
     }
+
+    public function invalidateUserTokens(int $userId): void
+    {
+        $this->createQueryBuilder('t')
+            ->update()
+            ->set('t.isValid', 'false')
+            ->where('t.user = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->execute();
+    }
 }

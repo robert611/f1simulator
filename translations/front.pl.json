@@ -149,7 +149,9 @@
             "submit": "Zapisz nowy email",
             "cancel": "Anuluj",
             "confirmation_mail_subject": "Potwierdź zmianę adresu email",
-            "confirmation_mail_sent": "Sprawdź swój obecny adres email w celu potwierdzenia zmiany."
+            "confirmation_mail_sent": "Sprawdź swój obecny adres email w celu potwierdzenia zmiany.",
+            "not_existent_confirmation_link": "Link potwierdzający jest nieprawidłowy lub wygasł.",
+            "change_confirmed": "Twój adres email został zmieniony."
         },
         "delete": {
             "header": "Usunięcie konta",

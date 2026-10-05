@@ -12,6 +12,8 @@ use Mailer\Contract\GenericEmail;
 use Mailer\MailerFacadeInterface;
 use Security\Entity\User;
 use Shared\Service\TokenGenerator;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class ChangeEmailService
@@ -20,6 +22,7 @@ final readonly class ChangeEmailService
         private MailerFacadeInterface $mailerFacade,
         private TranslatorInterface $translator,
         private EntityManagerInterface $entityManager,
+        private RouterInterface $router,
     ) {
     }
 
@@ -47,7 +50,11 @@ final readonly class ChangeEmailService
                 contentParams: [
                     'username' => $user->getUsername(),
                     'newEmail' => $formData->newEmail,
-                    'changeEmailUrl' => '',
+                    'changeEmailUrl' => $this->router->generate(
+                        'account_email_confirmation',
+                        ['token' => $token],
+                        UrlGeneratorInterface::ABSOLUTE_URL,
+                    ),
                 ],
             ),
         );

@@ -111,4 +111,9 @@ class ChangeEmailConfirmationToken
 
         return true;
     }
+
+    public function invalidate(): void
+    {
+        $this->isValid = false;
+    }
 }

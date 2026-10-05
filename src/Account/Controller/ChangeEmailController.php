@@ -6,7 +6,9 @@ namespace Account\Controller;
 
 use Account\Form\ChangeEmail\ChangeEmailType;
 use Account\Form\ChangeEmail\ChangeEmailTypeDTO;
+use Account\Repository\ChangeEmailConfirmationTokenRepository;
 use Account\Service\ChangeEmailService;
+use Doctrine\ORM\EntityManagerInterface;
 use Shared\Controller\BaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +20,9 @@ class ChangeEmailController extends BaseController
 {
     public function __construct(
         private readonly ChangeEmailService $changeEmailService,
+        private readonly ChangeEmailConfirmationTokenRepository $tokenRepository,
         private readonly TranslatorInterface $translator,
+        private readonly EntityManagerInterface $entityManager,
     ) {
     }
 
@@ -49,5 +53,40 @@ class ChangeEmailController extends BaseController
         return $this->render('@account/change_email.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/confirmation/{token}', name: 'account_email_confirmation', methods: ['GET', 'POST'])]
+    public function confirm(string $token): Response
+    {
+        $changeEmailConfirmationToken = $this->tokenRepository->findOneBy(['token' => $token]);
+
+        if (null === $changeEmailConfirmationToken || false === $changeEmailConfirmationToken->isValid()) {
+            if (isset($changeEmailConfirmationToken)) {
+                $changeEmailConfirmationToken->invalidate();
+                $this->entityManager->flush();
+            }
+
+            $this->addFlash(
+                'warning',
+                $this->translator->trans('account.email.not_existent_confirmation_link', [], 'front'),
+            );
+
+            return $this->redirectToRoute('app_login');
+        }
+
+        $changeEmailConfirmationToken->invalidate();
+        $user = $changeEmailConfirmationToken->getUser();
+        $user->setEmail($changeEmailConfirmationToken->getNewEmail());
+
+        $this->entityManager->flush();
+
+        $this->tokenRepository->invalidateUserTokens($user->getId());
+
+        $this->addFlash(
+            'success',
+            $this->translator->trans('account.email.change_confirmed', [], 'front'),
+        );
+
+        return $this->redirectToRoute('app_login');
     }
 }
