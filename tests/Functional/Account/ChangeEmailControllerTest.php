@@ -6,8 +6,10 @@ namespace Tests\Functional\Account;
 
 use Account\Repository\ChangeEmailConfirmationTokenRepository;
 use Mailer\AsyncCommand\SendEmail;
+use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\Test;
 use Security\Repository\UserRepository;
+use Shared\Service\TokenGenerator;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Tests\Common\Fixtures;
@@ -162,15 +164,47 @@ final class ChangeEmailControllerTest extends WebTestCase
         // and given
         $this->client->request('GET', '/account/change-email/confirmation/4NFJS93NFJJ902MSD9J0S');
 
-        // then
-        self::assertResponseRedirects('/login');
-
         // and then
-        $this->client->followRedirect();
         self::assertResponseRedirects('/home');
 
         // and then
         $this->client->followRedirect();
         self::assertSelectorTextContains('body', 'Link potwierdzający jest nieprawidłowy lub wygasł.');
+    }
+
+    #[Test]
+    public function confirm_action_invalidates_token_and_changes_user_email(): void
+    {
+        // given
+        $user = $this->fixtures->aCustomUser(
+            username: 'LuckyLuck',
+            email: 'lucky.luck@gmail.com',
+        );
+        $this->client->loginUser($user);
+
+        // and given
+        $token = TokenGenerator::bin2hex(24);
+        $confirmationToken = $this->fixtures->aChangeEmailConfirmationToken(
+            user: $user,
+            newEmail: 'new_email@gmail.com',
+            token: $token,
+            expiryAt: new DateTimeImmutable('+1 hour'),
+        );
+
+        // when
+        $this->client->request('GET', "/account/change-email/confirmation/$token");
+
+        // and then
+        self::assertResponseRedirects('/home');
+
+        // and then
+        $this->client->followRedirect();
+        self::assertSelectorTextContains('body', 'Twój adres email został zmieniony.');
+
+        // and then
+        self::assertFalse($confirmationToken->isValid());
+
+        // and then
+        self::assertEquals('new_email@gmail.com', $user->getEmail());
     }
 }

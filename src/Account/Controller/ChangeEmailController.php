@@ -71,7 +71,7 @@ class ChangeEmailController extends BaseController
                 $this->translator->trans('account.email.not_existent_confirmation_link', [], 'front'),
             );
 
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app_index');
         }
 
         $changeEmailConfirmationToken->invalidate();
@@ -87,6 +87,6 @@ class ChangeEmailController extends BaseController
             $this->translator->trans('account.email.change_confirmed', [], 'front'),
         );
 
-        return $this->redirectToRoute('app_login');
+        return $this->redirectToRoute('app_index');
     }
 }
