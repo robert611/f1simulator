@@ -130,11 +130,12 @@ final class ChangeEmailControllerTest extends WebTestCase
         self::assertEquals('Potwierdź zmianę adresu email', $message->subject);
         self::assertEquals('@mailer/change_email/change_email_pl.html.twig', $message->htmlTemplate);
         self::assertEquals('@mailer/change_email/change_email_pl.txt.twig', $message->plainTemplate);
-        self::assertEquals([
-            'username' => 'LuckyLuck',
-            'newEmail' => 'new_email@gmail.com',
-            'changeEmailUrl' => '',
-        ], $message->contentParams);
+        self::assertEquals('LuckyLuck', $message->contentParams['username']);
+        self::assertEquals('new_email@gmail.com', $message->contentParams['newEmail']);
+        self::assertStringContainsString(
+            '/account/change-email/confirmation/',
+            $message->contentParams['changeEmailUrl'],
+        );
 
         // and then
         $this->client->followRedirect();
