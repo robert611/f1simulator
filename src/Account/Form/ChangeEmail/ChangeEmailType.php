@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Account\Form\ChangeEmail;
 
 use Account\Validator\CurrentPassword;
+use Account\Validator\EmailRemainsAvailable;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -35,6 +36,7 @@ final class ChangeEmailType extends AbstractType
                 'constraints' => [
                     new NotBlank(message: 'email.not_blank'),
                     new Email(message: 'email.invalid'),
+                    new EmailRemainsAvailable(),
                 ],
                 'attr' => [
                     'title' => $this->translator->trans('email.invalid', [], 'validators'),

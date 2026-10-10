@@ -75,6 +75,28 @@ final class ChangeEmailControllerTest extends WebTestCase
     }
 
     #[Test]
+    public function user_provided_new_email_must_be_unique(): void
+    {
+        // given
+        $user = $this->fixtures->aCustomUser(
+            username: 'LuckyLuck',
+            email: 'lucky.luck@gmail.com',
+        );
+        $this->client->loginUser($user);
+
+        // when
+        $crawler = $this->client->request('GET', '/account/change-email');
+        $form = $crawler->selectButton('Zapisz nowy email')->form([
+            'change_email[currentPassword]' => 'Password1...',
+            'change_email[newEmail]' => 'lucky.luck@gmail.com',
+        ]);
+        $this->client->submit($form);
+
+        // and then
+        self::assertSelectorTextContains('body', 'Ten adres e-mail jest już używany.');
+    }
+
+    #[Test]
     public function user_will_receive_email_confirming_new_email(): void
     {
         // given
