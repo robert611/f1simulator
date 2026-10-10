@@ -59,14 +59,6 @@ class AccountController extends AbstractController
         ]);
     }
 
-    #[Route('/username', name: 'account_username', methods: ['GET'])]
-    public function username(): Response
-    {
-        return $this->render('@account/in_progress.html.twig', [
-            'header' => 'account.menu.username',
-        ]);
-    }
-
     #[Route('/history', name: 'account_history', methods: ['GET'])]
     public function history(): Response
     {
