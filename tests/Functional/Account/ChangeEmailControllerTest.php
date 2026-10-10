@@ -148,4 +148,29 @@ final class ChangeEmailControllerTest extends WebTestCase
         self::assertEquals($user, $changeEmailConfirmationToken->getUser());
         self::assertEquals('new_email@gmail.com', $changeEmailConfirmationToken->getNewEmail());
     }
+
+    #[Test]
+    public function confirming_not_existent_token_will_be_handled(): void
+    {
+        // given
+        $user = $this->fixtures->aCustomUser(
+            username: 'LuckyLuck',
+            email: 'lucky.luck@gmail.com',
+        );
+        $this->client->loginUser($user);
+
+        // and given
+        $this->client->request('GET', '/account/change-email/confirmation/4NFJS93NFJJ902MSD9J0S');
+
+        // then
+        self::assertResponseRedirects('/login');
+
+        // and then
+        $this->client->followRedirect();
+        self::assertResponseRedirects('/home');
+
+        // and then
+        $this->client->followRedirect();
+        self::assertSelectorTextContains('body', 'Link potwierdzający jest nieprawidłowy lub wygasł.');
+    }
 }
