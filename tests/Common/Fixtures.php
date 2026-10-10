@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Common;
 
+use Account\Entity\ChangeEmailConfirmationToken;
 use Computer\Entity\Qualification;
 use Computer\Entity\Race;
 use Computer\Entity\RaceResult;
@@ -353,5 +354,24 @@ class Fixtures
         $this->entityManager->flush();
 
         return $userConfirmationToken;
+    }
+
+    public function aChangeEmailConfirmationToken(
+        User $user,
+        string $newEmail,
+        string $token,
+        DateTimeImmutable $expiryAt,
+    ): ChangeEmailConfirmationToken {
+        $changeEmailConfirmationToken = ChangeEmailConfirmationToken::create(
+            $user,
+            $newEmail,
+            $token,
+            $expiryAt,
+        );
+
+        $this->entityManager->persist($changeEmailConfirmationToken);
+        $this->entityManager->flush();
+
+        return $changeEmailConfirmationToken;
     }
 }

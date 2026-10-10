@@ -140,6 +140,19 @@
             "cancel": "Anuluj",
             "password_has_been_changed": "Twoje hasło zostało zmienione."
         },
+        "email": {
+            "header": "Zmiana adresu email",
+            "current_password": "Obecne hasło",
+            "current_password_placeholder": "Wprowadź obecne hasło",
+            "new_email": "Nowy email",
+            "new_email_placeholder": "Wprowadź nowy email",
+            "submit": "Zapisz nowy email",
+            "cancel": "Anuluj",
+            "confirmation_mail_subject": "Potwierdź zmianę adresu email",
+            "confirmation_mail_sent": "Sprawdź swój obecny adres email w celu potwierdzenia zmiany.",
+            "not_existent_confirmation_link": "Link potwierdzający jest nieprawidłowy lub wygasł.",
+            "change_confirmed": "Twój adres email został zmieniony."
+        },
         "delete": {
             "header": "Usunięcie konta",
             "warning": "Usunięcie konta jest nieodwracalne. Wszystkie rozegrane sezony i wyniki zostaną trwale usunięte.",
