@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\Computer\Service\GameSimulation;
 
+use Computer\Entity\Race;
 use Computer\Model\GameSimulation\QualificationResult;
 use Computer\Model\GameSimulation\QualificationResultsCollection;
 use Computer\Service\GameSimulation\SimulateRaceService;
@@ -136,6 +137,7 @@ class SimulateRaceServiceTest extends KernelTestCase
         $this->simulateRaceService->simulateRace($season);
 
         // then (Verify race results were created)
+        /** @var Race $race */
         $race = $season->getRaces()->first();
         $raceResults = $race->getRaceResults();
 
@@ -144,9 +146,14 @@ class SimulateRaceServiceTest extends KernelTestCase
         // and then (All drivers have race results)
         $raceResultDrivers = [];
         $positions = [];
+        $userPosition = null;
         foreach ($raceResults as $raceResult) {
             $raceResultDrivers[] = $raceResult->getDriverId();
             $positions[] = $raceResult->getPosition();
+
+            if ($raceResult->getDriverId() === $driver1->getId()) {
+                $userPosition = $raceResult->getPosition();
+            }
         }
 
         self::assertContains($driver1->getId(), $raceResultDrivers);
@@ -155,6 +162,9 @@ class SimulateRaceServiceTest extends KernelTestCase
 
         // and then (Positions are unique and sequential)
         self::assertEqualsCanonicalizing([1, 2, 3], $positions);
+
+        // and then (User position in the season is updated after the race)
+        self::assertEquals($userPosition, $season->getPosition());
     }
 
     #[Test]

@@ -108,7 +108,13 @@ class Season
 
     public function getLastRace(): ?Race
     {
-        return $this->races->last();
+        $last = $this->races->last();
+
+        if (false === $last) {
+            return null;
+        }
+
+        return $last;
     }
 
     public function addRaces(Race $races): void

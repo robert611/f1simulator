@@ -218,7 +218,7 @@ class SeasonClassificationsTest extends KernelTestCase
         $this->fixtures->aRaceResult(1, $race2, $driver8);
 
         // when
-        $classification = $this->seasonClassifications->getRaceClassification($season, $race1->getId());
+        $classification = $this->seasonClassifications->getRaceClassification($race1->getId());
 
         // then
         self::assertCount(8, $classification->getDriversRaceResults());
