@@ -1,0 +1,38 @@
+{% extends '@account/layout.html.twig' %}
+{% trans_default_domain 'front' %}
+
+{% block title %}{{ 'account.seasons_history.header'|trans }} | {{ parent() }}{% endblock %}
+
+{% block account_content %}
+    <div class="card">
+        <div class="card-header">
+            <h4>{{ 'account.seasons_history.header'|trans }}</h4>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Lp.</th>
+                        <th>Kierowca</th>
+                        <th>Pozycja</th>
+                        <th>Ukończony</th>
+                        <th>Data rozpoczęcia</th>
+                        <th>Data ukończenia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for season in userSeasons %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ season.driverId }}</td>
+                            <td>{{ season.position ?? 'general.no_data'|trans }}</td>
+                            <td>{{ season.completed ? 'general.yes'|trans : 'general.no' }}</td>
+                            <td>{{ season.createdAt.format('Y-m-d H:i:s') }}</td>
+                            <td>{{ season.completedAt.format('Y-m-d H:i:s') }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

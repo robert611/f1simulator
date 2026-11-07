@@ -7,19 +7,21 @@ namespace Account\Controller;
 use Account\Form\ChangePassword\ChangePasswordType;
 use Account\Form\ChangePassword\ChangePasswordTypeDTO;
 use Account\Service\ChangePasswordService;
+use Computer\ComputerFacadeInterface;
 use Security\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Shared\Controller\BaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/account')]
-class AccountController extends AbstractController
+class AccountController extends BaseController
 {
     public function __construct(
         private readonly ChangePasswordService $changePasswordService,
         private readonly TranslatorInterface $translator,
+        private readonly ComputerFacadeInterface $computerFacade,
     ) {
     }
 
@@ -59,11 +61,13 @@ class AccountController extends AbstractController
         ]);
     }
 
-    #[Route('/history', name: 'account_history', methods: ['GET'])]
+    #[Route('/history', name: 'account_seasons_history', methods: ['GET'])]
     public function history(): Response
     {
-        return $this->render('@account/in_progress.html.twig', [
-            'header' => 'account.menu.history',
+        $userSeasons = $this->computerFacade->getUserSeasons($this->getUser()->getId());
+
+        return $this->render('@account/seasons_history.html.twig', [
+            'userSeasons' => $userSeasons,
         ]);
     }
 
