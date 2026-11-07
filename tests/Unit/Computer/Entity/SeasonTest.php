@@ -35,6 +35,7 @@ class SeasonTest extends TestCase
         self::assertEquals($user, $season->getUser());
         self::assertEquals($driver->getId(), $season->getDriverId());
         self::assertFalse($season->getCompleted());
+        self::assertNull($season->getPosition());
     }
 
     #[Test]
@@ -110,5 +111,18 @@ class SeasonTest extends TestCase
         self::assertEquals(1, $driverPodiumsDTO->getFirstPlacePodiums());
         self::assertEquals(2, $driverPodiumsDTO->getSecondPlacePodiums());
         self::assertEquals(1, $driverPodiumsDTO->getThirdPlacePodiums());
+    }
+
+    #[Test]
+    public function it_updates_user_position(): void
+    {
+        // given
+        $season = Season::create(new User(), 1);
+
+        // when
+        $season->updatePosition(2);
+
+        // then
+        self::assertEquals(2, $season->getPosition());
     }
 }

@@ -30,6 +30,9 @@ class Season
     #[ORM\JoinColumn(name: 'user_id', nullable: false)]
     private User $user;
 
+    #[ORM\Column(name: 'position', type: Types::SMALLINT, nullable: true)]
+    private ?int $position;
+
     #[ORM\Column(name: 'completed', type: 'boolean', nullable: false)]
     private bool $completed;
 
@@ -63,6 +66,11 @@ class Season
     public function setUser(User $user): void
     {
         $this->user = $user;
+    }
+
+    public function getPosition(): ?int
+    {
+        return $this->position;
     }
 
     public function getCompleted(): bool
@@ -148,12 +156,18 @@ class Season
         $season = new self();
         $season->user = $user;
         $season->driverId = $driverId;
+        $season->position = null;
         $season->completed = false;
         $season->completedAt = null;
         $season->createdAt = new DateTimeImmutable();
         $season->updatedAt = new DateTimeImmutable();
 
         return $season;
+    }
+
+    public function updatePosition(int $position): void
+    {
+        $this->position = $position;
     }
 
     public function endSeason(DateTimeImmutable $completedAt): void
