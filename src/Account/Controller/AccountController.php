@@ -7,7 +7,6 @@ namespace Account\Controller;
 use Account\Form\ChangePassword\ChangePasswordType;
 use Account\Form\ChangePassword\ChangePasswordTypeDTO;
 use Account\Service\ChangePasswordService;
-use Computer\ComputerFacadeInterface;
 use Security\Entity\User;
 use Shared\Controller\BaseController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +20,6 @@ class AccountController extends BaseController
     public function __construct(
         private readonly ChangePasswordService $changePasswordService,
         private readonly TranslatorInterface $translator,
-        private readonly ComputerFacadeInterface $computerFacade,
     ) {
     }
 
@@ -58,16 +56,6 @@ class AccountController extends BaseController
 
         return $this->render('@account/change_password.html.twig', [
             'form' => $form->createView(),
-        ]);
-    }
-
-    #[Route('/history', name: 'account_seasons_history', methods: ['GET'])]
-    public function history(): Response
-    {
-        $userSeasons = $this->computerFacade->getUserSeasons($this->getUser()->getId());
-
-        return $this->render('@account/seasons_history.html.twig', [
-            'userSeasons' => $userSeasons,
         ]);
     }
 

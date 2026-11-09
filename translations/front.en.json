@@ -159,7 +159,8 @@
             "change_confirmed": "Your email has been changed."
         },
         "seasons_history": {
-            "header": "Seasons history"
+            "header": "Seasons history",
+            "not_completed": "Not completed"
         },
         "delete": {
             "header": "Delete account",

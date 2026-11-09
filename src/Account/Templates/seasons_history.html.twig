@@ -26,9 +26,9 @@
                             <td>{{ loop.index }}</td>
                             <td>{{ season.driverId }}</td>
                             <td>{{ season.position ?? 'general.no_data'|trans }}</td>
-                            <td>{{ season.completed ? 'general.yes'|trans : 'general.no' }}</td>
+                            <td>{{ season.completed ? 'general.yes'|trans : 'general.no'|trans }}</td>
                             <td>{{ season.createdAt.format('Y-m-d H:i:s') }}</td>
-                            <td>{{ season.completedAt.format('Y-m-d H:i:s') }}</td>
+                            <td>{{ season.completedAt?.format('Y-m-d H:i:s') ?? 'account.seasons_history.not_completed'|trans }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
