@@ -57,6 +57,8 @@ final class AccountSeasonsHistoryControllerTest extends WebTestCase
         // and then
         self::assertSelectorTextContains('body', 'Historia sezonów');
         self::assertSelectorTextContains('tbody', '2025-10-10 20:00:15');
+        self::assertSelectorTextContains('tbody', 'Lewis Hamilton');
+        self::assertSelectorTextContains('tbody', 'Charles Leclerc');
         self::assertEquals(2, $crawler->filter('tbody > tr')->count());
     }
 }
