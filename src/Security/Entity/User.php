@@ -41,6 +41,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(name: 'is_blocked', type: 'boolean', nullable: false, options: ['default' => false])]
     private bool $isBlocked = false;
 
+    #[ORM\Column(name: 'is_deleted', type: 'boolean', nullable: false, options: ['default' => false])]
+    private bool $isDeleted = false;
+
     #[ORM\Column(name: 'country', type: 'string', nullable: false, enumType: UserCountry::class)]
     private UserCountry $country;
 
@@ -128,6 +131,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsBlocked(bool $isBlocked): void
     {
         $this->isBlocked = $isBlocked;
+    }
+
+    public function isDeleted(): bool
+    {
+        return $this->isDeleted;
+    }
+
+    public function setIsDeleted(bool $isDeleted): void
+    {
+        $this->isDeleted = $isDeleted;
     }
 
     public function getCountry(): UserCountry

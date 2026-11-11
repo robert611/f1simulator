@@ -134,6 +134,33 @@ class SecurityControllerTest extends WebTestCase
     }
 
     #[Test]
+    public function user_with_deleted_account_will_be_unable_to_log_in(): void
+    {
+        // given
+        $this->fixtures->aDeletedUser();
+
+        // when
+        $crawler = $this->client->request('GET', '/login');
+        $form = $crawler->selectButton('Zaloguj się')->form([
+            '_username' => 'deleted_user',
+            '_password' => 'password',
+        ]);
+        $this->client->submit($form);
+
+        // then
+        self::assertResponseRedirects('/security/account-deleted');
+
+        // and then
+        $this->client->followRedirect();
+        self::assertResponseIsSuccessful();
+        self::assertSelectorTextContains('h1', 'Twoje konto zostało usunięte.');
+
+        // and then
+        $tokenStorage = static::getContainer()->get('security.token_storage');
+        self::assertNull($tokenStorage->getToken());
+    }
+
+    #[Test]
     public function wrong_password_shows_error_message_on_login_page(): void
     {
         // given

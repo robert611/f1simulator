@@ -64,6 +64,7 @@ final class AccountControllerTest extends WebTestCase
             ['GET', '/account/change-password'],
             ['GET', '/account/change-email'],
             ['GET', '/account/seasons-history/index'],
+            ['GET', '/account/delete-account/index'],
         ];
     }
 }
