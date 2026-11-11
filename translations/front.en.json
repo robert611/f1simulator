@@ -2,7 +2,8 @@
     "general": {
         "yes": "Yes",
         "no": "No",
-        "no_data": "No data"
+        "no_data": "No data",
+        "ordinal_number": "No."
     },
     "navbar": {
         "login": "Log in",
