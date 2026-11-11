@@ -37,6 +37,6 @@ final class DeleteAccountController extends BaseController
             throw $this->createAccessDeniedException();
         }
 
-        return $this->redirectToRoute('app_login');
+        return $this->redirectToRoute('app_logout');
     }
 }

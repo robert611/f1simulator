@@ -58,10 +58,9 @@ final class DeleteAccountControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/account/delete-account/index');
         $form = $crawler->selectButton('Usuń konto')->form();
         $this->client->submit($form);
-        $this->client->followRedirect();
 
         // then
-        self::assertResponseRedirects('/home');
+        self::assertResponseRedirects('/logout');
 
         // and then
         $refreshedUser = $this->userRepository->find($user->getId());
