@@ -112,6 +112,11 @@
         "contact_support": "Jeśli masz pytania lub chcesz odwołać się od tej decyzji, prosimy o kontakt ze wsparciem technicznym.",
         "back_to_login": "Powrót do logowania"
     },
+    "deleted_account": {
+        "title": "Konto usunięte",
+        "header": "Twoje konto zostało usunięte.",
+        "message": "Prosimy o założenia nowego konta na inny adres email."
+    },
     "account": {
         "menu": {
             "header": "Moje konto",

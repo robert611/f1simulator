@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}F1Simulator - {{ 'deleted_account.title'|trans({}, 'front') }}{% endblock %}
+
+{% block importmap %}
+    {{ parent() }}
+    {{ importmap('auth') }}
+{% endblock %}
+
+{% block body %}
+    <div class="auth-container">
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-lg-6 col-md-8 col-sm-10">
+                    <div class="auth-card">
+                        <div class="auth-header">
+                            <h1 class="auth-title">
+                                {{ 'deleted_account.header'|trans({}, 'front') }}
+                            </h1>
+                        </div>
+                        <div class="auth-form-container">
+                            <div class="mb-4 p-3 bg-warning text-dark rounded">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                {{ 'deleted_account.message'|trans({}, 'front') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

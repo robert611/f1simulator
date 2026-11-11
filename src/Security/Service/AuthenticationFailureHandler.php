@@ -36,6 +36,12 @@ final readonly class AuthenticationFailureHandler implements AuthenticationFailu
             );
         }
 
+        if ($exception instanceof UserIsDeletedException) {
+            return new RedirectResponse(
+                $this->router->generate('app_account_deleted'),
+            );
+        }
+
         return $this->inner->onAuthenticationFailure($request, $exception);
     }
 }

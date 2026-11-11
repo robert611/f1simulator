@@ -138,6 +138,26 @@ class Fixtures
         return $user;
     }
 
+    public function aDeletedUser(): User
+    {
+        $user = new User();
+        $user->setUsername('deleted_user');
+        $user->setEmail('deleted@gmail.com');
+        $user->setPassword('deleted_user_password');
+        $user->setRoles(['ROLE_USER']);
+        $user->setCountry(UserCountry::PL);
+        $user->setIsVerified(true);
+        $user->setIsBlocked(false);
+        $user->setIsDeleted(true);
+        $user->setCreatedAt(new DateTimeImmutable());
+        $user->setUpdatedAt(new DateTimeImmutable());
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        return $user;
+    }
+
     public function aTeam(): Team
     {
         $team = Team::Create("Mercedes", "mercedes.png");

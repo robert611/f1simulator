@@ -21,6 +21,10 @@ final class UserChecker implements UserCheckerInterface
         if (true === $user->isBlocked()) {
             throw new UserIsBlockedException('account_blocked_checker');
         }
+
+        if (true === $user->isDeleted()) {
+            throw new UserIsDeletedException('account_deleted_checker');
+        }
     }
 
     public function checkPostAuth(UserInterface $user, ?TokenInterface $token = null): void
