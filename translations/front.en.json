@@ -1,4 +1,10 @@
 {
+    "general": {
+        "yes": "Yes",
+        "no": "No",
+        "no_data": "No data",
+        "ordinal_number": "No."
+    },
     "navbar": {
         "login": "Log in",
         "register": "Register",
@@ -113,7 +119,7 @@
             "password": "Change password",
             "email": "Change email address",
             "username": "Change username",
-            "history": "Season history",
+            "seasons_history": "Seasons history",
             "delete": "Delete account"
         },
         "overview": {
@@ -153,12 +159,15 @@
             "not_existent_confirmation_link": "Confirmation link is invalid or expired.",
             "change_confirmed": "Your email has been changed."
         },
+        "seasons_history": {
+            "header": "Seasons history",
+            "not_completed": "Not completed"
+        },
         "delete": {
             "header": "Delete account",
             "warning": "Deleting your account is irreversible. All played seasons and results will be permanently removed.",
             "submit": "Delete account"
-        },
-        "in_progress": "This section is under construction."
+        }
     },
     "footer": {
         "rights_warning": "All rights reserved.",

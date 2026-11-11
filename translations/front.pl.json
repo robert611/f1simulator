@@ -1,4 +1,10 @@
 {
+    "general": {
+        "yes": "Tak",
+        "no": "No",
+        "no_data": "Brak danych",
+        "ordinal_number": "Lp."
+    },
     "navbar": {
         "login": "Logowanie",
         "register": "Rejestracja",
@@ -112,8 +118,7 @@
             "overview": "Przegląd konta",
             "password": "Zmiana hasła",
             "email": "Zmiana adresu email",
-            "username": "Zmiana nazwy użytkownika",
-            "history": "Historia sezonów",
+            "seasons_history": "Historia sezonów",
             "delete": "Usuń konto"
         },
         "overview": {
@@ -153,12 +158,15 @@
             "not_existent_confirmation_link": "Link potwierdzający jest nieprawidłowy lub wygasł.",
             "change_confirmed": "Twój adres email został zmieniony."
         },
+        "seasons_history": {
+            "header": "Historia sezonów",
+            "not_completed": "Nie ukończono"
+        },
         "delete": {
             "header": "Usunięcie konta",
             "warning": "Usunięcie konta jest nieodwracalne. Wszystkie rozegrane sezony i wyniki zostaną trwale usunięte.",
             "submit": "Usuń konto"
-        },
-        "in_progress": "Ta sekcja jest w przygotowaniu."
+        }
     },
     "footer": {
         "rights_warning": "Wszelkie prawa zastrzeżone.",

@@ -109,4 +109,30 @@ class ComputerFacadeTest extends KernelTestCase
         // then
         self::assertTrue($result);
     }
+
+    #[Test]
+    public function all_user_seasons_are_returned(): void
+    {
+        // given
+        $user1 = $this->fixtures->aUser();
+        $user2 = $this->fixtures->aCustomUser('mike', 'mike@example.com');
+
+        // and given
+        $team = $this->fixtures->aTeam();
+        $driver1 = $this->fixtures->aDriver('Lewis', 'Hamilton', $team, 44);
+        $driver2 = $this->fixtures->aDriver('Charles', 'Leclerc', $team, 11);
+
+        // and given
+        $season1 = $this->fixtures->aSeason($user1, $driver1);
+        $season2 = $this->fixtures->aSeason($user1, $driver2);
+        $this->fixtures->aSeason($user2, $driver1);
+
+        // when
+        $result = $this->facade->getUserSeasons($user1->getId());
+
+        // and then
+        self::assertCount(2, $result);
+        self::assertEquals($season1->getId(), $result[0]->getId());
+        self::assertEquals($season2->getId(), $result[1]->getId());
+    }
 }

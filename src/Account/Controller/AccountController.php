@@ -8,14 +8,14 @@ use Account\Form\ChangePassword\ChangePasswordType;
 use Account\Form\ChangePassword\ChangePasswordTypeDTO;
 use Account\Service\ChangePasswordService;
 use Security\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Shared\Controller\BaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/account')]
-class AccountController extends AbstractController
+class AccountController extends BaseController
 {
     public function __construct(
         private readonly ChangePasswordService $changePasswordService,
@@ -56,22 +56,6 @@ class AccountController extends AbstractController
 
         return $this->render('@account/change_password.html.twig', [
             'form' => $form->createView(),
-        ]);
-    }
-
-    #[Route('/username', name: 'account_username', methods: ['GET'])]
-    public function username(): Response
-    {
-        return $this->render('@account/in_progress.html.twig', [
-            'header' => 'account.menu.username',
-        ]);
-    }
-
-    #[Route('/history', name: 'account_history', methods: ['GET'])]
-    public function history(): Response
-    {
-        return $this->render('@account/in_progress.html.twig', [
-            'header' => 'account.menu.history',
         ]);
     }
 

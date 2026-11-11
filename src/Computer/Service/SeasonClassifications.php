@@ -30,7 +30,7 @@ class SeasonClassifications
         ?int $raceId,
     ): array|DriversClassification {
         return match ($classificationType) {
-            ClassificationType::RACE => $this->getRaceClassification($season, $raceId),
+            ClassificationType::RACE => $this->getRaceClassification($raceId),
             ClassificationType::QUALIFICATIONS => $this->getQualificationsClassification($season, $raceId),
             default => $this->getDriversClassification($season),
         };
@@ -59,7 +59,7 @@ class SeasonClassifications
         return DriversClassification::create($driverRaceResults);
     }
 
-    public function getRaceClassification(Season $season, int $raceId): DriversClassification
+    public function getRaceClassification(int $raceId): DriversClassification
     {
         $raceResults = $this->raceResultRepository->findBy(['race' => $raceId]);
 

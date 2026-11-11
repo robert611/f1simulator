@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Computer;
 
 use Computer\Contract\DriverComputerStatisticsDTO;
+use Computer\Contract\SeasonDTO;
 
 interface ComputerFacadeInterface
 {
@@ -31,4 +32,11 @@ interface ComputerFacadeInterface
      * @return array<array{month: int, year: int, seasonsPlayed: int}>
      */
     public function getLast12MonthsSeasonPlayed(): array;
+
+    /**
+     * Returns all user seasons
+     *
+     * @return SeasonDTO[]
+     */
+    public function getUserSeasons(int $userId): array;
 }
