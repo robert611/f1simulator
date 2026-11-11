@@ -34,6 +34,8 @@ class UserFixtures extends Fixture
             $user->setPassword($this->encoder->hashPassword($user, $data['password']));
             $user->setEmail($data['email']);
             $user->setIsVerified(true);
+            $user->setIsBlocked(false);
+            $user->setIsDeleted(false);
             $user->setCountry(UserCountry::PL);
             $user->setCreatedAt(new DateTimeImmutable());
             $user->setUpdatedAt(new DateTimeImmutable());

@@ -47,6 +47,7 @@ class RegistrationController extends BaseController
             );
             $user->setIsVerified(false);
             $user->setIsBlocked(false);
+            $user->setIsDeleted(false);
             $user->setCountry($userCountry);
             $user->setCreatedAt(new DateTimeImmutable());
             $user->setUpdatedAt(new DateTimeImmutable());

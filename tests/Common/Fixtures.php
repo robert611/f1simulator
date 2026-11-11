@@ -43,6 +43,7 @@ class Fixtures
         $user->setCountry(UserCountry::PL);
         $user->setIsVerified(true);
         $user->setIsBlocked(false);
+        $user->setIsDeleted(false);
         $user->setCreatedAt(new DateTimeImmutable());
         $user->setUpdatedAt(new DateTimeImmutable());
 
@@ -62,6 +63,7 @@ class Fixtures
         $user->setCountry(UserCountry::PL);
         $user->setIsVerified(true);
         $user->setIsBlocked(false);
+        $user->setIsDeleted(false);
         $user->setCreatedAt(new DateTimeImmutable());
         $user->setUpdatedAt(new DateTimeImmutable());
 
@@ -86,6 +88,7 @@ class Fixtures
         $user->setCountry($country);
         $user->setIsVerified(true);
         $user->setIsBlocked(false);
+        $user->setIsDeleted(false);
         $user->setCreatedAt(new DateTimeImmutable());
         $user->setUpdatedAt(new DateTimeImmutable());
 
@@ -105,6 +108,7 @@ class Fixtures
         $user->setCountry(UserCountry::PL);
         $user->setIsVerified(false);
         $user->setIsBlocked(false);
+        $user->setIsDeleted(false);
         $user->setCreatedAt(new DateTimeImmutable());
         $user->setUpdatedAt(new DateTimeImmutable());
 
@@ -124,6 +128,7 @@ class Fixtures
         $user->setCountry(UserCountry::PL);
         $user->setIsVerified(true);
         $user->setIsBlocked(true);
+        $user->setIsDeleted(false);
         $user->setCreatedAt(new DateTimeImmutable());
         $user->setUpdatedAt(new DateTimeImmutable());
 
