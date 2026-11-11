@@ -165,7 +165,7 @@
         },
         "delete": {
             "header": "Delete account",
-            "warning": "Deleting your account is irreversible. All played seasons and results will be permanently removed.",
+            "warning": "Deleting your account is irreversible. Played seasons data will remain in the system for integrity of the results.",
             "submit": "Delete account"
         }
     },

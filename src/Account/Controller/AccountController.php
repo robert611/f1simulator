@@ -58,10 +58,4 @@ class AccountController extends BaseController
             'form' => $form->createView(),
         ]);
     }
-
-    #[Route('/delete', name: 'account_delete', methods: ['GET'])]
-    public function delete(): Response
-    {
-        return $this->render('@account/delete.html.twig');
-    }
 }
