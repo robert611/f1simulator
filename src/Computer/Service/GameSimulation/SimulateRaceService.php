@@ -9,16 +9,17 @@ use Computer\Entity\Race;
 use Computer\Entity\RaceResult;
 use Computer\Entity\Season;
 use Computer\Model\GameSimulation\QualificationResultsCollection;
+use Computer\Service\SeasonClassifications;
 use Doctrine\ORM\EntityManagerInterface;
 use Domain\Contract\GameSimulation\CouponsGenerator;
 use Domain\DomainFacadeInterface;
-use Domain\Entity\Track;
 
 class SimulateRaceService
 {
     public function __construct(
         private readonly SimulateQualifications $simulateQualifications,
         private readonly CouponsGenerator $couponsGenerator,
+        private readonly SeasonClassifications $seasonClassifications,
         private readonly EntityManagerInterface $entityManager,
         private readonly DomainFacadeInterface $domainFacade,
     ) {
@@ -66,6 +67,8 @@ class SimulateRaceService
         }
 
         $this->entityManager->flush();
+
+        $this->saveDriversPositionsInGeneralClassifications($season);
     }
 
     public function getRaceResults(QualificationResultsCollection $qualificationResults): array
@@ -85,5 +88,19 @@ class SimulateRaceService
         }
 
         return $results;
+    }
+
+    public function saveDriversPositionsInGeneralClassifications(Season $season): void
+    {
+        $classification = $this->seasonClassifications->getDriversClassification($season);
+
+        // Nazewnictwo wskazuje na wyniki pojedynczego wyścigu ze względu na współdzielenie DTO
+        // pomiędzy różnymi rodzajami wyników
+        foreach ($classification->getDriversRaceResults() as $raceResult) {
+            if ($season->getDriverId() === $raceResult->getDriver()->getId()) {
+                $season->updatePosition($raceResult->getPosition());
+                $this->entityManager->flush();
+            }
+        }
     }
 }

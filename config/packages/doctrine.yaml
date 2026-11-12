@@ -10,6 +10,11 @@ doctrine:
         controller_resolver:
             auto_mapping: false
         mappings:
+            Account:
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Account/Entity'
+                prefix: 'Account\Entity'
+                alias: Account
             Domain:
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/Domain/Entity'

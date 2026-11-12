@@ -13,8 +13,14 @@
                 <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ 'account.delete.warning'|trans }}
             </div>
 
-            {# TODO: hook up to a POST route with CSRF protection and a confirmation modal #}
-            <button type="button" class="btn btn-dark-red">{{ 'account.delete.submit'|trans }}</button>
+            <form action="{{ url('account_delete_submit') }}" method="post" id="delete-account-form"
+                  data-warning-message="{{ 'account.delete.warning'|trans }}">
+                <input type="hidden" name="token" value="{{ csrf_token('delete-account') }}">
+
+                <button type="submit" class="btn btn-dark-red">
+                    {{ 'account.delete.submit'|trans }}
+                </button>
+            </form>
         </div>
     </div>
 {% endblock %}

@@ -1,4 +1,10 @@
 {
+    "general": {
+        "yes": "Tak",
+        "no": "No",
+        "no_data": "Brak danych",
+        "ordinal_number": "Lp."
+    },
     "navbar": {
         "login": "Logowanie",
         "register": "Rejestracja",
@@ -106,14 +112,18 @@
         "contact_support": "Jeśli masz pytania lub chcesz odwołać się od tej decyzji, prosimy o kontakt ze wsparciem technicznym.",
         "back_to_login": "Powrót do logowania"
     },
+    "deleted_account": {
+        "title": "Konto usunięte",
+        "header": "Twoje konto zostało usunięte.",
+        "message": "Prosimy o założenia nowego konta na inny adres email."
+    },
     "account": {
         "menu": {
             "header": "Moje konto",
             "overview": "Przegląd konta",
             "password": "Zmiana hasła",
             "email": "Zmiana adresu email",
-            "username": "Zmiana nazwy użytkownika",
-            "history": "Historia sezonów",
+            "seasons_history": "Historia sezonów",
             "delete": "Usuń konto"
         },
         "overview": {
@@ -140,12 +150,28 @@
             "cancel": "Anuluj",
             "password_has_been_changed": "Twoje hasło zostało zmienione."
         },
+        "email": {
+            "header": "Zmiana adresu email",
+            "current_password": "Obecne hasło",
+            "current_password_placeholder": "Wprowadź obecne hasło",
+            "new_email": "Nowy email",
+            "new_email_placeholder": "Wprowadź nowy email",
+            "submit": "Zapisz nowy email",
+            "cancel": "Anuluj",
+            "confirmation_mail_subject": "Potwierdź zmianę adresu email",
+            "confirmation_mail_sent": "Sprawdź swój obecny adres email w celu potwierdzenia zmiany.",
+            "not_existent_confirmation_link": "Link potwierdzający jest nieprawidłowy lub wygasł.",
+            "change_confirmed": "Twój adres email został zmieniony."
+        },
+        "seasons_history": {
+            "header": "Historia sezonów",
+            "not_completed": "Nie ukończono"
+        },
         "delete": {
             "header": "Usunięcie konta",
-            "warning": "Usunięcie konta jest nieodwracalne. Wszystkie rozegrane sezony i wyniki zostaną trwale usunięte.",
+            "warning": "Usunięcie konta jest nieodwracalne. Dane rozegranych sezonów pozostaną w systemie w celu zachowania integralności wyników.",
             "submit": "Usuń konto"
-        },
-        "in_progress": "Ta sekcja jest w przygotowaniu."
+        }
     },
     "footer": {
         "rights_warning": "Wszelkie prawa zastrzeżone.",

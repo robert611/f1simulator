@@ -28,3 +28,9 @@ zamiast losowania zawodnika w wybranym zespole
 - Dodano crud encji użytkownik w panelu administratora
 - Dodano możliwość blokowania użytkowników
 - Dodano podstronę do zarządzania kontem oraz możliwość zmiany hasła
+
+## 1.0.6 (2026-11-12 20:00)
+- Dodano podstronę do zmiany adresu email użytkownika
+- Wprowadzono wymóg używania `LF` jako znaku końca linii
+- Dodano możliwość usuwania konta
+- Dodano podstronę wyświetlającą listę rozegranych sezonów offline

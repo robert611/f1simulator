@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Common;
 
+use Account\Entity\ChangeEmailConfirmationToken;
 use Computer\Entity\Qualification;
 use Computer\Entity\Race;
 use Computer\Entity\RaceResult;
@@ -42,6 +43,7 @@ class Fixtures
         $user->setCountry(UserCountry::PL);
         $user->setIsVerified(true);
         $user->setIsBlocked(false);
+        $user->setIsDeleted(false);
         $user->setCreatedAt(new DateTimeImmutable());
         $user->setUpdatedAt(new DateTimeImmutable());
 
@@ -61,6 +63,7 @@ class Fixtures
         $user->setCountry(UserCountry::PL);
         $user->setIsVerified(true);
         $user->setIsBlocked(false);
+        $user->setIsDeleted(false);
         $user->setCreatedAt(new DateTimeImmutable());
         $user->setUpdatedAt(new DateTimeImmutable());
 
@@ -85,6 +88,7 @@ class Fixtures
         $user->setCountry($country);
         $user->setIsVerified(true);
         $user->setIsBlocked(false);
+        $user->setIsDeleted(false);
         $user->setCreatedAt(new DateTimeImmutable());
         $user->setUpdatedAt(new DateTimeImmutable());
 
@@ -104,6 +108,7 @@ class Fixtures
         $user->setCountry(UserCountry::PL);
         $user->setIsVerified(false);
         $user->setIsBlocked(false);
+        $user->setIsDeleted(false);
         $user->setCreatedAt(new DateTimeImmutable());
         $user->setUpdatedAt(new DateTimeImmutable());
 
@@ -123,6 +128,27 @@ class Fixtures
         $user->setCountry(UserCountry::PL);
         $user->setIsVerified(true);
         $user->setIsBlocked(true);
+        $user->setIsDeleted(false);
+        $user->setCreatedAt(new DateTimeImmutable());
+        $user->setUpdatedAt(new DateTimeImmutable());
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        return $user;
+    }
+
+    public function aDeletedUser(): User
+    {
+        $user = new User();
+        $user->setUsername('deleted_user');
+        $user->setEmail('deleted@gmail.com');
+        $user->setPassword('deleted_user_password');
+        $user->setRoles(['ROLE_USER']);
+        $user->setCountry(UserCountry::PL);
+        $user->setIsVerified(true);
+        $user->setIsBlocked(false);
+        $user->setIsDeleted(true);
         $user->setCreatedAt(new DateTimeImmutable());
         $user->setUpdatedAt(new DateTimeImmutable());
 
@@ -353,5 +379,24 @@ class Fixtures
         $this->entityManager->flush();
 
         return $userConfirmationToken;
+    }
+
+    public function aChangeEmailConfirmationToken(
+        User $user,
+        string $newEmail,
+        string $token,
+        DateTimeImmutable $expiryAt,
+    ): ChangeEmailConfirmationToken {
+        $changeEmailConfirmationToken = ChangeEmailConfirmationToken::create(
+            $user,
+            $newEmail,
+            $token,
+            $expiryAt,
+        );
+
+        $this->entityManager->persist($changeEmailConfirmationToken);
+        $this->entityManager->flush();
+
+        return $changeEmailConfirmationToken;
     }
 }

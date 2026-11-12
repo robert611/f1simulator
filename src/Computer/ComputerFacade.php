@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Computer;
 
 use Computer\Contract\DriverComputerStatisticsDTO;
+use Computer\Contract\SeasonDTO;
 use Computer\Repository\RaceRepository;
 use Computer\Repository\SeasonRepository;
 
@@ -47,5 +48,15 @@ readonly class ComputerFacade implements ComputerFacadeInterface
     public function getLast12MonthsSeasonPlayed(): array
     {
         return $this->seasonRepository->getLast12MonthsSeasonPlayed();
+    }
+
+    /**
+     * @return SeasonDTO[]
+     */
+    public function getUserSeasons(int $userId): array
+    {
+        $seasons = $this->seasonRepository->findBy(['user' => $userId]);
+
+        return SeasonDTO::fromEntityCollection($seasons);
     }
 }
