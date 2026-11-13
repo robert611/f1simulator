@@ -10,6 +10,10 @@ multiplayer:
     resource: '../src/Multiplayer/Controller'
     type: attribute
 
+outgoing_api:
+    resource: '../src/OutgoingApi/Controller'
+    type: attribute
+
 security:
     resource: '../src/Security/Controller'
     type: attribute

@@ -33,6 +33,9 @@ services:
         exclude:
              - '../src/Multiplayer/Entity/'
 
+    OutgoingApi\:
+        resource: '../src/OutgoingApi/*'
+
     Security\:
         resource: '../src/Security/*'
         exclude:
