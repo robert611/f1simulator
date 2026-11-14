@@ -6,9 +6,10 @@ namespace Computer\Contract;
 
 use Computer\Entity\Season;
 use DateTimeImmutable;
+use JsonSerializable;
 use Security\Entity\User;
 
-final class SeasonDTO
+final class SeasonDTO implements JsonSerializable
 {
     private int $id;
     private int $driverId;
@@ -88,5 +89,19 @@ final class SeasonDTO
         }
 
         return $result;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'driverId' => $this->driverId,
+            'userId' => $this->user->getId(),
+            'position' => $this->position,
+            'completed' => $this->completed,
+            'completedAt' => $this->completedAt,
+            'createdAt' => $this->createdAt,
+            'updatedAt' => $this->updatedAt,
+        ];
     }
 }
