@@ -125,6 +125,7 @@
             "email": "Change email address",
             "username": "Change username",
             "seasons_history": "Seasons history",
+            "api_token": "API Token",
             "delete": "Delete account"
         },
         "overview": {
@@ -167,6 +168,9 @@
         "seasons_history": {
             "header": "Seasons history",
             "not_completed": "Not completed"
+        },
+        "api_token": {
+            "header": "API Token"
         },
         "delete": {
             "header": "Delete account",

@@ -124,6 +124,7 @@
             "password": "Zmiana hasła",
             "email": "Zmiana adresu email",
             "seasons_history": "Historia sezonów",
+            "api_token": "Token API",
             "delete": "Usuń konto"
         },
         "overview": {
@@ -166,6 +167,9 @@
         "seasons_history": {
             "header": "Historia sezonów",
             "not_completed": "Nie ukończono"
+        },
+        "api_token": {
+            "header": "Token API"
         },
         "delete": {
             "header": "Usunięcie konta",
