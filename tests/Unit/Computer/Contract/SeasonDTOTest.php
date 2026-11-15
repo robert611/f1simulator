@@ -38,8 +38,8 @@ final class SeasonDTOTest extends TestCase
             'position' => null,
             'completed' => false,
             'completedAt' => null,
-            'createdAt' => new DateTimeImmutable('2025-10-10 17:00:00'),
-            'updatedAt' => new DateTimeImmutable('2025-10-10 17:45:20'),
+            'createdAt' => '2025-10-10T17:00:00Z',
+            'updatedAt' => '2025-10-10T17:45:20Z',
         ], $seasonDTO->jsonSerialize());
     }
 }

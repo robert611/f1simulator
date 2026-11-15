@@ -7,6 +7,7 @@ namespace Computer\Contract;
 use Computer\Entity\Season;
 use DateTimeImmutable;
 use JsonSerializable;
+use OutgoingApi\Contract\OutgoingApiDateTimeSerializer;
 use Security\Entity\User;
 
 final class SeasonDTO implements JsonSerializable
@@ -99,9 +100,9 @@ final class SeasonDTO implements JsonSerializable
             'userId' => $this->user->getId(),
             'position' => $this->position,
             'completed' => $this->completed,
-            'completedAt' => $this->completedAt,
-            'createdAt' => $this->createdAt,
-            'updatedAt' => $this->updatedAt,
+            'completedAt' => OutgoingApiDateTimeSerializer::serialize($this->completedAt),
+            'createdAt' => OutgoingApiDateTimeSerializer::serialize($this->createdAt),
+            'updatedAt' => OutgoingApiDateTimeSerializer::serialize($this->updatedAt),
         ];
     }
 }
