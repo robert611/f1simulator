@@ -170,7 +170,18 @@
             "not_completed": "Not completed"
         },
         "api_token": {
-            "header": "API Token"
+            "header": "API Token",
+            "description": "The API token lets you access your data through the REST API.",
+            "your_token": "Your token",
+            "copy_now": "Copy your token now. For security reasons we only store its hash, so it won't be shown again.",
+            "active_since": "You have an active API token, generated at:",
+            "lost_token": "The token is not displayed for security reasons. If you've lost it, generate a new one.",
+            "usage": "Send it with every request in the Authorization header:",
+            "no_token": "You haven't generated an API token yet.",
+            "generate": "Generate token",
+            "regenerate": "Regenerate token",
+            "regenerate_warning": "Regenerating the token invalidates the current one immediately.",
+            "generated": "A new API token has been generated."
         },
         "delete": {
             "header": "Delete account",

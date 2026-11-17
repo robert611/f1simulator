@@ -169,7 +169,18 @@
             "not_completed": "Nie ukończono"
         },
         "api_token": {
-            "header": "Token API"
+            "header": "Token API",
+            "description": "Token API pozwala na dostęp do Twoich danych przez REST API.",
+            "your_token": "Twój token",
+            "copy_now": "Skopiuj token teraz. Ze względów bezpieczeństwa przechowujemy wyłącznie jego skrót (hash), więc nie zostanie on ponownie wyświetlony.",
+            "active_since": "Masz aktywny token API, wygenerowany:",
+            "lost_token": "Ze względów bezpieczeństwa token nie jest wyświetlany. Jeśli go zgubiłeś, wygeneruj nowy.",
+            "usage": "Wysyłaj go z każdym zapytaniem w nagłówku Authorization:",
+            "no_token": "Nie wygenerowałeś jeszcze tokenu API.",
+            "generate": "Wygeneruj token",
+            "regenerate": "Wygeneruj nowy token",
+            "regenerate_warning": "Wygenerowanie nowego tokenu natychmiast unieważnia obecny.",
+            "generated": "Wygenerowano nowy token API."
         },
         "delete": {
             "header": "Usunięcie konta",

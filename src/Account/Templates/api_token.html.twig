@@ -4,12 +4,46 @@
 {% block title %}{{ 'account.api_token.header'|trans }} | {{ parent() }}{% endblock %}
 
 {% block account_content %}
+    {% set plainToken = app.flashes('api_token_plain')|first %}
+
     <div class="card">
         <div class="card-header">
             <h4>{{ 'account.api_token.header'|trans }}</h4>
         </div>
         <div class="card-body">
+            <p>{{ 'account.api_token.description'|trans }}</p>
 
+            {% if plainToken %}
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ 'account.api_token.copy_now'|trans }}
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label" for="api-token">{{ 'account.api_token.your_token'|trans }}</label>
+                    <input type="text" id="api-token" class="form-control font-monospace" value="{{ plainToken }}" readonly>
+                </div>
+
+                <p class="text-muted">{{ 'account.api_token.usage'|trans }}</p>
+                <pre class="mb-4"><code>Authorization: Bearer {{ plainToken }}</code></pre>
+            {% elseif apiToken %}
+                <p id="api-token-status">
+                    {{ 'account.api_token.active_since'|trans }} {{ apiToken.updatedAt|date('Y-m-d H:i') }}
+                </p>
+                <p class="text-muted">{{ 'account.api_token.lost_token'|trans }}</p>
+            {% else %}
+                <p class="text-muted">{{ 'account.api_token.no_token'|trans }}</p>
+            {% endif %}
+
+            <form action="{{ url('account_api_token_generate') }}" method="post">
+                <input type="hidden" name="token" value="{{ csrf_token('generate-api-token') }}">
+
+                <button type="submit" class="btn btn-dark-red">
+                    {{ (apiToken ? 'account.api_token.regenerate' : 'account.api_token.generate')|trans }}
+                </button>
+                {% if apiToken %}
+                    <div class="form-text">{{ 'account.api_token.regenerate_warning'|trans }}</div>
+                {% endif %}
+            </form>
         </div>
     </div>
 {% endblock %}
