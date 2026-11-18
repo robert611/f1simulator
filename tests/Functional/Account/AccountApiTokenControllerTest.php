@@ -124,7 +124,7 @@ final class AccountApiTokenControllerTest extends WebTestCase
         $this->client->request('POST', '/account/api-token/generate', ['token' => 'invalid']);
 
         // then
-        self::assertResponseStatusCodeSame(403);
+        self::assertResponseRedirects('/home');
         self::assertNull($this->apiTokenRepository->findOneByUser($user));
     }
 }
