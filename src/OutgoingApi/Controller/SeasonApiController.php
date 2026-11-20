@@ -4,13 +4,19 @@ declare(strict_types=1);
 
 namespace OutgoingApi\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Computer\ComputerFacadeInterface;
+use Shared\Controller\BaseController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use OpenApi\Attributes as OA;
 
-final class SeasonApiController extends AbstractController
+final class SeasonApiController extends BaseController
 {
+    public function __construct(
+        private readonly ComputerFacadeInterface $computerFacade,
+    ) {
+    }
+
     #[Route('/api/seasons', name: 'api_seasons_list', methods: ['GET'])]
     #[OA\Response(
         response: 200,
@@ -19,6 +25,8 @@ final class SeasonApiController extends AbstractController
     #[OA\Tag(name: 'seasons')]
     public function list(): JsonResponse
     {
-        return new JsonResponse([]);
+        $seasons = $this->computerFacade->getUserSeasons($this->getUser()->getId());
+
+        return new JsonResponse($seasons);
     }
 }
