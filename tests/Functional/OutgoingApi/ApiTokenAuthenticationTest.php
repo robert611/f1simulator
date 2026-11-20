@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Functional\OutgoingApi;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -21,10 +22,11 @@ final class ApiTokenAuthenticationTest extends WebTestCase
     }
 
     #[Test]
-    public function request_without_token_is_unauthorized(): void
+    #[DataProvider('provideUrls')]
+    public function request_without_token_is_unauthorized(string $method, string $url): void
     {
         // when
-        $this->client->request('GET', '/api/seasons');
+        $this->client->request($method, $url);
 
         // then
         self::assertResponseStatusCodeSame(401);
@@ -33,14 +35,15 @@ final class ApiTokenAuthenticationTest extends WebTestCase
     }
 
     #[Test]
-    public function request_with_invalid_token_is_unauthorized(): void
+    #[DataProvider('provideUrls')]
+    public function request_with_invalid_token_is_unauthorized(string $method, string $url): void
     {
         // given
         $user = $this->fixtures->aUser();
         $this->fixtures->anApiToken($user, str_repeat('a', 64));
 
         // when
-        $this->client->request('GET', '/api/seasons', server: [
+        $this->client->request($method, $url, server: [
             'HTTP_AUTHORIZATION' => 'Bearer ' . str_repeat('b', 64),
         ]);
 
@@ -49,14 +52,15 @@ final class ApiTokenAuthenticationTest extends WebTestCase
     }
 
     #[Test]
-    public function request_with_valid_token_is_authorized(): void
+    #[DataProvider('provideUrls')]
+    public function request_with_valid_token_is_authorized(string $method, string $url): void
     {
         // given
         $user = $this->fixtures->aUser();
         $this->fixtures->anApiToken($user, str_repeat('a', 64));
 
         // when
-        $this->client->request('GET', '/api/seasons', server: [
+        $this->client->request($method, $url, server: [
             'HTTP_AUTHORIZATION' => 'Bearer ' . str_repeat('a', 64),
         ]);
 
@@ -65,14 +69,15 @@ final class ApiTokenAuthenticationTest extends WebTestCase
     }
 
     #[Test]
-    public function blocked_user_token_is_rejected(): void
+    #[DataProvider('provideUrls')]
+    public function blocked_user_token_is_rejected(string $method, string $url): void
     {
         // given
         $user = $this->fixtures->aBlockedUser();
         $this->fixtures->anApiToken($user, str_repeat('a', 64));
 
         // when
-        $this->client->request('GET', '/api/seasons', server: [
+        $this->client->request($method, $url, server: [
             'HTTP_AUTHORIZATION' => 'Bearer ' . str_repeat('a', 64),
         ]);
 
@@ -81,14 +86,15 @@ final class ApiTokenAuthenticationTest extends WebTestCase
     }
 
     #[Test]
-    public function deleted_user_token_is_rejected(): void
+    #[DataProvider('provideUrls')]
+    public function deleted_user_token_is_rejected(string $method, string $url): void
     {
         // given
         $user = $this->fixtures->aDeletedUser();
         $this->fixtures->anApiToken($user, str_repeat('a', 64));
 
         // when
-        $this->client->request('GET', '/api/seasons', server: [
+        $this->client->request($method, $url, server: [
             'HTTP_AUTHORIZATION' => 'Bearer ' . str_repeat('a', 64),
         ]);
 
@@ -104,5 +110,12 @@ final class ApiTokenAuthenticationTest extends WebTestCase
 
         // then
         self::assertResponseIsSuccessful();
+    }
+
+    public static function provideUrls(): array
+    {
+        return [
+            ['GET', '/api/seasons'],
+        ];
     }
 }
