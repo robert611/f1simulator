@@ -13,6 +13,15 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        api:
+            # Every /api route except the documentation (/api/doc, /api/doc.json)
+            pattern: ^/api(?!/doc)
+            stateless: true
+            provider: app_user_provider
+            user_checker: Security\Service\UserChecker
+            entry_point: OutgoingApi\Service\ApiAuthenticationEntryPoint
+            access_token:
+                token_handler: OutgoingApi\Service\ApiTokenHandler
         main:
             lazy: true
             user_checker: Security\Service\UserChecker
@@ -44,3 +53,5 @@ security:
         - { path: ^/league, roles: ROLE_USER }
         - { path: ^/multiplayer, roles: ROLE_USER }
         - { path: ^/account, roles: ROLE_USER }
+        - { path: ^/api/doc, roles: PUBLIC_ACCESS }
+        - { path: ^/api, roles: ROLE_USER }
