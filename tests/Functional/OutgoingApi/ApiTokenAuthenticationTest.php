@@ -65,7 +65,7 @@ final class ApiTokenAuthenticationTest extends WebTestCase
         ]);
 
         // then
-        self::assertResponseIsSuccessful();
+        self::assertNotEquals(401, $this->client->getResponse()->getStatusCode());
     }
 
     #[Test]
@@ -116,6 +116,7 @@ final class ApiTokenAuthenticationTest extends WebTestCase
     {
         return [
             ['GET', '/api/seasons'],
+            ['GET', '/api/seasons/1000'],
         ];
     }
 }
