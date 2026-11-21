@@ -7,6 +7,7 @@ namespace OutgoingApi\Controller;
 use Computer\ComputerFacadeInterface;
 use Shared\Controller\BaseController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use OpenApi\Attributes as OA;
 
@@ -17,7 +18,7 @@ final class SeasonApiController extends BaseController
     ) {
     }
 
-    #[Route('/api/seasons', name: 'api_seasons_list', methods: ['GET'])]
+    #[OA\Tag(name: 'Seasons')]
     #[OA\Response(
         response: 200,
         description: 'Returns the list of played offline seasons.',
@@ -85,11 +86,110 @@ final class SeasonApiController extends BaseController
         response: 401,
         description: 'Authentication failed.',
     )]
-    #[OA\Tag(name: 'Seasons')]
+    #[Route('/api/seasons', name: 'api_seasons_list', methods: ['GET'])]
     public function list(): JsonResponse
     {
         $seasons = $this->computerFacade->getUserSeasons($this->getUser()->getId());
 
         return new JsonResponse($seasons);
+    }
+
+    #[OA\Tag(name: 'Seasons')]
+    #[OA\Response(
+        response: 200,
+        description: 'Returns offline season.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    property: 'id',
+                    type: 'integer',
+                    example: 1000,
+                    nullable: false,
+                ),
+                new OA\Property(
+                    property: 'driverId',
+                    type: 'integer',
+                    example: 1000,
+                    nullable: false,
+                ),
+                new OA\Property(
+                    property: 'userId',
+                    type: 'integer',
+                    example: 1000,
+                    nullable: false,
+                ),
+                new OA\Property(
+                    property: 'position',
+                    type: 'integer',
+                    example: 8,
+                    nullable: false,
+                ),
+                new OA\Property(
+                    property: 'completed',
+                    type: 'boolean',
+                    example: false,
+                    nullable: false,
+                ),
+                new OA\Property(
+                    property: 'completedAt',
+                    type: 'string',
+                    format: 'date-time',
+                    example: '2025-07-23T15:43:46Z',
+                    nullable: true,
+                ),
+                new OA\Property(
+                    property: 'createdAt',
+                    type: 'string',
+                    format: 'date-time',
+                    example: '2025-07-22T10:00:15Z',
+                    nullable: false,
+                ),
+                new OA\Property(
+                    property: 'updatedAt',
+                    type: 'string',
+                    format: 'date-time',
+                    example: '2025-07-23T17:12:05Z',
+                    nullable: false,
+                ),
+            ],
+            type: 'object',
+        ),
+    )]
+    #[OA\Response(
+        response: 401,
+        description: 'Authentication failed.',
+    )]
+    #[OA\Response(
+        response: 404,
+        description: 'Resource not found.',
+    )]
+    #[Route('/api/seasons/{id}', name: 'api_seasons_get', methods: ['GET'])]
+    public function get(int $id): JsonResponse
+    {
+        $season = $this->computerFacade->getSingleUserSeason($id);
+
+        if (null === $season) {
+            return new JsonResponse(
+                [
+                    'title' => 'Season not found',
+                    'status' => Response::HTTP_NOT_FOUND,
+                ],
+                Response::HTTP_NOT_FOUND,
+                ['Content-Type' => 'application/problem+json']
+            );
+        }
+
+        if ($season->getUser()->getId() !== $this->getUser()->getId()) {
+            return new JsonResponse(
+                [
+                    'title' => 'Season not found',
+                    'status' => Response::HTTP_NOT_FOUND,
+                ],
+                Response::HTTP_NOT_FOUND,
+                ['Content-Type' => 'application/problem+json']
+            );
+        }
+
+        return new JsonResponse($season);
     }
 }
