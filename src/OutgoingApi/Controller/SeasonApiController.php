@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace OutgoingApi\Controller;
 
 use Computer\ComputerFacadeInterface;
-use Shared\Controller\BaseController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use OpenApi\Attributes as OA;
 
-final class SeasonApiController extends BaseController
+final class SeasonApiController extends BaseOutgoingApiController
 {
     public function __construct(
         private readonly ComputerFacadeInterface $computerFacade,
@@ -169,25 +168,11 @@ final class SeasonApiController extends BaseController
         $season = $this->computerFacade->getSingleUserSeason($id);
 
         if (null === $season) {
-            return new JsonResponse(
-                [
-                    'title' => 'Season not found',
-                    'status' => Response::HTTP_NOT_FOUND,
-                ],
-                Response::HTTP_NOT_FOUND,
-                ['Content-Type' => 'application/problem+json']
-            );
+            return $this->resourceNotFound('Season not found');
         }
 
         if ($season->getUser()->getId() !== $this->getUser()->getId()) {
-            return new JsonResponse(
-                [
-                    'title' => 'Season not found',
-                    'status' => Response::HTTP_NOT_FOUND,
-                ],
-                Response::HTTP_NOT_FOUND,
-                ['Content-Type' => 'application/problem+json']
-            );
+            return $this->resourceNotFound('Season not found');
         }
 
         return new JsonResponse($season);
