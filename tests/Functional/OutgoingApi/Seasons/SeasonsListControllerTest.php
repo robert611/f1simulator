@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Functional\OutgoingApi;
+namespace Tests\Functional\OutgoingApi\Seasons;
 
 use OutgoingApi\Contract\OutgoingApiDateTimeSerializer;
 use PHPUnit\Framework\Attributes\Test;
@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Tests\Common\Fixtures;
 
-final class SeasonsApiControllerTest extends WebTestCase
+final class SeasonsListControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
     private Fixtures $fixtures;
