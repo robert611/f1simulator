@@ -13,6 +13,10 @@ multiplayer:
 outgoing_api:
     resource: '../src/OutgoingApi/Controller'
     type: attribute
+    defaults:
+        # Adds "_outgoing_api" to the list of attributes for every endpoint inside OutgoingApi module
+        # so endpoints can be recognized as belonging to OutgoingApi module
+        _outgoing_api: true
 
 security:
     resource: '../src/Security/Controller'
