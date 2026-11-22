@@ -63,7 +63,7 @@ readonly class ComputerFacade implements ComputerFacadeInterface
     public function getSingleUserSeason(int $seasonId): ?SeasonDTO
     {
         $season = $this->seasonRepository->find($seasonId);
-        
+
         if (null === $season) {
             return null;
         }

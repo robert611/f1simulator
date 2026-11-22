@@ -66,6 +66,35 @@ final class SeasonsGetControllerTest extends WebTestCase
     }
 
     #[Test]
+    public function not_existent_season_will_return_404(): void
+    {
+        // given
+        $user = $this->fixtures->aUser();
+
+        // and given
+        $plainToken = TokenGenerator::bin2hex(32);
+        $this->fixtures->anApiToken($user, $plainToken);
+
+        // when
+        $this->client->request(method: 'GET', uri: '/api/seasons/10000000', server: [
+            'HTTP_AUTHORIZATION' => "Bearer $plainToken",
+        ]);
+
+        // then
+        self::assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+
+        // and then
+        $responseContent = $this->client->getResponse()->getContent();
+        self::assertEquals(
+            [
+                'title' => 'Season not found',
+                'status' => Response::HTTP_NOT_FOUND,
+            ],
+            json_decode($responseContent, true),
+        );
+    }
+
+    #[Test]
     public function season_of_other_user_will_return_404(): void
     {
         // given
