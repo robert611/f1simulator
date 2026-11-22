@@ -45,7 +45,7 @@ final class ContentNegotiationTest extends WebTestCase
     }
 
     #[Test]
-    public function it_returns_406_when_no_supported_format_is_accepted(): void
+    public function it_returns_xml_when_xml_is_accepted(): void
     {
         // given
         $plainToken = TokenGenerator::bin2hex(32);
@@ -58,6 +58,28 @@ final class ContentNegotiationTest extends WebTestCase
         ]);
 
         // then
+        self::assertResponseIsSuccessful();
+        self::assertResponseHeaderSame('Content-Type', 'application/xml');
+        self::assertSame('xml', $this->client->getRequest()->getRequestFormat());
+
+        // and then
+        self::assertResponseHeaderSame('Vary', 'Accept');
+    }
+
+    #[Test]
+    public function it_returns_406_when_no_supported_format_is_accepted(): void
+    {
+        // given
+        $plainToken = TokenGenerator::bin2hex(32);
+        $this->fixtures->anApiToken($this->fixtures->aUser(), $plainToken);
+
+        // when
+        $this->client->request(method: 'GET', uri: '/api/seasons', server: [
+            'HTTP_AUTHORIZATION' => "Bearer $plainToken",
+            'HTTP_ACCEPT' => 'text/csv',
+        ]);
+
+        // then
         self::assertResponseStatusCodeSame(Response::HTTP_NOT_ACCEPTABLE);
         self::assertResponseHeaderSame('Content-Type', 'application/problem+json');
         self::assertResponseHeaderSame('Vary', 'Accept');
@@ -67,7 +89,7 @@ final class ContentNegotiationTest extends WebTestCase
             [
                 'title' => 'Not Acceptable',
                 'status' => Response::HTTP_NOT_ACCEPTABLE,
-                'detail' => 'Supported media types: application/json.',
+                'detail' => 'Supported media types: application/json, application/xml, text/xml.',
             ],
             json_decode($this->client->getResponse()->getContent(), true),
         );
@@ -78,7 +100,7 @@ final class ContentNegotiationTest extends WebTestCase
     {
         // when
         $this->client->request(method: 'GET', uri: '/api/seasons', server: [
-            'HTTP_ACCEPT' => 'application/xml',
+            'HTTP_ACCEPT' => 'text/csv',
         ]);
 
         // then
@@ -92,7 +114,7 @@ final class ContentNegotiationTest extends WebTestCase
         // when
         $this->client->request(method: 'GET', uri: '/api/seasons', server: [
             'HTTP_AUTHORIZATION' => 'Bearer invalid-token',
-            'HTTP_ACCEPT' => 'application/xml',
+            'HTTP_ACCEPT' => 'text/csv',
         ]);
 
         // then

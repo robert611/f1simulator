@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Functional\OutgoingApi\Seasons;
 
+use DateTimeImmutable;
 use OutgoingApi\Contract\OutgoingApiDateTimeSerializer;
 use PHPUnit\Framework\Attributes\Test;
 use Shared\Service\TokenGenerator;
@@ -47,6 +48,7 @@ final class SeasonsListControllerTest extends WebTestCase
         // when
         $this->client->request(method: 'GET', uri: '/api/seasons', server: [
             'HTTP_AUTHORIZATION' => "Bearer $plainToken",
+            'HTTP_ACCEPT' => 'application/json',
         ]);
 
         // then
@@ -76,5 +78,87 @@ final class SeasonsListControllerTest extends WebTestCase
                 'updatedAt' => OutgoingApiDateTimeSerializer::serialize($season1->getUpdatedAt()),
             ],
         ], json_decode($responseContent, true));
+    }
+
+
+    #[Test]
+    public function it_returns_seasons_list_as_xml(): void
+    {
+        // given
+        $user = $this->fixtures->aUser();
+
+        // and given
+        $plainToken = TokenGenerator::bin2hex(32);
+        $this->fixtures->anApiToken($user, $plainToken);
+
+        // and given
+        $teamAlfaRomeo = $this->fixtures->aTeamWithName('Alfa Romeo');
+        $driver = $this->fixtures->aDriver('Charles', 'Leclerc', $teamAlfaRomeo, 16);
+
+        // and given
+        $season1 = $this->fixtures->aSeason($user, $driver);
+        $season2 = $this->fixtures->aSeason($user, $driver);
+
+        // when
+        $this->client->request(method: 'GET', uri: '/api/seasons', server: [
+            'HTTP_AUTHORIZATION' => "Bearer $plainToken",
+            'HTTP_ACCEPT' => 'application/xml',
+        ]);
+
+        // then
+        self::assertResponseIsSuccessful();
+        self::assertResponseHeaderSame('Content-Type', 'application/xml');
+
+        // and then
+        $date = static fn (DateTimeImmutable $date): string => OutgoingApiDateTimeSerializer::serialize($date);
+        self::assertXmlStringEqualsXmlString(
+            <<<XML
+            <?xml version="1.0" encoding="UTF-8"?>
+            <seasons>
+                <season>
+                    <id>{$season1->getId()}</id>
+                    <driverId>{$driver->getId()}</driverId>
+                    <userId>{$user->getId()}</userId>
+                    <position/>
+                    <completed>false</completed>
+                    <completedAt/>
+                    <createdAt>{$date($season1->getCreatedAt())}</createdAt>
+                    <updatedAt>{$date($season1->getUpdatedAt())}</updatedAt>
+                </season>
+                <season>
+                    <id>{$season2->getId()}</id>
+                    <driverId>{$driver->getId()}</driverId>
+                    <userId>{$user->getId()}</userId>
+                    <position/>
+                    <completed>false</completed>
+                    <completedAt/>
+                    <createdAt>{$date($season2->getCreatedAt())}</createdAt>
+                    <updatedAt>{$date($season2->getUpdatedAt())}</updatedAt>
+                </season>
+            </seasons>
+            XML,
+            $this->client->getResponse()->getContent(),
+        );
+    }
+
+    #[Test]
+    public function it_returns_empty_seasons_list_as_xml(): void
+    {
+        // given
+        $plainToken = TokenGenerator::bin2hex(32);
+        $this->fixtures->anApiToken($this->fixtures->aUser(), $plainToken);
+
+        // when
+        $this->client->request(method: 'GET', uri: '/api/seasons', server: [
+            'HTTP_AUTHORIZATION' => "Bearer $plainToken",
+            'HTTP_ACCEPT' => 'application/xml',
+        ]);
+
+        // then
+        self::assertResponseIsSuccessful();
+        self::assertXmlStringEqualsXmlString(
+            '<?xml version="1.0" encoding="UTF-8"?><seasons/>',
+            $this->client->getResponse()->getContent(),
+        );
     }
 }

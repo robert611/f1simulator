@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace OutgoingApi\Controller;
 
 use Computer\ComputerFacadeInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use OpenApi\Attributes as OA;
 
@@ -85,11 +85,11 @@ final class SeasonApiController extends BaseOutgoingApiController
         description: 'Authentication failed.',
     )]
     #[Route('/api/seasons', name: 'api_seasons_list', methods: ['GET'])]
-    public function list(): JsonResponse
+    public function list(): Response
     {
         $seasons = $this->computerFacade->getUserSeasons($this->getUser()->getId());
 
-        return new JsonResponse($seasons);
+        return $this->apiResponse($seasons, xmlRootName: 'seasons', xmlItemName: 'season');
     }
 
     #[OA\Tag(name: 'Seasons')]
@@ -162,7 +162,7 @@ final class SeasonApiController extends BaseOutgoingApiController
         description: 'Resource not found.',
     )]
     #[Route('/api/seasons/{id}', name: 'api_seasons_get', methods: ['GET'])]
-    public function get(int $id): JsonResponse
+    public function get(int $id): Response
     {
         $season = $this->computerFacade->getSingleUserSeason($id);
 
@@ -174,6 +174,6 @@ final class SeasonApiController extends BaseOutgoingApiController
             return $this->resourceNotFound('Season not found');
         }
 
-        return new JsonResponse($season);
+        return $this->apiResponse($season, xmlRootName: 'season');
     }
 }

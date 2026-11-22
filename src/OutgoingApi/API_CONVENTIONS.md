@@ -19,17 +19,23 @@ Przykład:
 
 ## 2. Negocjacja formatu odpowiedzi (Content Negotiation)
 
-Format odpowiedzi jest wybierany na podstawie nagłówka **`Accept`** (RFC 9110). Obecnie obsługiwany jest wyłącznie format JSON (`application/json`).
+Format odpowiedzi jest wybierany na podstawie nagłówka **`Accept`** (RFC 9110). Obsługiwane formaty:
+
+| Format | Typy w nagłówku `Accept` | `Content-Type` odpowiedzi | `Content-Type` błędu |
+|--------|--------------------------|---------------------------|----------------------|
+| JSON   | `application/json`       | `application/json`        | `application/problem+json` |
+| XML    | `application/xml`, `text/xml` | `application/xml`    | `application/problem+xml` |
 
 - Brak nagłówka `Accept`, `*/*` lub `application/*` – zwracany jest JSON (format domyślny).
-- Uwzględniane są wagi `q`, np. `Accept: text/html, application/json;q=0.5` zwróci JSON.
+- Uwzględniane są wagi `q`, np. `Accept: application/json;q=0.5, application/xml` zwróci XML.
+- Przy równych wagach (np. `Accept: application/xml, application/json`) wybierany jest JSON.
 - Jeżeli żaden z obsługiwanych formatów nie jest akceptowany przez klienta, API zwraca **406 Not Acceptable** (`application/problem+json`):
 
 ```json
 {
     "title": "Not Acceptable",
     "status": 406,
-    "detail": "Supported media types: application/json."
+    "detail": "Supported media types: application/json, application/xml, text/xml."
 }
 ```
 

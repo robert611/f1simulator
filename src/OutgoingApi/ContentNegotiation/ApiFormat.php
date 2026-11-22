@@ -11,6 +11,7 @@ namespace OutgoingApi\ContentNegotiation;
 enum ApiFormat: string
 {
     case Json = 'json';
+    case Xml = 'xml';
 
     public static function default(): self
     {
@@ -18,12 +19,26 @@ enum ApiFormat: string
     }
 
     /**
+     * The first media type is the one sent in the "Content-Type" response header.
+     *
      * @return non-empty-list<string>
      */
     public function mimeTypes(): array
     {
         return match ($this) {
             self::Json => ['application/json'],
+            self::Xml => ['application/xml', 'text/xml'],
+        };
+    }
+
+    /**
+     * Media type of error responses (RFC 9457 "Problem Details for HTTP APIs").
+     */
+    public function problemMimeType(): string
+    {
+        return match ($this) {
+            self::Json => 'application/problem+json',
+            self::Xml => 'application/problem+xml',
         };
     }
 }

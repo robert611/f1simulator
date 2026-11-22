@@ -14,7 +14,7 @@ final class ContentNegotiatorTest extends TestCase
 {
     #[Test]
     #[DataProvider('acceptableHeaders')]
-    public function it_negotiates_json(?string $acceptHeader): void
+    public function it_negotiates_format(?string $acceptHeader, ApiFormat $expectedFormat): void
     {
         // given
         $negotiator = new ContentNegotiator();
@@ -23,7 +23,7 @@ final class ContentNegotiatorTest extends TestCase
         $format = $negotiator->negotiate($acceptHeader);
 
         // then
-        self::assertSame(ApiFormat::Json, $format);
+        self::assertSame($expectedFormat, $format);
     }
 
     #[Test]
@@ -42,22 +42,34 @@ final class ContentNegotiatorTest extends TestCase
 
     public static function acceptableHeaders(): iterable
     {
-        yield 'missing header' => [null];
-        yield 'empty header' => [''];
-        yield 'exact media type' => ['application/json'];
-        yield 'case insensitive media type' => ['Application/JSON'];
-        yield 'any media type' => ['*/*'];
-        yield 'any application subtype' => ['application/*'];
-        yield 'unsupported type with fallback' => ['text/html, application/json;q=0.5'];
-        yield 'browser default' => ['text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'];
-        yield 'excluded other type, wildcard allowed' => ['application/xml;q=0, */*'];
+        // JSON
+        yield 'missing header' => [null, ApiFormat::Json];
+        yield 'empty header' => ['', ApiFormat::Json];
+        yield 'exact json media type' => ['application/json', ApiFormat::Json];
+        yield 'case insensitive media type' => ['Application/JSON', ApiFormat::Json];
+        yield 'any media type' => ['*/*', ApiFormat::Json];
+        yield 'any application subtype' => ['application/*', ApiFormat::Json];
+        yield 'unsupported type with json fallback' => ['text/html, application/json;q=0.5', ApiFormat::Json];
+        yield 'excluded xml, wildcard allowed' => ['application/xml;q=0, text/xml;q=0, */*', ApiFormat::Json];
+        yield 'equal quality uses server preference' => ['application/xml, application/json', ApiFormat::Json];
+        yield 'json with higher quality' => ['application/xml;q=0.5, application/json', ApiFormat::Json];
+
+        // XML
+        yield 'exact xml media type' => ['application/xml', ApiFormat::Xml];
+        yield 'text xml media type' => ['text/xml', ApiFormat::Xml];
+        yield 'any text subtype' => ['text/*', ApiFormat::Xml];
+        yield 'xml with higher quality' => ['application/json;q=0.5, application/xml', ApiFormat::Xml];
+        yield 'excluded json, wildcard allowed' => ['application/json;q=0, */*', ApiFormat::Xml];
+        yield 'browser default' => ['text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8', ApiFormat::Xml];
     }
 
     public static function notAcceptableHeaders(): iterable
     {
-        yield 'unsupported media type' => ['application/xml'];
-        yield 'unsupported type family' => ['text/*'];
-        yield 'explicitly excluded json' => ['application/json;q=0'];
-        yield 'more specific exclusion wins over wildcard' => ['*/*, application/json;q=0'];
+        yield 'unsupported media type' => ['text/html'];
+        yield 'unsupported type family' => ['image/*'];
+        yield 'explicitly excluded formats' => ['application/json;q=0, application/xml;q=0, text/xml;q=0'];
+        yield 'more specific exclusions win over wildcard' => [
+            '*/*, application/json;q=0, application/xml;q=0, text/xml;q=0',
+        ];
     }
 }

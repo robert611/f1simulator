@@ -43,6 +43,7 @@ final class SeasonsGetControllerTest extends WebTestCase
         // when
         $this->client->request(method: 'GET', uri: "/api/seasons/{$season->getId()}", server: [
             'HTTP_AUTHORIZATION' => "Bearer $plainToken",
+            'HTTP_ACCEPT' => 'application/json',
         ]);
 
         // then
@@ -66,6 +67,54 @@ final class SeasonsGetControllerTest extends WebTestCase
     }
 
     #[Test]
+    public function it_returns_single_season_as_xml(): void
+    {
+        // given
+        $user = $this->fixtures->aUser();
+
+        // and given
+        $plainToken = TokenGenerator::bin2hex(32);
+        $this->fixtures->anApiToken($user, $plainToken);
+
+        // and given
+        $teamHaas = $this->fixtures->aTeamWithName('Haas');
+        $driver = $this->fixtures->aDriver('Roman', 'Ito', $teamHaas, 16);
+
+        // and given
+        $season = $this->fixtures->aSeason($user, $driver);
+
+        // when
+        $this->client->request(method: 'GET', uri: "/api/seasons/{$season->getId()}", server: [
+            'HTTP_AUTHORIZATION' => "Bearer $plainToken",
+            'HTTP_ACCEPT' => 'application/xml',
+        ]);
+
+        // then
+        self::assertResponseIsSuccessful();
+        self::assertResponseHeaderSame('Content-Type', 'application/xml');
+
+        // and then
+        $createdAt = OutgoingApiDateTimeSerializer::serialize($season->getCreatedAt());
+        $updatedAt = OutgoingApiDateTimeSerializer::serialize($season->getUpdatedAt());
+        self::assertXmlStringEqualsXmlString(
+            <<<XML
+            <?xml version="1.0" encoding="UTF-8"?>
+            <season>
+                <id>{$season->getId()}</id>
+                <driverId>{$driver->getId()}</driverId>
+                <userId>{$user->getId()}</userId>
+                <position/>
+                <completed>false</completed>
+                <completedAt/>
+                <createdAt>$createdAt</createdAt>
+                <updatedAt>$updatedAt</updatedAt>
+            </season>
+            XML,
+            $this->client->getResponse()->getContent(),
+        );
+    }
+
+    #[Test]
     public function not_existent_season_will_return_404(): void
     {
         // given
@@ -78,6 +127,7 @@ final class SeasonsGetControllerTest extends WebTestCase
         // when
         $this->client->request(method: 'GET', uri: '/api/seasons/10000000', server: [
             'HTTP_AUTHORIZATION' => "Bearer $plainToken",
+            'HTTP_ACCEPT' => 'application/json',
         ]);
 
         // then
@@ -115,6 +165,7 @@ final class SeasonsGetControllerTest extends WebTestCase
         // when
         $this->client->request(method: 'GET', uri: "/api/seasons/{$otherUserSeason->getId()}", server: [
             'HTTP_AUTHORIZATION' => "Bearer $plainToken",
+            'HTTP_ACCEPT' => 'application/json',
         ]);
 
         // then
