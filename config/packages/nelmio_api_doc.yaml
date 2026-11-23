@@ -12,6 +12,9 @@ nelmio_api_doc:
                     description: 'API token generated on the account page (/account/api-token/index).'
         security:
             - Bearer: []
+    media_types:
+        - json
+        - xml
     areas: # to filter documented areas
         path_patterns:
             - ^/api(?!/doc$) # Accepts routes under /api except /api/doc

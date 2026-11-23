@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace OutgoingApi\Controller;
 
 use Computer\ComputerFacadeInterface;
+use Nelmio\ApiDocBundle\Attribute\Model;
+use OutgoingApi\Documentation\SeasonDocumentation;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use OpenApi\Attributes as OA;
@@ -20,69 +22,35 @@ final class SeasonApiController extends BaseOutgoingApiController
     #[OA\Response(
         response: 200,
         description: 'Returns the list of played offline seasons.',
-        content: new OA\JsonContent(
-            type: 'array',
-            items: new OA\Items(
-                properties: [
-                    new OA\Property(
-                        property: 'id',
-                        type: 'integer',
-                        example: 1000,
-                        nullable: false,
+        content: [
+            new OA\MediaType(
+                mediaType: 'application/json',
+                schema: new OA\Schema(
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: new Model(type: SeasonDocumentation::class),
                     ),
-                    new OA\Property(
-                        property: 'driverId',
-                        type: 'integer',
-                        example: 1000,
-                        nullable: false,
-                    ),
-                    new OA\Property(
-                        property: 'userId',
-                        type: 'integer',
-                        example: 1000,
-                        nullable: false,
-                    ),
-                    new OA\Property(
-                        property: 'position',
-                        type: 'integer',
-                        example: 8,
-                        nullable: false,
-                    ),
-                    new OA\Property(
-                        property: 'completed',
-                        type: 'boolean',
-                        example: false,
-                        nullable: false,
-                    ),
-                    new OA\Property(
-                        property: 'completedAt',
-                        type: 'string',
-                        format: 'date-time',
-                        example: '2025-07-23T15:43:46Z',
-                        nullable: true,
-                    ),
-                    new OA\Property(
-                        property: 'createdAt',
-                        type: 'string',
-                        format: 'date-time',
-                        example: '2025-07-22T10:00:15Z',
-                        nullable: false,
-                    ),
-                    new OA\Property(
-                        property: 'updatedAt',
-                        type: 'string',
-                        format: 'date-time',
-                        example: '2025-07-23T17:12:05Z',
-                        nullable: false,
-                    ),
-                ],
-                type: 'object',
+                ),
             ),
-        ),
+            new OA\MediaType(
+                mediaType: 'application/xml',
+                schema: new OA\Schema(
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: new Model(type: SeasonDocumentation::class),
+                    ),
+                    xml: new OA\Xml(name: 'seasons', wrapped: true),
+                ),
+            ),
+        ],
     )]
     #[OA\Response(
         response: 401,
         description: 'Authentication failed.',
+    )]
+    #[OA\Response(
+        response: 406,
+        description: 'None of the supported formats is acceptable.',
     )]
     #[Route('/api/seasons', name: 'api_seasons_list', methods: ['GET'])]
     public function list(): Response
@@ -96,62 +64,16 @@ final class SeasonApiController extends BaseOutgoingApiController
     #[OA\Response(
         response: 200,
         description: 'Returns offline season.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    property: 'id',
-                    type: 'integer',
-                    example: 1000,
-                    nullable: false,
-                ),
-                new OA\Property(
-                    property: 'driverId',
-                    type: 'integer',
-                    example: 1000,
-                    nullable: false,
-                ),
-                new OA\Property(
-                    property: 'userId',
-                    type: 'integer',
-                    example: 1000,
-                    nullable: false,
-                ),
-                new OA\Property(
-                    property: 'position',
-                    type: 'integer',
-                    example: 8,
-                    nullable: false,
-                ),
-                new OA\Property(
-                    property: 'completed',
-                    type: 'boolean',
-                    example: false,
-                    nullable: false,
-                ),
-                new OA\Property(
-                    property: 'completedAt',
-                    type: 'string',
-                    format: 'date-time',
-                    example: '2025-07-23T15:43:46Z',
-                    nullable: true,
-                ),
-                new OA\Property(
-                    property: 'createdAt',
-                    type: 'string',
-                    format: 'date-time',
-                    example: '2025-07-22T10:00:15Z',
-                    nullable: false,
-                ),
-                new OA\Property(
-                    property: 'updatedAt',
-                    type: 'string',
-                    format: 'date-time',
-                    example: '2025-07-23T17:12:05Z',
-                    nullable: false,
-                ),
-            ],
-            type: 'object',
-        ),
+        content: [
+            new OA\MediaType(
+                mediaType: 'application/json',
+                schema: new OA\Schema(ref: new Model(type: SeasonDocumentation::class))
+            ),
+            new OA\MediaType(
+                mediaType: 'application/xml',
+                schema: new OA\Schema(ref: new Model(type: SeasonDocumentation::class))
+            ),
+        ],
     )]
     #[OA\Response(
         response: 401,
@@ -160,6 +82,10 @@ final class SeasonApiController extends BaseOutgoingApiController
     #[OA\Response(
         response: 404,
         description: 'Resource not found.',
+    )]
+    #[OA\Response(
+        response: 406,
+        description: 'None of the supported formats is acceptable.',
     )]
     #[Route('/api/seasons/{id}', name: 'api_seasons_get', methods: ['GET'])]
     public function get(int $id): Response
