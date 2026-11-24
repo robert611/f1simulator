@@ -6,6 +6,7 @@ namespace OutgoingApi\Controller;
 
 use Computer\ComputerFacadeInterface;
 use Nelmio\ApiDocBundle\Attribute\Model;
+use OutgoingApi\Documentation\FormatNotAcceptableDocumentation;
 use OutgoingApi\Documentation\SeasonDocumentation;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -51,6 +52,10 @@ final class SeasonApiController extends BaseOutgoingApiController
     #[OA\Response(
         response: 406,
         description: 'None of the supported formats is acceptable.',
+        content: new OA\MediaType(
+            mediaType: 'application/json',
+            schema: new OA\Schema(ref: new Model(type: FormatNotAcceptableDocumentation::class))
+        ),
     )]
     #[Route('/api/seasons', name: 'api_seasons_list', methods: ['GET'])]
     public function list(): Response
@@ -86,6 +91,10 @@ final class SeasonApiController extends BaseOutgoingApiController
     #[OA\Response(
         response: 406,
         description: 'None of the supported formats is acceptable.',
+        content: new OA\MediaType(
+            mediaType: 'application/json',
+            schema: new OA\Schema(ref: new Model(type: FormatNotAcceptableDocumentation::class))
+        ),
     )]
     #[Route('/api/seasons/{id}', name: 'api_seasons_get', methods: ['GET'])]
     public function get(int $id): Response
