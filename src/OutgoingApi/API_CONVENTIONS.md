@@ -1,0 +1,42 @@
+# Założenia przyjęte podczas budowy API
+
+## 1. Reprezentacja dat typu DateTime
+
+Wszystkie daty zwracane przez REST API są reprezentowane jako ciągi znaków (*string*) zgodne ze standardem **RFC 3339**, w strefie czasowej UTC.
+
+Przyjęty format daty:
+
+`YYYY-MM-DDTHH:mm:ssZ`
+
+Przykład:
+
+```json
+{
+    "createdAt": "2026-04-12T11:31:53Z",
+    "updatedAt": "2026-04-12T11:31:53Z"
+}
+```
+
+## 2. Negocjacja formatu odpowiedzi (Content Negotiation)
+
+Format odpowiedzi jest wybierany na podstawie nagłówka **`Accept`** (RFC 9110). Obsługiwane formaty:
+
+| Format | Typy w nagłówku `Accept` | `Content-Type` odpowiedzi | `Content-Type` błędu |
+|--------|--------------------------|---------------------------|----------------------|
+| JSON   | `application/json`       | `application/json`        | `application/problem+json` |
+| XML    | `application/xml`, `text/xml` | `application/xml`    | `application/problem+xml` |
+
+- Brak nagłówka `Accept`, `*/*` lub `application/*` – zwracany jest JSON (format domyślny).
+- Uwzględniane są wagi `q`, np. `Accept: application/json;q=0.5, application/xml` zwróci XML.
+- Przy równych wagach (np. `Accept: application/xml, application/json`) wybierany jest JSON.
+- Jeżeli żaden z obsługiwanych formatów nie jest akceptowany przez klienta, API zwraca **406 Not Acceptable** (`application/problem+json`):
+
+```json
+{
+    "title": "Not Acceptable",
+    "status": 406,
+    "detail": "Supported media types: application/json, application/xml, text/xml."
+}
+```
+
+- Każda odpowiedź API zawiera nagłówek `Vary: Accept`.

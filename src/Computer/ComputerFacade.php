@@ -59,4 +59,15 @@ readonly class ComputerFacade implements ComputerFacadeInterface
 
         return SeasonDTO::fromEntityCollection($seasons);
     }
+
+    public function getSingleUserSeason(int $seasonId): ?SeasonDTO
+    {
+        $season = $this->seasonRepository->find($seasonId);
+
+        if (null === $season) {
+            return null;
+        }
+
+        return SeasonDTO::fromEntity($season);
+    }
 }

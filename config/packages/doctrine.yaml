@@ -30,6 +30,11 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Multiplayer/Entity'
                 prefix: 'Multiplayer\Entity'
                 alias: Domain
+            OutgoingApi:
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/OutgoingApi/Entity'
+                prefix: 'OutgoingApi\Entity'
+                alias: OutgoingApi
             Security:
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/Security/Entity'

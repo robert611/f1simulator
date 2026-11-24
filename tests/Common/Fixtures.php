@@ -19,6 +19,7 @@ use Multiplayer\Entity\UserSeasonPlayer;
 use Multiplayer\Entity\UserSeasonQualification;
 use Multiplayer\Entity\UserSeasonRace;
 use Multiplayer\Entity\UserSeasonRaceResult;
+use OutgoingApi\Entity\ApiToken;
 use Security\Entity\User;
 use Security\Entity\UserConfirmationToken;
 use Security\Entity\UserCountry;
@@ -398,5 +399,15 @@ class Fixtures
         $this->entityManager->flush();
 
         return $changeEmailConfirmationToken;
+    }
+
+    public function anApiToken(User $user, string $plainToken): ApiToken
+    {
+        $apiToken = ApiToken::create($user, $plainToken);
+
+        $this->entityManager->persist($apiToken);
+        $this->entityManager->flush();
+
+        return $apiToken;
     }
 }

@@ -39,4 +39,9 @@ interface ComputerFacadeInterface
      * @return SeasonDTO[]
      */
     public function getUserSeasons(int $userId): array;
+
+    /**
+     * Returns single user season
+     */
+    public function getSingleUserSeason(int $seasonId): ?SeasonDTO;
 }

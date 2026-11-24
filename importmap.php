@@ -112,4 +112,7 @@ return [
     'leaflet' => [
         'version' => '1.9.4',
     ],
+    '@symfony/ux-leaflet-map' => [
+        'path' => './vendor/symfony/ux-leaflet-map/assets/dist/map_controller.js',
+    ],
 ];
