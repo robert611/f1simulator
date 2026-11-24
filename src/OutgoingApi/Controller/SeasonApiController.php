@@ -87,6 +87,50 @@ final class SeasonApiController extends BaseOutgoingApiController
     #[OA\Response(
         response: 404,
         description: 'Resource not found.',
+        content: [
+            new OA\MediaType(
+                mediaType: 'application/json',
+                schema: new OA\Schema(
+                    properties: [
+                        new OA\Property(
+                            property: 'title',
+                            type: 'string',
+                            example: 'Season not found',
+                            nullable: false,
+                        ),
+                        new OA\Property(
+                            property: 'status',
+                            type: 'integer',
+                            example: 404,
+                            nullable: false,
+                        ),
+                    ],
+                    type: 'object',
+                ),
+            ),
+            new OA\MediaType(
+                mediaType: 'application/xml',
+                schema: new OA\Schema(
+                    properties: [
+                        new OA\Property(
+                            property: 'title',
+                            type: 'string',
+                            example: 'Season not found',
+                        ),
+                        new OA\Property(
+                            property: 'status',
+                            type: 'integer',
+                            example: 404,
+                        ),
+                    ],
+                    type: 'object',
+                    xml: new OA\Xml(
+                        name: 'problem',
+                        namespace: 'urn:ietf:rfc:7807',
+                    ),
+                ),
+            ),
+        ],
     )]
     #[OA\Response(
         response: 406,
