@@ -43,7 +43,8 @@
         "symfony/ux-react": "^2.32",
         "beberlei/doctrineextensions": "^1.5",
         "symfony/ux-map": "^3.0",
-        "symfony/ux-leaflet-map": "^3.0"
+        "symfony/ux-leaflet-map": "^3.0",
+        "nelmio/api-doc-bundle": "^5.13"
     },
     "require-dev": {
         "behat/behat": "4.*",

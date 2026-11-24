@@ -38,6 +38,12 @@
                     <span>{{ 'account.menu.seasons_history'|trans }}</span>
                 </a>
             </li>
+            <li>
+                <a href="{{ path('account_api_token_index') }}" class="nav-link {{ route == 'account_api_token_index' ? 'active' }}">
+                    <i class="bi bi-shield-shaded"></i>
+                    <span>{{ 'account.menu.api_token'|trans }}</span>
+                </a>
+            </li>
         </ul>
 
         <hr class="account-sidebar-divider">

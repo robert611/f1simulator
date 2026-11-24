@@ -12,7 +12,7 @@ class AccessDeniedHandler implements AccessDeniedHandlerInterface
 {
     public function handle(Request $request, AccessDeniedException $accessDeniedException): ?Response
     {
-        if (str_contains($accessDeniedException->getAttributes()[0], 'league')) {
+        if (str_contains($accessDeniedException->getAttributes()[0] ?? '', 'league')) {
             return new RedirectResponse('/multiplayer');
         }
 

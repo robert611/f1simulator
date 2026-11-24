@@ -34,3 +34,6 @@ zamiast losowania zawodnika w wybranym zespole
 - Wprowadzono wymóg używania `LF` jako znaku końca linii
 - Dodano możliwość usuwania konta
 - Dodano podstronę wyświetlającą listę rozegranych sezonów offline
+
+## 1.0.7 (2026-11-24 21:30)
+- Dodano moduł OutgoingApi
