@@ -62,3 +62,12 @@ http://localhost:8000
 ```bash
 docker compose exec php composer code-check
 ```
+
+---
+
+# Update wersji PHP
+
+```text
+docker compose build --no-cache php
+docker compose up -d --force-recreate php
+```

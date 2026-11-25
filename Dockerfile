@@ -1,4 +1,4 @@
-FROM php:8.4-cli
+FROM php:8.5.13-cli
 
 RUN apt-get update && apt-get install -y \
     git \
@@ -18,7 +18,6 @@ RUN apt-get update && apt-get install -y \
 RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
   && apt-get install -y nodejs
 
-RUN docker-php-ext-install opcache
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
