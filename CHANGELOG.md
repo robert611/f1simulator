@@ -37,3 +37,6 @@ zamiast losowania zawodnika w wybranym zespole
 
 ## 1.0.7 (2026-11-24 21:30)
 - Dodano moduł OutgoingApi
+
+## 1.0.8 (0000-00-00 00:00)
+- Update wersji php z 8.4.9 do 8.5.13
