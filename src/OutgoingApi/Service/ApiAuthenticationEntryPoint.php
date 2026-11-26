@@ -18,9 +18,17 @@ final class ApiAuthenticationEntryPoint implements AuthenticationEntryPointInter
     public function start(Request $request, ?AuthenticationException $authException = null): Response
     {
         return new JsonResponse(
-            ['message' => 'Authentication required. Provide an API token in the "Authorization: Bearer" header.'],
+            [
+                'title' => 'Authentication required.',
+                'status' => Response::HTTP_UNAUTHORIZED,
+                'details' => 'Provide an API token in the "Authorization: Bearer" header.',
+            ],
             Response::HTTP_UNAUTHORIZED,
-            ['WWW-Authenticate' => 'Bearer'],
+            [
+                'Content-Type' => 'application/problem+json',
+                'WWW-Authenticate' => 'Bearer',
+                'Cache-Control' => 'no-store',
+            ],
         );
     }
 }
